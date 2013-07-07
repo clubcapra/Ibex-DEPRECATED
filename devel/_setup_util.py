@@ -42,7 +42,7 @@ import platform
 import sys
 
 # environment at generation time
-CMAKE_PREFIX_PATH = '/opt/ros/hydro'.split(';')
+CMAKE_PREFIX_PATH = '/home/mathieu/ibex/devel;/opt/ros/hydro'.split(';')
 setup_dir = '/home/mathieu/ibex/devel'
 if setup_dir and setup_dir not in CMAKE_PREFIX_PATH:
     CMAKE_PREFIX_PATH.insert(0, setup_dir)

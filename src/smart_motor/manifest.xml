@@ -1,0 +1,14 @@
+<package>
+  <description brief="smart_motor">
+
+     smart_motor
+
+  </description>
+  <author>Mathieu Gascon-Lefebvre</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/smart_motor</url>
+
+</package>
+
+
