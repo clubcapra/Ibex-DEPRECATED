@@ -4,10 +4,10 @@
      smart_motor
 
   </description>
-  <author>Mathieu Gascon-Lefebvre</author>
-  <license>BSD</license>
+  <author>Club Capra</author>
+  <license>GPL</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/smart_motor</url>
+  <url>https://github.com/clubcapra/Ibex/tree/master/src/smart_motor</url>
 
 </package>
 

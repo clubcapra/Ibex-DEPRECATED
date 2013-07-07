@@ -1,6 +1,4 @@
-.cproject
-.project
-.pydevproject
+.metadata
 cmake_install.cmake
 build/
 bin/
