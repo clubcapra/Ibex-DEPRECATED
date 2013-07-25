@@ -1,8 +1,0 @@
-<launch>
-    <node pkg="smart_motor"
-        name="smart_motor"
-        type="execute"
-        args="ca.etsmtl.capra.SmartMotor"
-        output="screen">
-    </node>
-</launch>

@@ -1,0 +1,6 @@
+[submodule "capra_smartmotor"]
+	path = capra_smartmotor
+	url = git://github.com/clubcapra/capra_smartmotor
+[submodule "src/capra_smartmotor"]
+	path = src/capra_smartmotor
+	url = git://github.com/clubcapra/capra_smartmotor
