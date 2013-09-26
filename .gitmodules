@@ -6,4 +6,4 @@
 	url = https://github.com/clubcapra/capra_smartmotor.git
 [submodule "src/capra_teleop"]
 	path = src/capra_teleop
-	url = git://github.com/clubcapra/capra_teleop.git
+	url = https://github.com/clubcapra/capra_teleop.git
