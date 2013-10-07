@@ -7,3 +7,6 @@
 [submodule "src/capra_teleop"]
 	path = src/capra_teleop
 	url = https://github.com/clubcapra/capra_teleop.git
+[submodule "src/LMS1xx"]
+	path = src/LMS1xx
+	url = https://github.com/clubcapra/LMS1xx.git
