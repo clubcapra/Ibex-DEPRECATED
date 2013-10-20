@@ -19,3 +19,6 @@
 [submodule "src/capra_motor_music"]
 	path = src/capra_motor_music
 	url = https://github.com/clubcapra/capra_motor_music.git
+[submodule "src/capra_msgs"]
+	path = src/capra_msgs
+	url = https://github.com/clubcapra/capra_msgs.git
