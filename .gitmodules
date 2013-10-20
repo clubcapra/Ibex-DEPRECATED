@@ -10,3 +10,9 @@
 [submodule "src/LMS1xx"]
 	path = src/LMS1xx
 	url = https://github.com/clubcapra/LMS1xx.git
+[submodule "capra_gps"]
+	path = capra_gps
+	url = https://github.com/clubcapra/capra_gps.git
+[submodule "src/capra_gps"]
+	path = src/capra_gps
+	url = https://github.com/clubcapra/capra_gps.git
