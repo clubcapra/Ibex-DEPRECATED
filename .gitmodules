@@ -16,3 +16,6 @@
 [submodule "src/capra_gps"]
 	path = src/capra_gps
 	url = https://github.com/clubcapra/capra_gps.git
+[submodule "src/capra_motor_music"]
+	path = src/capra_motor_music
+	url = https://github.com/clubcapra/capra_motor_music.git
