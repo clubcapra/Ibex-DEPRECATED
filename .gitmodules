@@ -22,3 +22,6 @@
 [submodule "src/capra_msgs"]
 	path = src/capra_msgs
 	url = https://github.com/clubcapra/capra_msgs.git
+[submodule "src/capra_gazebo"]
+	path = src/capra_gazebo
+	url = https://github.com/clubcapra/capra_gazebo
