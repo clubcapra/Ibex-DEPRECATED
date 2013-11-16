@@ -1,0 +1,14 @@
+material grass_plane/Image
+    {
+       technique
+     {
+         pass
+         {
+
+             texture_unit
+             {
+                 texture GrassGreenTexture0006.jpg
+             }
+         }
+     } 
+    }
