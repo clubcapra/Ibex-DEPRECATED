@@ -1,27 +1,15 @@
-[submodule "capra_smartmotor"]
-	path = capra_smartmotor
-	url = https://github.com/clubcapra/capra_smartmotor.git
-[submodule "src/capra_smartmotor"]
-	path = src/capra_smartmotor
-	url = https://github.com/clubcapra/capra_smartmotor.git
-[submodule "src/capra_teleop"]
-	path = src/capra_teleop
-	url = https://github.com/clubcapra/capra_teleop.git
 [submodule "src/LMS1xx"]
 	path = src/LMS1xx
 	url = https://github.com/clubcapra/LMS1xx.git
-[submodule "capra_gps"]
-	path = capra_gps
-	url = https://github.com/clubcapra/capra_gps.git
-[submodule "src/capra_gps"]
-	path = src/capra_gps
-	url = https://github.com/clubcapra/capra_gps.git
-[submodule "src/capra_motor_music"]
-	path = src/capra_motor_music
-	url = https://github.com/clubcapra/capra_motor_music.git
+[submodule "src/rosjava/capra_teleop"]
+	path = src/rosjava/capra_teleop
+	url = https://github.com/clubcapra/capra_teleop.git
+[submodule "src/rosjava/capra_smartmotor"]
+	path = src/rosjava/capra_smartmotor
+	url = https://github.com/clubcapra/capra_smartmotor.git
+[submodule "src/capra_gazebo"]
+	path = src/capra_gazebo
+	url = https://github.com/clubcapra/capra_gazebo.git
 [submodule "src/capra_msgs"]
 	path = src/capra_msgs
 	url = https://github.com/clubcapra/capra_msgs.git
-[submodule "src/capra_gazebo"]
-	path = src/capra_gazebo
-	url = https://github.com/clubcapra/capra_gazebo
