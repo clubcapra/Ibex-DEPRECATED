@@ -42,6 +42,8 @@ project.catkin.tree.generate()
 
 project.catkin.tree.generate()
 
+project.catkin.tree.generate()
+
 
 
 allprojects {

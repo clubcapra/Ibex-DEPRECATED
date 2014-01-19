@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Mathieu Gascon-Lefebvre
+ * Copyright (C) 2013 Mathieu Gascon-Lefebvre.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -14,6 +14,8 @@
  * the License.
  */
 
-include 'capra_teleop'
-include 'capra_smartmotor'
-include 'capra_msgs'
+try {
+    project.catkin.tree.generateMessageArtifact(project, 'capra_msgs')
+} catch (NullPointerException e) {
+    println("Couldn't find capra_msgs on the ROS_PACKAGE_PATH")
+}
