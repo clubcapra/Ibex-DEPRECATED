@@ -1,0 +1,3 @@
+[submodule "src/LMS1xx"]
+	path = src/LMS1xx
+	url = https://github.com/clubcapra/LMS1xx.git
