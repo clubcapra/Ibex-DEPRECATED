@@ -17,3 +17,4 @@
 include 'capra_teleop'
 include 'capra_smartmotor'
 include 'capra_msgs'
+include 'capra_msgs'

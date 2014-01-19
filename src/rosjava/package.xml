@@ -52,4 +52,5 @@
 
   </export>
 <build_depend>capra_msgs</build_depend>
+<build_depend>capra_msgs</build_depend>
 </package>
