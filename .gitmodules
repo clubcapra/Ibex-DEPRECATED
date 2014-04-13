@@ -13,3 +13,6 @@
 [submodule "src/capra_msgs"]
 	path = src/capra_msgs
 	url = https://github.com/clubcapra/capra_msgs.git
+[submodule "src/capra_gps"]
+	path = src/capra_gps
+	url = https://github.com/clubcapra/capra_gps.git
