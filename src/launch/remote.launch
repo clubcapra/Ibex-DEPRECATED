@@ -1,0 +1,5 @@
+<launch>
+  <include file="$(find rosjava)/capra_teleop/Teleop.launch" />
+  <include file="$(find rosjava)/capra_smartmotor/SmartMotor.launch" />
+  <include file="launch/kalman.launch" />
+</launch>
