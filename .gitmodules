@@ -19,3 +19,6 @@
 [submodule "src/rosjava/capra_imu"]
 	path = src/rosjava/capra_imu
 	url = https://github.com/clubcapra/capra_imu.git
+[submodule "src/rosjava/capra_sensors_manager"]
+	path = src/rosjava/capra_sensors_manager
+	url = https://github.com/clubcapra/capra_sensors_manager.git
