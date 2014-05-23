@@ -22,3 +22,6 @@
 [submodule "src/rosjava/capra_sensors_manager"]
 	path = src/rosjava/capra_sensors_manager
 	url = https://github.com/clubcapra/capra_sensors_manager.git
+[submodule "src/capra_2dnav"]
+	path = src/capra_2dnav
+	url = https://github.com/clubcapra/capra_2dnav.git
