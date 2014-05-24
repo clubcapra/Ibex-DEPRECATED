@@ -25,3 +25,6 @@
 [submodule "src/capra_2dnav"]
 	path = src/capra_2dnav
 	url = https://github.com/clubcapra/capra_2dnav.git
+[submodule "src/capra_ai"]
+	path = src/capra_ai
+	url = https://github.com/clubcapra/capra_ai.git

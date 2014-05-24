@@ -1,6 +1,5 @@
 <launch>
-  <include file="$(find rosjava)/capra_teleop/Teleop.launch" />
-  <!-- <include file="$(find rosjava)/capra_smartmotor/SmartMotor.launch" /> -->
+  <include file="$(find rosjava)/capra_smartmotor/SmartMotor.launch" />
   <include file="launch/kalman.launch" />
 
   <!-- 1 0 0 0 0 0 0: Roll de 180 degres sur le imu-->

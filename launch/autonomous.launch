@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find capra_2dnav)/capra_configuration.launch" />
+  <include file="$(find capra_2dnav)/move_base.launch" />
+</launch>
