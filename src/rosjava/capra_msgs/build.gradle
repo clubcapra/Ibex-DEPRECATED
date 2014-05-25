@@ -1,3 +1,19 @@
+apply plugin: "maven"
+
+publishing {
+    repositories {
+        maven {
+            credentials {
+                username = deployUser
+                password = deployPassword
+            }
+            url = 'http://appart.mathgl.com/nexus/content/repositories/capra-snapshot/'
+        }
+    }
+}
+
+version = '0.0.1-SNAPSHOT'
+
 try {
     project.catkin.tree.generateMessageArtifact(project, 'capra_msgs')
 } catch (NullPointerException e) {

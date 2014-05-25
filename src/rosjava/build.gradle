@@ -38,20 +38,30 @@ buildscript {
 }
 
 apply plugin: 'catkin'
-project.catkin.tree.generate()
 
 project.catkin.tree.generate()
 
-project.catkin.tree.generate()
 
+apply plugin: 'maven-publish'
 
+publishing {
+    repositories {
+        maven {
+            credentials {
+                username = deployUser
+                password = deployPassword
+            }
+            url = 'http://appart.mathgl.com/nexus/content/repositories/capra-snapshot/'
+        }
+    }
+}
 
 allprojects {
     /*
       A github url provides a good standard unique name for your project
       Example below, but you may wish to switch to your own unique url.
     */
-    group 'com.github.rosjava.rosjava'
+    group 'ca.etsmtl.capra'
     version = project.catkin.pkg.version
 }
 
