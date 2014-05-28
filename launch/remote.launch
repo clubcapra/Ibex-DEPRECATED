@@ -1,7 +1,8 @@
 <launch>
   <include file="$(find rosjava)/capra_smartmotor/SmartMotor.launch" />
-<!--  <include file="launch/kalman.launch" /> -->
+  <include file="$(find rosjava)/capra_imu/Imu.launch" />
+<!--  <include file="launch/kalman.launch" />-->
 
   <!-- 1 0 0 0 0 0 0: Roll de 180 degres sur le imu-->
-  <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="1 0 0 0 0 0 0 base_footprint imu 100 " />
+  <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0 0 0 0 base_footprint imu 100 " />
 </launch>
