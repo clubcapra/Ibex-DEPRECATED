@@ -16,12 +16,12 @@
 [submodule "src/rosjava/capra_imu"]
 	path = src/rosjava/capra_imu
 	url = https://github.com/clubcapra/capra_imu.git
-[submodule "src/rosjava/capra_sensors_manager"]
-	path = src/rosjava/capra_sensors_manager
-	url = https://github.com/clubcapra/capra_sensors_manager.git
 [submodule "src/capra_2dnav"]
 	path = src/capra_2dnav
 	url = https://github.com/clubcapra/capra_2dnav.git
 [submodule "src/capra_ai"]
 	path = src/capra_ai
 	url = https://github.com/clubcapra/capra_ai.git
+[submodule "src/capra_sensors"]
+	path = src/capra_sensors
+	url = https://github.com/clubcapra/capra_sensors.git
