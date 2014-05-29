@@ -1,9 +1,6 @@
 [submodule "src/LMS1xx"]
 	path = src/LMS1xx
 	url = https://github.com/clubcapra/LMS1xx.git
-[submodule "src/rosjava/capra_teleop"]
-	path = src/rosjava/capra_teleop
-	url = https://github.com/clubcapra/capra_teleop.git
 [submodule "src/rosjava/capra_smartmotor"]
 	path = src/rosjava/capra_smartmotor
 	url = https://github.com/clubcapra/capra_smartmotor.git
@@ -25,3 +22,6 @@
 [submodule "src/capra_imu"]
 	path = src/capra_imu
 	url = https://github.com/clubcapra/capra_imu.git
+[submodule "src/capra_teleop"]
+	path = src/capra_teleop
+	url = https://github.com/clubcapra/capra_teleop.git
