@@ -13,9 +13,6 @@
 [submodule "src/capra_gps"]
 	path = src/capra_gps
 	url = https://github.com/clubcapra/capra_gps.git
-[submodule "src/rosjava/capra_imu"]
-	path = src/rosjava/capra_imu
-	url = https://github.com/clubcapra/capra_imu.git
 [submodule "src/capra_2dnav"]
 	path = src/capra_2dnav
 	url = https://github.com/clubcapra/capra_2dnav.git
@@ -25,3 +22,6 @@
 [submodule "src/capra_sensors"]
 	path = src/capra_sensors
 	url = https://github.com/clubcapra/capra_sensors.git
+[submodule "src/capra_imu"]
+	path = src/capra_imu
+	url = https://github.com/clubcapra/capra_imu.git
