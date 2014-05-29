@@ -14,7 +14,4 @@
  * the License.
  */
 
-include 'capra_teleop'
-include 'capra_smartmotor'
-include 'capra_imu'
-include 'capra_sensors_manager'
+include 'capra_msgs'

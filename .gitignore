@@ -8,3 +8,6 @@ lib/
 msg_gen/
 srv_gen/
 *~
+
+*.iml
+.idea/

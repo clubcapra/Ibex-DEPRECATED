@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Mathieu Gascon-Lefebvre
+ * Copyright (C) 2014 Mathieu Gascon-Lefebvre
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,7 +15,7 @@
  */
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.9'
+    gradleVersion = '1.11'
 }
 
 buildscript {
@@ -38,18 +38,16 @@ buildscript {
 }
 
 apply plugin: 'catkin'
-
 project.catkin.tree.generate()
 
 
-apply plugin: 'maven-publish'
 
 allprojects {
     /*
       A github url provides a good standard unique name for your project
       Example below, but you may wish to switch to your own unique url.
     */
-    group 'ca.etsmtl.capra'
+    group 'com.github.rosjava.capra_msgs_java'
     version = project.catkin.pkg.version
 }
 
@@ -63,8 +61,14 @@ subprojects {
 
 /*
   Some useful tasks:
+
     install: deploys jar's to MavenLocal() (i.e. ~/.m2/repository)
     publishMavenJavaPublicationToMavenRepository : deploys jar's to devel/share/maven
     installApp : assembles java apps in the _subproject_/build directories.
+
+  Note that these are dependent on the type of project (e.g. installApp is only valid for
+  java binary subprojects, while publishMavenJav... is only added once a subproject is included.
+  If you're using catkin_make, this is not important, since it will use the task list specified
+  in CMakeLists.txt
 */
-defaultTasks 'install'
+defaultTasks 'tasks'
