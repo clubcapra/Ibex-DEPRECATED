@@ -1,25 +1,27 @@
-git submodule init  
-git submodule update
-git submodule update --init --recursive
-catkin_make
-source devel/setup.bash
+#git submodule init  
+#git submodule update
+#git submodule update --init --recursive
+#catkin_make
+#source devel/setup.bash
 
 cwd="$PWD"
-# Pour tous les packages rosjava
-for i in src/capra_*; do
-  if [ -e "$i/gradlew" ] && [ "$i" != "src/capra_msgs_java" ]; then
+
+for i in `grep path .gitmodules | sed 's/.*= //'`; do
     cd $i
     git checkout master
-    # Pour les sous-projets
-    for j in *; do
-        if [ -d "${j}" ]; then
-          if [ -e "$j/build.gradle" ]; then
-              cd $j
-              ../gradlew deployApp
-              cd ..
-          fi
-        fi
-    done
+    # Si c'est un package rosjava
+    if [ -e "gradlew" ]; then
+        # Pour tous les sous-projets
+        for j in *; do
+            if [ -d "${j}" ]; then
+                if [ -e "$j/build.gradle" ]; then
+                    cd $j
+                    ../gradlew deployApp
+                    cd ..
+                fi
+            fi
+        done
+    fi
     cd $cwd
-  fi
 done
+
