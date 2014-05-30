@@ -1,8 +1,8 @@
-#git submodule init  
-#git submodule update
-#git submodule update --init --recursive
-#catkin_make
-#source devel/setup.bash
+git submodule init  
+git submodule update
+git submodule update --init --recursive
+catkin_make
+source devel/setup.bash
 
 cwd="$PWD"
 # Pour tous les packages rosjava
@@ -15,7 +15,6 @@ for i in src/capra_*; do
         if [ -d "${j}" ]; then
           if [ -e "$j/build.gradle" ]; then
               cd $j
-              echo "$PWD"
               ../gradlew deployApp
               cd ..
           fi

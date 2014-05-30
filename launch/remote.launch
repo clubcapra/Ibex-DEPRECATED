@@ -1,4 +1,4 @@
 <launch>
-  <include file="$(find rosjava)/capra_teleop/Teleop.launch" />
+  <include file="$(find capra_teleop)/remote/Teleop.launch" />
   <include file="$(find capra_2dnav)/capra_configuration.launch" />
 </launch>
