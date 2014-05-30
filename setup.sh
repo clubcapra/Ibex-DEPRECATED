@@ -14,8 +14,9 @@ for i in `grep path .gitmodules | sed 's/.*= //'`; do
         # Pour tous les sous-projets
         for j in *; do
             if [ -d "${j}" ]; then
-                if [ -e "$j/build.gradle" ]; then
+                if [ -e "$j/build.gradle" ] && [ "$j" != "capra_msgs" ]; then
                     cd $j
+                    echo $j
                     ../gradlew deployApp
                     cd ..
                 fi
