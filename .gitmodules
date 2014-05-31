@@ -25,3 +25,6 @@
 [submodule "src/capra_msgs_java"]
 	path = src/capra_msgs_java
 	url = https://github.com/clubcapra/capra_msgs_java.git
+[submodule "src/capra_seagoat"]
+	path = src/capra_seagoat
+	url = https://github.com/clubcapra/capra_seagoat.git
