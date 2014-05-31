@@ -1,0 +1,5 @@
+<launch>
+  <include file="$(find capra_teleop)/remote/Teleop.launch" />
+  <include file="$(find capra_2dnav)/capra_configuration.launch" />
+  <include file="lms100.launch" />
+</launch>

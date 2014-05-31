@@ -1,0 +1,8 @@
+<launch>
+    <node name="lidar_odom" pkg="capra_lidar_localization" type="pose2D_to_odom.py" output="screen"/>
+
+    <node pkg="laser_scan_matcher" type="laser_scan_matcher_node" name="laser_scan_matcher_node" output="screen">
+        <param name="fixed_frame" value="/odom_laser" />
+        <param name="max_iterations" value="10"/>
+    </node>
+</launch>

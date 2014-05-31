@@ -28,3 +28,6 @@
 [submodule "src/capra_seagoat"]
 	path = src/capra_seagoat
 	url = https://github.com/clubcapra/capra_seagoat.git
+[submodule "src/scan_tools"]
+	path = src/scan_tools
+	url = https://github.com/ccny-ros-pkg/scan_tools.git
