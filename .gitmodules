@@ -31,3 +31,6 @@
 [submodule "src/scan_tools"]
 	path = src/scan_tools
 	url = https://github.com/ccny-ros-pkg/scan_tools.git
+[submodule "src/capra_lidar"]
+	path = src/capra_lidar
+	url = https://github.com/clubcapra/capra_lidar.git
