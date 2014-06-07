@@ -1,5 +1,5 @@
 <launch>
   <include file="$(find capra_2dnav)/launch/capra_configuration.launch" />
   <include file="$(find capra_2dnav)/launch/move_base.launch" />
-  <include file="$(find capra_ai)/launch/LazyAi.launch" />
+<!--   <include file="$(find capra_ai)/launch/LazyAi.launch" /> -->
 </launch>
