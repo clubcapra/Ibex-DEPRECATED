@@ -1,6 +1,8 @@
 import rospy
 
+
 class Config:
+
     DEFAULT_RESOLUTION = 4000
     DEFAULT_COUNTS_RPM = 542.29383
     DEFAULT_COUNTS_REVS = 16.15444
@@ -11,7 +13,8 @@ class Config:
     DEFAULT_NB_MOTORS = 2
     DEFAULT_MAX_SPEED = 3.0
     DEFAULT_BROADCAST_ADDRESS = 0x80
-    DEFAULT_SERIAL_PORT = "/dev/ttyUSB0"
+    DEFAULT_SERIAL_PORT = "/dev/ttyUSB1004"
+    DEFAULT_DEFAULT_ACCEL = 10
 
     resolution = None
     counts_rpm = None
@@ -24,6 +27,7 @@ class Config:
     max_speed = None
     broadcast_address = None
     serial_port = None
+    default_accel = None
 
     @staticmethod
     def get_resolution():
@@ -94,3 +98,9 @@ class Config:
         if not Config.serial_port:
             Config.serial_port = rospy.get_param('serial_port', Config.DEFAULT_SERIAL_PORT)
         return Config.serial_port
+
+    @staticmethod
+    def get_default_accel():
+        if not Config.default_accel:
+            Config.default_accel = rospy.get_param('default_accel', Config.DEFAULT_DEFAULT_ACCEL)
+        return Config.default_accel

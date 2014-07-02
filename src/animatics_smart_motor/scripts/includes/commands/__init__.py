@@ -1,4 +1,5 @@
 from echo import Echo
+from disable_limits import DisableLimits
 from open_port import OpenPort
 from report_actual_position import ReportActualPosition
 from report_amps import ReportAmps
@@ -11,6 +12,7 @@ from set_acceleration import SetAcceleration
 from set_address import SetAddress
 from set_error_limit import SetErrorLimit
 from set_left_hard_limit_off import SetLeftHardLimitOff
+from set_mode import SetMode
 from set_right_hard_limit_off import SetRightHardLimitOff
 from set_soft_limit import SetSoftLimit
 from set_speed import SetSpeed

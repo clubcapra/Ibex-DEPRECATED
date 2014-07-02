@@ -34,3 +34,6 @@
 [submodule "src/capra_lidar"]
 	path = src/capra_lidar
 	url = https://github.com/clubcapra/capra_lidar.git
+[submodule "src/capra_gazebo"]
+	path = src/capra_gazebo
+	url = https://github.com/clubcapra/capra_gazebo.git
