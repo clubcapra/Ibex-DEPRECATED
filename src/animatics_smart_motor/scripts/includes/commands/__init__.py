@@ -10,6 +10,7 @@ from reset_flags import ResetFlags
 from set_absolute_position import SetAbsolutePosition
 from set_acceleration import SetAcceleration
 from set_address import SetAddress
+from set_baudrate import SetBaudrate
 from set_error_limit import SetErrorLimit
 from set_left_hard_limit_off import SetLeftHardLimitOff
 from set_mode import SetMode

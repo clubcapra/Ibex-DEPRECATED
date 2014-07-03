@@ -8,6 +8,8 @@ import time
 
 class SerialCom:
 
+    listeners = {}
+
     def __init__(self, port_name):
         self.serial_port = None
         self.port_name = port_name
@@ -20,13 +22,6 @@ class SerialCom:
                 self.serial_port.close()
 
             self.serial_port = serial.Serial(port=self.port_name, baudrate=9600, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE)
-            self.send_command(0, OpenPort(baudrate=19200))
-            self.serial_port.flush()
-            time.sleep(1)
-
-            self.serial_port.close()
-            self.serial_port = serial.Serial(port=self.port_name, baudrate=19200, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE)
-
 
             thread.start_new_thread(self._read_thread, ())
             return True
@@ -34,6 +29,10 @@ class SerialCom:
             print ex.message
             return False
 
+    def change_baudrate(self, baudrate):
+        self.send_command(0, SetBaudrate(baudrate))
+        time.sleep(0.1)
+        self.serial_port.setBaudrate(baudrate)
 
     def send_command(self, address, command):
         addr = chr(self.broadcast_address + address)
@@ -53,7 +52,11 @@ class SerialCom:
             while self.serial_port:
                 response = self.response_parser.add_char(self.serial_port.read(1))
                 if response:
-                    pass
+                    if type(response) in self.listeners:
+                        listener = self.listeners[type(response)]
+                        listener(response)
         except Exception as ex:
             print ex.message
 
+    def add_listener(self, response_type, listener):
+        self.listeners[response_type] = listener

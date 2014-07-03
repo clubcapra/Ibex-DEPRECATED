@@ -15,6 +15,7 @@ class Config:
     DEFAULT_BROADCAST_ADDRESS = 0x80
     DEFAULT_SERIAL_PORT = "/dev/ttyUSB1004"
     DEFAULT_DEFAULT_ACCEL = 10
+    DEFAULT_BAUDRATE = 38400
 
     resolution = None
     counts_rpm = None
@@ -28,6 +29,7 @@ class Config:
     broadcast_address = None
     serial_port = None
     default_accel = None
+    baudrate = None
 
     @staticmethod
     def get_resolution():
@@ -104,3 +106,9 @@ class Config:
         if not Config.default_accel:
             Config.default_accel = rospy.get_param('default_accel', Config.DEFAULT_DEFAULT_ACCEL)
         return Config.default_accel
+
+    @staticmethod
+    def get_baudrate():
+        if not Config.baudrate:
+            Config.baudrate = rospy.get_param('baudrate', Config.DEFAULT_BAUDRATE)
+        return Config.baudrate

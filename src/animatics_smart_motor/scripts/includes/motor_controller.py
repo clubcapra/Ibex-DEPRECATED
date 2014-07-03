@@ -24,6 +24,9 @@ class MotorController(AbstractMotor):
                 m.initialize()
 
             self.wake()
+
+            self.serial_com.change_baudrate(Config.get_baudrate())
+
             self.disable_limits()
             self.reset_flags()
             self.reset_encoders()
