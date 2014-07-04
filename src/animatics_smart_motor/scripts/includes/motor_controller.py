@@ -79,6 +79,7 @@ class MotorController(AbstractMotor):
         self.send_command(SetMode(mode))
 
     def set_velocity(self, linear_velocity, angular_velocity):
+        print linear_velocity, angular_velocity
         width = Config.get_robot_width()
         left_speed = linear_velocity - angular_velocity * width / 2.0
         right_speed = linear_velocity + angular_velocity * width / 2.0

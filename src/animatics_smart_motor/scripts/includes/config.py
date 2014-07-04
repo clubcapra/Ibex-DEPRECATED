@@ -17,6 +17,7 @@ class Config:
     DEFAULT_DEFAULT_ACCEL = 10
     DEFAULT_BAUDRATE = 38400
     DEFAULT_MAX_TIMEOUT_COUNT = 2
+    DEFAULT_WATCHDOG_TIMEOUT = 150.0 / 1000
 
     resolution = None
     counts_rpm = None
@@ -32,6 +33,7 @@ class Config:
     default_accel = None
     baudrate = None
     max_timeout_count = None
+    watchdog_timeout = None
 
     @staticmethod
     def get_resolution():
@@ -120,3 +122,9 @@ class Config:
         if not Config.max_timeout_count:
             Config.max_timeout_count = rospy.get_param('max_timeout_count', Config.DEFAULT_MAX_TIMEOUT_COUNT)
         return Config.max_timeout_count
+
+    @staticmethod
+    def get_watchdog_timeout():
+        if not Config.watchdog_timeout:
+            Config.watchdog_timeout = rospy.get_param('watchdog_timeout', Config.DEFAULT_WATCHDOG_TIMEOUT)
+        return Config.watchdog_timeout

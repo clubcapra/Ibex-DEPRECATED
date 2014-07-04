@@ -8,7 +8,7 @@ cwd="$PWD"
 
 for i in `grep path .gitmodules | sed 's/.*= //'`; do
     cd $i
-    git checkout master
+#    git checkout master
     # Si c'est un package rosjava
     if [ -e "gradlew" ]; then
         # Pour tous les sous-projets

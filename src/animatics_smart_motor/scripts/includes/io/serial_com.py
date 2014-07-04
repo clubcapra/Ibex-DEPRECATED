@@ -13,6 +13,7 @@ class SerialCom:
     listeners = {}
     received_data = False
     read_thread = None
+    error_published = False
 
     def __init__(self, port_name):
         self.serial_port = None
@@ -35,7 +36,9 @@ class SerialCom:
 
             return True
         except serial.SerialException as ex:
-            rospy.logerr(ex.message)
+            if not self.error_published:
+                rospy.logerr(ex.message)
+                self.error_published = True
             return False
 
     def disconnect(self):
