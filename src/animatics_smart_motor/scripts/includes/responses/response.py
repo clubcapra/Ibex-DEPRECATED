@@ -2,8 +2,10 @@ from ..config import Config
 from abc import ABCMeta, abstractmethod
 
 class Response(object):
-    def __init__(self, response_header):
+    def __init__(self, response_header, time=None, source=0):
         self.header = response_header
+        self.time = time
+        self.source = source
 
     def is_response(self, chars):
         if len(chars) >= len(self.header):
@@ -40,7 +42,7 @@ class Response(object):
         val = ""
         while i < len(chars):
             if chars[i] == '\r':
-                output.append(int(val))
+                output.insert(0, int(val))
                 val = ""
             else:
                 val += chars[i]

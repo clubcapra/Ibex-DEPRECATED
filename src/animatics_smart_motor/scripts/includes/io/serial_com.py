@@ -1,14 +1,18 @@
 import serial
 from ..config import Config
-import thread
+import threading
 from ..responses.response_parser import ResponseParser
 from ..commands import *
 import time
+import rospy
+import traceback
 
 
 class SerialCom:
 
     listeners = {}
+    received_data = False
+    read_thread = None
 
     def __init__(self, port_name):
         self.serial_port = None
@@ -19,15 +23,31 @@ class SerialCom:
     def connect(self):
         try:
             if self.serial_port and self.serial_port.isOpen():
-                self.serial_port.close()
+                rospy.logerr("Port already opened")
 
-            self.serial_port = serial.Serial(port=self.port_name, baudrate=9600, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE)
+            self.serial_port = serial.Serial(port=self.port_name, baudrate=9600, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=0.1)
 
-            thread.start_new_thread(self._read_thread, ())
+            self.received_data = False
+
+            self.read_thread = threading.Thread(target=self._read_thread)
+            self.read_thread.daemon = True
+            self.read_thread.start()
+
             return True
         except serial.SerialException as ex:
-            print ex.message
+            rospy.logerr(ex.message)
             return False
+
+    def disconnect(self):
+        try:
+            if self.serial_port:
+                self.serial_port.close()
+                self.serial_port = None
+            if self.read_thread:
+                self.read_thread.join()
+                self.read_thread = None
+        except serial.SerialException:
+            pass
 
     def change_baudrate(self, baudrate):
         self.send_command(0, SetBaudrate(baudrate))
@@ -41,22 +61,30 @@ class SerialCom:
             self._send(addr + str(cmd))
 
     def _send(self, msg):
-        try:
-            self.serial_port.write(msg + " ")
-            return True
-        except serial.SerialException:
-            return False
+        if self.serial_port:
+            try:
+                self.serial_port.write(msg + " ")
+                return True
+            except serial.SerialException:
+                return False
+        return False
 
     def _read_thread(self):
         try:
             while self.serial_port:
-                response = self.response_parser.add_char(self.serial_port.read(1))
-                if response:
-                    if type(response) in self.listeners:
-                        listener = self.listeners[type(response)]
-                        listener(response)
+                c = self.serial_port.read(1)
+
+                if len(c) == 1:
+                    self.received_data = True
+                    response = self.response_parser.add_char(c)
+                    if response:
+                        if type(response) in self.listeners:
+                            listener = self.listeners[type(response)]
+                            listener(response)
+                else:
+                    break
         except Exception as ex:
-            print ex.message
+            print traceback.format_exc()
 
     def add_listener(self, response_type, listener):
         self.listeners[response_type] = listener

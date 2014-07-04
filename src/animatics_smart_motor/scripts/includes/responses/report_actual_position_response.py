@@ -3,9 +3,8 @@ from response import Response
 
 class ReportActualPositionResponse(Response):
 
-    def __init__(self, source = 0):
-        super(ReportActualPositionResponse, self).__init__("RPA")
-        self.source = source
+    def __init__(self, time=None, source=0):
+        super(ReportActualPositionResponse, self).__init__("RPA", time, source)
 
     def parse(self, chars):
         self.encoder_count = self._parse_chars(chars)

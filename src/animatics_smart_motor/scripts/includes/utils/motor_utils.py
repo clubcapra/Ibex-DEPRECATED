@@ -52,7 +52,7 @@ class MotorUtils:
 
     @staticmethod
     def get_distance_per_count():
-        if not MotorUtils.distance_per_count:
+        if MotorUtils.distance_per_count is None:
             MotorUtils.distance_per_count = math.pi * Config.get_wheel_diameter() * ((360/Config.get_resolution())/360)/ Config.get_gear_ratio()
         return MotorUtils.distance_per_count
 

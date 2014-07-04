@@ -3,11 +3,11 @@ import rospy
 
 class Config:
 
-    DEFAULT_RESOLUTION = 4000
+    DEFAULT_RESOLUTION = 4000.0
     DEFAULT_COUNTS_RPM = 542.29383
     DEFAULT_COUNTS_REVS = 16.15444
-    DEFAULT_COUNTS_SEC = 4069
-    DEFAULT_GEAR_RATIO = 40
+    DEFAULT_COUNTS_SEC = 4069.0
+    DEFAULT_GEAR_RATIO = 40.0
     DEFAULT_WHEEL_DIAMETER = 0.305
     DEFAULT_ROBOT_WIDTH = 0.6096
     DEFAULT_NB_MOTORS = 2
@@ -16,6 +16,7 @@ class Config:
     DEFAULT_SERIAL_PORT = "/dev/ttyUSB1004"
     DEFAULT_DEFAULT_ACCEL = 10
     DEFAULT_BAUDRATE = 38400
+    DEFAULT_MAX_TIMEOUT_COUNT = 2
 
     resolution = None
     counts_rpm = None
@@ -30,6 +31,7 @@ class Config:
     serial_port = None
     default_accel = None
     baudrate = None
+    max_timeout_count = None
 
     @staticmethod
     def get_resolution():
@@ -112,3 +114,9 @@ class Config:
         if not Config.baudrate:
             Config.baudrate = rospy.get_param('baudrate', Config.DEFAULT_BAUDRATE)
         return Config.baudrate
+
+    @staticmethod
+    def get_max_timeout_count():
+        if not Config.max_timeout_count:
+            Config.max_timeout_count = rospy.get_param('max_timeout_count', Config.DEFAULT_MAX_TIMEOUT_COUNT)
+        return Config.max_timeout_count
