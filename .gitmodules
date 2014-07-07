@@ -34,3 +34,6 @@
 [submodule "src/capra_gazebo"]
 	path = src/capra_gazebo
 	url = https://github.com/clubcapra/capra_gazebo.git
+[submodule "src/animatics_smart_motor"]
+	path = src/animatics_smart_motor
+	url = https://github.com/clubcapra/animatics_smart_motor.git
