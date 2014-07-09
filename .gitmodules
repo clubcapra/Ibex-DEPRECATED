@@ -13,9 +13,6 @@
 [submodule "src/capra_sensors"]
 	path = src/capra_sensors
 	url = https://github.com/clubcapra/capra_sensors.git
-[submodule "src/capra_imu"]
-	path = src/capra_imu
-	url = https://github.com/clubcapra/capra_imu.git
 [submodule "src/capra_teleop"]
 	path = src/capra_teleop
 	url = https://github.com/clubcapra/capra_teleop.git
