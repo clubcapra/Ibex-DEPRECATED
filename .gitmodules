@@ -34,3 +34,6 @@
 [submodule "src/animatics_smart_motor"]
 	path = src/animatics_smart_motor
 	url = https://github.com/clubcapra/animatics_smart_motor.git
+[submodule "src/microstrain_3dmgx1_imu"]
+	path = src/microstrain_3dmgx1_imu
+	url = https://github.com/clubcapra/microstrain_3dmgx1_imu.git
