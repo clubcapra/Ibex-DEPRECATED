@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find capra_teleop)/launch/Teleop.launch" />
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(env IBEX_HOME)/rviz_cfg/teleoperation.rviz"/>
+</launch>
