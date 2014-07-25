@@ -40,3 +40,9 @@
 [submodule "src/capra_camera"]
 	path = src/capra_camera
 	url = https://github.com/clubcapra/capra_camera.git
+[submodule "src/lm_pantilt"]
+	path = src/lm_pantilt
+	url = https://github.com/clubcapra/lm_pantilt.git
+[submodule "src/pointcloud_saver"]
+	path = src/pointcloud_saver
+	url = https://github.com/H017/pointcloud_saver.git
