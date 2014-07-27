@@ -1,5 +1,7 @@
 <launch>
-  <include file="$(find capra_teleop)/launch/Teleop.launch" />
+  <include file="$(find capra_teleop)/launch/TeleopPanTilt.launch" />
+
+  <include file="$(find autonomous_3d_mapping_bringup)/launch/Mapping.launch" />
 
   <include file="$(find capra_2dnav)/launch/capra_configuration.launch">
     <arg name="outdoor" value="0" />
