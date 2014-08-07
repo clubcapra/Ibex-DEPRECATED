@@ -1,5 +1,5 @@
 <launch>
-  <node name="map_server" pkg="map_server" type="map_server" args="$(env IBEX_HOME)/maps/capra.yaml" />
+  <node name="map_server" pkg="map_server" type="map_server" args="$(env IBEX_HOME)/maps/pfe_map.yaml" />
 
   <include file="$(find capra_2dnav)/launch/includes/amcl.launch" />
 

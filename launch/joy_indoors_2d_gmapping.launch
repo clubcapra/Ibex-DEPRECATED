@@ -1,0 +1,14 @@
+<launch>
+  <include file="$(find capra_teleop)/launch/Teleop.launch"/>
+
+  <include file="$(find capra_2dnav)/launch/capra_configuration.launch">
+    <arg name="outdoor" value="0" />
+  </include>
+
+  <include file="$(find capra_2dnav)/launch/includes/gmapping.launch">
+  </include>
+
+  <include file="$(find animatics_smart_motor)/launch/OdomToTf.launch"/>
+
+  <node pkg="rviz" type="rviz" name="rviz"/>
+</launch>
