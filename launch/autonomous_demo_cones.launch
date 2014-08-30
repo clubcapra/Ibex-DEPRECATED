@@ -1,0 +1,6 @@
+<launch>
+  <node pkg="tf" type="static_transform_publisher" name="footprint_broadcaster" args="0 .15 0 0 0 0 base_footprint base_link 50" />
+  <node pkg="tf" type="static_transform_publisher" name="link2_broadcaster"     args=".35 0 0 0 0 0 base_link laser 50" />
+  <include file="$(find capra_gazebo)/launch/Gazebo_demo.launch"/>
+  <node pkg="rviz" type="rviz" name="rviz"/>
+</launch>
