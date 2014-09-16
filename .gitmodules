@@ -10,9 +10,6 @@
 [submodule "src/capra_ai"]
 	path = src/capra_ai
 	url = https://github.com/clubcapra/capra_ai.git
-[submodule "src/capra_sensors"]
-	path = src/capra_sensors
-	url = https://github.com/clubcapra/capra_sensors.git
 [submodule "src/capra_teleop"]
 	path = src/capra_teleop
 	url = https://github.com/clubcapra/capra_teleop.git
@@ -50,15 +47,9 @@
 [submodule "src/autonomous_3d_mapping"]
 	path = src/autonomous_3d_mapping
 	url = https://github.com/H017/autonomous_3d_mapping.git
-[submodule "src/microstrain_3dmgx2_imu"]
-	path = src/microstrain_3dmgx2_imu
-	url = https://github.com/ros-drivers/microstrain_3dmgx2_imu.git
-[submodule "src/capra_vision_engine"]
-	path = src/capra_vision_engine
-	url = https://github.com/clubcapra/capra_vision_engine.git
 [submodule "src/capra_demos"]
 	path = src/capra_demos
 	url = https://github.com/clubcapra/capra_demos.git
-[submodule "src/jaco_ice_bucket_challenge"]
-	path = src/jaco_ice_bucket_challenge
-	url = https://github.com/H017/jaco_ice_bucket_challenge.git
+[submodule "src/ros_vision"]
+	path = src/ros_vision
+	url = https://github.com/ETS-Robotics/ros_vision.git
