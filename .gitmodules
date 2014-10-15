@@ -53,3 +53,9 @@
 [submodule "src/ros_vision"]
 	path = src/ros_vision
 	url = https://github.com/ETS-Robotics/ros_vision.git
+[submodule "src/--force"]
+	path = src/--force
+	url = https://github.com/clubcapra/capra_controlpanel.git
+[submodule "src/capra_controlpanel"]
+	path = src/capra_controlpanel
+	url = https://github.com/clubcapra/capra_controlpanel.git
