@@ -59,6 +59,3 @@
 [submodule "src/capra_controlpanel"]
 	path = src/capra_controlpanel
 	url = https://github.com/clubcapra/capra_controlpanel.git
-[submodule "src/capra_bringup"]
-	path = src/capra_bringup
-	url = ../capra_bringup.git
