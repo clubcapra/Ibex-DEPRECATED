@@ -12,7 +12,7 @@
         <!-- <node name="simple_move" pkg="capra_ai" type="simple_move.py" /> -->
     
     <!-- MAPPING -->
-           <include file="$(find octomap_server)/launch/octomap_mapping.launch" /> 
+           <include file="$(find capra_2dnav)/launch/octomap_capra.launch" /> 
         <!--<node pkg="octomap_server" type="octomap_server_node" name="octomap_server" />-->
         <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
             <remap from="cloud" to="cloud_in" />
