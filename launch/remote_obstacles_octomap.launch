@@ -8,8 +8,8 @@
     </include>
     
     <!-- MOVING -->
-        <include file="$(find capra_teleop)/launch/Teleop.launch" />
-        <!-- <node name="simple_move" pkg="capra_ai" type="simple_move.py" /> -->
+        <!--<include file="$(find capra_teleop)/launch/Teleop.launch" />-->
+         <node name="simple_move" pkg="capra_ai" type="simple_move.py" /> 
     
     <!-- MAPPING -->
            <include file="$(find capra_2dnav)/launch/octomap_capra.launch" /> 
