@@ -64,4 +64,4 @@
 	url = https://github.com/clubcapra/capra_bringup.git
 [submodule "src/octomap_mapping"]
 	path = src/octomap_mapping
-	url = git@github.com:OctoMap/octomap_mapping.git
+	url = https://github.com/OctoMap/octomap_mapping.git
