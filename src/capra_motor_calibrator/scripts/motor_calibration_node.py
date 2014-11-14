@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 import rospy
-from capra_motor_calibrator.srv import *
 from geometry_msgs.msg import Twist, PoseStamped
 from nav_msgs.msg import Odometry
 from tf.transformations import euler_from_quaternion
+from capra_motor_calibrator.srv import *
 
 
 # use in straight hallway with a lot of detail
@@ -54,5 +54,5 @@ print "hjfgfhg"
 calibration_done = False
 rospy.init_node("capra_motor_calibrator")
 cmd_vel_publisher = rospy.Publisher("/cmd_vel", Twist, queue_size=10)
-rospy.Service("~calibrate", Calibrate, calibrate_service)
+rospy.Service("~calibrate", CalibrateMotor, calibrate_service)
 rospy.spin()

@@ -9,11 +9,11 @@
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="capra6_state_publisher" />
 
     <!-- LIDAR -->
-    <include file="$(find capra_lidar)/launch/LMS100.launch" />
+    <!--<include file="$(find capra_lidar)/launch/LMS100.launch" />-->
 
     <!-- MOTORS -->
-    <include file="$(find animatics_smart_motor)/launch/SmartMotor.launch" />
-    <include file="$(find animatics_smart_motor)/launch/OdomToTf.launch" />
+    <!--<include file="$(find animatics_smart_motor)/launch/SmartMotor.launch" />-->
+    <!--<include file="$(find animatics_smart_motor)/launch/OdomToTf.launch" />-->
     <!--<include file="$(find capra_2dnav)/launch/includes/gmapping.launch" />-->
     <!--<include file="$(find capra_2dnav)/launch/includes/kalman.launch">-->
         <!--<arg name="outdoor" value="0" />-->

@@ -9,6 +9,7 @@
     <author email="gorley.philippe@gmail.com">Philippe Gorley</author>
     <buildtool_depend>catkin</buildtool_depend>
     <build_depend>animatics_smart_motor</build_depend>
+    <build_depend>message_generation</build_depend>
     <run_depend>message_runtime</run_depend>
     <run_depend>rospy</run_depend>
 </package>
