@@ -1,3 +1,6 @@
+# Automatic install of Ibex for Capra. Please have Ibex at ~/Ibex for perfect results. Update the PATH script stuff if it's not the case.
+
+
 #install ROS
 echo "Installing ROS..."
 
