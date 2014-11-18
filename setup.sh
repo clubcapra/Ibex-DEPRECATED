@@ -14,13 +14,15 @@ echo "Installing ROS done"
 #PATH and .bashrc stuff
 echo "Updating PATH..."
 
-    #if not present, add it
-if [ $(cat ~/.bashrc | grep Ibex | wc -l) -gt 0 ]; then
-    echo "export IBEX_HOME=~/Ibex" > ~/.bashrc
-    echo source /opt/ros/indigo/setup.bash > ~/.bashrc
-    echo source $IBEX_HOME/devel/setup.bash > ~/.bashrc
-    echo 
+   #if not present, add it
+if [ $(cat ~/.bashrc | grep Ibex | wc -l) -eq 0 ]; then
+    echo "#ROS stuff"
+    echo "export IBEX_HOME=~/Ibex" >> ~/.bashrc
+    echo source /opt/ros/indigo/setup.bash >> ~/.bashrc
+    echo source $IBEX_HOME/devel/setup.bash >> ~/.bashrc
+    echo export ROSCONSOLE_FORMAT='[${severity}] [${node}] [${time}]: ${message}' >> ~/.bashrc
 fi
+
 
 echo "Updating PATH done"
 
