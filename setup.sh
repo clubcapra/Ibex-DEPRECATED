@@ -11,12 +11,16 @@ sudo apt-get install ros-indigo-desktop-full ros-indigo-lms1xx ros-indigo-robot-
 
 echo "Installing ROS done"
 
-#PATH stuff
+#PATH and .bashrc stuff
 echo "Updating PATH..."
 
-export IBEX_HOME=~/Ibex
-source /opt/ros/indigo/setup.bash
-source $IBEX_HOME/devel/setup.bash
+    #if not present, add it
+if [ $(cat ~/.bashrc | grep Ibex | wc -l) -gt 0 ]; then
+    echo "export IBEX_HOME=~/Ibex" > ~/.bashrc
+    echo source /opt/ros/indigo/setup.bash > ~/.bashrc
+    echo source $IBEX_HOME/devel/setup.bash > ~/.bashrc
+    echo 
+fi
 
 echo "Updating PATH done"
 
