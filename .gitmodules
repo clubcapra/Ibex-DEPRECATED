@@ -62,3 +62,6 @@
 [submodule "src/octomap_mapping"]
 	path = src/octomap_mapping
 	url = https://github.com/OctoMap/octomap_mapping.git
+[submodule "src/scan_tools"]
+	path = src/scan_tools
+	url = https://github.com/ccny-ros-pkg/scan_tools.git
