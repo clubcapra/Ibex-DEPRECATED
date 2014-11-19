@@ -6,6 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /Map1
+        - /PoseArray1
       Splitter Ratio: 0.5
     Tree Height: 391
   - Class: rviz/Selection
@@ -26,7 +28,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: PointCloud2
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -105,10 +107,10 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: false
+      Enabled: true
       Name: Map
-      Topic: /projected_map
-      Value: false
+      Topic: /map
+      Value: true
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
@@ -230,6 +232,13 @@ Visualization Manager:
       Name: Polygon
       Topic: /move_base/global_costmap/obstacle_layer_footprint/footprint_stamped
       Value: true
+    - Arrow Length: 0.3
+      Class: rviz/PoseArray
+      Color: 255; 25; 0
+      Enabled: true
+      Name: PoseArray
+      Topic: /particlecloud
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -261,9 +270,9 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 4.55783
-        Y: 0.717279
-        Z: 3.38437
+        X: 3.44178
+        Y: 1.83225
+        Z: 3.79086
       Name: Current View
       Near Clip Distance: 0.01
       Pitch: 1.2048
