@@ -107,10 +107,10 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Map
-      Topic: /map
-      Value: true
+      Topic: /projected_map
+      Value: false
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
@@ -231,13 +231,6 @@ Visualization Manager:
       Enabled: true
       Name: Polygon
       Topic: /move_base/global_costmap/obstacle_layer_footprint/footprint_stamped
-      Value: true
-    - Arrow Length: 0.3
-      Class: rviz/PoseArray
-      Color: 255; 25; 0
-      Enabled: true
-      Name: PoseArray
-      Topic: /particlecloud
       Value: true
   Enabled: true
   Global Options:
