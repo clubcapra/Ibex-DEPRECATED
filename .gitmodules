@@ -19,9 +19,6 @@
 [submodule "src/capra_seagoat"]
 	path = src/capra_seagoat
 	url = https://github.com/clubcapra/capra_seagoat.git
-[submodule "src/scan_tools"]
-	path = src/scan_tools
-	url = https://github.com/ccny-ros-pkg/scan_tools.git
 [submodule "src/capra_lidar"]
 	path = src/capra_lidar
 	url = https://github.com/clubcapra/capra_lidar.git
@@ -50,3 +47,18 @@
 [submodule "src/ros_vision"]
 	path = src/ros_vision
 	url = https://github.com/ETS-Robotics/ros_vision.git
+[submodule "src/--force"]
+	path = src/--force
+	url = https://github.com/clubcapra/capra_controlpanel.git
+[submodule "src/capra_controlpanel"]
+	path = src/capra_controlpanel
+	url = https://github.com/clubcapra/capra_controlpanel.git
+[submodule "src/capra_bringup"]
+	path = src/capra_bringup
+	url = https://github.com/clubcapra/capra_bringup.git
+[submodule "src/octomap_mapping"]
+	path = src/octomap_mapping
+	url = https://github.com/OctoMap/octomap_mapping.git
+[submodule "src/scan_tools"]
+	path = src/scan_tools
+	url = https://github.com/ccny-ros-pkg/scan_tools.git
