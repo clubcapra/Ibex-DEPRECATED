@@ -22,7 +22,7 @@ if [ $(cat ~/.bashrc | grep Ibex | wc -l) -eq 0 ]; then
     echo "source \$IBEX_HOME/devel/setup.bash" >> ~/.bashrc
     echo "export ROSCONSOLE_FORMAT='[\${severity}] [\${node}] [\${time}]: \${message}'" >> ~/.bashrc
 fi
-
+source /opt/ros/indigo/setup.bash
 
 echo "Updating PATH done"
 
