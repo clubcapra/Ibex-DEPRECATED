@@ -47,9 +47,6 @@
 [submodule "src/autonomous_3d_mapping"]
 	path = src/autonomous_3d_mapping
 	url = https://github.com/H017/autonomous_3d_mapping.git
-[submodule "src/capra_demos"]
-	path = src/capra_demos
-	url = https://github.com/clubcapra/capra_demos.git
 [submodule "src/ros_vision"]
 	path = src/ros_vision
 	url = https://github.com/ETS-Robotics/ros_vision.git
