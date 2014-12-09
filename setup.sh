@@ -1,5 +1,6 @@
 # Automatic install of Ibex for Capra. Please have Ibex at ~/Ibex for perfect results. Update the PATH script stuff if it's not the case.
 
+IBEX_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 #install ROS
 echo "Installing ROS..."
@@ -17,7 +18,7 @@ echo "Updating PATH..."
    #if not present, add it
 if [ $(cat ~/.bashrc | grep Ibex | wc -l) -eq 0 ]; then
     echo "#ROS stuff" >> ~/.bashrc
-    echo "export IBEX_HOME=~/Ibex" >> ~/.bashrc
+    echo "export IBEX_HOME=$IBEX_DIR" >> ~/.bashrc
     echo "source /opt/ros/indigo/setup.bash" >> ~/.bashrc
     echo "source \$IBEX_HOME/devel/setup.bash" >> ~/.bashrc
     echo "export ROSCONSOLE_FORMAT='[\${severity}] [\${node}] [\${time}]: \${message}'" >> ~/.bashrc
