@@ -8,7 +8,7 @@ echo "Installing ROS..."
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list'
 wget https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -O - | sudo apt-key add -
 sudo apt-get update
-sudo apt-get install ros-indigo-desktop-full ros-indigo-lms1xx ros-indigo-robot-pose-ekf ros-indigo-joy ros-indigo-nmea-* ros-indigo-move-base ros-indigo-map-server ros-indigo-hector-slam ros-indigo-gmapping ros-indigo-octomap-ros ros-indigo-octomap-rviz-plugins libgsl0-dev ros-indigo-laser-geometry ros-indigo-amcl
+sudo apt-get install ros-indigo-desktop-full ros-indigo-lms1xx ros-indigo-robot-pose-ekf ros-indigo-joy ros-indigo-nmea-* ros-indigo-move-base ros-indigo-map-server ros-indigo-hector-slam ros-indigo-gmapping ros-indigo-octomap-ros ros-indigo-octomap-rviz-plugins libgsl0-dev ros-indigo-laser-geometry ros-indigo-amcl ros-indigo-hector-gazebo ros-indigo-hector-gazebo-plugins ros-indigo-hector-sensors-gazebo ros-indigo-robot-localization
 
 echo "Installing ROS done"
 
@@ -21,7 +21,8 @@ if [ $(cat ~/.bashrc | grep Ibex | wc -l) -eq 0 ]; then
     echo "export IBEX_HOME=$IBEX_DIR" >> ~/.bashrc
     echo "source /opt/ros/indigo/setup.bash" >> ~/.bashrc
     echo "source \$IBEX_HOME/devel/setup.bash" >> ~/.bashrc
-    echo "export ROSCONSOLE_FORMAT='[\${severity}] [\${node}] [\${time}]: \${message}'" >> ~/.bashrc
+    echo "export ROSCONSOLE_FORMAT='[\${severity}] [\${node}] [\${time}]: \${message}'" >> ~/.bashrc    
+    echo "alias ibex='cd $IBEX_HOME'" >> ~/.bashrc
 fi
 source /opt/ros/indigo/setup.bash
 
