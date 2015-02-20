@@ -1,0 +1,26 @@
+<launch>
+    <arg name="context" default="indoors" />
+    <arg name="robot_description" value="$(find capra_2dnav)/models/capra6/capra6-real.urdf" />
+
+    <node pkg="tf" type="static_transform_publisher" name="footprint_broadcaster" args="0 0 0 0 0 0 base_footprint base_link 50" />
+
+    <!-- BUILD ROBOT -->
+    <rosparam command="load" param="robot_description" file="$(arg robot_description)" />
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="capra6_state_publisher" />
+
+    <!-- LIDAR -->
+    <!--<include file="$(find capra_lidar)/launch/LMS100.launch" />-->
+
+     <!--MOTORS -->
+    <include file="$(find animatics_smart_motor)/launch/SmartMotor.launch" />
+    <include file="$(find animatics_smart_motor)/launch/OdomToTf.launch" />
+    <!--<include file="$(find capra_2dnav)/launch/includes/gmapping.launch" />-->
+    <!--<include file="$(find capra_2dnav)/launch/includes/kalman.launch">-->
+        <!--<arg name="outdoor" value="0" />-->
+    <!--</include>-->
+    <include file="$(find capra_2dnav)/launch/localization_mapping.launch">
+        <arg name="outdoor" value="0" />
+    </include>
+
+    <node pkg="capra_motor_calibrator" type="motor_calibration_node.py" name="capra_motor_calibrator" output="screen" />
+</launch>

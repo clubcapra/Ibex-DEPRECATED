@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+    <name>capra_motor_calibrator</name>
+    <version>0.0.1</version>
+    <description>Calibrates motor speed to compensate for unaligned wheels</description>
+    <maintainer email="gorley.philippe@gmail.com">Philippe Gorley</maintainer>
+    <license>GPLv3</license>
+    <url type="repository">https://github.com/clubcapra/capra_motor_calibrator</url>
+    <author email="gorley.philippe@gmail.com">Philippe Gorley</author>
+    <buildtool_depend>catkin</buildtool_depend>
+    <build_depend>animatics_smart_motor</build_depend>
+    <build_depend>message_generation</build_depend>
+    <run_depend>message_runtime</run_depend>
+    <run_depend>rospy</run_depend>
+</package>
