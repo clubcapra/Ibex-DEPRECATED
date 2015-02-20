@@ -1,0 +1,11 @@
+<launch>
+    <node pkg="lms1xx" name="lms1xx" type="LMS1xx_node" output="screen">
+        <param name="host" value="192.168.32.250"/>
+        <remap from="/scan" to="/raw_scan" />
+    </node>
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter">
+        <rosparam command="load" file="$(find capra_lidar)/config/laser_threshold.yaml" />
+        <remap from="/scan" to="raw_scan" />
+        <remap from="/scan_filtered" to="/scan" />
+    </node>
+</launch>
