@@ -1,0 +1,7 @@
+<launch>
+    <node pkg="capra_camera" name="capra_camera" type="camera_node.py" output="screen">
+    </node>
+
+    <node pkg="image_transport" name="republish" type="republish" args="raw in:=capra_camera/image_uncompressed out:=capra_camera/image" output="screen" />
+    <node pkg="image_transport" name="republish_small" type="republish" args="raw in:=capra_camera/small_uncompressed out:=capra_camera/small" output="screen" />
+</launch>
