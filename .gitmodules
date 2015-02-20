@@ -1,22 +1,9 @@
-[submodule "src/microstrain_3dmgx1_imu"]
-	path = src/microstrain_3dmgx1_imu
-	url = https://github.com/clubcapra/microstrain_3dmgx1_imu.git
-[submodule "src/lm_pantilt"]
-	path = src/lm_pantilt
-	url = https://github.com/clubcapra/lm_pantilt.git
-[submodule "src/pointcloud_saver"]
-        path = src/pointcloud_saver
-        url = https://github.com/H017/pointcloud_saver.git
-
 [submodule "src/autonomous_3d_mapping"]
 	path = src/autonomous_3d_mapping
 	url = https://github.com/H017/autonomous_3d_mapping.git
 [submodule "src/ros_vision"]
 	path = src/ros_vision
 	url = https://github.com/ETS-Robotics/ros_vision.git
-[submodule "src/--force"]
-	path = src/--force
-	url = https://github.com/clubcapra/capra_motor_calibrator.git
 [submodule "src/octomap_mapping"]
 	path = src/octomap_mapping
 	url = https://github.com/OctoMap/octomap_mapping.git
