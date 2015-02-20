@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+  <name>capra_teleop</name>
+  <version>0.1.0</version>
+  <description>Node to convert Joy messages to Twist messages.</description>
+  <maintainer email="mathieuglefebvre@gmail.com">Mathieu Gascon-Lefebvre</maintainer>
+  <license>GPLv3</license>
+  <url type="repository">https://github.com/clubcapra/capra_teleop</url>
+  <author email="mathieuglefebvre@gmail.com">Mathieu Gascon-Lefebvre</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>rospy</run_depend>
+  
+</package>

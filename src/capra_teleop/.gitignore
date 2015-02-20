@@ -1,0 +1,7 @@
+*.class
+bin
+build
+.gradle
+*.iml
+.settings
+.idea

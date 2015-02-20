@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="capra_teleop" name="capra_teleop" type="teleop_mind.py" output="screen">
+    </node>
+</launch>
