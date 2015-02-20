@@ -1,0 +1,7 @@
+<launch>
+  <group ns="gps">
+    <node pkg="capra_gps" type="waypoint_orientation.py" name="WaypointOrientation">
+        <param name="file" value="/home/mathieu/Ibex/src/capra_gps/launch/qualif.csv" />
+    </node> 
+  </group>
+</launch>

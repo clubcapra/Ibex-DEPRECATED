@@ -1,0 +1,23 @@
+<launch>
+  <!-- NavSat serial comms -->
+  <group ns="gps">
+    <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="nmea_serial_node">
+      <param name="port" value="/dev/ttyUSB1002" />
+      <param name="baud" value="9600" />
+    </node>
+
+    <!-- ENU translation --> 
+    <node pkg="enu" type="from_fix" name="enu_from_fix">
+      <param name="invalid_covariance_value" value="1000000" />
+      <param name="lock_altitude" value="0"/>
+      <param name="scale_covariance" value="0.01"/>
+    </node>
+
+    <node pkg="capra_gps" type="enu_rotator.py" name="EnuRotator">
+    </node>
+
+    <node pkg="capra_gps" type="waypoint_orientation.py" name="WaypointOrientation" output="screen">
+        <param name="file" value="/home/capra/Ibex/src/capra_gps/launch/qualif.csv" />
+    </node>
+  </group>
+</launch>

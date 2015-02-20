@@ -1,0 +1,18 @@
+<launch>
+    <node pkg="robot_localization" type="navsat_transform_node" name="latlong_goal_converter_node" respawn="true">
+        <param name="magnetic_declination_radians" value="0"/>
+        <param name="roll_offset" value="0"/>
+        <param name="pitch_offset" value="0"/>
+        <param name="yaw_offset" value="0"/>
+        <param name="zero_altitude" value="false"/>
+        <param name="broadcast_utm_transform" value="false" />
+
+        <remap from="/gps/fix" to="/latlong_goal_node/latlong" />
+        <remap from="/odometry/gps" to="/latlong_goal_node/xy" />
+    </node>
+
+    <node pkg="capra_gps" type="latlong_goal_node.py" name="latlong_goal_node" output="screen" >
+        <remap from="~convert_xy" to="latlong_goal_transformer_converter_node/convert_xy" />
+        <remap from="~convert_latlong" to="latlong_goal_transformer_converter_node/convert_latlong" />
+    </node>
+</launch>

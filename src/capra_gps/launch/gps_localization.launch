@@ -1,0 +1,36 @@
+
+<!--
+This launch file uses a navsat_transform_node to convert input GPS data to xy odometry.
+It also provides a tool to send coordinates as goal. It requires real GPS, IMU and odom
+data to initialize.
+
+Subscribes to:
+/gps/fix (sensor_msgs/NavSatFix)
+/imu/data (sensor_msgs/Imu)
+/odometry/filtered (nav_msgs/Odometry)
+
+Publishes:
+/latlong_goal_node/goal_xy (geometry_msgs/PoseStamped)
+/odometry/gps (nav_msgs/Odometry)
+
+Services:
+/latlong_goal_node/AddLatlongGoal
+
+More info:
+http://wiki.ros.org/robot_localization#navsat_transform_node
+http://wiki.ros.org/robot_localization/Tutorials/GPS%20Integration
+
+-->
+<launch>
+
+    <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" respawn="true">
+        <param name="magnetic_declination_radians" value="0"/>
+        <param name="roll_offset" value="0"/>
+        <param name="pitch_offset" value="0"/>
+        <param name="yaw_offset" value="0"/>
+        <param name="zero_altitude" value="false"/>
+    </node>
+
+    <include file="$(find capra_gps)/launch/latlong_goal.launch" />
+
+</launch>
