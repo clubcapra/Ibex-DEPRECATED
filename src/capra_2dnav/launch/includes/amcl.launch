@@ -1,0 +1,12 @@
+<launch>
+  <include file="$(find capra_2dnav)/launch/includes/kalman.launch">
+    <arg name="outdoor" value="0" />
+  </include>
+
+  <node pkg="amcl" type="amcl" name="amcl" args="scan:=scan" output="screen">
+    <param name="base_frame_id" value="base_footprint" />
+    <param name="odom_alpha4" value="10" />
+  </node>
+
+
+</launch>

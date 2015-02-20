@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="gmapping" type="slam_gmapping" name="slam_mapping" output="screen">
+      <param name="delta" value="0.025" />
+    </node>
+</launch>

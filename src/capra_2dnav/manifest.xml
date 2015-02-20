@@ -1,0 +1,15 @@
+<package>
+  <description brief="capra_2dnav">
+
+     capra_2dnav
+
+  </description>
+  <author>Mathieu Gascon-Lefebvre</author>
+  <license>GPLv3</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/capra_2dnav</url>
+  <depend package="move_base"/>
+
+</package>
+
+
