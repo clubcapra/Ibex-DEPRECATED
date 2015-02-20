@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="animatics_smart_motor" name="odom_to_tf" type="odom_to_tf.py" output="screen">
+    </node>
+</launch>
