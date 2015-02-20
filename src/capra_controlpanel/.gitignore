@@ -1,0 +1,9 @@
+*.class
+.idea/*
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.pyc
+*~

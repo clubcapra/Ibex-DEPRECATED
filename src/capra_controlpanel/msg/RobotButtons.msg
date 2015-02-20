@@ -1,0 +1,10 @@
+bool fan
+bool imu
+bool camera
+bool gps
+bool switch
+bool lights
+bool rangefinder
+bool estopmanual
+bool estopremote
+string mode

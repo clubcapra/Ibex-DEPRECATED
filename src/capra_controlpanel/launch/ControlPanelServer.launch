@@ -1,0 +1,22 @@
+<launch>
+    <node pkg="capra_controlpanel" name="capra_controlpanel" type="controlpanel_node.py" output="screen">
+        <param name="serial_port" value="/dev/ttyUSB0"/>
+        <param name="publish_rate" value="5" />
+        <param name="flash_rate" value="1" />
+        <rosparam param="sensor_ids">
+            fan: 0
+            imu: 1
+            camera: 2
+            gps: 3
+            switch: 4
+            lights: 5
+            rangefinder: 6
+            tension: 7
+            current: 8
+            temperature: 9
+            estopmanual: 10
+            estopremote: 11
+            mode: 12
+        </rosparam>
+    </node>
+</launch>
