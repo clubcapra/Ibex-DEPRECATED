@@ -1,0 +1,4 @@
+bool is_2d
+int16 magnitude_z
+int8 calibration_time
+---

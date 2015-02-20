@@ -1,0 +1,7 @@
+<launch>
+  <arg name="serial_port" default="/dev/ttyUSB1001" />
+  <node pkg="microstrain_3dmgx1_imu" name="imu_node" type="imu_node.py" output="screen">
+    <param name="serial_port" value="$(arg serial_port)" />
+
+  </node>
+</launch>
