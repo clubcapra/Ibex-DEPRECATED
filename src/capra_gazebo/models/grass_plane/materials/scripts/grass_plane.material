@@ -1,0 +1,13 @@
+material grass_plane/Image
+{
+     technique
+     {
+         pass
+         {
+             texture_unit
+             {
+                 texture parcours2.jpg
+             }
+         }
+     } 
+}

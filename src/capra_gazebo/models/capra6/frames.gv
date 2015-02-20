@@ -1,0 +1,5 @@
+digraph G {
+"base_link" -> "laser_link"[label="Broadcaster: /capra6_state_publisher\nAverage rate: 50.202 Hz\nMost recent transform: 31.544 \nBuffer length: 4.960 sec\n"];
+"base_footprint" -> "base_link"[label="Broadcaster: /footprint_broadcaster\nAverage rate: 20.171 Hz\nMost recent transform: 31.089 \nBuffer length: 4.908 sec\n"];
+"odom" -> "base_footprint"[label="Broadcaster: /gazebo\nAverage rate: 19.810 Hz\nMost recent transform: 31.043 \nBuffer length: 4.947 sec\n"];
+}

@@ -1,0 +1,113 @@
+<?xml version='1.0'?>
+<sdf version='1.4'>
+    <model name="capra6">
+        <static>false</static>
+        <link name='chassis'>
+            <pose>0 0 0 0 0 0</pose>
+            <visual name='visual'>
+                <geometry>
+                    <mesh>
+                        <uri>model://capra6/meshes/capra6V2.stl</uri>
+                    </mesh>
+                </geometry>
+            </visual>
+            <collision name='bas_chassis'>
+                <pose>0.1 0 0.16 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>1.0875 0.75 0.32</size>
+                    </box>
+                </geometry>
+            </collision>
+            <collision name='haut_chassis'>
+                <pose>-0.1 0 0.52 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>0.7 0.75 0.4</size>
+                    </box>
+                </geometry>
+            </collision>
+            <collision name='tige'>
+                <pose>0.2 0 1.275 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>0.375 0.225 1.20</size>
+                    </box>
+                </geometry>
+            </collision>
+        </link>
+        <link name='range_finder'>
+            <gravity>false</gravity>
+            <sensor name="laser" type="ray">
+                <pose>0.4 0 0.2 0 0 0</pose>
+                <ray>
+                    <scan>
+                    <horizontal>
+                        <samples>540</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-2.3562</min_angle>
+                        <max_angle>2.3562</max_angle>
+                    </horizontal>
+                    </scan>
+                    <range>
+                        <min>0.5</min>
+                        <max>20</max>
+                        <resolution>0.01</resolution>
+                    </range>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.01</stddev>
+                    </noise>
+                </ray>
+
+                <plugin name="laser" filename="libgazebo_ros_laser.so">
+                    <topicName>/scan</topicName>
+                    <frameName>laser</frameName>
+                </plugin>
+                <always_on>1</always_on>
+                <update_rate>30</update_rate>
+                <visualize>true</visualize>
+            </sensor>
+        </link>
+        <!--<link name='camera'>
+            <gravity>false</gravity>
+            <pose>0.40 -0.02 1.5 0 0.50 0</pose>
+            <sensor name="camera" type="camera">
+                <camera>
+                    <horizontal_fov>1.047</horizontal_fov>
+                    <image>
+                        <width>1292</width>
+                        <height>734</height>
+                    </image>
+                    <clip>
+                        <near>0.1</near>
+                        <far>100</far>
+                    </clip>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.007</stddev>
+                    </noise>
+                </camera>
+                <plugin name="camera_plugin" filename="libgazebo_ros_camera.so">
+                    <frameName>camera</frameName>
+                </plugin>
+                <always_on>1</always_on>
+                <update_rate>40</update_rate>
+                <visualize>true</visualize>
+            </sensor>
+        </link>-->
+        <plugin name="imu" filename="libgazebo_ros_imu.so">
+            <bodyName>chassis</bodyName>
+            <robotNamespace>capra6</robotNamespace>
+            <topicName>/imu_data</topicName>
+        </plugin>
+        <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+            <commandTopic>/cmd_vel</commandTopic>
+            <odometryTopic>/odom</odometryTopic>
+            <odometryRate>20.0</odometryRate>
+            <robotBaseFrame>base_footprint</robotBaseFrame>
+        </plugin>
+    </model>
+</sdf>
