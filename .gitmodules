@@ -1,36 +1,6 @@
-[submodule "src/capra_msgs"]
-	path = src/capra_msgs
-	url = https://github.com/clubcapra/capra_msgs.git
-[submodule "src/capra_gps"]
-	path = src/capra_gps
-	url = https://github.com/clubcapra/capra_gps.git
-[submodule "src/capra_2dnav"]
-	path = src/capra_2dnav
-	url = https://github.com/clubcapra/capra_2dnav.git
-[submodule "src/capra_ai"]
-	path = src/capra_ai
-	url = https://github.com/clubcapra/capra_ai.git
-[submodule "src/capra_teleop"]
-	path = src/capra_teleop
-	url = https://github.com/clubcapra/capra_teleop.git
-[submodule "src/capra_msgs_java"]
-	path = src/capra_msgs_java
-	url = https://github.com/clubcapra/capra_msgs_java.git
-[submodule "src/capra_seagoat"]
-	path = src/capra_seagoat
-	url = https://github.com/clubcapra/capra_seagoat.git
-[submodule "src/capra_lidar"]
-	path = src/capra_lidar
-	url = https://github.com/clubcapra/capra_lidar.git
-[submodule "src/capra_gazebo"]
-	path = src/capra_gazebo
-	url = https://github.com/clubcapra/capra_gazebo.git
 [submodule "src/microstrain_3dmgx1_imu"]
 	path = src/microstrain_3dmgx1_imu
 	url = https://github.com/clubcapra/microstrain_3dmgx1_imu.git
-[submodule "src/capra_camera"]
-	path = src/capra_camera
-	url = https://github.com/clubcapra/capra_camera.git
 [submodule "src/lm_pantilt"]
 	path = src/lm_pantilt
 	url = https://github.com/clubcapra/lm_pantilt.git
@@ -47,18 +17,9 @@
 [submodule "src/--force"]
 	path = src/--force
 	url = https://github.com/clubcapra/capra_motor_calibrator.git
-[submodule "src/capra_controlpanel"]
-	path = src/capra_controlpanel
-	url = https://github.com/clubcapra/capra_controlpanel.git
-[submodule "src/capra_bringup"]
-	path = src/capra_bringup
-	url = https://github.com/clubcapra/capra_bringup.git
 [submodule "src/octomap_mapping"]
 	path = src/octomap_mapping
 	url = https://github.com/OctoMap/octomap_mapping.git
 [submodule "src/scan_tools"]
 	path = src/scan_tools
 	url = https://github.com/ccny-ros-pkg/scan_tools.git
-[submodule "src/capra_motor_calibrator"]
-	path = src/capra_motor_calibrator
-	url = https://github.com/clubcapra/capra_motor_calibrator.git
