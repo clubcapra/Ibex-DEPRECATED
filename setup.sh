@@ -17,12 +17,13 @@ echo "Updating PATH..."
 
    #if not present, add it
 if [ $(cat ~/.bashrc | grep Ibex | wc -l) -eq 0 ]; then
-    echo "#ROS stuff" >> ~/.bashrc
-    echo "export IBEX_HOME=$IBEX_DIR" >> ~/.bashrc
-    echo "source /opt/ros/indigo/setup.bash" >> ~/.bashrc
-    echo "source \$IBEX_HOME/devel/setup.bash" >> ~/.bashrc
-    echo "export ROSCONSOLE_FORMAT='[\${severity}] [\${node}] [\${time}]: \${message}'" >> ~/.bashrc    
-    echo "alias ibex='cd $IBEX_DIR'" >> ~/.bashrc
+    echo "#ROS stuff
+export IBEX_HOME=$IBEX_DIR
+source /opt/ros/indigo/setup.bash
+source \$IBEX_HOME/devel/setup.bash
+export ROSCONSOLE_FORMAT='[\${severity}] [\${node}] [\${time}]: \${message}'    
+alias ibex='cd $IBEX_DIR'
+alias apti='sudo apt-get install'" >> ~/.bashrc
 fi
 source /opt/ros/indigo/setup.bash
 
@@ -61,7 +62,7 @@ catkin_make
 echo "Building workspace done"
 
 #source workspace
-source devel/setup.bash
+source $IBEX_DIR/devel/setup.bash
 
 cwd="$PWD"
 
