@@ -1,0 +1,30 @@
+ACTION=="remove", GOTO="capra_remove"
+SUBSYSTEM!="tty", GOTO="persistent_serial_end"
+KERNEL!="ttyUSB[0-9]*|ttyACM[0-9]*", GOTO="persistent_serial_end"   
+
+SUBSYSTEMS=="usb-serial", ENV{.ID_PORT}="$attr{port_number}"  
+
+IMPORT="path_id %p"
+
+IMPORT="usb_id --export %p"
+ENV{ID_SERIAL}=="", GOTO="persistent_serial_end"
+SUBSYSTEMS=="usb", ENV{ID_USB_INTERFACE_NUM}="$attr{bInterfaceNumber}"
+ENV{ID_USB_INTERFACE_NUM}=="", GOTO="persistent_serial_end"
+cd
+
+#CAPRA 6 BOITE ELE STUFF
+
+#ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAW", RUN+="/home/mathieu/Ibex/src/rosjava/capra_sensors_manager/SensorsServer/run.sh"
+
+ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAW", SYMLINK+="ttyUSB1000" # Panneau 
+ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAV", SYMLINK+="ttyUSB1001" # Imu
+ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAT", SYMLINK+="ttyUSB1002" # GPS
+ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAS", SYMLINK+="ttyUSB1003" # Defect
+ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAQ", SYMLINK+="ttyUSB1004" # Moteurs
+
+GOTO="persistent_serial_end"
+
+#LABEL="capra_remove"
+
+#ATTRS attributes seem to be unavailable when device is disconnected.  Script is ran everytime a serial device is disconnected
+#SUBSYSTEM=="tty", RUN+="/home/mathieu/SensorsServer/run-shutdown.sh"

@@ -13,7 +13,7 @@ sudo apt-get install ros-indigo-desktop-full ros-indigo-lms1xx ros-indigo-robot-
 echo "Installing ROS done"
 
 #PATH and .bashrc stuff
-echo "Updating PATH..."
+echo "Setting up PATH and environment"
 
    #if not present, add it
 if [ $(cat ~/.bashrc | grep Ibex | wc -l) -eq 0 ]; then
@@ -26,6 +26,7 @@ alias ibex='cd $IBEX_DIR'
 alias apti='sudo apt-get install'" >> ~/.bashrc
 fi
 source /opt/ros/indigo/setup.bash
+cp install/49-capra.rules /etc/udev/rules.d/
 
 echo "Updating PATH done"
 
