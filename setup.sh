@@ -26,7 +26,7 @@ alias ibex='cd $IBEX_DIR'
 alias apti='sudo apt-get install'" >> ~/.bashrc
 fi
 source /opt/ros/indigo/setup.bash
-cp install/49-capra.rules /etc/udev/rules.d/
+sudo cp $IBEX_DIR/install/49-capra.rules /etc/udev/rules.d/
 
 echo "Updating PATH done"
 
