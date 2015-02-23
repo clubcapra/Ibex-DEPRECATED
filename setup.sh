@@ -21,7 +21,9 @@ if [ $(cat ~/.bashrc | grep Ibex | wc -l) -eq 0 ]; then
 export IBEX_HOME=$IBEX_DIR
 source /opt/ros/indigo/setup.bash
 source \$IBEX_HOME/devel/setup.bash
-export ROSCONSOLE_FORMAT='[\${severity}] [\${node}] [\${time}]: \${message}'    
+export ROSCONSOLE_FORMAT='[\${severity}] [\${node}] [\${time}]: \${message}'
+export GAZEBO_MODEL_PATH=$IBEX_DIR/src/capra_gazebo/models
+export GAZEBO_RESOURCE_PATH=$IBEX_DIR/src/capra_gazebo/worlds
 alias ibex='cd $IBEX_DIR'
 alias apti='sudo apt-get install'" >> ~/.bashrc
 fi

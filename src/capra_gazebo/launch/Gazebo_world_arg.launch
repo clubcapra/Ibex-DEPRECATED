@@ -4,7 +4,7 @@
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="world_name" value="$(find capra_gazebo)/worlds/$(arg world).world"/>
         <arg name="headless" value="true" />    
-        <arg name="gui" value="false" />
+        <arg name="gui" value="true" />
     <!-- more default parameters can be changed here -->
     </include>
     <!-- Spawn a robot into Gazebo -->
