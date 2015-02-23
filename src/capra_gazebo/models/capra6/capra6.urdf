@@ -19,6 +19,32 @@
         </collision>
     </link>
 
+    <joint name="joint4" type="fixed">
+        <parent link="base_link" />
+        <child link="pole" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+
+
+    <link name="pole">
+        <visual>
+            <geometry>
+                <box size="0.05 0.05 1.2" />
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.6" />
+        </visual>
+        <inertial>
+            <mass value="1" />
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        </inertial>
+        <collision>
+            <geometry>
+                <box size="0.05 0.05 1.2" />
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.6" />
+        </collision>
+    </link>
+
     <joint name="joint1" type="fixed">
         <parent link="base_link" />
         <child link="laser" />
@@ -42,9 +68,66 @@
         </collision>
     </link>
 
+    <joint name="joint2" type="fixed">
+        <parent link="base_link" />
+        <child link="camera" />
+        <origin xyz="0 0 1.2" rpy="0 0.5 0" />
+    </joint>
+
+    <link name='camera'>
+        <visual>
+            <geometry>
+                <sphere radius="0.1" />
+            </geometry>
+        </visual>
+        <inertial>
+            <mass value="1" />
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        </inertial>
+        <collision>
+            <geometry>
+                <sphere radius="0.1" />
+            </geometry>
+        </collision>
+    </link>
+
     <gazebo reference="base_link">
         <gravity>false</gravity>
         <material>Gazebo/Black</material>
+    </gazebo>
+
+    <gazebo reference="pole">
+        <gravity>false</gravity>
+        <material>Gazebo/Grey</material>
+    </gazebo>
+
+    <gazebo reference="camera">
+        <gravity>false</gravity>
+        <material>Gazebo/Red</material>
+        <sensor name="camera" type="camera" update_rate="20.0" >
+            <camera>
+                <horizontal_fov>1.047</horizontal_fov>
+                <image>
+                    <width>1292</width>
+                    <height>734</height>
+                </image>
+                <clip>
+                    <near>0.1</near>
+                    <far>100</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+            <plugin name="camera_plugin" filename="libgazebo_ros_camera.so">
+                <frameName>camera</frameName>
+            </plugin>
+            <always_on>1</always_on>
+            <update_rate>40</update_rate>
+            <visualize>true</visualize>
+        </sensor>
     </gazebo>
 
     <gazebo reference="laser">
