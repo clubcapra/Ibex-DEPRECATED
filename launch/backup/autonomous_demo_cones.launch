@@ -7,7 +7,5 @@
     <arg name="speed" value="0.5"/>
   </include>
 
-<!--  <include file="$(find capra_camera)/launch/Camera.launch"/> -->
-  
   <node pkg="rviz" type="rviz" name="rviz" args="-d $(env IBEX_HOME)/rviz_cfg/demo_cones.rviz"/>
 </launch>

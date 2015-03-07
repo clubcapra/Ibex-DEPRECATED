@@ -1,11 +1,19 @@
 <launch>
-    <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
-    <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value="$(find capra_gazebo)/worlds/capra.world"/>
-        <arg name="headless" value="true" />    
-        <arg name="gui" value="false" />
-    <!-- more default parameters can be changed here -->
-    </include>
-    <!-- Spawn a robot into Gazebo -->
-    <node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" args="-file $(find capra_gazebo)/models/capra6/model.sdf -sdf -model capra6" />
+  <arg name="robot_description" value="$(find capra_gazebo)/models/capra6/capra6.urdf" />
+  <arg name="world" default="$(find capra_gazebo)/worlds/shapes2.world" />
+  <arg name="gui" default="true" />
+
+  <node pkg="tf" type="static_transform_publisher" name="footprint_broadcaster" args="0 0 0 0 0 0 base_footprint base_link 50" />
+
+  <!-- GAZEBO -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world)" />
+    <arg name="gui" value="$(arg gui)" /> 
+  </include>
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(arg robot_description) -urdf -model capra6" />
+
+  <!-- BUILD ROBOT -->
+  <rosparam command="load" param="robot_description" file="$(arg robot_description)" />
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="capra6_state_publisher" />
+
 </launch>

@@ -1,0 +1,18 @@
+<launch>
+    
+    <!-- GAZEBO -->
+    <include file="$(find gazebo_gazebo)/launch/Gazebo.launch">
+        <arg name="gui" value="false" />
+    </include>
+    
+    <!-- MOVING -->
+        <!--<include file="$(find capra_teleop)/launch/Teleop.launch" />-->
+         <node name="simple_move" pkg="capra_ai" type="simple_move.py" /> 
+    
+    <!-- MAPPING -->
+           <include file="$(find capra_2dnav)/launch/octomap.launch" /> 
+        <!--<node pkg="octomap_server" type="octomap_server_node" name="octomap_server" />-->
+        <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
+            <remap from="cloud" to="cloud_in" />
+        </node>
+</launch>

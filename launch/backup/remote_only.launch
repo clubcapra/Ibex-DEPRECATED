@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find capra_teleop)/launch/Teleop.launch" />
+  <include file="$(find animatics_smart_motor)/launch/SmartMotor.launch" />
+</launch>
