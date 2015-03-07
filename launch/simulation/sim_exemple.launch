@@ -28,5 +28,5 @@
 
     <!--RVIZ  -->
 
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/basic.rviz"/>
 </launch>
