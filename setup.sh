@@ -12,6 +12,11 @@ sudo apt-get install ros-indigo-desktop-full ros-indigo-lms1xx ros-indigo-robot-
 
 echo "Installing ROS done"
 
+#seagoat dependencies
+echo "Installing Seagoat Vision dependencies..."
+sudo apt-get install python python-numpy python-scipy python-opencv python-protobuf
+echo "Installing Seagoat Vision dependencies done."
+
 #PATH and .bashrc stuff
 echo "Setting up PATH and environment"
 
@@ -37,7 +42,6 @@ echo "Updating PATH done"
 echo "Setting up rosdep..."
 sudo rosdep init
 rosdep update
-
 echo "Setting up rosdep done"
 
 #git config stuff
@@ -67,27 +71,9 @@ echo "Building workspace done"
 
 #source workspace
 source $IBEX_DIR/devel/setup.bash
-
 cwd="$PWD"
 
-
-#for i in `grep path .gitmodules | sed 's/.*= //'`; do
-#    cd $i
-##    git checkout master
-#    # Si c'est un package rosjava
-#    if [ -e "gradlew" ]; then
-#        # Pour tous les sous-projets
-#        for j in *; do
-#            if [ -d "${j}" ]; then
-#                if [ -e "$j/build.gradle" ] && [ "$j" != "capra_msgs" ]; then
-#                    cd $j
-#                    echo $j
-#                    ../gradlew deployApp
-#                    cd ..
-#                fi
-#            fi
-#        done
-#    fi
-#    cd $cwd
-#done
-
+#Copy gazebo models/worlds
+mkdir ~/.gazebo
+cp -R $IBEX_DIR/src/capra_gazebo/models ~/.gazebo
+cp -R $IBEX_DIR/src/capra_gazebo/worlds ~/.gazebo
