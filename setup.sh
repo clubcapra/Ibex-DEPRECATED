@@ -73,7 +73,4 @@ echo "Building workspace done"
 source $IBEX_DIR/devel/setup.bash
 cwd="$PWD"
 
-#Copy gazebo models/worlds
-mkdir ~/.gazebo
-cp -R $IBEX_DIR/src/capra_gazebo/models ~/.gazebo
-cp -R $IBEX_DIR/src/capra_gazebo/worlds ~/.gazebo
+echo "Ibex installed."
