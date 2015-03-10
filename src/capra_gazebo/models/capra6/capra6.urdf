@@ -2,7 +2,7 @@
     <link name="base_link">
         <visual>
             <geometry>
-                <!-- <mesh filename="package://capra_gazebo/models/capra6/meshes/capra6V2.stl"/>-->
+                <!-- <mesh filename="package://capra_gazebo/models/capra6/meshes/capra6.stl"/> -->
                 <box size="0.6 0.6 0.2" />
             </geometry>
             <origin rpy="0 0 0" xyz="0 0 0.15" />
