@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="capra_velproxy" name="capra_velproxy" type="velproxy_node.py" />
+</launch>
