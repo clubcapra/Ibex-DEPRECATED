@@ -1,12 +1,12 @@
 <launch>
   <node pkg="capra_velproxy" name="capra_velproxy" type="velproxy_node.py" output="screen"/>
 
-  
-  <node pkg="capra_ai" name="simple_move" type="simple_move.py">
+  <group>
     <remap from="/cmd_vel" to="/cmd_vel_remote" />
-  </node>
+    <include file="$(find capra_teleop)/launch/Teleop.launch" />
+  </group>
 
-  <node pkg="capra_ai" name="lazy_ai" type="lazy_ai.py">
+  <node pkg="capra_ai" name="simple_move" type="simple_move.py">
     <remap from="/cmd_vel" to="/cmd_vel_computer" />
   </node>
 
