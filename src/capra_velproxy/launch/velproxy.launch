@@ -1,4 +1,10 @@
 <launch>
+
+  <include file="$(find capra_2dnav)/launch/capra_configuration.launch">
+    <arg name="imu" value="0" />
+  </include>
+
+
   <node pkg="capra_velproxy" name="capra_velproxy" type="velproxy_node.py" output="screen"/>
 
   <group>
