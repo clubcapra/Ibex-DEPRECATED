@@ -1,3 +1,13 @@
 <launch>
-  <node pkg="capra_velproxy" name="capra_velproxy" type="velproxy_node.py" />
+  <node pkg="capra_velproxy" name="capra_velproxy" type="velproxy_node.py" output="screen"/>
+
+  
+  <node pkg="capra_ai" name="simple_move" type="simple_move.py">
+    <remap from="/cmd_vel" to="/cmd_vel_remote" />
+  </node>
+
+  <node pkg="capra_ai" name="lazy_ai" type="lazy_ai.py">
+    <remap from="/cmd_vel" to="/cmd_vel_computer" />
+  </node>
+
 </launch>

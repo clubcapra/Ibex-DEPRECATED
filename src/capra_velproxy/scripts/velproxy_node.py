@@ -34,12 +34,14 @@ def velproxy_node():
         else:
             state = COMPUTER
 
-        rospy.loginfo('Now in state %s', state)
-
     def handle_cmd_vel(topic):
         def handle(msg):
+            rospy.loginfo('In state %s', state)
             if MAPPING[topic] == state:
+                rospy.loginfo('Sending message: %s', msg)
                 cmd_vel.publish(msg)
+            else:
+                rospy.loginfo('Dropping message: %s', msg)
 
         return handle
 
