@@ -29,10 +29,10 @@ def velproxy_node():
     def handle_robot_buttons(msg):
         global state
 
-        if msg.estopremote:
-            state = COMPUTER
-        else:
+        if msg.mode == 'MAN':
             state = REMOTE
+        else:
+            state = COMPUTER
 
         rospy.loginfo('Now in state %s', state)
 
