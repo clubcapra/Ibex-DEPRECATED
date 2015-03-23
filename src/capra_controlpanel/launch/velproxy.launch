@@ -1,0 +1,10 @@
+<launch>
+
+  <node pkg="capra_controlpanel" name="capra_controlpanel" type="velproxy_node.py" output="screen"/>
+
+  <group>
+    <remap from="/cmd_vel" to="/cmd_vel_remote" />
+    <include file="$(find capra_teleop)/launch/Teleop.launch" />
+  </group>
+
+</launch>

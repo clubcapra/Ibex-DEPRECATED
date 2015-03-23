@@ -4,13 +4,7 @@
     <arg name="imu" value="0" />
   </include>
 
-
-  <node pkg="capra_velproxy" name="capra_velproxy" type="velproxy_node.py" output="screen"/>
-
-  <group>
-    <remap from="/cmd_vel" to="/cmd_vel_remote" />
-    <include file="$(find capra_teleop)/launch/Teleop.launch" />
-  </group>
+  <incude file="$(find capra_controlpanel)/launch/velproxy.launch" />
 
   <node pkg="capra_ai" name="simple_move" type="simple_move.py">
     <remap from="/cmd_vel" to="/cmd_vel_computer" />
