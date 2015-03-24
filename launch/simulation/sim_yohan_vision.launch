@@ -1,7 +1,7 @@
 <launch>
     <!-- GAZEBO -->
     <include file="$(find capra_gazebo)/launch/Gazebo.launch">
-        <arg name="gui" value="True" />
+        <arg name="gui" value="False" />
         <arg name="world" value="$(find capra_gazebo)/worlds/grass_lanes.world" />
         <arg name="initial_position" value="-x -17 -y 16.7 -rpy 1.6" />
     </include>
@@ -25,10 +25,9 @@
     </include>
 
     <!--<remap from="projected_map" to="map" />-->
-    <!--<node pkg="octomap_server" type="octomap_server_node" name="octomap_server" />-->
     <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
 
-    <!-- VISION -->ros
+    <!-- VISION -->
     <include file="$(find seagoatvision_ros)/launch/Seagoat.launch" >
         <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/test2.filterchain" />
     </include>
