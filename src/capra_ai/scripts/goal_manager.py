@@ -28,6 +28,7 @@ class GoalManager():
         while not rospy.is_shutdown():
             if self.goals:
                 if self.current.reached:
+                    # if goal is reached, remove it from list and publish the next goal
                     currentid = self.current.goal.header.stamp
                     self.removegoal(currentid)
                     nextgoal = self.goals.popitem()
@@ -61,31 +62,25 @@ def status_updated(msg):
         current = goalie.getgoal(goalstatus.goal_id)
         status = goalstatus.status
         if status == GoalStatus.PENDING:
-            # The goal has yet to be processed by the action server
-            pass
+            pass  # don't care, wait for another status
         elif status == GoalStatus.ACTIVE:
-            # The goal is currently being processed by the action server
             current.reached = False
         elif status == GoalStatus.PREEMPTED:
-            # The goal received a cancel request after it started executing and has since completed its execution
-            pass  # ???
+            rospy.logerr("Goal preempted")
         elif status == GoalStatus.SUCCEEDED:
             current.reached = True
-        elif status == GoalStatus.ABORTED:  # aborted during execution due to some failure
-            current.reached = True  # setting to true updates to a new goal
+        elif status == GoalStatus.ABORTED:
+            rospy.logerr("Goal aborted")
         elif status == GoalStatus.REJECTED:
-            # The goal was rejected by the action server without being processed; the goal was unattainable/invalid
-            goalie.removegoal(goalstatus.goal_id)  # goal wasn't executed yet?
+            rospy.logerr("Goal rejected")
         elif status == GoalStatus.PREEMPTING:
             pass  # wait for preempted status
         elif status == GoalStatus.RECALLING:
             pass  # wait for recalled status
         elif status == GoalStatus.RECALLED:
-            # The goal received a cancel request before it started executing and was successfully cancelled
-            goalie.removegoal(goalstatus.goal_id)  # goal not executed yet, so just remove it
+            rospy.logerr("Goal recalled")
         elif status == GoalStatus.LOST:
-            # An action client can determine that a goal is LOST. This should not be sent by an action server
-            pass  # wtf do I do with this
+            rospy.logerr("Goal lost")
         else:
             rospy.logwarn("GoalStatus enumeration has been changed, please see ROS documentation")
         goalie.updategoal(goalstatus.goal_id, current)
