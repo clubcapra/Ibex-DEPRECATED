@@ -22,6 +22,7 @@
     </node>
 
     <include file="$(find capra_2dnav)/launch/octomap.launch" >
+
     </include>
 
     <!--<remap from="projected_map" to="map" />-->
