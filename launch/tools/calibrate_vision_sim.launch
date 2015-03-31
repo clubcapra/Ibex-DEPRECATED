@@ -1,7 +1,7 @@
 <launch>
     <!-- GAZEBO -->
     <include file="$(find capra_gazebo)/launch/Gazebo.launch">
-        <arg name="gui" value="True" />
+        <arg name="gui" value="False" />
         <arg name="world" value="$(find capra_gazebo)/worlds/calibrate.world" />
     </include>
 
