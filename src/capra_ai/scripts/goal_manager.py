@@ -9,6 +9,7 @@ from move_base_msgs.msg import MoveBaseActionGoal
 class GoalManager():
 
     def __init__(self):
+        self.counter = 0
         self.goals = []
         self.counter = 0
         rospy.Subscriber("~waypoint", PoseStamped, self.pose_received)  # receive goals from other nodes
@@ -41,7 +42,6 @@ class GoalManager():
         msg.goal_id.stamp = now
         # id format is "[node_name]_[goal_count]_[time]"
         msg.goal_id.id = "%s_%i_%i_%i" % (rospy.get_name(), self.counter, now.secs, now.nsecs)
-        self.goals.append(msg)
 
     def index(self, goal_id):
         for idx, obj in enumerate(self.goals):
@@ -62,6 +62,17 @@ class GoalManager():
             else:  # the robot's dead
                 rospy.logerr("Goal invalidated. Goal status number: %i" % goal.status)
     def pose_received(self, msg):  # PoseStamped
+            goal_idx = next(idx for idx,obj in self.goals if obj.goal_id.id == goal.goal_id.id)
+            if goal.status == GoalStatus.SUCCEEDED:  # do a little dance to celebrate
+                del self.goals[goal_idx]
+                self.waitforgoal()
+                self.nextgoal()
+            elif goal.status in intermediate_statuses:  # status should change soon, so wait
+                pass
+            else:
+                rospy.logerr("Goal invalidated. Goal status code: %i" % status)
+
+    def pose_received(self, msg):  # PoseStamped
         self.addwaypoint(msg)
     def point_received(self, msg):  # PointStamped
         pose_msg = PoseStamped()
@@ -69,26 +80,11 @@ class GoalManager():
         pose_msg.pose.position = msg.point
         pose_msg.pose.orientation = Quaternion(w = 1)  # could be changed to the robot's current orientation
         self.addwaypoint(pose_msg)
-    def point_received(self, msg):  # msg is PointStamped
         pose = PoseStamped()
         pose.header = msg.header
         pose.pose.position = msg.point
         pose.pose.orientation = Quaternion(w = 1)
         self.addwaypoint(pose)
-
-    def status_updated(self, msg):
-        rospy.logwarn("%i statuses in list vs %i goals in list" % (len(msg.status_list), len(self.goals)))
-        for goalstatus in msg.status_list:
-            status = goalstatus.status
-            if status == GoalStatus.SUCCEEDED:
-                rospy.logwarn("Goal succeeded, passing to next goal")
-                self.nextgoal()
-            elif status == GoalStatus.ACTIVE or status == GoalStatus.PENDING:
-                pass  # don't care, keep going
-            #elif status == GoalStatus.PREEMPTED or status == GoalStatus.PREEMPTING:
-            #    rospy.logwarn("Je fais ce que je veux!")
-            else:
-                rospy.logerr("Goal invalidated. Goal status code: %i" % status)
 
 
 if __name__ == '__main__':
