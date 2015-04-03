@@ -20,6 +20,7 @@ except:
 if USE_PV_CAM:
 
     cam = camera.Camera()
+    cam.initialize()
     cam.start()
     images = cam.getCam()
     

@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="prosilica_camera" name="prosilica_node" type="prosilica_node" output="screen" >
+        <remap from="/camera/image_raw" to="/image_raw" />
+    </node>
+</launch>
