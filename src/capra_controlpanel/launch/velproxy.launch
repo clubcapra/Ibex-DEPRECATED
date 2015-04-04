@@ -1,5 +1,9 @@
 <launch>
+  <arg name="computer_topic" default="cmd_vel_computer"/>
+  <arg name="remote_topic" default="cmd_vel_remote"/>
 
-  <node pkg="capra_controlpanel" name="capra_controlpanel" type="velproxy_node.py" output="screen"/>
-
+  <node pkg="capra_controlpanel" name="capra_controlpanel" type="velproxy_node.py" output="screen">
+    <param name="computer_topic" value="$(arg computer_topic)"/>
+    <param name="remote_topic" value="$(arg remote_topic)"/>
+  </node>
 </launch>

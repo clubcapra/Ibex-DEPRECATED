@@ -2,55 +2,57 @@
 
 import rospy
 from capra_controlpanel.msg import RobotButtons
+from sensor_msgs.msg import Joy
 from geometry_msgs.msg import Twist
 
-PACKAGE_NAME = 'capra_velproxy'
+SWITCH_STATE_BUTTON = 7
 
-# Names of the remapped topics
-COMPUTER_TOPIC = 'cmd_vel_computer'
-REMOTE_TOPIC = 'cmd_vel_remote'
+class velproxy_node:
 
-# Possible states
-COMPUTER = 0
-REMOTE = 1
+    def __init__(self):
+        rospy.init_node('capra_velproxy', log_level=rospy.DEBUG)
+        
+        self.computer_topic = rospy.get_param('computer_topic', 'cmd_vel_computer')
+        self.remote_topic = rospy.get_param('remote_topic', 'cmd_vel_remote')
+        self.mapping = {'AUTO': self.computer_topic, 'MAN': self.remote_topic}
+        self.state = self.remote_topic
+        self.cmd_vel = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+        self.release_flag = True
 
-# Association between proxied topics and their state
-MAPPING = {COMPUTER_TOPIC: COMPUTER, REMOTE_TOPIC: REMOTE}
+        rospy.Subscriber('/capra_controlpanel/buttons', RobotButtons, self.handle_robot_buttons)
+        rospy.Subscriber('/joy', Joy, self.handle_joy)
 
-# Node state
-state = REMOTE
+        for topic in [self.computer_topic, self.remote_topic]:
+            rospy.Subscriber(topic, Twist, self.create_cmd_vel_handler(topic))
 
+        rospy.spin()
 
-def velproxy_node():
-    rospy.init_node(PACKAGE_NAME, log_level=rospy.DEBUG)
+    def handle_robot_buttons(self, msg):
+        newState = self.mapping[msg.mode]
 
-    cmd_vel = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+        if self.state != newState:
+            rospy.loginfo('In state %s, accepting topic: %s', msg.mode, newState)
+            self.state = newState
 
-    def handle_robot_buttons(msg):
-        global state
+    def create_cmd_vel_handler(self, topic):
+        def handle_cmd_vel(msg):
+            if topic == self.state:
+                self.cmd_vel.publish(msg)
 
-        if msg.mode == 'MAN':
-            state = REMOTE
-        else:
-            state = COMPUTER
+        return handle_cmd_vel
 
-    def handle_cmd_vel(topic):
-        def handle(msg):
-            rospy.loginfo('In state %s', state)
-            if MAPPING[topic] == state:
-                rospy.loginfo('Sending message: %s', msg)
-                cmd_vel.publish(msg)
-            else:
-                rospy.loginfo('Dropping message: %s', msg)
+    def handle_joy(self, msg):
+        if msg.buttons[SWITCH_STATE_BUTTON] == 0:
+            self.release_flag = True
 
-        return handle
+        if msg.buttons[SWITCH_STATE_BUTTON] == 1:
+            if self.release_flag:
+                self.release_flag = False
 
-    rospy.Subscriber('/capra_controlpanel/buttons', RobotButtons, handle_robot_buttons)
-
-    for topic in [COMPUTER_TOPIC, REMOTE_TOPIC]:
-        rospy.Subscriber(topic, Twist, handle_cmd_vel(topic))
-
-    rospy.spin()
+                if self.state == self.computer_topic:
+                    self.state = self.remote_topic
+                else:
+                    self.state = self.computer_topic
 
 
 if __name__ == '__main__':
