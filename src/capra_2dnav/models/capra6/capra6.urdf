@@ -60,7 +60,7 @@
     <joint name="joint2" type="fixed">
         <parent link="base_link" />
         <child link="camera" />
-        <origin xyz="0 0 1.2" rpy="0 0.5 0" />
+        <origin xyz="0.28 0 1.28" rpy="0 0.5 0" />
     </joint>
 
     <link name='camera'>

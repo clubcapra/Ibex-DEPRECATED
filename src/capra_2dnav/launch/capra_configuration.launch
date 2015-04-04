@@ -18,7 +18,7 @@
   </group>
 
   <!-- LIDAR -->
-  <group if="$(arg motors)">
+  <group if="$(arg lidar)">
     <include file="$(find capra_lidar)/launch/LMS100.launch" />  
   </group>
 
