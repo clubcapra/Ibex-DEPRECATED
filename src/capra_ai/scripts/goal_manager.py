@@ -62,16 +62,21 @@ class GoalManager():
                 pass
             else:  # the robot's dead
                 rospy.logerr("Goal invalidated. Goal status number: %i" % goal.status)
-
     def pose_received(self, msg):  # PoseStamped
         self.addwaypoint(msg)
-
     def point_received(self, msg):  # PointStamped
         pose_msg = PoseStamped()
         pose_msg.header = msg.header
         pose_msg.pose.position = msg.point
         pose_msg.pose.orientation = Quaternion(w = 1)  # could be changed to the robot's current orientation
         self.addwaypoint(pose_msg)
+
+    def point_received(self, msg):  # msg is PointStamped
+        pose = PoseStamped()
+        pose.header = msg.header
+        pose.pose.position = msg.point
+        pose.orientation = Quaternion()
+        self.addwaypoint(pose)
 
 
 if __name__ == '__main__':
