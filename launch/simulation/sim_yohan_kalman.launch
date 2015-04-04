@@ -12,31 +12,21 @@
       </include>
     </group>
 
-    <!--<node pkg="capra_ai" type="simple_move.py" name="ai" />-->
-
     <!-- MAPPING -->
-    <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
+    <node pkg="capra_lidar" name="scan_to_cloud_hf_node" type="scan_to_cloud_hf_node" >
         <remap from="cloud" to="cloud_in" />
     </node>
 
-    <include file="$(find capra_2dnav)/launch/octomap.launch" >
-    </include>
+    <include file="$(find capra_2dnav)/launch/octomap.launch" />
 
-    <!--<remap from="projected_map" to="map" />-->
-    <!--<node pkg="octomap_server" type="octomap_server_node" name="octomap_server" />-->
     <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
 
     <!--RVIZ  -->
 
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
 
-    <!-- Localization -->
-    <group>
-        <remap from="/imu/data" to="/imu_sim" />
-        <remap from="/gps/fix" to="/gps_sim" />
-        <remap from="/odometry/filtered" to="/odom" />
-        <remap from="/latlong_goal_node/goal_xy" to="/move_base_simple/goal" />
-        <include file="$(find capra_gps)/launch/gps_localization.launch" />
-    </group>
+    <!-- Kalman -->
+    <include file="$(find capra_2dnav)/launch/kalman.launch" />
+
 
 </launch>
