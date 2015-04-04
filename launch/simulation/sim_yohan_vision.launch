@@ -31,7 +31,8 @@
     <!-- VISION -->
     <include file="$(find seagoatvision_ros)/launch/Seagoat.launch" >
         <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/test2.filterchain" />
-        <arg name="gui" value="False" />
+        <arg name="gui" value="True" />
+        <arg name="calibration_file" value="$(find seagoatvision_ros)/filterchain/calibrate-sim.filterchain" />
     </include>
 
     <!--RVIZ  -->

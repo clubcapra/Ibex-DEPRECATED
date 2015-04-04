@@ -7,7 +7,7 @@
 
     <!-- VISION -->
     <include file="$(find seagoatvision_ros)/launch/Seagoat.launch" >
-        <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/calibrate.filterchain" />
+        <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/calibrate-sim.filterchain" />
         <param name="gui" value="True" />
     </include>
 
