@@ -22,6 +22,7 @@ class GoalManager():
         # wait for the first goal, because the publisher waits for a success to publish the next one
         self.waitforgoal()
         self.nextgoal()
+        self.nextgoal()
         while not rospy.is_shutdown():
             rate.sleep()
 
@@ -29,11 +30,9 @@ class GoalManager():
         rate = rospy.Rate(10)
         while len(self.goals) == 0:
             rate.sleep()
-
     def nextgoal(self, idx = 0):
         if len(self.goals) > idx:
             self.goal_pub.publish(self.goals[idx])
-
     def addwaypoint(self, pose):  # PoseStamped
         now = rospy.get_rostime()
         self.counter = self.counter + 1
@@ -70,13 +69,26 @@ class GoalManager():
         pose_msg.pose.position = msg.point
         pose_msg.pose.orientation = Quaternion(w = 1)  # could be changed to the robot's current orientation
         self.addwaypoint(pose_msg)
-
     def point_received(self, msg):  # msg is PointStamped
         pose = PoseStamped()
         pose.header = msg.header
         pose.pose.position = msg.point
-        pose.orientation = Quaternion()
+        pose.pose.orientation = Quaternion(w = 1)
         self.addwaypoint(pose)
+
+    def status_updated(self, msg):
+        rospy.logwarn("%i statuses in list vs %i goals in list" % (len(msg.status_list), len(self.goals)))
+        for goalstatus in msg.status_list:
+            status = goalstatus.status
+            if status == GoalStatus.SUCCEEDED:
+                rospy.logwarn("Goal succeeded, passing to next goal")
+                self.nextgoal()
+            elif status == GoalStatus.ACTIVE or status == GoalStatus.PENDING:
+                pass  # don't care, keep going
+            #elif status == GoalStatus.PREEMPTED or status == GoalStatus.PREEMPTING:
+            #    rospy.logwarn("Je fais ce que je veux!")
+            else:
+                rospy.logerr("Goal invalidated. Goal status code: %i" % status)
 
 
 if __name__ == '__main__':
