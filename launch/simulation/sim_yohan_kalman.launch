@@ -2,15 +2,19 @@
     <!-- GAZEBO -->
     <include file="$(find capra_gazebo)/launch/Gazebo.launch">
         <arg name="gui" value="false" />
+        <!--  <arg name="world" value="$(find capra_gazebo)/worlds/grass_lanes.world" /> -->
     </include>
 
-    <!-- MOVING -->
+    <!-- MOVING
     <group>
       <remap from="map" to="projected_map" />
       <include file="$(find capra_2dnav)/launch/move_base.launch">
         <arg name="context" value="indoors" />
       </include>
-    </group>
+    </group>-->
+
+    <!--a -->
+     <node pkg="capra_ai" name="simple_move" type="simple_move.py" />
 
     <!-- MAPPING -->
     <node pkg="capra_lidar" name="scan_to_cloud_hf_node" type="scan_to_cloud_hf_node" >
@@ -19,13 +23,13 @@
 
     <include file="$(find capra_2dnav)/launch/octomap.launch" />
 
-    <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
-
     <!--RVIZ  -->
 
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/kalman.rviz"/>
 
-    <!-- Kalman -->
+    <!-- Position -->
+
+    <include file="$(find capra_gps)/launch/gps_localization.launch" />
     <include file="$(find capra_2dnav)/launch/kalman.launch" />
 
 
