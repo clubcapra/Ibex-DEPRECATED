@@ -6,20 +6,22 @@
   <arg name="initial_position" default="-x 0 -y 0 -rpy 0" />
 
   <node pkg="tf" type="static_transform_publisher" name="footprint_broadcaster" args="0 0 0 0 0 0 base_footprint base_link 50" />
-
+<!--
   <node pkg="capra_2dnav" type="change_frame.py" name="change_frame" >
-      <param name="frame_id" value="map" />
+      <param name="frame_id" value="odom" />
       <param name="in" value="/odometry/motors" />
       <param name="out" value="/odometry/motors_map" />
   </node>
-
+-->
   <!-- GAZEBO -->
-
-    <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value="$(arg world)" />
-        <arg name="gui" value="$(arg gui)" />
-    </include>
-    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(arg robot_description) -urdf $(arg initial_position) -model capra6" />
+    <group>
+        <remap from="/tf" to="/tf_null" />
+        <include file="$(find gazebo_ros)/launch/empty_world.launch">
+            <arg name="world_name" value="$(arg world)" />
+            <arg name="gui" value="$(arg gui)" />
+        </include>
+        <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(arg robot_description) -urdf $(arg initial_position) -model capra6" />
+    </group>
 
   <!-- BUILD ROBOT -->
   <rosparam command="load" param="robot_description" file="$(arg robot_description)" />

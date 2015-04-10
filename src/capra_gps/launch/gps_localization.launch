@@ -31,7 +31,7 @@ http://wiki.ros.org/robot_localization/Tutorials/GPS%20Integration
         <param name="zero_altitude" value="false"/>
         <remap from="/gps/fix" to="/fix" />
         <remap from="/imu/data" to="/imu_data" />
-        <!--<remap from="/odometry/filtered" to="/odometry/local" />-->
+        <!--<remap from="/odometry/filtered" to="/odometry/motors" />-->
     </node>
 
     <include file="$(find capra_gps)/launch/latlong_goal.launch" />
