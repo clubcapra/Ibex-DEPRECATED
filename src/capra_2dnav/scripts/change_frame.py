@@ -7,7 +7,7 @@ class ChangeFrame:
 
     def callback(self, data):
         data2 = data
-        data2.frame_id = self.new_frame
+        data2.header.frame_id = self.new_frame
         self.pub.publish(data2)
 
     def __init__(self):
@@ -16,8 +16,8 @@ class ChangeFrame:
         self.new_frame = rospy.get_param("~frame_id", "")
         in_topic = rospy.get_param("~in", "")
         out_topic = rospy.get_param("~out", "")
-        self.pub = rospy.Publisher(in_topic, Odometry, queue_size=10)
-        rospy.Subscriber(out_topic, Odometry, self.callback)
+        self.pub = rospy.Publisher(out_topic, Odometry, queue_size=10)
+        rospy.Subscriber(in_topic, Odometry, self.callback)
 
         rospy.spin()
 

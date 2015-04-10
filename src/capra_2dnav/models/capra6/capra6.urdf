@@ -163,10 +163,10 @@
 
         <plugin name="gazebo_ros_gps" filename="libhector_gazebo_ros_gps.so" >
             <bodyName>base_link</bodyName>
-            <frameId>map</frameId>
+            <frameId>odom</frameId>
             <topicName>fix</topicName>
             <updateRate>50</updateRate>
-            <offset>0 1.5 0</offset>
+            <offset>0 0 0</offset>
             <gaussianNoise>0 0 0</gaussianNoise>
             <referenceLatitude>45.501689</referenceLatitude>
             <referenceLongitude>-73.567256</referenceLongitude>
@@ -175,12 +175,12 @@
 
         <plugin name="gazebo_ros_imu" filename="libhector_gazebo_ros_imu.so">
             <bodyName>base_link</bodyName>
-            <frameId>map</frameId>
+            <frameId>odom</frameId>
             <topicName>imu_data</topicName>
             <updateRate>100</updateRate>
-            <headingGaussianNoise>10.0</headingGaussianNoise>
-            <headingOffset>100.0</headingOffset>
-            <headingDrift>10.0</headingDrift>
+            <headingGaussianNoise>0</headingGaussianNoise>
+            <headingOffset>0</headingOffset>
+            <headingDrift>0</headingDrift>
             <accelOffset>0 0 0</accelOffset>
             <accelDrift>0 0 0</accelDrift>
             <accelDriftFrequency>0 0 0 </accelDriftFrequency>

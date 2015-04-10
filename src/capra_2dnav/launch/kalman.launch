@@ -9,7 +9,7 @@
       <param name="base_link_frame" value="base_footprint"/>
       <param name="world_frame" value="odom"/>
 
-      <param name="odom0" value="/odometry/motors_map"/>
+      <param name="odom0" value="/odometry/motors"/>
       <param name="imu0" value="/imu_data"/>
 
       <rosparam param="odom0_config">[true, true, false,
@@ -19,10 +19,10 @@
                                       false, false, false]</rosparam>
 
       <rosparam param="imu0_config">[false, false, false,
-                                     false, false,  true,
+                                     false, false,  false,
                                      false, false, false,
                                      false, false,  false,
-                                     false,  false,  false]</rosparam>
+                                     true,  true,  false]</rosparam>
 
 
       <param name="odom0_differential" value="true"/>
@@ -43,7 +43,7 @@
       <param name="base_link_frame" value="base_footprint"/>
       <param name="world_frame" value="map"/>
 
-      <param name="odom0" value="/odometry/motors_map"/>
+      <param name="odom0" value="/odometry/motors"/>
       <param name="odom1" value="/odometry/gps" />
       <param name="imu0" value="/imu_data"/>
 
@@ -67,10 +67,13 @@
 
       <param name="odom0_differential" value="true"/>
       <param name="odom1_differential" value="false"/>
-      <param name="imu0_differential" value="true"/>
+      <param name="imu0_differential" value="false"/>
 
       <param name="imu0_remove_gravitational_acceleration" value="true"/>
       <param name="broadcast_utm_transform" value="false" />
+
+        <param name="debug" value="true" />
+        <param name="debug_out_file" value="ekf_absolute" />
     </node>
 
 </launch>
