@@ -34,7 +34,7 @@
     </node>
 
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization_absolute" clear_params="true" output="screen" >
-      <param name="frequency" value="30"/>
+      <param name="frequency" value="20"/>
       <param name="sensor_timeout" value="1.0"/>
       <param name="two_d_mode" value="true"/>
 

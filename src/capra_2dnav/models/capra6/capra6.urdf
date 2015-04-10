@@ -8,7 +8,7 @@
             <origin rpy="1.57 0 1.57" xyz="0 0 0.2" />
         </visual>
         <inertial>
-            <mass value="1" />
+            <mass value="100" />
             <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
         </inertial>
         <collision>
@@ -167,7 +167,7 @@
             <topicName>fix</topicName>
             <updateRate>50</updateRate>
             <offset>0 0 0</offset>
-            <gaussianNoise>0 0 0</gaussianNoise>
+            <gaussianNoise>0 0.1 0</gaussianNoise>
             <referenceLatitude>45.501689</referenceLatitude>
             <referenceLongitude>-73.567256</referenceLongitude>
             <referenceHeading>0</referenceHeading>
