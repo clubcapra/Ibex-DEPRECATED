@@ -7,6 +7,12 @@
 
   <node pkg="tf" type="static_transform_publisher" name="footprint_broadcaster" args="0 0 0 0 0 0 base_footprint base_link 50" />
 
+  <node pkg="capra_2dnav" type="change_frame.py" name="change_frame" >
+      <param name="frame_id" value="map" />
+      <param name="in" value="/odometry/motors" />
+      <param name="out" value="/odometry/motors_map" />
+  </node>
+
   <!-- GAZEBO -->
 
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
