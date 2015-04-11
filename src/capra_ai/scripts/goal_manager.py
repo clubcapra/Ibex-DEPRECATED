@@ -9,7 +9,6 @@ from move_base_msgs.msg import MoveBaseActionGoal
 class GoalManager():
 
     def __init__(self):
-        self.counter = 0
         self.goals = []
         self.counter = 0
         rospy.Subscriber("~waypoint", PoseStamped, self.pose_received)  # receive goals from other nodes
@@ -23,7 +22,6 @@ class GoalManager():
         # wait for the first goal, because the publisher waits for a success to publish the next one
         self.waitforgoal()
         self.nextgoal()
-        self.nextgoal()
         while not rospy.is_shutdown():
             rate.sleep()
 
@@ -31,9 +29,11 @@ class GoalManager():
         rate = rospy.Rate(10)
         while len(self.goals) == 0:
             rate.sleep()
+
     def nextgoal(self, idx = 0):
         if len(self.goals) > idx:
             self.goal_pub.publish(self.goals[idx])
+
     def addwaypoint(self, pose):  # PoseStamped
         now = rospy.get_rostime()
         self.counter = self.counter + 1
@@ -61,30 +61,16 @@ class GoalManager():
                 pass
             else:  # the robot's dead
                 rospy.logerr("Goal invalidated. Goal status number: %i" % goal.status)
-    def pose_received(self, msg):  # PoseStamped
-            goal_idx = next(idx for idx,obj in self.goals if obj.goal_id.id == goal.goal_id.id)
-            if goal.status == GoalStatus.SUCCEEDED:  # do a little dance to celebrate
-                del self.goals[goal_idx]
-                self.waitforgoal()
-                self.nextgoal()
-            elif goal.status in intermediate_statuses:  # status should change soon, so wait
-                pass
-            else:
-                rospy.logerr("Goal invalidated. Goal status code: %i" % status)
 
     def pose_received(self, msg):  # PoseStamped
         self.addwaypoint(msg)
+
     def point_received(self, msg):  # PointStamped
         pose_msg = PoseStamped()
         pose_msg.header = msg.header
         pose_msg.pose.position = msg.point
         pose_msg.pose.orientation = Quaternion(w = 1)  # could be changed to the robot's current orientation
         self.addwaypoint(pose_msg)
-        pose = PoseStamped()
-        pose.header = msg.header
-        pose.pose.position = msg.point
-        pose.pose.orientation = Quaternion(w = 1)
-        self.addwaypoint(pose)
 
 
 if __name__ == '__main__':
