@@ -5,7 +5,7 @@ from capra_controlpanel.msg import RobotButtons
 from sensor_msgs.msg import Joy
 from geometry_msgs.msg import Twist
 
-SWITCH_STATE_BUTTON = 7
+SWITCH_STATE_BUTTON = 8
 
 class velproxy_node:
 
@@ -17,7 +17,6 @@ class velproxy_node:
         self.mapping = {'AUTO': self.computer_topic, 'MAN': self.remote_topic}
         self.state = self.remote_topic
         self.cmd_vel = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
-        self.release_flag = True
 
         rospy.Subscriber('/capra_controlpanel/buttons', RobotButtons, self.handle_robot_buttons)
         rospy.Subscriber('/joy', Joy, self.handle_joy)
@@ -28,33 +27,28 @@ class velproxy_node:
         rospy.spin()
 
     def handle_robot_buttons(self, msg):
-        newState = self.mapping[msg.mode]
+        new_state = self.mapping[msg.mode]
 
-        if self.state != newState:
-            rospy.loginfo('In state %s, accepting topic: %s', msg.mode, newState)
-            self.state = newState
+        if self.state != new_state:
+            rospy.loginfo('In state %s, accepting topic: %s', msg.mode, new_state)
+            self.state = new_state
 
     def create_cmd_vel_handler(self, topic):
         def handle_cmd_vel(msg):
             if topic == self.state:
+                rospy.logdebug('sending %s', str(msg))
                 self.cmd_vel.publish(msg)
 
         return handle_cmd_vel
 
     def handle_joy(self, msg):
-        if msg.buttons[SWITCH_STATE_BUTTON] == 0:
-            self.release_flag = True
-
         if msg.buttons[SWITCH_STATE_BUTTON] == 1:
-            if self.release_flag:
-                self.release_flag = False
-
-                if self.state == self.computer_topic:
-                    self.state = self.remote_topic
-                    rospy.loginfo('In state MAN, accepting topic: %s', self.state)
-                else:
-                    self.state = self.computer_topic
-                    rospy.loginfo('In state AUTO, accepting topic: %s', self.state)
+            if self.state == self.computer_topic:
+                self.state = self.remote_topic
+                rospy.loginfo('In state MAN, accepting topic: %s', self.state)
+            else:
+                self.state = self.computer_topic
+                rospy.loginfo('In state AUTO, accepting topic: %s', self.state)
 
 
 if __name__ == '__main__':
