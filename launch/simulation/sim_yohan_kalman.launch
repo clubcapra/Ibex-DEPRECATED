@@ -5,18 +5,18 @@
         <arg name="world" value="$(find capra_gazebo)/worlds/grass_lanes.world" />
     </include>
 
-    <!-- MOVING
+    <!-- MOVING-->
     <group>
       <remap from="map" to="projected_map" />
       <include file="$(find capra_2dnav)/launch/move_base.launch">
         <arg name="context" value="indoors" />
       </include>
-    </group>-->
+    </group>
 
     <!--a
-     <node pkg="capra_ai" name="simple_move" type="simple_move.py" />-->
+     <node pkg="capra_ai" name="simple_move" type="simple_move.py" />
 
-    <include file="$(find capra_teleop)/launch/Teleop.launch" />
+    <include file="$(find capra_teleop)/launch/Teleop.launch" />-->
 
     <!-- MAPPING -->
     <node pkg="capra_lidar" name="scan_to_cloud_hf_node" type="scan_to_cloud_hf_node" >
