@@ -14,6 +14,7 @@ time.sleep(3)
 while not rospy.is_shutdown():
     msg = Twist()
     msg.linear.x = 0.4
+    msg.linear.y = 0.0
     msg.angular.z = 0.0
     pub.publish(msg)
 
