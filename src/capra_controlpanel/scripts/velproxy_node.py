@@ -10,7 +10,7 @@ SWITCH_STATE_BUTTON = 8
 class velproxy_node:
 
     def __init__(self):
-        rospy.init_node('capra_velproxy', log_level=rospy.DEBUG)
+        rospy.init_node('capra_velproxy', log_level=rospy.INFO)
         
         self.computer_topic = rospy.get_param('computer_topic', 'cmd_vel_computer')
         self.remote_topic = rospy.get_param('remote_topic', 'cmd_vel_remote')

@@ -1,4 +1,0 @@
-<launch>
-  <include file="$(find capra_2dnav)/launch/capra_configuration.launch" />
-  <!-- TODO -->
-</launch>

@@ -1,0 +1,29 @@
+<launch>
+  <arg name="computer_topic" value="/cmd_vel_computer"/>
+  <arg name="remote_topic" value="/cmd_vel_remote"/>
+
+    <include file="$(find capra_2dnav)/launch/capra_configuration.launch" >
+      <arg name="lidar" default="1" />
+      <arg name="imu" default="0" />
+      <arg name="motors" default="1" />
+      <arg name="gps" default="0" />
+      <arg name="camera" default="0" />
+    </include>
+
+  <group>
+    <remap from="/cmd_vel" to="$(arg computer_topic)" />
+    <node pkg="capra_ai" type="lazy_ai.py" name="ai" />
+  </group>
+
+  <group>
+    <remap from="/cmd_vel" to="$(arg remote_topic)" />      
+    <include file="$(find capra_teleop)/launch/Teleop.launch"/>
+  </group>
+
+  <include file="$(find capra_controlpanel)/launch/velproxy.launch">
+    <arg name="computer_topic" value="$(arg computer_topic)"/>
+    <arg name="remote_topic" value="$(arg remote_topic)"/>
+  </include>
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
+</launch>
