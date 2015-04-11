@@ -51,8 +51,10 @@ class velproxy_node:
 
                 if self.state == self.computer_topic:
                     self.state = self.remote_topic
+                    rospy.loginfo('In state MAN, accepting topic: %s', self.state)
                 else:
                     self.state = self.computer_topic
+                    rospy.loginfo('In state AUTO, accepting topic: %s', self.state)
 
 
 if __name__ == '__main__':
