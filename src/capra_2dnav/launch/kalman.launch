@@ -1,6 +1,6 @@
 <launch>
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization_continuous" clear_params="true" output="screen" >
-      <param name="frequency" value="30"/>
+      <param name="frequency" value="5"/>
       <param name="sensor_timeout" value="1.0"/>
       <param name="two_d_mode" value="true"/>
 
@@ -10,11 +10,18 @@
       <param name="world_frame" value="odom"/>
 
       <param name="odom0" value="/odometry/motors"/>
+      <param name="odom1" value="/odometry/gps" />
       <param name="imu0" value="/imu_data"/>
 
       <rosparam param="odom0_config">[true, true, false,
-                                      false, false, false,
+                                      false, false, true,
                                       false,  false, false,
+                                      false, false, false,
+                                      false, false, false]</rosparam>
+
+      <rosparam param="odom1_config">[true, true, false,
+                                      false, false, false,
+                                      false, false, false,
                                       false, false, false,
                                       false, false, false]</rosparam>
 
@@ -22,19 +29,21 @@
                                      false, false,  false,
                                      false, false, false,
                                      false, false,  false,
-                                     true,  true,  false]</rosparam>
-
+                                     false,  false,  true]</rosparam>
 
       <param name="odom0_differential" value="true"/>
+      <param name="odom1_differential" value="false"/>
       <param name="imu0_differential" value="true"/>
 
-      <param name="imu0_remove_gravitational_acceleration" value="true"/>
+      <param name="imu0_remove_gravitational_acceleration" value="false"/>
       <param name="broadcast_utm_transform" value="false" />
-      <remap from="/odometry/filtered" to="/odometry/local" />
+<!--
+        <param name="debug" value="true" />
+        <param name="debug_out_file" value="ekf_absolute" /> -->
     </node>
-
+<!--
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization_absolute" clear_params="true" output="screen" >
-      <param name="frequency" value="20"/>
+      <param name="frequency" value="5"/>
       <param name="sensor_timeout" value="1.0"/>
       <param name="two_d_mode" value="true"/>
 
@@ -48,7 +57,7 @@
       <param name="imu0" value="/imu_data"/>
 
       <rosparam param="odom0_config">[true, true, false,
-                                      false, false, false,
+                                      false, false, true,
                                       false,  false, false,
                                       false, false, false,
                                       false, false, false]</rosparam>
@@ -60,12 +69,12 @@
                                       false, false, false]</rosparam>
 
       <rosparam param="imu0_config">[false, false, false,
-                                     false, false,  true,
+                                     false, false,  false,
                                      false, false, false,
                                      false, false,  false,
                                      false,  false,  false]</rosparam>
 
-      <param name="odom0_differential" value="true"/>
+      <param name="odom0_differential" value="false"/>
       <param name="odom1_differential" value="false"/>
       <param name="imu0_differential" value="false"/>
 
@@ -75,5 +84,5 @@
         <param name="debug" value="true" />
         <param name="debug_out_file" value="ekf_absolute" />
     </node>
-
+-->
 </launch>

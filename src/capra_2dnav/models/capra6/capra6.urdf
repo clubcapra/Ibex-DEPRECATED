@@ -167,7 +167,7 @@
             <topicName>fix</topicName>
             <updateRate>50</updateRate>
             <offset>0 0 0</offset>
-            <gaussianNoise>0 0.1 0</gaussianNoise>
+            <gaussianNoise>0.01 0.01 0</gaussianNoise>
             <referenceLatitude>45.501689</referenceLatitude>
             <referenceLongitude>-73.567256</referenceLongitude>
             <referenceHeading>0</referenceHeading>
@@ -178,13 +178,13 @@
             <frameId>odom</frameId>
             <topicName>imu_data</topicName>
             <updateRate>100</updateRate>
-            <headingGaussianNoise>0</headingGaussianNoise>
+            <headingGaussianNoise>0.1</headingGaussianNoise>
             <headingOffset>0</headingOffset>
             <headingDrift>0</headingDrift>
             <accelOffset>0 0 0</accelOffset>
             <accelDrift>0 0 0</accelDrift>
             <accelDriftFrequency>0 0 0 </accelDriftFrequency>
-            <accelGaussianNoise>0 0 0</accelGaussianNoise>
+            <accelGaussianNoise>0.05 0.05 0.05</accelGaussianNoise>
         </plugin>
 
     </gazebo>
