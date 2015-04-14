@@ -2,14 +2,16 @@
 import rospy
 from geometry_msgs.msg import PoseStamped
 from nav_msgs.msg import Odometry
-from sensor_msgs.msg import NavSatFix, Imu
+from sensor_msgs.msg import NavSatFix
 from capra_gps.srv import AddLatlongGoal
 
 pub_goal = None
 pub_convert = None
 sub_convert = None
 
+p = None
 def handle_xy_goal(req):
+    global p
     p = PoseStamped()
     p.header = req.header
     p.pose = req.pose.pose
@@ -21,7 +23,12 @@ def handle_xy_goal(req):
 def handle_add_latlong_goal(req):
     rospy.loginfo("Received GPS goal: " + str(req.goal_latlong.longitude) + ", " + str(req.goal_latlong.latitude))
     pub_convert.publish(req.goal_latlong)
-    return True
+    global p
+    while p is None:
+        rospy.sleep(0.1)
+    answer = p
+    p = None
+    return answer
 
 # Subscribe to gps fix and forward to the converter at the beginning
 def handle_fix(req):
