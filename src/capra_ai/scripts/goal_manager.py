@@ -91,7 +91,7 @@ class GoalManager():
         pose_msg = PoseStamped()
         pose_msg.header = msg.header
         pose_msg.pose.position = msg.point
-        # x = y = 0.7, z = w = 0
+        # x = y = 0.7, z = w = 0 -> doesn't work
         pose_msg.pose.orientation = Quaternion(w = 1)  # could be changed to the robot's current orientation
         self.addwaypoint(pose_msg)
 
