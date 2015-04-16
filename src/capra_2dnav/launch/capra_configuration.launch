@@ -1,6 +1,6 @@
 <launch>
   <arg name="lidar" default="1" />
-  <arg name="imu" default="1" />
+  <arg name="imu" default="0" />
   <arg name="motors" default="1" />  
   <arg name="gps" default="0" />
   <arg name="camera" default="0" />
