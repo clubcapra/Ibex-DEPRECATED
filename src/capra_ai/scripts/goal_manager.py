@@ -101,3 +101,4 @@ if __name__ == '__main__':
     try:
         GoalManager()
     except rospy.ROSInterruptException: pass
+
