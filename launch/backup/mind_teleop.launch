@@ -1,4 +1,0 @@
-<launch>
-  <include file="$(find capra_teleop)/launch/TeleopMind.launch" />
-  <include file="$(find animatics_smart_motor)/launch/SmartMotor.launch" />
-</launch>

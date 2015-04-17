@@ -1,0 +1,3 @@
+<launch>
+    <node name="state_ai" pkg="capra_ai" type="state_ai.py" output="screen" />
+</launch>

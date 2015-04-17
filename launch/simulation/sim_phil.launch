@@ -1,4 +1,9 @@
 <launch>
+    <!-- MOVE BASE -->
+    <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen">
+
+    </node>
+
     <!-- GAZEBO -->
     <include file="$(find capra_gazebo)/launch/Gazebo.launch">
         <arg name="gui" value="false" />
