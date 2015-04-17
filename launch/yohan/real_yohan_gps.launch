@@ -1,16 +1,14 @@
 <launch>
-    <!-- GAZEBO -->
-    <include file="$(find capra_gazebo)/launch/Gazebo.launch">
-        <arg name="gui" value="false" />
+    <include file="$(find capra_2dnav)/launch/capra_configuration.launch" >
+      <arg name="lidar" default="0" />
+      <arg name="imu" default="0" />
+      <arg name="motors" default="1" />
+      <arg name="gps" default="1" />
+      <arg name="camera" default="1" />
     </include>
 
     <!-- MOVING -->
-    <group>
-      <remap from="map" to="projected_map" />
-      <include file="$(find capra_2dnav)/launch/move_base.launch">
-        <arg name="context" value="indoors" />
-      </include>
-    </group>
+    <include file="$(find capra_teleop)/launch/Teleop.launch" />
 
     <!-- MAPPING -->
     <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
@@ -31,7 +29,5 @@
         <remap from="/latlong_goal_node/goal_xy" to="/move_base_simple/goal" />
         <include file="$(find capra_gps)/launch/latlong_goal.launch" />
     </group>
-
-
 
 </launch>
