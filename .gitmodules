@@ -13,3 +13,6 @@
 [submodule "src/seagoatvision_ros"]
 	path = src/seagoatvision_ros
 	url = https://github.com/clubcapra/seagoatvision_ros.git
+[submodule "src/vectornav"]
+	path = src/vectornav
+	url = https://github.com/dawonn/vectornav.git

@@ -12,6 +12,8 @@
       </include>
     </group>
 
+    <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen" />
+
     <!-- MAPPING
 
     <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" output="screen" >

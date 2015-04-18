@@ -26,7 +26,7 @@
   <group if="$(arg imu)">
     <!-- Ajouter le IMU au URDF et supprimer cette ligne -->
     <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0 0 3.14159 base_link imu 50" />
-    <include file="$(find microstrain_3dmgx1_imu)/launch/3DMGX1.launch" />
+    <include file="$(find capra_gps)/launch/Imu.launch" />
   </group>
     
   <!-- GPS -->
