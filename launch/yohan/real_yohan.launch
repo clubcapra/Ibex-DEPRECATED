@@ -1,8 +1,8 @@
 <launch>
     <include file="$(find capra_2dnav)/launch/capra_configuration.launch" />
 
-   <!-- AI or remote -->
-   <include file="$(find capra_teleop)/launch/Teleop.launch" />
+   <!-- AI or remote
+   <include file="$(find capra_teleop)/launch/Teleop.launch" />-->
 
     <!-- MOVING -->
     <group>
@@ -11,6 +11,8 @@
         <arg name="context" value="indoors" />
       </include>
     </group>
+
+    <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen" />
 
     <!-- MAPPING
 

@@ -1,10 +1,10 @@
 <launch>
     <include file="$(find capra_2dnav)/launch/capra_configuration.launch" >
       <arg name="lidar" default="0" />
-      <arg name="imu" default="0" />
+      <arg name="imu" default="1" />
       <arg name="motors" default="1" />
       <arg name="gps" default="1" />
-      <arg name="camera" default="1" />
+      <arg name="camera" default="0" />
     </include>
 
     <!-- MOVING -->

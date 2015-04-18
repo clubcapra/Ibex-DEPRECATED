@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Image2
+        - /Odometry2
       Splitter Ratio: 0.494536
     Tree Height: 502
   - Class: rviz/Selection
@@ -25,7 +26,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: PointCloud2
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -190,6 +191,7 @@ Visualization Manager:
       Transport Hint: compressed
       Value: false
       Visibility:
+        "": true
         Amcl pose array: true
         Current Goal: true
         Global Costmap: true
@@ -251,38 +253,18 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
-      Enabled: true
+      Enabled: false
       Links:
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        camera:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        laser:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pole:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
       Update Interval: 0
-      Value: true
+      Value: false
       Visual Enabled: true
     - Class: rviz/Image
       Enabled: true
@@ -343,6 +325,26 @@ Visualization Manager:
       Name: Map
       Topic: /projected_map
       Value: true
+    - Angle Tolerance: 0.1
+      Class: rviz/Odometry
+      Color: 255; 25; 0
+      Enabled: true
+      Keep: 100
+      Length: 0.5
+      Name: Odometry
+      Position Tolerance: 0.1
+      Topic: /odometry/gps
+      Value: true
+    - Angle Tolerance: 0.1
+      Class: rviz/Odometry
+      Color: 255; 25; 0
+      Enabled: false
+      Keep: 100
+      Length: 1
+      Name: Odometry
+      Position Tolerance: 0.1
+      Topic: /odom
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -365,22 +367,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 18.1564
+      Distance: 13.7193
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -5.06431
-        Y: 0.558192
+        X: 0.318531
+        Y: -2.77312
         Z: -4.21771e-06
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.5698
+      Pitch: 1.5648
       Target Frame: <Fixed Frame>
       Value: XYOrbit (rviz)
-      Yaw: 3.19358
+      Yaw: 4.71859
     Saved: ~
 Window Geometry:
   Camera:
@@ -402,5 +404,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1600
-  X: 268
+  X: 259
   Y: 19
