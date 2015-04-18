@@ -1,0 +1,11 @@
+<launch>
+    <arg name="waypoint_interval" default="1"/>
+    <arg name="input_bag_file" default="$(env IBEX_HOME)/bags/test.bag"/>
+    <arg name="output_json_location" default="$(env IBEX_HOME)/bags"/>
+
+    <node name="path_waypoint_generator" pkg="capra_ai" type="path_waypoint_generator.py" output="screen">
+        <param name="waypoint_interval" value="$(arg waypoint_interval)" />
+        <param name="input_bag_file"  value="$(arg input_bag_file)" />
+        <param name="output_json_location" value="$(arg output_json_location)" />
+    </node>
+</launch>
