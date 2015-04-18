@@ -37,7 +37,7 @@ class PathWaypointGenerator():
             topic, msg, t = supplies.next()
             p = msg.pose.pose.position
             previous = p
-            waypoints.append({'x':p.x, 'y': p.y, 'data':None})
+            waypoints.append({'x':p.x, 'y': p.y, 'gps':0, 'priorite':0})
         except StopIteration:
             return waypoints
 
@@ -45,7 +45,7 @@ class PathWaypointGenerator():
             p = msg.pose.pose.position
             lp = waypoints[-1]
             if self.distance_between(lp['x'], p.x, lp['y'], p.y) >= precision:
-                waypoints.append({'x':p.x, 'y': p.y, 'data':None})
+                waypoints.append({'x':p.x, 'y': p.y, 'gps':0, 'priorite':0})
 
         return waypoints
 
