@@ -8,7 +8,7 @@
             <origin rpy="1.57 0 1.57" xyz="0 0 0.2" />
         </visual>
         <inertial>
-            <mass value="1" />
+            <mass value="100" />
             <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
         </inertial>
         <collision>
@@ -103,6 +103,7 @@
                 </noise>
             </camera>
             <plugin name="camera_plugin" filename="libgazebo_ros_camera.so">
+                <cameraName>cam</cameraName>
                 <frameName>camera</frameName>
                 <imageTopicName>image_raw</imageTopicName>
                 <cameraInfoTopicName>camera_info</cameraInfoTopicName>
@@ -153,6 +154,7 @@
         <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
             <commandTopic>/cmd_vel</commandTopic>
             <odometryTopic>/odom</odometryTopic>
+            <odometryFrame>odom</odometryFrame>
             <odometryRate>20.0</odometryRate>
             <robotBaseFrame>base_footprint</robotBaseFrame>
         </plugin>
@@ -160,22 +162,29 @@
         <!-- see http://wiki.ros.org/hector_gazebo_plugins for gps and imu plugins-->
 
         <plugin name="gazebo_ros_gps" filename="libhector_gazebo_ros_gps.so" >
-            <offset x="0" y="0" z="0" />
-            <gaussianNoise x="0" y="0" z="0" />
+            <bodyName>base_link</bodyName>
+            <frameId>odom</frameId>
+            <topicName>fix</topicName>
+            <updateRate>50</updateRate>
+            <offset>0 0 0</offset>
+            <gaussianNoise>0.01 0.01 0</gaussianNoise>
             <referenceLatitude>45.501689</referenceLatitude>
             <referenceLongitude>-73.567256</referenceLongitude>
             <referenceHeading>0</referenceHeading>
-            <bodyName>base_link</bodyName>
-            <topicName>fix</topicName>
-            <updateRate>100</updateRate>
         </plugin>
 
         <plugin name="gazebo_ros_imu" filename="libhector_gazebo_ros_imu.so">
             <bodyName>base_link</bodyName>
-            <topicName>imu_data</topicName>
+            <frameId>odom</frameId>
+            <topicName>/imu/data</topicName>
             <updateRate>100</updateRate>
-            <headingGaussianNoise>0.0</headingGaussianNoise>
-            <headingOffset>0.0</headingOffset>
+            <headingGaussianNoise>0.1</headingGaussianNoise>
+            <headingOffset>0</headingOffset>
+            <headingDrift>0</headingDrift>
+            <accelOffset>0 0 0</accelOffset>
+            <accelDrift>0 0 0</accelDrift>
+            <accelDriftFrequency>0 0 0 </accelDriftFrequency>
+            <accelGaussianNoise>0.05 0.05 0.05</accelGaussianNoise>
         </plugin>
 
     </gazebo>
