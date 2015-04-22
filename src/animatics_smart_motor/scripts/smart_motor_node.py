@@ -98,7 +98,7 @@ if __name__ == "__main__":
                 rospy.sleep(0.5)
             else:
                 rospy.loginfo("Connected to the motors.")
-
+                motor_controller.set_velocity(last_vel.linear.x, last_vel.angular.z)
 
 
 

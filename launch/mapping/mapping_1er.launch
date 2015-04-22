@@ -1,0 +1,15 @@
+<launch>
+    <arg name="context" default="indoors" />
+    <include file="$(find capra_2dnav)/launch/capra_configuration.launch" />   
+
+   <include file="$(find capra_teleop)/launch/Teleop.launch" />
+
+    <node pkg="gmapping" type="slam_gmapping" name="slam_mapping" output="screen">
+      <param name="delta" value="0.025" />
+      <param name="scan" value="/scan_filtered" />
+    </node>
+
+    <!--RVIZ --> 
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
+
+</launch>

@@ -17,7 +17,7 @@ def callback(data):
 evt = Event()
 angle = 0.0
 rospy.init_node('fake_imu', anonymous=True)
-pub = rospy.Publisher('/imu_data', Imu, queue_size=10)
+pub = rospy.Publisher('/imu/data', Imu, queue_size=10)
 rospy.Subscriber("/pose2D", Pose2D, callback)
 
 while not rospy.is_shutdown():

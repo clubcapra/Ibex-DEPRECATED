@@ -2,14 +2,16 @@
 import rospy
 from geometry_msgs.msg import PoseStamped
 from nav_msgs.msg import Odometry
-from sensor_msgs.msg import NavSatFix, Imu
+from sensor_msgs.msg import NavSatFix
 from capra_gps.srv import AddLatlongGoal
 
 pub_goal = None
 pub_convert = None
 sub_convert = None
 
+p = None
 def handle_xy_goal(req):
+    global p
     p = PoseStamped()
     p.header = req.header
     p.pose = req.pose.pose
@@ -21,8 +23,14 @@ def handle_xy_goal(req):
 def handle_add_latlong_goal(req):
     rospy.loginfo("Received GPS goal: " + str(req.goal_latlong.longitude) + ", " + str(req.goal_latlong.latitude))
     pub_convert.publish(req.goal_latlong)
-    return True
+    global p
+    while p is None:
+        rospy.sleep(0.1)
+    answer = p
+    p = None
+    return answer
 
+# Subscribe to gps fix and forward to the converter at the beginning
 def handle_fix(req):
     global pub_convert
     pub_convert.publish(req)
@@ -34,9 +42,9 @@ class LatlongGoalTransformer:
 
         # send first (real) coordinates to converter.
         global pub_convert
-        pub_convert = rospy.Publisher("~latlong", NavSatFix, queue_size=10)
+        pub_convert = rospy.Publisher("~convert_latlong", NavSatFix, queue_size=10)
 
-        sub_convert = rospy.Subscriber("/gps/fix", NavSatFix, handle_fix)
+        sub_convert = rospy.Subscriber("/fix", NavSatFix, handle_fix)
         rospy.sleep(1)
         sub_convert.unregister()
         rospy.sleep(0.5)
@@ -44,7 +52,7 @@ class LatlongGoalTransformer:
 
         #stop listening to real gps and listen to topic to receive converted goals
         service = rospy.Service("~AddLatlongGoal", AddLatlongGoal, handle_add_latlong_goal)
-        rospy.Subscriber("~xy", Odometry, handle_xy_goal)
+        rospy.Subscriber("~convert_xy", Odometry, handle_xy_goal)
 
         global pub_goal
         pub_goal = rospy.Publisher("~goal_xy", PoseStamped, queue_size=10)

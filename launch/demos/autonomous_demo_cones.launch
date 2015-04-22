@@ -1,0 +1,11 @@
+<launch>
+  <include file="$(find capra_2dnav)/launch/capra_configuration.launch">
+    <arg name="imu" value="0" />
+  </include>
+
+  <include file="$(find capra_ai)/launch/LazyAI.launch">
+    <arg name="speed" value="0.5"/>
+  </include>
+
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(env IBEX_HOME)/rviz_cfg/demo_cones.rviz"/>
+</launch>

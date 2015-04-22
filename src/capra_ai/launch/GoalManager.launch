@@ -1,0 +1,6 @@
+<launch>
+
+    <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen">
+        
+    </node>
+</launch>

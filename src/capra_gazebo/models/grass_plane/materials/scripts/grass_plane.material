@@ -6,7 +6,7 @@ material grass_plane/Image
          {
              texture_unit
              {
-                 texture parcours2.jpg
+                 texture parcours.png
              }
          }
      } 

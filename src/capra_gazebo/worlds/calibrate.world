@@ -1,0 +1,167 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="default">
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <model name='cricket_ball_0'>
+        <pose>1 -0.5 0 0 -0 0</pose>
+        <link name='link'>
+          <collision name='collision'>
+            <geometry>
+              <sphere>
+                <radius>0.0375</radius>
+            </sphere>
+          </geometry>
+        </collision>
+          <visual name='visual'>
+            <geometry>
+              <sphere>
+                <radius>0.0375</radius>
+            </sphere>
+          </geometry>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Red</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+      <static>0</static>
+    </model>
+    <model name='cricket_ball_1'>
+        <pose>1 0.5 0 0 -0 0</pose>
+        <link name='link'>
+          <collision name='collision'>
+            <geometry>
+              <sphere>
+                <radius>0.0375</radius>
+            </sphere>
+          </geometry>
+        </collision>
+          <visual name='visual'>
+            <geometry>
+              <sphere>
+                <radius>0.0375</radius>
+            </sphere>
+          </geometry>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Red</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+      <static>0</static>
+    </model>
+    <model name='cricket_ball_2'>
+        <pose>2 -0.5 0 0 -0 0</pose>
+        <link name='link'>
+          <collision name='collision'>
+            <geometry>
+              <sphere>
+                <radius>0.0375</radius>
+            </sphere>
+          </geometry>
+        </collision>
+          <visual name='visual'>
+            <geometry>
+              <sphere>
+                <radius>0.0375</radius>
+            </sphere>
+          </geometry>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Red</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+      <static>0</static>
+    </model>
+    <model name='cricket_ball_3'>
+        <pose>2 0.5 0 0 -0 0</pose>
+        <link name='link'>
+          <collision name='collision'>
+            <geometry>
+              <sphere>
+                <radius>0.0375</radius>
+            </sphere>
+          </geometry>
+        </collision>
+          <visual name='visual'>
+            <geometry>
+              <sphere>
+                <radius>0.0375</radius>
+            </sphere>
+          </geometry>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Red</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+      <static>0</static>
+    </model>
+    <model name='cricket_ball_4'>
+        <pose>3 -0.5 0 0 -0 0</pose>
+        <link name='link'>
+          <collision name='collision'>
+            <geometry>
+              <sphere>
+                <radius>0.0375</radius>
+            </sphere>
+          </geometry>
+        </collision>
+          <visual name='visual'>
+            <geometry>
+              <sphere>
+                <radius>0.0375</radius>
+            </sphere>
+          </geometry>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Red</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+      <static>0</static>
+    </model>
+    <model name='cricket_ball_5'>
+        <pose>3 0.5 0 0 -0 0</pose>
+        <link name='link'>
+          <collision name='collision'>
+            <geometry>
+              <sphere>
+                <radius>0.0375</radius>
+            </sphere>
+          </geometry>
+        </collision>
+          <visual name='visual'>
+            <geometry>
+              <sphere>
+                <radius>0.0375</radius>
+            </sphere>
+          </geometry>
+            <material>
+              <script>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+                <name>Gazebo/Red</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+      <static>0</static>
+    </model>
+  </world>
+</sdf>

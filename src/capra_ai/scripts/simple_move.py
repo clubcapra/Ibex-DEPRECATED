@@ -11,9 +11,12 @@ pub = rospy.Publisher("/cmd_vel", Twist, queue_size=10)
 
 time.sleep(3)
 
-msg = Twist()
-msg.linear.x = 0.4
-msg.angular.z = 0.2
-pub.publish(msg)
+while not rospy.is_shutdown():
+    msg = Twist()
+    msg.linear.x = 0.4
+    msg.angular.z = 0.2
+    pub.publish(msg)
+
+    rospy.sleep(1)
 
 rospy.spin()
