@@ -19,11 +19,6 @@
     <node pkg="rosbag" type="play" name="rosbag" output="screen" args="-l /home/yohan/Ibex/bags/kalman/rect2.bag" >
         <remap from="/odom" to="/odometry/motors" />
     </node>
-    <node pkg="vectornav" type="imu_covariance.py" name="imu_covariance" output="screen">
-        <param name="magnetic_declination_radians" value="$(arg magnetic_declination_radians)" />
-        <remap from="vectornav/imu/orient" to="/imu/data" />
-        <remap from="vectornav/imu/orient_covariance" to="/imu/data_covariance" />
-    </node>
 
     <!--a
      <node pkg="capra_ai" name="simple_move" type="simple_move.py" />
@@ -41,21 +36,14 @@
 
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/kalman.rviz"/>
 
-    <!-- Position
+    <!-- Position -->
 
-    <include file="$(find capra_gps)/launch/gps_localization.launch" />-->
+    <include file="$(find capra_gps)/launch/gps_localization.launch" />
     <include file="$(find capra_2dnav)/launch/kalman.launch" />
 
-    <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" respawn="true">
-        <param name="magnetic_declination_radians" value="$(arg magnetic_declination_radians)"/>
-        <param name="roll_offset" value="0"/>
-        <param name="pitch_offset" value="0"/>
-        <param name="yaw_offset" value="0"/>
-        <param name="zero_altitude" value="false"/>
-        <param name="broadcast_utm_transform" value="false" />
-        <remap from="/odometry/filtered" to="/odometry/motors" />
-        <remap from="/imu/data" to="/imu/data" />
-    </node>
+    <include file="$(find capra_imu)/launch/Imu.launch" >
+        <arg name="magnetic_declination_radians" value="$(arg magnetic_declination_radians)" />
+    </include>
 
 
 </launch>

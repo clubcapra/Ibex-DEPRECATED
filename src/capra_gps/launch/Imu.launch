@@ -1,8 +1,0 @@
-<launch>
-
-    <include file="$(find vectornav)/launch/vn200.launch" />
-    <node pkg="vectornav" name="imu_msg" type="imu_msg.py" >
-        <remap from="vectornav/imu/orient_covariance" to="/imu/data" />
-    </node>
-
-</launch>

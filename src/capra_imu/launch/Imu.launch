@@ -1,0 +1,13 @@
+<launch>
+    <arg name="magnetic_declination_radians" default="0.0" />
+
+    <include file="$(find vectornav)/launch/vn200.launch" />
+
+    <node pkg="vectornav" name="imu_msg" type="imu_msg.py" >
+        <remap from="vectornav/imu/orient" to="/imu/raw" />
+    </node>
+
+    <node pkg="capra_imu" type="imu_wrapper.py" name="imu_wrapper" output="screen">
+        <param name="magnetic_declination_radians" value="$(arg magnetic_declination_radians)" />
+    </node>
+</launch>
