@@ -12,7 +12,7 @@
     <group>
       <remap from="map" to="projected_map" />
       <include file="$(find capra_2dnav)/launch/move_base.launch">
-        <arg name="context" value="indoors" />
+        <arg name="context" value="outdoors" />
       </include>
     </group>-->
 
@@ -27,7 +27,7 @@
 
     <!-- localization -->
 
-    <include file="$(find capra_gps)/launch/GpsGoals.launch" />
+    <include file="$(find capra_gps)/launch/latlong_goal.launch" />
     <include file="$(find capra_2dnav)/launch/kalman.launch" />
 
     <!--RVIZ  -->

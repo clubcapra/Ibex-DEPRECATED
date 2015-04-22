@@ -26,7 +26,7 @@ class WaypointOrientation:
         self.next_waypoint_publisher = rospy.Publisher("next_waypoint", Pose)
         #self.robot_pose_subscriber = rospy.Subscriber('/robot_pose_ekf/odom', PoseWithCovarianceStamped, self._kalman_listener)
         self.imu_datum_subscriber = rospy.Subscriber('/imu_datum', Imu, self._imu_datum_listener)
-        self.imu_data_subscriber = rospy.Subscriber('/imu_data', Imu, self._imu_data_listener)
+        self.imu_data_subscriber = rospy.Subscriber('/imu/data', Imu, self._imu_data_listener)
         self.enu_datum_subscriber = rospy.Subscriber('/gps/enu_datum', NavSatFix, self._enu_datum_listener)
         self.enu_subscriber = rospy.Subscriber('/gps/enu', Odometry, self._enu_listener)
 

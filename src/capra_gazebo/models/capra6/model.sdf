@@ -78,7 +78,7 @@
         <plugin name="imu" filename="libgazebo_ros_imu.so">
             <bodyName>chassis</bodyName>
             <robotNamespace>capra6</robotNamespace>
-            <topicName>/imu_data</topicName>
+            <topicName>/imu/data</topicName>
         </plugin>
         <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
             <commandTopic>/cmd_vel</commandTopic>

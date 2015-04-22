@@ -153,7 +153,7 @@
     <gazebo>
         <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
             <commandTopic>/cmd_vel</commandTopic>
-            <odometryTopic>/odometry/motors</odometryTopic>
+            <odometryTopic>/odom</odometryTopic>
             <odometryFrame>odom</odometryFrame>
             <odometryRate>20.0</odometryRate>
             <robotBaseFrame>base_footprint</robotBaseFrame>
@@ -176,7 +176,7 @@
         <plugin name="gazebo_ros_imu" filename="libhector_gazebo_ros_imu.so">
             <bodyName>base_link</bodyName>
             <frameId>odom</frameId>
-            <topicName>imu_data</topicName>
+            <topicName>/imu/data</topicName>
             <updateRate>100</updateRate>
             <headingGaussianNoise>0.1</headingGaussianNoise>
             <headingOffset>0</headingOffset>

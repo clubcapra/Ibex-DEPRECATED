@@ -11,7 +11,7 @@
 
       <param name="odom0" value="/odometry/motors"/>
       <param name="odom1" value="/odometry/gps" />
-      <param name="imu0" value="/imu_data"/> 
+      <param name="imu0" value="/imu/data"/>
 
       <!-- Each sensor reading updates some or all of the filter's state. These options give you greater control over
            which values from each measurement are fed to the filter. For example, if you have an odometry message as input,
