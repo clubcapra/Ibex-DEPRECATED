@@ -103,7 +103,7 @@
                 </noise>
             </camera>
             <plugin name="camera_plugin" filename="libgazebo_ros_camera.so">
-                <cameraName>cam</cameraName>
+                <cameraName></cameraName>
                 <frameName>camera</frameName>
                 <imageTopicName>image_raw</imageTopicName>
                 <cameraInfoTopicName>camera_info</cameraInfoTopicName>
