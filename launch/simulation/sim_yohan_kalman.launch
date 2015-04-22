@@ -16,7 +16,7 @@
       </include>
     </group>-->
 
-    <node pkg="rosbag" type="play" name="rosbag" output="screen" args="-l /home/yohan/Ibex/bags/kalman/rect2.bag" >
+    <node pkg="rosbag" type="play" name="rosbag" output="screen" args="-l /home/yohan/Ibex/bags/kalman/rect.bag" >
         <remap from="/odom" to="/odometry/motors" />
     </node>
 
@@ -38,12 +38,6 @@
 
     <!-- Position -->
 
-    <include file="$(find capra_gps)/launch/gps_localization.launch" />
     <include file="$(find capra_2dnav)/launch/kalman.launch" />
-
-    <include file="$(find capra_imu)/launch/Imu.launch" >
-        <arg name="magnetic_declination_radians" value="$(arg magnetic_declination_radians)" />
-    </include>
-
 
 </launch>
