@@ -33,7 +33,7 @@ class GoalLoader():
 
     def send(self):
         # publish on /goal_manager/waypoint in order of file
-        self.pose_pub('/goal_manager/waypoint', PoseStamped, queue_size = 10)
+        self.pose_pub = rospy.Publisher('/goal_manager/waypoint', PoseStamped, queue_size = 10)
         for pose_msg in self.msgs:
             self.pose_pub.publish(pose_msg)
 
