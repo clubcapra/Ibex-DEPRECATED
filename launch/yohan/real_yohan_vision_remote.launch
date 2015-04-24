@@ -1,0 +1,50 @@
+<launch>
+  <arg name="computer_topic" value="/cmd_vel_computer"/>
+  <arg name="remote_topic" value="/cmd_vel_remote"/>
+
+  <include file="$(find capra_2dnav)/launch/capra_configuration.launch" >
+    <arg name="lidar" default="0" />
+    <arg name="imu" default="0" />
+    <arg name="motors" default="1" />
+    <arg name="gps" default="0" />
+    <arg name="camera" default="0" />
+  </include>
+
+  <group>
+    <remap from="/cmd_vel" to="$(arg remote_topic)" />      
+    <include file="$(find capra_teleop)/launch/Teleop.launch"/>
+  </group>
+
+  <group>
+    <remap from="/cmd_vel" to="$(arg computer_topic)" />
+    <include file="$(find capra_2dnav)/launch/move_base.launch">
+      <arg name="context" value="indoors" />
+    </include>
+  </group>
+  <!-- MAPPING -->
+  <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
+    <remap from="cloud" to="cloud_in" />
+  </node>
+
+  <include file="$(find capra_2dnav)/launch/octomap.launch" >
+
+  </include>
+
+  <!--<remap from="projected_map" to="map" />-->
+  <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
+
+  <!-- VISION -->
+  <include file="$(find seagoatvision_ros)/launch/Seagoat.launch" >
+    <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/indoors.filterchain" />
+    <arg name="gui" value="False" />
+    <arg name="calibration_file" default="$(find seagoatvision_ros)/filterchain/calibrate-real.filterchain" />
+  </include>
+
+  <!--RVIZ  -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
+
+  <include file="$(find capra_controlpanel)/launch/velproxy.launch">
+    <arg name="computer_topic" value="$(arg computer_topic)"/>
+    <arg name="remote_topic" value="$(arg remote_topic)"/>
+  </include>
+</launch>
