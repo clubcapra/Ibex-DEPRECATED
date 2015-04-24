@@ -1,0 +1,7 @@
+<launch>
+    <arg name="output_location" default="$(env IBEX_HOME)/bags/"/>
+
+    <node name="gps_waypoint_generator" pkg="capra_ai" type="gps_waypoint_generator.py" output="screen">
+        <param name="output_location" value="$(arg output_location)" />
+    </node>
+</launch>
