@@ -21,7 +21,7 @@ ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAV", SYMLINK+="ttyUSB1001" # Imu
 ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAT", SYMLINK+="ttyUSB1002" # GPS
 ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAS", SYMLINK+="ttyUSB1003" # Defect
 ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAQ", SYMLINK+="ttyUSB1004" # Moteurs
-ATTRS{idProduct}=="0002", ATTRS{serial}=="0000:00:14.0", SYMLINK+="ttyUSB2000" #IMU
+ATTRS{idProduct}=="6001", ATTRS{serial}=="FTXWKTSJ", SYMLINK+="ttyUSB2000" #IMU
 
 GOTO="persistent_serial_end"
 
