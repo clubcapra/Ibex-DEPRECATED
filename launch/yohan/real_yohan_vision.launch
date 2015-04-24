@@ -1,14 +1,13 @@
 <launch>
 
     <include file="$(find capra_2dnav)/launch/capra_configuration.launch" >
-      <arg name="lidar" default="0" />
+      <arg name="lidar" default="1" />
       <arg name="imu" default="0" />
       <arg name="motors" default="1" />
       <arg name="gps" default="0" />
       <arg name="camera" default="1" />
     </include>
 
-    <include file="$(find capra_teleop)/launch/Teleop.launch" />
 
     <include file="$(find capra_2dnav)/launch/move_base.launch">
         <arg name="context" value="indoors" />
@@ -23,15 +22,25 @@
 
     </include>
 
+    <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen" />
+
     <!--<remap from="projected_map" to="map" />-->
     <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
 
     <!-- VISION -->
     <include file="$(find seagoatvision_ros)/launch/Seagoat.launch" >
         <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/indoors.filterchain" />
-        <arg name="gui" value="True" />
+        <arg name="gui" value="False" />
         <arg name="calibration_file" default="$(find seagoatvision_ros)/filterchain/calibrate-real.filterchain" />
     </include>
+
+
+    <node pkg="amcl" type="amcl" name="amcl_node" >
+        <rosparam param="use_map_topic" >true</rosparam>
+        <rosparam param="initial_pose_x" >0</rosparam>
+        <rosparam param="initial_pose_y" >0</rosparam>
+        <rosparam param="initial_pose_a" >0</rosparam>
+     </node>
 
     <!--RVIZ  -->
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
