@@ -5,7 +5,8 @@ import json
 import os
 import datetime
 import threading
-from nav_msgs.msg import Odometry
+import copy
+from sensor_msgs.msg import NavSatFix
 
 class GpsWaypointGenerator():
 
@@ -19,62 +20,56 @@ class GpsWaypointGenerator():
 
 
         if os.path.isdir(self.path): #If it's a path to a directory
-            self.path = os.path.join(self.path, datetime.datetime.now().strftime("%Y%m%d%H%M") + "-gps.json") #We generate a file name
+            self.path = os.path.join(self.path, datetime.datetime.now().strftime("%Y%m%d%H%M") + "-gps.json") #We provide a file name
 
 
         if not os.path.exists(self.path): #If the file doesn't exist
             with open(self.path, 'w') as c: # We create it
                 pass
 
-        self.gps_subscriber = rospy.Subscriber("/fix", Odometry, self.callback)
+        self.gps_subscriber = rospy.Subscriber("/fix", NavSatFix, self.callback)
 
 
 
 
     def callback(self, data):
-        rospy.loginfo("I heard %s", data.data)
-
         self.lock.acquire()
         self.currentData = data
         self.lock.release()
 
 
-    def keep(self, data):
+    def keep(self):
+
+        self.lock.acquire()
+        data = copy.copy(self.currentData)
+        self.currentData = None
+        self.lock.release()
+
         if data == None:
             rospy.loginfo("No GPS data")
             return
 
-        rospy.loginfo(data.data)
-        self.waypoints.append({'x': 0, 'y': 0, 'gps':1, 'priorite':0}) # TODO: Put real values here.
+        self.waypoints.append({'x': data.latitude, 'y': data.longitude, 'gps':1, 'priorite':0})
         self.file.seek(0)
-        self.write(json.dumps(self.waypoints))
-        self.truncate()
+        self.file.write(json.dumps(self.waypoints))
+        self.file.truncate()
 
 
 
     def start(self):
-
-        # Read and parse JSON waypoints already stored in the file - from a previous session
+        # Read and parse JSON waypoints already stored in a previous session
         self.file = open(self.path, 'r+')
         rawjson = self.file.read().strip()
         if len(rawjson) != 0:
             waypoints = json.loads(rawjson)
 
-
-
-        while True:
+        while not rospy.is_shutdown():
             cmd = raw_input("Press [ENTER] (or Q + [ENTER] to exit): ")
             if cmd.upper() == "Q":
                 break
 
-            self.lock.acquire()
-            safe = self.currentData
-            self.lock.release()
-
-            self.keep(safe)
-
-
-
+            self.keep()
+            rospy.sleep(1.)
 
 if __name__ == "__main__":
     g = GpsWaypointGenerator()
