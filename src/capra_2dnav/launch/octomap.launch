@@ -8,5 +8,7 @@
     <!-- maximum range to integrate (speedup!) -->
     <param name="sensor_model/max_range" value="6.0" />
     <param name="latch" value="true" />
+
+    <remap from="/projected_map" to="/map" />
   </node>
 </launch>

@@ -11,7 +11,7 @@
 
       <param name="odom0" value="/odom"/>
       <param name="odom1" value="/odometry/gps" />
-      <param name="imu0" value="/imu/data_covariance"/>
+      <param name="imu0" value="/imu/data"/>
 
         <!--
         x, y, z,
@@ -27,7 +27,7 @@
                                       false, false, false,
                                       false, false, false]</rosparam>
 
-      <rosparam param="odom1_config">[true, true, false,
+      <rosparam param="odom1_config">[false, false, false,
                                       false, false, false,
                                       false, false, false,
                                       false, false, false,

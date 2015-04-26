@@ -13,8 +13,8 @@ class GoalLoader():
         rospy.sleep(3.0) # wait for move_base to be ready
         self.msgs = []
         self.pose_pub = rospy.Publisher('/goal_manager/waypoint', PoseStamped, queue_size = 10)
-        #file_name = rospy.get_name() + '/file'
-        file_path = "/home/yohan/Ibex/bags/201504261136-gps.json"
+        file_name = rospy.get_name() + '/file'
+        file_path = rospy.get_param("~file")
         rospy.loginfo("Fetching waypoint data from: %s" % file_path)
         with open(file_path) as data_file:
             self.data = json.load(data_file)

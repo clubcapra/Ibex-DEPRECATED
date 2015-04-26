@@ -16,13 +16,13 @@
         <arg name="context" value="indoors" />
       </include>
     </group>-->
-     <node pkg="capra_teleop" name="capra_teleop" type="teleop.py" output="screen" />
 
+    <include file="$(find capra_teleop)/launch/Teleop.launch"/>
 
     <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
 
     <!--RVIZ  -->
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/record_waypoint.rviz"/>
 
     <!-- Localization-->
     <group>

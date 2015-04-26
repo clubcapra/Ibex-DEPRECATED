@@ -27,7 +27,7 @@ class GpsWaypointGenerator():
             with open(self.path, 'w') as c: # We create it
                 pass
 
-        self.gps_subscriber = rospy.Subscriber("/fix", NavSatFix, self.callback)
+        self.gps_subscriber = rospy.Subscriber("/gps/fix", NavSatFix, self.callback)
 
 
 
@@ -72,5 +72,8 @@ class GpsWaypointGenerator():
             rospy.sleep(1.)
 
 if __name__ == "__main__":
-    g = GpsWaypointGenerator()
-    g.start()
+    try:
+        g = GpsWaypointGenerator()
+        g.start()
+    except rospy.ROSInterruptException:
+        pass

@@ -5,7 +5,7 @@
       <arg name="imu" default="1" />
       <arg name="motors" default="1" />
       <arg name="gps" default="1" />
-      <arg name="camera" default="1" />
+      <arg name="camera" default="0" />
     </include>
 
     <!-- MOVING

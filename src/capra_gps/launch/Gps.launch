@@ -4,7 +4,7 @@
   <!-- NavSat serial comms -->
   <group ns="gps">
     <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="nmea_serial_node">
-      <param name="port" value="/dev/ttyUSB1" />
+      <param name="port" value="/dev/ttyUSB1001" />
       <param name="baud" value="9600" />
     </node>
 
