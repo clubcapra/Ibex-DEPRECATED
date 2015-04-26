@@ -110,23 +110,23 @@ Visualization Manager:
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 0; 255; 0
-      Enabled: false
+      Enabled: true
       Keep: 0
       Length: 0.5
       Name: Odometry GPS
       Position Tolerance: 0.1
       Topic: /odometry/gps
-      Value: false
+      Value: true
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 0; 85; 255
-      Enabled: false
+      Enabled: true
       Keep: 0
       Length: 0.5
       Name: Odometry Motors
       Position Tolerance: 0.1
       Topic: /odom
-      Value: false
+      Value: true
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 255; 25; 0
@@ -198,7 +198,7 @@ Visualization Manager:
       Pitch: 1.2748
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.36039
+      Yaw: 4.37039
     Saved: ~
 Window Geometry:
   Displays:

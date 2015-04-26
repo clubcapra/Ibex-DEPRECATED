@@ -19,7 +19,7 @@ def imu_cb(msg):
     msg_imu = msg
 
     # Change frame id
-    msg_imu.header.frame_id = "base_footprint"
+    msg_imu.header.frame_id = "imu"
 
     # Add covariance
     msg_imu.orientation_covariance = [1.0, 0.0, 0.0,
@@ -29,7 +29,7 @@ def imu_cb(msg):
     euler = tf.transformations.euler_from_quaternion([msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w])
 
     # Add magnetic declination and invert direction for compatibility with localization
-    new_yaw = -(euler[2] - declination) + math.pi/2
+    new_yaw = -(euler[2] - declination)
 
     # normalize and convert to quaternion
     if new_yaw >= math.pi:
@@ -43,7 +43,7 @@ def imu_cb(msg):
     msg_imu.orientation = Quaternion(quaternion[0], quaternion[1], quaternion[2], quaternion[3])
 
     # publish
-    pub_imu.publish(msg)
+    pub_imu.publish(msg_imu)
 
     # Publish a pose with the imu orientation
     p = PoseStamped()

@@ -11,13 +11,16 @@
   </group>
 
     <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" respawn="true">
-        <param name="magnetic_declination_radians" value="$(arg magnetic_declination_radians)"/>
+        <param name="magnetic_declination_radians" value="0"/>
         <param name="roll_offset" value="0"/>
         <param name="pitch_offset" value="0"/>
         <param name="yaw_offset" value="0"/>
-        <param name="zero_altitude" value="false"/>
+        <param name="zero_altitude" value="true"/>
         <param name="broadcast_utm_transform" value="false" />
+        <param name="use_odometry_yaw" value="false" />
         <remap from="/odometry/filtered" to="/odom" />
+        <remap from="/imu/data" to="/imu/data" />
+
     </node>
 
 </launch>

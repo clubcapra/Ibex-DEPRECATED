@@ -16,7 +16,7 @@
   <!-- Motors -->
   <group if="$(arg motors)">  
     <include file="$(find animatics_smart_motor)/launch/SmartMotor.launch" />
-    <include file="$(find animatics_smart_motor)/launch/OdomToTf.launch" />
+    <!--<include file="$(find animatics_smart_motor)/launch/OdomToTf.launch" />-->
   </group>
 
   <!-- LIDAR -->
@@ -27,7 +27,6 @@
   <!-- IMU -->
   <group if="$(arg imu)">
     <!-- Ajouter le IMU au URDF et supprimer cette ligne -->
-    <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0 0 3.14159 base_link imu 50" />
     <include file="$(find capra_imu)/launch/Imu.launch" >
         <arg name="magnetic_declination_radians" value="$(arg magnetic_declination_radians)" />
     </include>

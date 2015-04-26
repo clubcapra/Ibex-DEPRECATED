@@ -4,7 +4,9 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /Global Options1
         - /Image2
+        - /Pose1
       Splitter Ratio: 0.560091
     Tree Height: 421
   - Class: rviz/Selection
@@ -190,6 +192,7 @@ Visualization Manager:
       Transport Hint: compressed
       Value: false
       Visibility:
+        "": true
         Amcl pose array: true
         Current Goal: true
         Future: true
@@ -252,38 +255,18 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
-      Enabled: true
+      Enabled: false
       Links:
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        camera:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        laser:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        pole:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
       Update Interval: 0
-      Value: true
+      Value: false
       Visual Enabled: true
     - Class: rviz/Image
       Enabled: true
@@ -425,10 +408,34 @@ Visualization Manager:
       Queue Size: 2
       Transport Hint: compressed
       Value: true
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.1
+      Class: rviz/Pose
+      Color: 255; 255; 255
+      Enabled: true
+      Head Length: 0.3
+      Head Radius: 0.1
+      Name: Pose
+      Shaft Length: 1
+      Shaft Radius: 0.05
+      Shape: Arrow
+      Topic: /imu/pose
+      Value: true
+    - Angle Tolerance: 0.1
+      Class: rviz/Odometry
+      Color: 255; 25; 0
+      Enabled: true
+      Keep: 100
+      Length: 1
+      Name: Odometry
+      Position Tolerance: 0.1
+      Topic: /odometry/gps
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: map
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
@@ -459,10 +466,10 @@ Visualization Manager:
         Z: -8.03241e-06
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.7248
+      Pitch: 1.2098
       Target Frame: <Fixed Frame>
       Value: XYOrbit (rviz)
-      Yaw: 5.28359
+      Yaw: 4.48859
     Saved: ~
 Window Geometry:
   Camera:
