@@ -10,22 +10,34 @@ from capra_gps.srv import AddLatlongGoal
 class GoalLoader():
 
     def __init__(self):
+        rospy.sleep(3.0) # wait for move_base to be ready
         self.msgs = []
-        file_path = rospy.get_param('file')
+        self.pose_pub = rospy.Publisher('/goal_manager/waypoint', PoseStamped, queue_size = 10)
+        #file_name = rospy.get_name() + '/file'
+        file_path = "/home/yohan/Ibex/bags/201504261136-gps.json"
+        rospy.loginfo("Fetching waypoint data from: %s" % file_path)
         with open(file_path) as data_file:
             self.data = json.load(data_file)
         self.parse()
         self.send()
+        rate = rospy.Rate(10)
+        while not rospy.is_shutdown():
+            rate.sleep()
 
     def parse(self):
-        rospy.wait_for_service('/latlong_goal_node/AddLatLongGoal')
-        convert_to_latlong = rospy.ServiceProxy('/latlong_goal_node/AddLatLongGoal', AddLatlongGoal)
+        rospy.loginfo("Waiting for AddLatLongGoal service...")
+        rospy.wait_for_service('/latlong_goal_node/AddLatlongGoal')
+        rospy.loginfo("AddLatLongGoal service responded")
+        self.latlong_service = rospy.ServiceProxy('/latlong_goal_node/AddLatlongGoal', AddLatlongGoal)
+        rospy.loginfo("AddLatLongGoal service is up")
         for point in self.data:
+            rospy.loginfo("Point is %s" % str(point))
             if point['gps'] == 1:
                 pose_msg = self.gpstopose(point)
-                self.msgs.append(pose_msg, convert_to_latlong)
+                self.msgs.append(pose_msg)
             else:
                 pose_msg = PoseStamped()
+                pose_msg.header.frame_id = 'odom'
                 pose_msg.pose.position.x = point['x']
                 pose_msg.pose.position.y = point['y']
                 pose_msg.pose.orientation = Quaternion(w = 1)
@@ -33,22 +45,23 @@ class GoalLoader():
 
     def send(self):
         # publish on /goal_manager/waypoint in order of file
-        self.pose_pub = rospy.Publisher('/goal_manager/waypoint', PoseStamped, queue_size = 10)
+        rospy.loginfo("Publishing %i points on %s" % (len(self.msgs), "/goal_manager/waypoint"))
         for pose_msg in self.msgs:
             self.pose_pub.publish(pose_msg)
 
-    def gpstopose(self, coords, convert_to_latlong):
+    def gpstopose(self, coords):
         # create NavSatFix msg
         nav_msg = NavSatFix()
         nav_msg.header.stamp = rospy.get_rostime()
         nav_msg.header.frame_id = 'odom'
         # x is longitude, y is latitude
-        nav_msg.longitude = coords['x']
-        nav_msg.latitude = coords['y']
+        nav_msg.longitude = coords['y']
+        nav_msg.latitude = coords['x']
         # convert using /latlong_goal_node/AddLatLongGoal service
         # returns PoseStamped
-        pose_msg = convert_to_latlong(nav_msg)
-        return pose_msg
+        response = self.latlong_service(nav_msg)
+        rospy.loginfo("Converted NavSatFix to PoseStamped -> (%f, %f)" % (coords['x'], coords['y']))
+        return response.goal_xy
 
 
 if __name__ == '__main__':

@@ -25,6 +25,7 @@ class GoalManager():
     def loop(self):
         rate = rospy.Rate(10)
         # wait for the first goal, because the publisher waits for a success to publish the next one
+        # blocking
         self.waitforgoal()
         self.nextgoal()
         while not rospy.is_shutdown():

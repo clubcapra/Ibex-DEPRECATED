@@ -4,6 +4,12 @@
         <arg name="gui" value="false" />
     </include>
 
+        <!-- GOAL LOADER -->
+    <node name="goal_loader" pkg="capra_ai" type="goal_loader.py" output="screen">
+        <param name="file" value="$(find capra_ai)/../../bags/loader_test.json" />
+    </node>
+    <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen" />
+
     <!-- MOVING -->
     <group>
       <remap from="map" to="projected_map" />
@@ -26,9 +32,9 @@
 
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
 
-    <!-- Localization -->
+    <!-- Localization-->
     <group>
-        <remap from="/latlong_goal_node/goal_xy" to="/move_base_simple/goal" />
+        <!--<remap from="/latlong_goal_node/goal_xy" to="/move_base_simple/goal" />-->
         <include file="$(find capra_gps)/launch/latlong_goal.launch" />
     </group>
 
