@@ -1,0 +1,13 @@
+material igvc_basic_course_plane/Image
+{
+     technique
+     {
+         pass
+         {
+             texture_unit
+             {
+                 texture IgvcBasicCourse.jpg
+             }
+         }
+     } 
+}
