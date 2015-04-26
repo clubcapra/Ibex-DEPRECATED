@@ -8,6 +8,7 @@ import rospy
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Joy
 import rospkg
+import subprocess
 
 try:
     import pygame
@@ -25,15 +26,27 @@ BACKWARDS = 2
 SPINNING = 3
 STOPPED = 4
 
-buttons = {"left": "axes:6:+",
-           "right": "axes:6:-",
-           "accelerate": "axes:7:+",
-           "deccelerate": "axes:7:-",
-           "forward": "buttons:0",
-           "backwards": "buttons:1",
-           "spin_left": "buttons:4",
-           "spin_right": "buttons:5",
-           "horn": "buttons:8"}
+
+if '046d:c21a' in subprocess.check_output(['lsusb']):
+    buttons = {"left": "axes:0:+",
+               "right": "axes:0:-",
+               "accelerate": "axes:1:+",
+               "deccelerate": "axes:1:-",
+               "forward": "buttons:1",
+               "backwards": "buttons:2",
+               "spin_left": "buttons:4",
+               "spin_right": "buttons:5",
+               "horn": "buttons:8"}
+else:
+    buttons = {"left": "axes:6:+",
+               "right": "axes:6:-",
+               "accelerate": "axes:7:+",
+               "deccelerate": "axes:7:-",
+               "forward": "buttons:0",
+               "backwards": "buttons:1",
+               "spin_left": "buttons:4",
+               "spin_right": "buttons:5",
+               "horn": "buttons:8"}
 
 linear_increment = 0.1
 max_linear_vel = 2.0
