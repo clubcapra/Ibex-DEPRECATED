@@ -1,0 +1,35 @@
+<launch>
+    <include file="$(find capra_2dnav)/launch/capra_configuration.launch" >
+      <arg name="lidar" default="0" />
+      <arg name="imu" default="1" />
+      <arg name="motors" default="1" />
+      <arg name="gps" default="1" />
+      <arg name="camera" default="0" />
+    </include>
+
+    <include file="$(find capra_ai)/launch/GPSWaypointGenerator.launch" />
+
+    <!-- MOVING
+    <group>
+      <remap from="map" to="projected_map" />
+      <include file="$(find capra_2dnav)/launch/move_base.launch">
+        <arg name="context" value="indoors" />
+      </include>
+    </group>-->
+     <node pkg="capra_teleop" name="capra_teleop" type="teleop.py" output="screen" />
+
+
+    <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
+
+    <!--RVIZ  -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
+
+    <!-- Localization-->
+    <group>
+        <!--<remap from="/latlong_goal_node/goal_xy" to="/move_base_simple/goal" />-->
+        <include file="$(find capra_gps)/launch/latlong_goal.launch" />
+    </group>
+
+
+
+</launch>
