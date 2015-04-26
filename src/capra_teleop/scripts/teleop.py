@@ -25,12 +25,12 @@ BACKWARDS = 2
 SPINNING = 3
 STOPPED = 4
 
-buttons = {"left": "axes:0:+",
-           "right": "axes:0:-",
-           "accelerate": "axes:1:+",
-           "deccelerate": "axes:1:-",
-           "forward": "buttons:1",
-           "backwards": "buttons:2",
+buttons = {"left": "axes:6:+",
+           "right": "axes:6:-",
+           "accelerate": "axes:7:+",
+           "deccelerate": "axes:7:-",
+           "forward": "buttons:0",
+           "backwards": "buttons:1",
            "spin_left": "buttons:4",
            "spin_right": "buttons:5",
            "horn": "buttons:8"}
