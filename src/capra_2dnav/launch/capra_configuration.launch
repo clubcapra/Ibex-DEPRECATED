@@ -5,8 +5,6 @@
   <arg name="gps" default="0" />
   <arg name="camera" default="0" />
 
-  <arg name="magnetic_declination_radians" value="-0.25" />
-
   <!-- Robot and TF -->
   <arg name="robot_description" value="$(find capra_2dnav)/models/capra6/capra6.urdf" />
   <node pkg="tf" type="static_transform_publisher" name="footprint_broadcaster" args="0 0 0 0 0 0 base_footprint base_link 50" />
@@ -26,10 +24,7 @@
 
   <!-- IMU -->
   <group if="$(arg imu)">
-    <!-- Ajouter le IMU au URDF et supprimer cette ligne -->
-    <include file="$(find capra_imu)/launch/Imu.launch" >
-        <arg name="magnetic_declination_radians" value="$(arg magnetic_declination_radians)" />
-    </include>
+    <include file="$(find capra_imu)/launch/Imu.launch" />
   </group>
     
   <!-- GPS -->

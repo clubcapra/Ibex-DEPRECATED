@@ -2,13 +2,14 @@
     <!-- GAZEBO -->
     <include file="$(find capra_gazebo)/launch/Gazebo.launch">
         <arg name="gui" value="false" />
+         <arg name="initial_position" default="-x 0 -y 0 -rpy 1.6" />
     </include>
 
-        <!-- GOAL LOADER -->
+        <!-- GOAL LOADER
     <node name="goal_loader" pkg="capra_ai" type="goal_loader.py" output="screen">
         <param name="file" value="$(find capra_ai)/../../bags/loader_test.json" />
     </node>
-    <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen" />
+    <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen" />-->
 
     <!-- MOVING -->
     <group>

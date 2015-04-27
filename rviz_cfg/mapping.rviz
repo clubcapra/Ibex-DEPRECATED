@@ -96,19 +96,47 @@ Visualization Manager:
       Topic: /odom
       Value: false
     - Class: rviz/TF
-      Enabled: false
+      Enabled: true
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        base_footprint:
+          Value: true
+        base_link:
+          Value: true
+        camera:
+          Value: true
+        imu:
+          Value: true
+        laser:
+          Value: true
+        map:
+          Value: true
+        odom:
+          Value: true
+        pole:
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        {}
+        base_footprint:
+          base_link:
+            camera:
+              {}
+            imu:
+              {}
+            laser:
+              {}
+            pole:
+              {}
+        odom:
+          map:
+            {}
       Update Interval: 0
-      Value: false
+      Value: true
     - Alpha: 0.7
       Class: rviz/Map
       Color Scheme: map
@@ -192,7 +220,6 @@ Visualization Manager:
       Transport Hint: compressed
       Value: false
       Visibility:
-        "": true
         Amcl pose array: true
         Current Goal: true
         Future: true
@@ -206,6 +233,7 @@ Visualization Manager:
         Octomap on /map: true
         Odometry: true
         PointCloud2: true
+        Pose: true
         Robot base: true
         RobotModel: true
         TF: true
@@ -435,7 +463,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: odom
+    Fixed Frame: base_footprint
     Frame Rate: 30
   Name: root
   Tools:
@@ -454,7 +482,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 12.8973
+      Distance: 11.3496
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -466,10 +494,10 @@ Visualization Manager:
         Z: -8.03241e-06
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.2098
+      Pitch: 1.5698
       Target Frame: <Fixed Frame>
       Value: XYOrbit (rviz)
-      Yaw: 4.48859
+      Yaw: 4.72859
     Saved: ~
 Window Geometry:
   Camera:
