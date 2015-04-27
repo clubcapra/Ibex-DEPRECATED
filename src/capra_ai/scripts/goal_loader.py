@@ -2,6 +2,7 @@
 
 import json
 import rospy
+import os.path
 from geometry_msgs.msg import PoseStamped, Quaternion
 from sensor_msgs.msg import NavSatFix
 from capra_gps.srv import AddLatlongGoal
@@ -16,8 +17,18 @@ class GoalLoader():
         file_name = rospy.get_name() + '/file'
         file_path = rospy.get_param("~file")
         rospy.loginfo("Fetching waypoint data from: %s" % file_path)
+
+        if not os.path.isfile(file_path):
+            rospy.logerr("File does not exist: " + file_path)
+            exit()
+
         with open(file_path) as data_file:
-            self.data = json.load(data_file)
+            try:
+                self.data = json.load(data_file)
+            except:
+                rospy.logerr("Unable to parse JSON file : " + file_path)
+                exit()
+
         self.parse()
         self.send()
         rate = rospy.Rate(10)

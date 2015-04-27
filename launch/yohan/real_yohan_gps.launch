@@ -24,22 +24,18 @@
 
     <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
 
-    <!--RVIZ  -->
-
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
-
-    <!-- Localization
+    <!-- Goals
     <group>
         <remap from="/latlong_goal_node/goal_xy" to="/move_base_simple/goal" />
         <include file="$(find capra_gps)/launch/latlong_goal.launch" />
-    </group>-->
+    </group>
 
-        <!-- GOAL LOADER
-    <node name="goal_loader" pkg="capra_ai" type="goal_loader.py" output="screen">
+    <include file="$(find capra_ai)/launch/GoalManager.launch" >
         <param name="file" value="$(env IBEX_HOME)/bags/201504261556-gps.json" />
-    </node>
+    </include>-->
+
+    <!--RVIZ  -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/kalman.rviz"/>
 
 
-    <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen" />
--->
 </launch>
