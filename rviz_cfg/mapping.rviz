@@ -27,7 +27,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: PointCloud2
 Visualization Manager:
   Class: ""
   Displays:
@@ -106,7 +106,9 @@ Visualization Manager:
           Value: true
         camera:
           Value: true
-        imu:
+        img:
+          Value: true
+        imu_robot:
           Value: true
         laser:
           Value: true
@@ -122,17 +124,18 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        base_footprint:
-          base_link:
-            camera:
-              {}
-            imu:
-              {}
-            laser:
-              {}
-            pole:
-              {}
         odom:
+          base_footprint:
+            base_link:
+              camera:
+                img:
+                  {}
+              imu_robot:
+                {}
+              laser:
+                {}
+              pole:
+                {}
           map:
             {}
       Update Interval: 0
@@ -335,7 +338,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 255
       Min Color: 0; 0; 0
-      Min Intensity: 1
+      Min Intensity: 2
       Name: PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
@@ -463,7 +466,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: base_footprint
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
@@ -494,10 +497,10 @@ Visualization Manager:
         Z: -8.03241e-06
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.5698
+      Pitch: 0.609796
       Target Frame: <Fixed Frame>
       Value: XYOrbit (rviz)
-      Yaw: 4.72859
+      Yaw: 3.65859
     Saved: ~
 Window Geometry:
   Camera:

@@ -29,9 +29,7 @@
     
   <!-- GPS -->
   <group if="$(arg gps)">
-    <include file="$(find capra_gps)/launch/Gps.launch" >
-        <arg name="magnetic_declination_radians" value="$(arg magnetic_declination_radians)" />
-    </include>
+    <include file="$(find capra_gps)/launch/Gps.launch" />
   </group>
 
   <!-- Camera -->

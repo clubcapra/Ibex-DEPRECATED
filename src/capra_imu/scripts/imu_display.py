@@ -15,7 +15,7 @@ in localization
 def imu_cb(msg):
     # Publish a pose with the imu orientation
     p = PoseStamped()
-    p.header.frame_id = msg.header.frame_id
+    p.header.frame_id = "imu"
     p.pose = Pose()
     p.pose.orientation = msg.orientation
     pub_odom.publish(p)

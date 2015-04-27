@@ -73,6 +73,7 @@ def process_input(msg):
     backwards = get_button_value(msg, "backwards") > 0
     left = get_button_value(msg, "left") > 0
     right = get_button_value(msg, "right") > 0
+    rospy.loginfo(msg)
 
     if forward or backwards:
         if forward:
@@ -217,8 +218,9 @@ def get_button_value(msg, name):
 
 def joy_callback(msg):
     global last_joy_message
-    if has_new_input(msg):
-        process_input(msg)
+    rospy.loginfo("joy callback: " + str(msg))
+    #if has_new_input(msg):
+    process_input(msg)
     last_joy_message = msg
 
 

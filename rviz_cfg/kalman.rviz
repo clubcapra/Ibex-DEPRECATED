@@ -63,9 +63,9 @@ Visualization Manager:
           Value: true
         imu:
           Value: true
-        laser:
+        imu_robot:
           Value: true
-        map:
+        laser:
           Value: true
         odom:
           Value: true
@@ -78,7 +78,17 @@ Visualization Manager:
       Show Names: true
       Tree:
         odom:
-          map:
+          base_footprint:
+            base_link:
+              camera:
+                {}
+              imu_robot:
+                {}
+              laser:
+                {}
+              pole:
+                {}
+          imu:
             {}
       Update Interval: 0
       Value: true
@@ -176,22 +186,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 7.01988
+      Distance: 6.8814
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.522314
-        Y: -1.41975
-        Z: 2.69377
+        X: 1.84652
+        Y: -0.814829
+        Z: 1.86957
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.2748
+      Pitch: 0.969797
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.66539
+      Yaw: 4.75037
     Saved: ~
 Window Geometry:
   Displays:
@@ -209,5 +219,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1717
-  X: 1911
-  Y: -8
+  X: 147
+  Y: 19

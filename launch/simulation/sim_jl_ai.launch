@@ -7,11 +7,9 @@
     </include>
 
     <!-- MOVING -->
-    <group>
-      <include file="$(find capra_2dnav)/launch/move_base.launch">
-        <arg name="context" value="indoors" />
-      </include>
-    </group>
+     <include file="$(find capra_ai)/launch/LazyAI.launch">
+         <arg name="speed" value="0.5"/>
+    </include>
 
     <!--<node pkg="capra_ai" type="simple_move.py" name="ai" />-->
 
