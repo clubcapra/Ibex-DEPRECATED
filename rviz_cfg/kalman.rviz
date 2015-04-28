@@ -7,7 +7,7 @@ Panels:
         - /Global Options1
         - /Status1
         - /TF1
-        - /Pose1
+        - /Odometry1
       Splitter Ratio: 0.390244
     Tree Height: 592
   - Class: rviz/Selection
@@ -61,8 +61,6 @@ Visualization Manager:
           Value: true
         camera:
           Value: true
-        imu:
-          Value: true
         imu_robot:
           Value: true
         laser:
@@ -88,8 +86,6 @@ Visualization Manager:
                 {}
               pole:
                 {}
-          imu:
-            {}
       Update Interval: 0
       Value: true
     - Alpha: 0.7
@@ -103,13 +99,13 @@ Visualization Manager:
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 255; 25; 0
-      Enabled: false
+      Enabled: true
       Keep: 0
       Length: 0.5
       Name: Odometry Filtered
       Position Tolerance: 0.1
       Topic: /odometry/filtered
-      Value: false
+      Value: true
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 0; 255; 0
@@ -162,6 +158,16 @@ Visualization Manager:
       Shape: Arrow
       Topic: /imu/pose
       Value: true
+    - Angle Tolerance: 0.1
+      Class: rviz/Odometry
+      Color: 255; 25; 0
+      Enabled: false
+      Keep: 100
+      Length: 0.5
+      Name: Odometry
+      Position Tolerance: 0.1
+      Topic: /odometry/gps_mod
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -186,22 +192,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 6.8814
+      Distance: 4.12674
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.84652
-        Y: -0.814829
-        Z: 1.86957
+        X: 1.81681
+        Y: -0.0743774
+        Z: 2.22258
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.969797
+      Pitch: 1.2598
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.75037
+      Yaw: 4.70037
     Saved: ~
 Window Geometry:
   Displays:
@@ -219,5 +225,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1717
-  X: 147
+  X: 111
   Y: 19

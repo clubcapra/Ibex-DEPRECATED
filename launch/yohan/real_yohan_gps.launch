@@ -36,6 +36,7 @@
 
     <!--RVIZ  -->
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/kalman.rviz"/>
+    <node pkg="capra_imu" type="imu_display.py" name="imu_display" />
 
 
 </launch>
