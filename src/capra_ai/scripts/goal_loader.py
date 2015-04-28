@@ -14,7 +14,6 @@ class GoalLoader():
         rospy.sleep(3.0) # wait for move_base to be ready
         self.msgs = []
         self.pose_pub = rospy.Publisher('/goal_manager/waypoint', PoseStamped, queue_size = 10)
-        file_name = rospy.get_name() + '/file'
         file_path = rospy.get_param("~file")
         rospy.loginfo("Fetching waypoint data from: %s" % file_path)
 
@@ -44,7 +43,7 @@ class GoalLoader():
         for point in self.data:
             rospy.loginfo("Point is %s" % str(point))
             if point['gps'] == 1:
-                pose_msg = self.gpstopose(point)
+                pose_msg = self.convert_gps_to_pose(point)
                 self.msgs.append(pose_msg)
             else:
                 pose_msg = PoseStamped()
@@ -60,7 +59,7 @@ class GoalLoader():
         for pose_msg in self.msgs:
             self.pose_pub.publish(pose_msg)
 
-    def gpstopose(self, coords):
+    def convert_gps_to_pose(self, coords):
         # create NavSatFix msg
         nav_msg = NavSatFix()
         nav_msg.header.stamp = rospy.get_rostime()
