@@ -4,6 +4,7 @@ import rospy
 from geometry_msgs.msg import PoseStamped, PointStamped, Quaternion, PoseArray, Pose
 from actionlib_msgs.msg import GoalStatusArray, GoalStatus
 from move_base_msgs.msg import MoveBaseActionGoal
+from std_msgs.msg import Bool
 from sensor_msgs.msg import PointCloud2
 import sensor_msgs.point_cloud2 as pc2
 
@@ -14,7 +15,8 @@ class GoalManager():
         self.goals = []
         self.current_idx = -1
         self.count = 0
-        self.loop_goals = bool(rospy.get_param("~loop", default=False))
+        self.loop_goals = bool(rospy.get_param("~loop", default = False))
+        rospy.Service("~clear", Bool, self.handle_clear_goal_list)
         rospy.Subscriber("~waypoint", PoseStamped, self.pose_received_callback)  # receive goals from other nodes
         rospy.Subscriber("/clicked_point", PointStamped, self.point_received_callback)  # rviz goals
         rospy.Subscriber("/move_base/status", GoalStatusArray, self.status_updated_callback)  # track status of goals
@@ -113,6 +115,11 @@ class GoalManager():
         # x = y = 0.7, z = w = 0 -> doesn't work
         pose_msg.pose.orientation = Quaternion(w = 1)  # could be changed to the robot's current orientation
         self.add_waypoint(pose_msg)
+
+    def handle_clear_goal_list(self, req):
+        if req.data:
+            self.goals.clear()
+        return True
 
 
 if __name__ == '__main__':
