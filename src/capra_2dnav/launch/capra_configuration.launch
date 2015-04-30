@@ -5,6 +5,8 @@
   <arg name="gps" default="0" />
   <arg name="camera" default="0" />
 
+  <arg name="publish_motor_odom" default="0" />
+
   <!-- Robot and TF -->
   <arg name="robot_description" value="$(find capra_2dnav)/models/capra6/capra6.urdf" />
   <node pkg="tf" type="static_transform_publisher" name="footprint_broadcaster" args="0 0 0 0 0 0 base_footprint base_link 50" />
@@ -14,7 +16,9 @@
   <!-- Motors -->
   <group if="$(arg motors)">  
     <include file="$(find animatics_smart_motor)/launch/SmartMotor.launch" />
-    <!--<include file="$(find animatics_smart_motor)/launch/OdomToTf.launch" />-->
+      <group if="publish_motor_odom">
+        <include file="$(find animatics_smart_motor)/launch/OdomToTf.launch" />
+      </group>
   </group>
 
   <!-- LIDAR -->

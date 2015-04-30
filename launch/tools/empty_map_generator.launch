@@ -1,0 +1,12 @@
+<launch>
+
+  <node pkg="seagoatvision_ros" type="pointcloud_generator.py" name="pointcloud_generator">
+    <param name="size" value="500"/>
+  </node>
+
+  <include file="$(find capra_2dnav)/launch/octomap.launch" >
+    <arg name="max_range" value="99999"/>
+  </include>
+
+
+</launch>
