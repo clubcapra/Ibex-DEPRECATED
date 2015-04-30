@@ -1,5 +1,7 @@
 <launch>
-    <include file="$(find capra_2dnav)/launch/capra_configuration.launch" />
+    <include file="$(find capra_2dnav)/launch/capra_configuration.launch" >
+        <arg name="publish_motor_odom" default="1" />
+    </include>
 
    <!-- AI or remote
    <include file="$(find capra_teleop)/launch/Teleop.launch" />

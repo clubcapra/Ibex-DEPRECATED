@@ -6,4 +6,4 @@ observation_sources: laser_scan_sensor camera_sensor
 laser_scan_sensor: {sensor_frame: laser, data_type: LaserScan, topic: /scan, marking: true, clearing: true}
 camera_sensor: {sensor_frame: laser, data_type: PointCloud2, topic: /cloud_in, marking: true, clearing: true, observation_persistence: 10.0, min_obstacle_height: -1.0}
 
-track_unknown_space: true
+track_unknown_space: false
