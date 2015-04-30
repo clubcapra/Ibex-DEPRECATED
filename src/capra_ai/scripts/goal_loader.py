@@ -65,8 +65,8 @@ class GoalLoader():
         nav_msg.header.stamp = rospy.get_rostime()
         nav_msg.header.frame_id = 'odom'
         # x is longitude, y is latitude
-        nav_msg.longitude = coords['y']
-        nav_msg.latitude = coords['x']
+        nav_msg.longitude = coords['x']
+        nav_msg.latitude = coords['y']
         # convert using /latlong_goal_node/AddLatLongGoal service
         # returns PoseStamped
         response = self.latlong_service(nav_msg)
