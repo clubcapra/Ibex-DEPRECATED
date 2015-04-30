@@ -1,14 +1,4 @@
 <launch>
-    <!-- MOVE BASE -->
-    <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen">
-
-    </node>
-
-    <!-- GOAL LOADER -->
-    <node name="goal_loader" pkg="capra_ai" type="goal_loader.py" output="screen">
-        <param name="file" value="$(find capra_ai)/../../bags/loader_test.json" />
-    </node>
-
     <!-- GAZEBO -->
     <include file="$(find capra_gazebo)/launch/Gazebo.launch">
         <arg name="gui" value="false" />
@@ -16,7 +6,6 @@
 
     <!-- MOVING -->
     <group>
-      <remap from="map" to="projected_map" />
       <include file="$(find capra_2dnav)/launch/move_base.launch">
         <arg name="context" value="gazebo" />
         <!--<arg name="context" value="indoors" />-->
@@ -48,4 +37,5 @@
         <include file="$(find capra_gps)/launch/latlong_goal.launch" />
     </group>
 
+    <include file="$(find capra_ai)/launch/GoalManager.launch" />
 </launch>
