@@ -21,7 +21,7 @@ TrajectoryPlannerROS:
   #The step size, in radians, to take between angular samples on a given trajectory
   #angular_sim_granularity: 0.04
   #The weighting for how much the controller should stay close to the path it was given. default 0.6
-  pdist_scale: 0.3
+  pdist_scale: 0.2
   # The weighting for how much the controller should attempt to avoid obstacles. default 0.01
   occdist_scale: 0.9
   # The weighting for how much the controller should attempt to reach its local goal, also controls speed. default 0.8

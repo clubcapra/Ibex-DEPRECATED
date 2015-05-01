@@ -1,7 +1,7 @@
 <launch>
   <arg name="context" default="indoors" />
 
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true" >
     <rosparam file="$(find capra_2dnav)/config/$(arg context)/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find capra_2dnav)/config/$(arg context)/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find capra_2dnav)/config/$(arg context)/local_costmap_params.yaml" command="load" />
