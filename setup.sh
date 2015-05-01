@@ -72,7 +72,7 @@ echo "Setting up ROS PATH and environment"
         export ROSCONSOLE_FORMAT='[\${severity}] [\${node}] [\${time}]: \${message}'
         export GAZEBO_MODEL_PATH=\$IBEX_DIR/src/capra_gazebo/models
         export GAZEBO_RESOURCE_PATH=\$IBEX_DIR/src/capra_gazebo/worlds
-        alias ibex='cd \$IBEX_DIR'
+        alias ibex='cd \$IBEX_HOME'
         alias apti='sudo apt-get install'
 #ROS stuff END" >> $BASHRC
 
