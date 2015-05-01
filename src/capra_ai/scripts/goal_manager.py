@@ -16,7 +16,7 @@ class GoalManager():
         self.current_idx = -1
         self.count = 0
         self.loop_goals = bool(rospy.get_param("~loop", default = False))
-        rospy.Service("~clear", Bool, self.handle_clear_goal_list)
+        #rospy.Service("~clear", Bool, self.handle_clear_goal_list)
         rospy.Subscriber("~waypoint", PoseStamped, self.pose_received_callback)  # receive goals from other nodes
         rospy.Subscriber("/clicked_point", PointStamped, self.point_received_callback)  # rviz goals
         rospy.Subscriber("/move_base/status", GoalStatusArray, self.status_updated_callback)  # track status of goals

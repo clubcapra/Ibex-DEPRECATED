@@ -11,9 +11,11 @@ from capra_gps.srv import AddLatlongGoal
 class GoalLoader():
 
     def __init__(self):
-        rospy.sleep(3.0) # wait for move_base to be ready
+        rospy.wait_for_service('/move_base/make_plan')
+        rospy.sleep(2.0)  # wait for move_base to be ready
         self.msgs = []
-        self.pose_pub = rospy.Publisher('/goal_manager/waypoint', PoseStamped, queue_size = 10)
+        self.pub_topic = '/goal_manager/waypoint'
+        self.pose_pub = rospy.Publisher(self.pub_topic, PoseStamped, queue_size=10)
         file_path = rospy.get_param("~file")
         rospy.loginfo("Fetching waypoint data from: %s" % file_path)
 
@@ -30,9 +32,7 @@ class GoalLoader():
 
         self.parse()
         self.send()
-        rate = rospy.Rate(10)
-        while not rospy.is_shutdown():
-            rate.sleep()
+        rospy.spin_once()
 
     def parse(self):
         rospy.loginfo("Waiting for AddLatLongGoal service...")
@@ -55,7 +55,7 @@ class GoalLoader():
 
     def send(self):
         # publish on /goal_manager/waypoint in order of file
-        rospy.loginfo("Publishing %i points on %s" % (len(self.msgs), "/goal_manager/waypoint"))
+        rospy.loginfo("Publishing %i points on %s" % (len(self.msgs), self.pub_topic))
         for pose_msg in self.msgs:
             self.pose_pub.publish(pose_msg)
 
@@ -70,7 +70,8 @@ class GoalLoader():
         # convert using /latlong_goal_node/AddLatLongGoal service
         # returns PoseStamped
         response = self.latlong_service(nav_msg)
-        rospy.loginfo("Converted NavSatFix to PoseStamped -> (%f, %f)" % (coords['x'], coords['y']))
+        rospy.loginfo("Converted NavSatFix to PoseStamped -> (%f, %f)".format(
+            response.goal_xy.pose.position.x, response.goal_xy.pose.position.y))
         return response.goal_xy
 
 
