@@ -32,7 +32,8 @@ class GoalLoader():
 
         self.parse()
         self.send()
-        rospy.spin_once()
+        while not rospy.is_shutdown():
+            rospy.sleep()
 
     def parse(self):
         rospy.loginfo("Waiting for AddLatLongGoal service...")
