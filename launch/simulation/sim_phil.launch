@@ -31,11 +31,7 @@
 
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
 
-    <!-- Localization -->
-    <group>
-        <remap from="/latlong_goal_node/goal_xy" to="/move_base_simple/goal" />
-        <include file="$(find capra_gps)/launch/latlong_goal.launch" />
-    </group>
-
     <include file="$(find capra_ai)/launch/GoalManager.launch" />
+
+
 </launch>

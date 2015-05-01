@@ -7,11 +7,11 @@
     </include>
 
     <!-- MOVING -->
-    <group>
-      <include file="$(find capra_2dnav)/launch/move_base.launch">
-        <arg name="context" value="gazebo" />
-      </include>
-    </group>
+    <include file="$(find capra_2dnav)/launch/move_base.launch">
+      <arg name="context" value="gazebo" />
+    </include>
+
+    <node pkg="capra_ai" name="state_ai" type="state_ai.py" output="screen" />
 
     <!-- MAPPING -->
     <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
@@ -19,7 +19,8 @@
     </node>
 
     <include file="$(find capra_2dnav)/launch/octomap.launch" >
-        <arg name="map_file" default="$(env IBEX_HOME)/maps/empty_map.bt" />
+        <arg name="map_file" value="$(env IBEX_HOME)/maps/empty_map.bt" />
+        <arg name="max_range" value="8" />
     </include>
 
     <node pkg="capra_2dnav" name="obstacle_generator" type="obstacle_generator.py" output="screen" />
