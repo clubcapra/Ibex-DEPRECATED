@@ -33,7 +33,7 @@ class GoalLoader():
         self.parse()
         self.send()
         while not rospy.is_shutdown():
-            rospy.sleep()
+            rospy.sleep(1.0)
 
     def parse(self):
         rospy.loginfo("Waiting for AddLatLongGoal service...")
@@ -71,8 +71,8 @@ class GoalLoader():
         # convert using /latlong_goal_node/AddLatLongGoal service
         # returns PoseStamped
         response = self.latlong_service(nav_msg)
-        rospy.loginfo("Converted NavSatFix to PoseStamped -> (%f, %f)".format(
-            response.goal_xy.pose.position.x, response.goal_xy.pose.position.y))
+        rospy.loginfo("Converted NavSatFix to PoseStamped -> (%f, %f)" % (response.goal_xy.pose.position.x,
+                      response.goal_xy.pose.position.y))
         return response.goal_xy
 
 
