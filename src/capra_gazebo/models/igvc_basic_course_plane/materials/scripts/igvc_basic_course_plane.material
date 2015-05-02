@@ -6,7 +6,7 @@ material igvc_basic_course_plane/Image
          {
              texture_unit
              {
-                 texture IgvcBasicCourse.jpg
+                 texture IgvcBasicCourse_NoObstacles.jpg
              }
          }
      } 
