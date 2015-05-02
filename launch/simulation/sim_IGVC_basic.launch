@@ -1,7 +1,7 @@
 <launch>
     <!-- GAZEBO -->
     <include file="$(find capra_gazebo)/launch/Gazebo.launch">
-        <arg name="world" default="$(find capra_gazebo)/worlds/igvc_basic_course.world" />
+        <arg name="world" default="$(find capra_gazebo)/worlds/igvc_basic_course.world" />l
         <arg name="gui" default="false" />
         <arg name="initial_position" default="-x 0 -y -22.5 -rpy 0" />
     </include>
@@ -11,7 +11,7 @@
       <arg name="context" value="gazebo" />
     </include>
 
-    <node pkg="capra_ai" name="state_ai" type="state_ai.py" output="screen" />
+    <include file="$(find capra_ai)/launch/StateAi.launch" />
 
     <!-- MAPPING -->
     <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
@@ -19,11 +19,10 @@
     </node>
 
     <include file="$(find capra_2dnav)/launch/octomap.launch" >
-        <arg name="map_file" value="$(env IBEX_HOME)/maps/empty_map.bt" />
-        <arg name="max_range" value="8" />
+        <arg name="map_file" value="$(env IBEX_HOME)/maps/empty_map_0.1.bt" />
+        <arg name="max_range" value="5" />
+        <arg name="latch" value="false" />
     </include>
-
-    <node pkg="capra_2dnav" name="obstacle_generator" type="obstacle_generator.py" output="screen" />
 
     <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
 

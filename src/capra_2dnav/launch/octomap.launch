@@ -1,6 +1,8 @@
 <launch>
-  <arg name="max_range" default="6" />
+  <arg name="max_range" default="5" />
   <arg name="map_file" default="" />
+  <arg name="latch" default="false" />
+  <arg name="resolution" default="0.05" />
 
   <node pkg="octomap_server" type="octomap_server_node" name="octomap_server" args="$(arg map_file)">
     <param name="resolution" value="0.05" />
@@ -9,7 +11,8 @@
     <param name="frame_id" type="string" value="odom" />
     <!-- maximum range to integrate (speedup!) -->
     <param name="sensor_model/max_range" value="$(arg max_range)" />
-    <param name="latch" value="true" />
+    <param name="latch" value="$(arg latch)" />
+    <param name="resolution" value="$(arg resolution)" />
 
     <remap from="/projected_map" to="/map" />
   </node>

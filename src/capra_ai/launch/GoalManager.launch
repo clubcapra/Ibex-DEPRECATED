@@ -1,8 +1,10 @@
 <launch>
     <arg name="file" default="$(env IBEX_HOME)/bags/empty.json" />
+    <arg name="loop_goals" default="0" />
+
 
     <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen">
-        <param name="loop" value="True" />
+        <param name="loop" value="$(arg loop_goals)" />
     </node>
     <node name="goal_loader" pkg="capra_ai" type="goal_loader.py" output="screen">
         <param name="file" value="$(arg file)" />

@@ -1,11 +1,14 @@
 <launch>
 
+    <!-- After launching this file, run "rosrun octomap_server octomap_saver [map_name].bt" to save the map -->
+
   <node pkg="capra_2dnav" type="pointcloud_generator.py" name="pointcloud_generator">
     <param name="size" value="500"/>
   </node>
 
   <include file="$(find capra_2dnav)/launch/octomap.launch" >
     <arg name="max_range" value="99999"/>
+    <arg name="resolution" value="0.1" />
   </include>
 
 </launch>

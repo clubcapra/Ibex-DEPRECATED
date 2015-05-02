@@ -33,5 +33,4 @@
 
     <include file="$(find capra_ai)/launch/GoalManager.launch" />
 
-
 </launch>

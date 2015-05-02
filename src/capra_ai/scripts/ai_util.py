@@ -21,6 +21,9 @@ def launch(package, launchfile):
 def set_robot_speed(speed):
     run("rosrun dynamic_reconfigure dynparam set /move_base/TrajectoryPlannerROS max_vel_x {0}".format(speed))
 
+def set_param(param, value):
+    run("rosparam set {} {}".format(param, value))
+
 def run(cmd):
     rospy.loginfo("Running command:{0}".format(cmd))
     call(cmd + " &", shell=True)

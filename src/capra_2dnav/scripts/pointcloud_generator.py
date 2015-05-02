@@ -13,11 +13,12 @@ class PointcloudGenerator:
         rospy.init_node('pointcloud_generator')
         pub_cloud = rospy.Publisher('/cloud_in', PointCloud2, queue_size=10)
 
-        s = rospy.get_param('size', 26)
+        s = rospy.get_param('~size', 26)
         r = rospy.Rate(10)
         pcloud = PointCloud2()
 
-        cloud = [[s, s, 0]]
+        cloud = [[s, s, 0], [-s, -s, 0]]
+        print cloud
 
         while not rospy.is_shutdown():
 
