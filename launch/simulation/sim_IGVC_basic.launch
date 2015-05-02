@@ -19,7 +19,7 @@
     </node>
 
     <include file="$(find capra_2dnav)/launch/octomap.launch" >
-        <arg name="map_file" value="$(env IBEX_HOME)/maps/empty_map_0.1.bt" />
+        <arg name="map_file" value="$(env IBEX_HOME)/maps/igvc_basic.bt" />
         <arg name="max_range" value="5" />
         <arg name="latch" value="false" />
     </include>
