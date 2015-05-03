@@ -18,12 +18,24 @@ def imu_cb(msg):
     p.header.frame_id = "odom"
     p.pose = Pose()
     p.pose.orientation = msg.orientation
-    pub_odom.publish(p)
+    global pub_pose
+    pub_pose.publish(p)
+
+def imu_cb_raw(msg):
+    # Publish a pose with the imu orientation
+    p = PoseStamped()
+    p.header.frame_id = "odom"
+    p.pose = Pose()
+    p.pose.orientation = msg.orientation
+    global pub_pose_raw
+    pub_pose_raw.publish(p)
 
 if __name__ == "__main__":
     rospy.init_node('imu_wrapper')
-    global pub_imu
-    global pub_odom
-    pub_odom = rospy.Publisher("/imu/pose", PoseStamped, queue_size=10)
+    global pub_pose_raw
+    global pub_pose
+    pub_pose = rospy.Publisher("/imu/pose", PoseStamped, queue_size=10)
+    pub_pose_raw = rospy.Publisher("/imu/pose_raw", PoseStamped, queue_size=10)
     rospy.Subscriber("/imu/data", Imu,  imu_cb)
+    rospy.Subscriber("/imu/raw", Imu,  imu_cb_raw)
     rospy.spin()

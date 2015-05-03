@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-import tf
+from tf.transformations import *
 
 from sensor_msgs.msg import Imu
 from geometry_msgs.msg import Quaternion, PoseStamped, Pose, Point
@@ -22,24 +22,18 @@ def imu_cb(msg):
     msg_imu.header.frame_id = "base_footprint"
     msg_imu.header.stamp = msg.header.stamp
 
-    # rotate 180 degrees around the x axis to "flip" the imu around
-    rotation_x = tf.transformations.rotation_matrix(math.pi, [1, 0, 0])
-    # rotate 90 degrees around z to have the 0 facing east instead of north
-    rotation_z = tf.transformations.rotation_matrix(math.pi/2, [0, 0, 1])
-    # rotate around z for magnetic declination
+    initial = [msg.orientation.x, msg.orientation.y, -msg.orientation.z, msg.orientation.w]
 
-    rotation_matrix = rotation_z * rotation_x
+    rotation_z = quaternion_about_axis(math.pi/2, [0, 0, 1])
+    q_rotated_90 = quaternion_multiply(initial, rotation_z)
 
-    q_before = [msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w]
-    q_flipped = np.dot(q_before, rotation_matrix)
-
-    msg_imu.orientation = Quaternion(q_flipped[0], q_flipped[1], q_flipped[2], q_flipped[3])
+    msg_imu.orientation = Quaternion(q_rotated_90[0], q_rotated_90[1], q_rotated_90[2], q_rotated_90[3])
 
     # covariance
     cov = [1.0,0,0,0,1.0,0,0,0,1.0]
     msg_imu.orientation_covariance = cov
 
-    euler = tf.transformations.euler_from_quaternion(q_flipped)
+    #euler = tf.transformations.euler_from_quaternion(q_flipped)
     pub_imu.publish(msg_imu)
 
     # publish (0,0,0,1)

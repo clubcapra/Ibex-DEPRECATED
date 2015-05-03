@@ -7,7 +7,6 @@ Panels:
         - /Global Options1
         - /Status1
         - /TF1
-        - /Odometry1
       Splitter Ratio: 0.390244
     Tree Height: 592
   - Class: rviz/Selection
@@ -55,37 +54,13 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        base_footprint:
-          Value: true
-        base_link:
-          Value: true
-        camera:
-          Value: true
-        imu_robot:
-          Value: true
-        laser:
-          Value: true
-        odom:
-          Value: true
-        pole:
-          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          base_footprint:
-            base_link:
-              camera:
-                {}
-              imu_robot:
-                {}
-              laser:
-                {}
-              pole:
-                {}
+        {}
       Update Interval: 0
       Value: true
     - Alpha: 0.7
@@ -145,17 +120,17 @@ Visualization Manager:
       Topic: /move_base/global_costmap/costmap
       Value: false
     - Alpha: 1
-      Axes Length: 1
-      Axes Radius: 0.1
+      Axes Length: 0.5
+      Axes Radius: 0.3
       Class: rviz/Pose
-      Color: 255; 255; 255
+      Color: 255; 0; 0
       Enabled: true
       Head Length: 0.3
       Head Radius: 0.1
       Name: Pose
       Shaft Length: 1
       Shaft Radius: 0.05
-      Shape: Arrow
+      Shape: Axes
       Topic: /imu/pose
       Value: true
     - Angle Tolerance: 0.1
@@ -168,6 +143,20 @@ Visualization Manager:
       Position Tolerance: 0.1
       Topic: /odometry/gps_mod
       Value: false
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.1
+      Class: rviz/Pose
+      Color: 255; 255; 255
+      Enabled: true
+      Head Length: 0.3
+      Head Radius: 0.1
+      Name: Pose
+      Shaft Length: 1
+      Shaft Radius: 0.05
+      Shape: Axes
+      Topic: /imu/pose_raw
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -192,22 +181,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.12674
+      Distance: 4.62195
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.81681
-        Y: -0.0743774
-        Z: 2.22258
+        X: 1.78212
+        Y: -0.709262
+        Z: 0.453916
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.2598
+      Pitch: 0.3148
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.70037
+      Yaw: 5.09537
     Saved: ~
 Window Geometry:
   Displays:
@@ -225,5 +214,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1717
-  X: 111
+  X: 84
   Y: 19
