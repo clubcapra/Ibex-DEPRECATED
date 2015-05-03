@@ -7,6 +7,7 @@ Panels:
         - /Global Options1
         - /Status1
         - /TF1
+        - /Pose1
       Splitter Ratio: 0.390244
     Tree Height: 592
   - Class: rviz/Selection
@@ -54,13 +55,31 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        base_footprint:
+          Value: true
+        base_link:
+          Value: true
+        camera:
+          Value: true
+        imu_robot:
+          Value: true
+        laser:
+          Value: true
+        map:
+          Value: true
+        odom:
+          Value: true
+        pole:
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        {}
+        odom:
+          map:
+            {}
       Update Interval: 0
       Value: true
     - Alpha: 0.7
@@ -130,7 +149,7 @@ Visualization Manager:
       Name: Pose
       Shaft Length: 1
       Shaft Radius: 0.05
-      Shape: Axes
+      Shape: Arrow
       Topic: /imu/pose
       Value: true
     - Angle Tolerance: 0.1
@@ -148,7 +167,7 @@ Visualization Manager:
       Axes Radius: 0.1
       Class: rviz/Pose
       Color: 255; 255; 255
-      Enabled: true
+      Enabled: false
       Head Length: 0.3
       Head Radius: 0.1
       Name: Pose
@@ -156,7 +175,7 @@ Visualization Manager:
       Shaft Radius: 0.05
       Shape: Axes
       Topic: /imu/pose_raw
-      Value: true
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -181,7 +200,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.62195
+      Distance: 13.5459
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -193,10 +212,10 @@ Visualization Manager:
         Z: 0.453916
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.3148
+      Pitch: 1.4848
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.09537
+      Yaw: 5.13537
     Saved: ~
 Window Geometry:
   Displays:
@@ -214,5 +233,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1717
-  X: 84
+  X: 75
   Y: 19
