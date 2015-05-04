@@ -7,7 +7,9 @@ Panels:
         - /Global Options1
         - /Status1
         - /TF1
-        - /Odometry1
+        - /PointCloud21
+        - /PointCloud22
+        - /Path2
       Splitter Ratio: 0.390244
     Tree Height: 592
   - Class: rviz/Selection
@@ -28,7 +30,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: PointCloud2
 Visualization Manager:
   Class: ""
   Displays:
@@ -51,43 +53,19 @@ Visualization Manager:
       Reference Frame: <Fixed Frame>
       Value: true
     - Class: rviz/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        base_footprint:
-          Value: true
-        base_link:
-          Value: true
-        camera:
-          Value: true
-        imu_robot:
-          Value: true
-        laser:
-          Value: true
-        odom:
-          Value: true
-        pole:
-          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          base_footprint:
-            base_link:
-              camera:
-                {}
-              imu_robot:
-                {}
-              laser:
-                {}
-              pole:
-                {}
+        {}
       Update Interval: 0
-      Value: true
+      Value: false
     - Alpha: 0.7
       Class: rviz/Map
       Color Scheme: map
@@ -145,10 +123,10 @@ Visualization Manager:
       Topic: /move_base/global_costmap/costmap
       Value: false
     - Alpha: 1
-      Axes Length: 1
-      Axes Radius: 0.1
+      Axes Length: 0.5
+      Axes Radius: 0.3
       Class: rviz/Pose
-      Color: 255; 255; 255
+      Color: 255; 0; 0
       Enabled: true
       Head Length: 0.3
       Head Radius: 0.1
@@ -168,6 +146,106 @@ Visualization Manager:
       Position Tolerance: 0.1
       Topic: /odometry/gps_mod
       Value: false
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.1
+      Class: rviz/Pose
+      Color: 255; 255; 255
+      Enabled: false
+      Head Length: 0.3
+      Head Radius: 0.1
+      Name: Pose
+      Shaft Length: 1
+      Shaft Radius: 0.05
+      Shape: Axes
+      Topic: /imu/pose_raw
+      Value: false
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.5
+      Style: Spheres
+      Topic: /goal_manager/future
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 0; 0
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.5
+      Style: Spheres
+      Topic: /goal_manager/reached
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 25; 255; 0
+      Enabled: true
+      Line Style: Lines
+      Line Width: 0.03
+      Name: Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Topic: /move_base/NavfnROS/plan
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 255; 255; 0
+      Enabled: true
+      Line Style: Lines
+      Line Width: 0.03
+      Name: Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Topic: /move_base/TrajectoryPlannerROS/local_plan
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -192,22 +270,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.12674
+      Distance: 4.51537
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.81681
-        Y: -0.0743774
-        Z: 2.22258
+        X: 1.47516
+        Y: -0.177669
+        Z: 0.781532
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.2598
+      Pitch: 1.0748
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.70037
+      Yaw: 5.07037
     Saved: ~
 Window Geometry:
   Displays:
@@ -225,5 +303,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1717
-  X: 111
+  X: 48
   Y: 19

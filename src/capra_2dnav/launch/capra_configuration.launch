@@ -16,7 +16,7 @@
   <!-- Motors -->
   <group if="$(arg motors)">  
     <include file="$(find animatics_smart_motor)/launch/SmartMotor.launch" />
-      <group if="publish_motor_odom">
+      <group if="$(arg publish_motor_odom)">
         <include file="$(find animatics_smart_motor)/launch/OdomToTf.launch" />
       </group>
   </group>

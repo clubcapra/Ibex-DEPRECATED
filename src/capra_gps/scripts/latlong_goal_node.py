@@ -44,7 +44,7 @@ class LatlongGoalTransformer:
         global pub_convert
         pub_convert = rospy.Publisher("~convert_latlong", NavSatFix, queue_size=10)
 
-        sub_convert = rospy.Subscriber("/fix", NavSatFix, handle_fix)
+        sub_convert = rospy.Subscriber("/gps/fix", NavSatFix, handle_fix)
         rospy.sleep(1)
         sub_convert.unregister()
         rospy.sleep(0.5)

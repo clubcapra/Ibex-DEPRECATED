@@ -70,8 +70,8 @@ echo "Setting up ROS PATH and environment"
         source /opt/ros/indigo/setup.bash
         source \$IBEX_HOME/devel/setup.bash
         export ROSCONSOLE_FORMAT='[\${severity}] [\${node}] [\${time}]: \${message}'
-        export GAZEBO_MODEL_PATH=\$IBEX_DIR/src/capra_gazebo/models
-        export GAZEBO_RESOURCE_PATH=\$IBEX_DIR/src/capra_gazebo/worlds
+        export GAZEBO_MODEL_PATH=\$IBEX_HOME/src/capra_gazebo/models
+        export GAZEBO_RESOURCE_PATH=\$IBEX_HOME/src/capra_gazebo/worlds
         alias ibex='cd \$IBEX_HOME'
         alias apti='sudo apt-get install'
 #ROS stuff END" >> $BASHRC
