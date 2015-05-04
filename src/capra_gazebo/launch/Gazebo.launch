@@ -27,7 +27,6 @@
         <param name="pitch_offset" value="0"/>
         <param name="yaw_offset" value="0"/>
         <param name="zero_altitude" value="false"/>
-        <remap from="/gps/fix" to="/fix" />
         <remap from="/odometry/filtered" to="/odom" />
     </node>
 

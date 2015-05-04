@@ -187,7 +187,7 @@
         <plugin name="gazebo_ros_gps" filename="libhector_gazebo_ros_gps.so" >
             <bodyName>base_link</bodyName>
             <frameId>odom</frameId>
-            <topicName>fix</topicName>
+            <topicName>/gps/fix</topicName>
             <updateRate>50</updateRate>
             <offset>0 0 0</offset>
             <gaussianNoise>0.01 0.01 0</gaussianNoise>
