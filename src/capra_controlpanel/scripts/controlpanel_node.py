@@ -95,15 +95,19 @@ class ControlPanelServer:
         rospy.loginfo("Starting controlpanel. Message rate(hz): " + str(r))
         while not rospy.is_shutdown():
 
+            online = True
+
             #Read button data
             robot_buttons = RobotButtons()
             fields = robot_buttons.__slots__
             for field in fields:
                 status, reply = comm.communication.instance.send_command("GET " + field)
-
                 if status is False:
-                    rospy.logerr("Error reading '" + field)
+                    rospy.logerr("Error reading a digital field")
+                    online = False
+                    break
                 else:
+                    online = True
                     reply_value = reply.split(" ")[1]
                     if type(robot_buttons.__getattribute__(field)) is bool:
                         if "OFF" in reply:
@@ -113,7 +117,7 @@ class ControlPanelServer:
                     else:
                         robot_buttons.__setattr__(field, str(reply_value))
 
-            rospy.loginfo(robot_buttons)
+            rospy.logdebug(robot_buttons)
             pub_robot_buttons.publish(robot_buttons)
 
             #Read analog data
@@ -123,12 +127,16 @@ class ControlPanelServer:
                 status, reply = comm.communication.instance.send_command("GET " + field)
 
                 if status is False:
-                    rospy.logerr( "Error reading '" + field )
+                    rospy.logerr( "Error reading an analog field")
+                    break
                 else:
                     robot_analog_values.__setattr__(field, float(reply.split(" ")[1]))
 
-            rospy.loginfo(robot_analog_values)
+            rospy.logdebug(robot_analog_values)
             pub_robot_analog_values.publish(robot_analog_values)
+
+            if not online:
+                rospy.sleep(1.0)
 
             r.sleep()
         rospy.spin()
