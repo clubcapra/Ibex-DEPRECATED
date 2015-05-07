@@ -8,7 +8,7 @@
       <arg name="camera" default="0" />
     </include>
 
-    <!-- MOVING
+    <!-- MOVING 
     <group>
       <remap from="map" to="projected_map" />
       <include file="$(find capra_2dnav)/launch/move_base.launch">
@@ -26,9 +26,14 @@
     <include file="$(find capra_2dnav)/launch/octomap.launch" />
 
     <!-- localization -->
-
-    <include file="$(find capra_gps)/launch/latlong_goal.launch" />
     <include file="$(find capra_2dnav)/launch/kalman.launch" />
+
+
+    <!-- Goals -->
+
+    <include file="$(find capra_ai)/launch/GoalManager.launch" >
+        <arg name="file" value="$(env IBEX_HOME)/bags/201505031904-gps.json" />
+    </include>
 
     <!--RVIZ  -->
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/kalman.rviz"/>
