@@ -8,13 +8,13 @@
       <arg name="publish_motor_odom" value="0" />
     </include>
 
-    <!-- MOVING -->
+    <!-- MOVING
     <include file="$(find capra_teleop)/launch/Teleop.launch" />
-<!--
-  <include file="$(find capra_2dnav)/launch/move_base.launch">
-    <arg name="context" value="indoors" />
-  </include>
 -->
+  <include file="$(find capra_2dnav)/launch/move_base.launch">
+    <arg name="context" value="outdoors" />
+  </include>
+
     <!-- MAPPING -->
     <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
         <remap from="cloud" to="cloud_in" />
@@ -31,7 +31,8 @@
     <!-- Goals -->
 
     <include file="$(find capra_ai)/launch/GoalManager.launch" >
-        <!--<arg name="file" value="$(env IBEX_HOME)/bags/201505031904-gps.json" />-->
+        <arg name="file" value="$(env IBEX_HOME)/bags/201505091503-gps.json" />
+        <arg name="loop" value="true" />
     </include>
 
     <!--RVIZ  -->
