@@ -6,4 +6,5 @@
     </node>
 
     <node pkg="capra_imu" type="imu_change_frame.py" name="imu_change_frame" output="screen" clear_params="true"/>
+    <node pkg="capra_imu" type="imu_display.py" name="imu_display" output="screen" clear_params="true"/>
 </launch>

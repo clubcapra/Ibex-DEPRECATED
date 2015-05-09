@@ -8,11 +8,12 @@
       <arg name="camera" default="1" />
     </include>
 
-
+    <include file="$(find capra_teleop)/launch/Teleop.launch" />
+<!--
     <include file="$(find capra_2dnav)/launch/move_base.launch">
-        <arg name="context" value="indoors" />
+        <arg name="context" value="outdoors" />
     </include>
-
+-->
     <!-- MAPPING -->
     <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
         <remap from="cloud" to="cloud_in" />
@@ -22,7 +23,7 @@
 
     </include>
 
-    <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen" />
+   <!-- <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen" /> -->
 
     <!--<remap from="projected_map" to="map" />-->
     <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
@@ -33,14 +34,6 @@
         <arg name="gui" value="False" />
         <arg name="calibration_file" default="$(find seagoatvision_ros)/filterchain/calibrate-real.filterchain" />
     </include>
-
-
-    <node pkg="amcl" type="amcl" name="amcl_node" >
-        <rosparam param="use_map_topic" >true</rosparam>
-        <rosparam param="initial_pose_x" >0</rosparam>
-        <rosparam param="initial_pose_y" >0</rosparam>
-        <rosparam param="initial_pose_a" >0</rosparam>
-     </node>
 
     <!--RVIZ  -->
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>

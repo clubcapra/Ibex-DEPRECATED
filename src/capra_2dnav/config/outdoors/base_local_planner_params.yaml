@@ -1,5 +1,5 @@
 TrajectoryPlannerROS:
-  max_vel_x: 0.8
+  max_vel_x: 1.4
   min_vel_x: 0.1
   #The rotational velocity allowed for the base in radians/sec
   max_vel_theta: 3.5
@@ -12,18 +12,19 @@ TrajectoryPlannerROS:
   escape_vel: -0.3
 
   #The x acceleration limit in m/s^2
-  acc_lim_theta: 2.5
+  acc_lim_theta: 5.0
   acc_lim_x: 10.0
   acc_lim_y: 10.0
 
   #The amount of time to forward-simulate trajectories in seconds
-  sim_time: 1.2
+  sim_time: 1.4
+  vx_samples: 8
   #The step size, in radians, to take between angular samples on a given trajectory
   #angular_sim_granularity: 0.04
   #The weighting for how much the controller should stay close to the path it was given. default 0.6
-  pdist_scale: 0.4
+  pdist_scale: 0.2
   # The weighting for how much the controller should attempt to avoid obstacles. default 0.01
-  occdist_scale: 0.7
+  occdist_scale: 0.9
   # The weighting for how much the controller should attempt to reach its local goal, also controls speed. default 0.8
   gdist_scale: 0.5
 
@@ -37,3 +38,4 @@ TrajectoryPlannerROS:
 
   meter_scoring: true
   publish_cost_grid_pc: true
+  publish_cost_grid: true

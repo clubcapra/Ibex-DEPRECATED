@@ -5,7 +5,7 @@
   <arg name="gps" default="0" />
   <arg name="camera" default="0" />
 
-  <arg name="publish_motor_odom" default="0" />
+  <arg name="publish_motor_odom" default="1" />
 
   <!-- Robot and TF -->
   <arg name="robot_description" value="$(find capra_2dnav)/models/capra6/capra6.urdf" />

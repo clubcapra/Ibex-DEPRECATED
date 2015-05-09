@@ -8,13 +8,13 @@
       <arg name="publish_motor_odom" value="1" />
     </include>
 
-    <!-- MOVING -->
-    <include file="$(find capra_teleop)/launch/Teleop.launch" />
-<!--
+    <!-- MOVING
+    <include file="$(find capra_teleop)/launch/Teleop.launch" /> -->
+
   <include file="$(find capra_2dnav)/launch/move_base.launch">
     <arg name="context" value="indoors" />
   </include>
--->
+
     <!-- MAPPING -->
     <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
         <remap from="cloud" to="cloud_in" />
@@ -35,7 +35,6 @@
 
     <!--RVIZ  -->
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/kalman.rviz"/>
-    <node pkg="capra_imu" type="imu_display.py" name="imu_display" />
 
 
 </launch>

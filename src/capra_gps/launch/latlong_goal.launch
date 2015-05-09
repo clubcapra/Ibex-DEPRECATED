@@ -25,7 +25,7 @@ http://wiki.ros.org/robot_localization/Tutorials/GPS%20Integration
         <param name="magnetic_declination_radians" value="0"/>
         <param name="roll_offset" value="0"/>
         <param name="pitch_offset" value="0"/>
-        <param name="yaw_offset" value="0"/>
+        <param name="yaw_offset" value="-1.22" />
         <param name="zero_altitude" value="true"/>
         <param name="broadcast_utm_transform" value="false" />
 
@@ -34,6 +34,8 @@ http://wiki.ros.org/robot_localization/Tutorials/GPS%20Integration
 
         <!-- intial position at the beginning AND converter input -->
         <remap from="/gps/fix" to="~convert_latlong" />
+
+        <remap from="/imu/data" to="/imu/zero" />
 
         <!-- converted position, to be sent back to latlong_goal_node -->
         <remap from="/odometry/gps" to="~convert_xy" />
