@@ -29,7 +29,8 @@
     <!-- Goals -->
 
     <include file="$(find capra_ai)/launch/GoalManager.launch" >
-        <arg name="file" value="$(env IBEX_HOME)/bags/201505031904-gps.json" />
+        <!--<arg name="file" value="$(env IBEX_HOME)/bags/201505031904-gps.json" />-->
+        <arg name="file" value="$(env IBEX_HOME)/bags/201505091113-gps.json" />
     </include>
 
     <!--RVIZ  -->
