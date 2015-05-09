@@ -1,5 +1,8 @@
 <launch>
     <node pkg="prosilica_camera" name="prosilica_node" type="prosilica_node" output="screen" >
         <remap from="/camera/image_raw" to="/image_raw" />
+	<param name="auto_exposure" value="False" />
+	<param name="auto_gain" value="False" />
+	<param name="exposure" value="0.001"/>
     </node>
 </launch>
