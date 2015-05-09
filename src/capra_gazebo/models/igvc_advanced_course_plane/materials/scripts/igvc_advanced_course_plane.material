@@ -1,0 +1,13 @@
+material igvc_advanced_course_plane/Image
+{
+     technique
+     {
+         pass
+         {
+             texture_unit
+             {
+                 texture IgvcAdvancedCourse_NoObstacles.jpg
+             }
+         }
+     } 
+}

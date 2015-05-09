@@ -1,0 +1,23 @@
+<?xml version='1.0'?>
+<sdf version='1.4'>
+    <model name="lattice">
+        <static>true</static>
+	    <link name="link">
+		<collision name="collision">
+		  <pose>0.02 0.105 0.525 0 0 0</pose>
+		  <geometry>
+		    <box>
+		      <size>0.04 0.21 1.05</size>
+		    </box>
+		  </geometry>
+		</collision>
+		<visual name='visual'>
+		    <geometry>
+			<mesh>
+			    <uri>model://lattice/meshes/lattice.dae</uri>
+			</mesh>
+		    </geometry>
+		</visual>
+	    </link>
+    </model>
+</sdf>
