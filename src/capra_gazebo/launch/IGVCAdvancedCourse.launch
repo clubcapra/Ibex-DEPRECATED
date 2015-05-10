@@ -1,5 +1,6 @@
 <launch>
   <arg name="robot_description" value="$(find capra_2dnav)/models/capra6/capra6.urdf" />
+  <arg name="door_description" value="$(find capra_gazebo)/models/lattice_large/model.sdf" />
   <arg name="world" default="$(find capra_gazebo)/worlds/igvc_advanced_course.world" />
   <arg name="gui" default="true" />
   <arg name="initial_position" default="-x 22.5 -y -40 -rpy 0" />
@@ -13,7 +14,10 @@
             <arg name="world_name" value="$(arg world)" />
             <arg name="gui" value="$(arg gui)" />
         </include>
-       <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(arg robot_description) -urdf $(arg initial_position) -model capra6" />
+        <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(arg robot_description) -urdf $(arg initial_position) -model capra6" />
+        <node name="spawn_door_1" pkg="gazebo_ros" type="spawn_model" args="-file $(arg door_description) -sdf -x 0 -y -9 -rpy 0 -model door_1" />
+        <node name="spawn_door_2" pkg="gazebo_ros" type="spawn_model" args="-file $(arg door_description) -sdf -x 0 -y 13 -rpy 0 -model door_2" />
+        <!-- <node name="spawn_door_3" pkg="gazebo_ros" type="spawn_model" args="-file $(arg door_description) -sdf -x 0 -y 38 -rpy 0 -model door_3" /> -->
     </group>
 
   <!-- BUILD ROBOT -->
