@@ -30,5 +30,6 @@
         <param name="zero_altitude" value="false"/>
         <remap from="/odometry/filtered" to="/odom" />
     </node>
+    <include file="$(find capra_gps)/launch/latlong_goal.launch" />
 
 </launch>

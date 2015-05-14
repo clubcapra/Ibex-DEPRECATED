@@ -9,6 +9,4 @@
     <node name="goal_loader" pkg="capra_ai" type="goal_loader.py" output="screen">
         <param name="file" value="$(arg file)" />
     </node>
-
-    <include file="$(find capra_gps)/launch/latlong_goal.launch" />
 </launch>

@@ -9,5 +9,5 @@
     <node name="imu_zero" pkg="capra_imu" type="imu_zero.py" output="screen" />
     <node pkg="capra_imu" type="imu_display.py" name="imu_display" output="screen" clear_params="true"/>
 
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/imu.rviz"/>
+    <!--<node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/imu.rviz"/>-->
 </launch>
