@@ -41,7 +41,7 @@ echo "Downloading packages..."
 	sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list' 
 	wget https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o $logFile -O - | sudo apt-key add - 
 	sudo apt-get update 
-	sudo apt-get -y install ros-indigo-desktop-full ros-indigo-lms1xx ros-indigo-robot-pose-ekf ros-indigo-joy ros-indigo-nmea-* ros-indigo-move-base ros-indigo-map-server ros-indigo-hector-slam ros-indigo-gmapping ros-indigo-octomap-ros ros-indigo-octomap-rviz-plugins libgsl0-dev ros-indigo-laser-geometry ros-indigo-amcl ros-indigo-hector-gazebo ros-indigo-hector-gazebo-plugins ros-indigo-hector-sensors-gazebo ros-indigo-robot-localization gitk libjpeg62 libtiff4-dev gir1.2-gtksource-3.0
+	sudo apt-get -y install ros-indigo-desktop-full ros-indigo-lms1xx ros-indigo-robot-pose-ekf ros-indigo-joy ros-indigo-nmea-* ros-indigo-move-base ros-indigo-map-server ros-indigo-hector-slam ros-indigo-gmapping ros-indigo-octomap-ros ros-indigo-octomap-rviz-plugins libgsl0-dev ros-indigo-laser-geometry ros-indigo-amcl ros-indigo-hector-gazebo ros-indigo-hector-gazebo-plugins ros-indigo-hector-sensors-gazebo ros-indigo-robot-localization gitk libjpeg62 libtiff4-dev gir1.2-gtksource-3.0 ros-indigo-prosilica-camera
 
 	sudo apt-get -y install python python-numpy python-scipy python-opencv python-protobuf 
 
