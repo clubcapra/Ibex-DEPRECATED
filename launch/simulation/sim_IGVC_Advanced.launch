@@ -13,6 +13,8 @@
 
     <include file="$(find capra_ai)/launch/StateAi.launch" />
 
+    <!--<include file="$(find capra_teleop)/launch/Teleop.launch" />-->
+
     <!-- MAPPING -->
     <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
         <remap from="cloud" to="cloud_in" />
