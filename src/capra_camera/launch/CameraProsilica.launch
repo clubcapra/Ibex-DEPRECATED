@@ -3,6 +3,6 @@
         <remap from="/camera/image_raw" to="/image_raw" />
 	<param name="auto_exposure" value="False" />
 	<param name="auto_gain" value="False" />
-	<param name="exposure" value="0.001"/>
+	<param name="exposure" value="0.05"/>
     </node>
 </launch>

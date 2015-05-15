@@ -1,5 +1,6 @@
 <launch>
     <node pkg="capra_camera" name="capra_camera" type="camera_node.py" output="screen">
+        <remap from="/capra_camera/small_uncompressed" to="/image_raw" />
     </node>
 
     <node pkg="image_transport" name="republish" type="republish" args="raw in:=capra_camera/image_uncompressed out:=capra_camera/image" output="screen" />

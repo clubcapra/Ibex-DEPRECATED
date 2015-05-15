@@ -27,11 +27,11 @@ if USE_PV_CAM:
     bridge = CvBridge()
     image_pub = rospy.Publisher("~image_uncompressed", Image, queue_size=10)
     small_pub = rospy.Publisher("~small_uncompressed", Image, queue_size=10)
-    r = rospy.Rate(6)
+    r = rospy.Rate(20)
     
     while not rospy.is_shutdown():
         img = images[cam.getFrame()]
         small = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
-        image_pub.publish(bridge.cv2_to_imgmsg(img, "bgr8"))
+        #image_pub.publish(bridge.cv2_to_imgmsg(img, "bgr8"))
         small_pub.publish(bridge.cv2_to_imgmsg(small, "bgr8"))
         r.sleep()    

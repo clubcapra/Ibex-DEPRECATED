@@ -41,7 +41,7 @@
 
   <!-- Camera -->
   <group if="$(arg camera)" >
-      <include file="$(find capra_camera)/launch/CameraProsilica.launch" />
+      <include file="$(find capra_camera)/launch/Camera.launch" />
   </group>
 
   <!-- Control panel -->

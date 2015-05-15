@@ -16,3 +16,6 @@
 [submodule "src/vectornav"]
 	path = src/vectornav
 	url = https://github.com/dawonn/vectornav.git
+[submodule "src/LibCamera"]
+	path = src/LibCamera
+	url = https://github.com/clubcapra/LibCamera.git
