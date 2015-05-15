@@ -74,7 +74,7 @@ if __name__ == "__main__":
 
     rospy.Subscriber("/cmd_vel", Twist, cmd_vel_callback)
     odom_publisher = rospy.Publisher("/odom", Odometry, queue_size=10)
-    connected_publisher = rospy.Publisher("~connected", MotorsConnected, queue_size=5)
+    connected_publisher = rospy.Publisher("~connected", MotorsConnected, queue_size=5, latch=True)
     rospy.Timer(rospy.Duration.from_sec(50.0/1000), velocity_timer)
     rospy.Timer(rospy.Duration.from_sec(1.0/Config.get_publish_rate()), publish_odom)
 

@@ -44,4 +44,7 @@
       <include file="$(find capra_camera)/launch/CameraProsilica.launch" />
   </group>
 
+  <!-- Control panel -->
+  <include file="$(find capra_controlpanel)/launch/ControlPanelServer.launch" />
+
 </launch>
