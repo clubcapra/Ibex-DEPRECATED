@@ -46,7 +46,7 @@ class MotorController(AbstractMotor):
             self.send_command(SetMode.VELOCITY)
             self.set_acceleration(Config.get_default_accel())
 
-            return self.serial_com.received_data
+            return True
         else:
             return False
 

@@ -11,7 +11,6 @@ import traceback
 class SerialCom:
 
     listeners = {}
-    received_data = False
     read_thread = None
     error_published = False
     write_lock = threading.Lock()
@@ -28,8 +27,20 @@ class SerialCom:
                 rospy.logerr("Port already opened")
 
             self.serial_port = serial.Serial(port=self.port_name, baudrate=9600, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=0.1)
+            # Attendre que les moteurs repondent de quoi.
+            received_data = False
+            while not received_data:
+                # Attention, les moteurs pourraient ne pas etre a 9600baud et mal recevoir la commande,
+                # mais ils semblent toujours renvoyer des donnees.
+                self.send_command(0, Echo(True))
+                self.send_command(0, ReportStatus())
+                if self.serial_port.read():
+                    received_data = True
 
-            self.received_data = False
+            #self.send_command(0, SetBaudrate(9600))
+            self.send_command(0, Echo(False))
+            rospy.sleep(0.1)
+            self.serial_port.flushInput()
 
             self.read_thread = threading.Thread(target=self._read_thread)
             self.read_thread.daemon = True
@@ -78,9 +89,7 @@ class SerialCom:
         try:
             while self.serial_port:
                 c = self.serial_port.read(1)
-
                 if len(c) == 1:
-                    self.received_data = True
                     response = self.response_parser.add_char(c)
                     if response:
                         if type(response) in self.listeners:
