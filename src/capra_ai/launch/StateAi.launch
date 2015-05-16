@@ -1,4 +1,4 @@
 <launch>
-    <node name="state_ai" pkg="capra_ai" type="state_ai.py" output="screen" />
+    <node name="igvc_basic_state_ai" pkg="capra_ai" type="igvc_basic_state_ai.py" output="screen" />
     <node pkg="capra_2dnav" type="obstacle_generator.py" name="obstacle_generator" output="screen"/>
 </launch>

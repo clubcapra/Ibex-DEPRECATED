@@ -41,6 +41,7 @@ add_service_files(
    InitializeHardIronFieldCalibration.srv
    StartAcquisition.srv
    StopAcquisition.srv
+   GenerateObstacle.srv
 )
 
 ## Generate added messages and services with any dependencies listed here
