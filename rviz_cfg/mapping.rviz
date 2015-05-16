@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /Image2
+        - /PointCloud22
       Splitter Ratio: 0.560091
     Tree Height: 502
   - Class: rviz/Selection
@@ -331,13 +332,13 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 255
       Min Color: 0; 0; 0
-      Min Intensity: 1
+      Min Intensity: 0
       Name: PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.05
+      Size (m): 0.1
       Style: Flat Squares
       Topic: /cloud_in
       Use Fixed Frame: true
@@ -500,7 +501,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 17.6297
+      Distance: 18.3518
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1

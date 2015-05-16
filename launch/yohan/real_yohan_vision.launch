@@ -8,12 +8,14 @@
       <arg name="camera" default="1" />
     </include>
 
-    <include file="$(find capra_teleop)/launch/Teleop.launch" />
 <!--
     <include file="$(find capra_2dnav)/launch/move_base.launch">
         <arg name="context" value="outdoors" />
     </include>
 -->
+
+<include file="$(find capra_teleop)/launch/Teleop.launch"></include>
+
     <!-- MAPPING -->
     <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
         <remap from="cloud" to="cloud_in" />
