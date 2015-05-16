@@ -4,6 +4,7 @@
   <arg name="motors" default="1" />  
   <arg name="gps" default="0" />
   <arg name="camera" default="0" />
+  <arg name="control_panel" default="0" />
 
   <arg name="publish_motor_odom" default="1" />
 
@@ -28,7 +29,9 @@
 
   <!-- IMU -->
   <group if="$(arg imu)">
-    <include file="$(find capra_imu)/launch/Imu.launch" />
+    <include file="$(find capra_imu)/launch/Imu.launch" >
+        <arg name="rviz" value="0" />
+    </include>
   </group>
     
   <!-- GPS -->
@@ -45,6 +48,8 @@
   </group>
 
   <!-- Control panel -->
-  <include file="$(find capra_controlpanel)/launch/ControlPanelServer.launch" />
+  <group if="$(arg control_panel)" >
+    <include file="$(find capra_controlpanel)/launch/ControlPanelServer.launch" />
+  </group>
 
 </launch>

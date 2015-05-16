@@ -5,7 +5,6 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /Image2
         - /PointCloud22
       Splitter Ratio: 0.560091
     Tree Height: 502
@@ -170,18 +169,18 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: costmap
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Global Costmap
       Topic: /move_base/global_costmap/costmap
-      Value: true
+      Value: false
     - Alpha: 0.7
       Class: rviz/Map
       Color Scheme: costmap
       Draw Behind: false
-      Enabled: false
+      Enabled: true
       Name: Local Costmap
       Topic: /move_base/local_costmap/costmap
-      Value: false
+      Value: true
     - Class: rviz/Camera
       Enabled: false
       Image Rendering: background and overlay
@@ -213,7 +212,7 @@ Visualization Manager:
         reached: true
       Zoom Factor: 1
     - Class: rviz/Image
-      Enabled: true
+      Enabled: false
       Image Topic: /seagoat_node
       Max Value: 1
       Median window: 5
@@ -222,7 +221,7 @@ Visualization Manager:
       Normalize Range: true
       Queue Size: 2
       Transport Hint: compressed
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -332,15 +331,15 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 255
       Min Color: 0; 0; 0
-      Min Intensity: 0
+      Min Intensity: 1
       Name: PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
-      Size (Pixels): 3
+      Size (Pixels): 5
       Size (m): 0.1
-      Style: Flat Squares
-      Topic: /cloud_in
+      Style: Points
+      Topic: /cloud_vision
       Use Fixed Frame: true
       Use rainbow: false
       Value: true
@@ -501,19 +500,19 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 18.3518
+      Distance: 5.78499
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 2.26791
-        Y: -2.73226
+        X: 3.35385
+        Y: -1.10663
         Z: 1.92476e-05
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.5448
+      Pitch: 1.5398
       Target Frame: <Fixed Frame>
       Value: XYOrbit (rviz)
       Yaw: 4.72859

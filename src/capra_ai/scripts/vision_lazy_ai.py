@@ -19,17 +19,17 @@ class VisionLazyAI(BaseAI):
 
 
         #Les angles ou le robot peut aller
-        self.priority_angles = [int(v.strip()) for v in self.get_param("~priority_angles", "0, 10, -10, 20, -20, 30, -30, 40, -40, 50, -50, 60, -60").split(",")]
+        self.priority_angles = [int(v.strip()) for v in self.get_param("~priority_angles", "0, 5, -5, 10, -10, 20, -20, 30, -30, 40, -40, 50, -50, 60, -60").split(",")]
         #La taille de la carte generee (en m). Le robot est au milieu.
         self.map_size = self.get_param("~map_size", 6.0)
         #La resolution de la carte generee
         self.map_resolution = self.get_param("~map_resolution", 0.01)
         #Le rayon du cercle de verification (pour savoir si le robot passe)
-        self.robot_radius = self.get_param("~robot_radius", 0.7)
+        self.robot_radius = self.get_param("~robot_radius", 0.6)
         #La distance par rapport au range finder ou le cercle est deplace
         self.displacement_check = self.get_param("~displacement_check", 0.6)
         #La vitesse du robot
-        self.speed = self.get_param("~speed", 0.5)
+        self.speed = self.get_param("~speed", 0.8)
 
         self.size = int(math.ceil(self.map_size / self.map_resolution))
         self.max_dist = self.map_size / 2.0
