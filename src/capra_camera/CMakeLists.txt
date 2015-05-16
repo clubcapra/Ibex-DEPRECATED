@@ -6,9 +6,13 @@ project(capra_camera)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   rospy
+  roscpp
   sensor_msgs
   cv_bridge
+  dynamic_reconfigure
 )
+
+generate_dynamic_reconfigure_options(cfg/Camera.cfg)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -108,6 +112,7 @@ include_directories(
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(capra_camera_node capra_camera_generate_messages_cpp)
+#add_dependencies(capra_camera_node ${PROJECT_NAME}_gencfg)
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(capra_camera_node
