@@ -14,4 +14,7 @@
 
     <remap from="/projected_map" to="/map" />
   </node>
+    <node name="relay" type="relay" pkg="topic_tools" required="true" args="cloud_vision cloud_in">
+
+    </node>
 </launch>

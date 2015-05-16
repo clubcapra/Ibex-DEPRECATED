@@ -13,7 +13,7 @@ class VisionLazyAI(BaseAI):
     def __init__(self):
         super(VisionLazyAI, self).__init__("vision_lazy_ai")
 
-        rospy.Subscriber('/cloud_in', PointCloud2, self._cloud_callback)
+        rospy.Subscriber('/cloud_vision', PointCloud2, self._cloud_callback)
 
         self.set_frequency(self.get_param("~rate", 10))
 
@@ -34,13 +34,7 @@ class VisionLazyAI(BaseAI):
         self.size = int(math.ceil(self.map_size / self.map_resolution))
         self.max_dist = self.map_size / 2.0
         self.robot_area = self.create_circle(int(self.robot_radius/self.map_resolution), (int(self.size/2.0), int(self.size/2.0)))
-        self.reset_matrix()
         self.previous_time = rospy.get_time()
-
-
-    def reset_matrix(self):
-        rospy.loginfo("Matrix reset")
-        self.matrix = np.zeros((self.size, self.size))
 
     @staticmethod
     def find_dist(dist, angle):
@@ -72,21 +66,8 @@ class VisionLazyAI(BaseAI):
         return s
 
     def _cloud_callback(self, msg):
-        current_time = rospy.get_time()
-        rospy.loginfo(current_time - self.previous_time)
-        if(current_time - self.previous_time) > 1.0:
-            self.reset_matrix()
-            self.previous_time = current_time
-
         self._pointcloud = msg
-        for point in pc2.read_points(self._pointcloud, None, True):
-            x, y = point[0], point[1]
-            if self.distance_to_point(x, y) >= 3.0:
-                continue
 
-            mx = int((x + self.max_dist) / self.map_resolution)
-            my = int((y + self.max_dist) / self.map_resolution)
-            self.matrix[mx][my] = 1
 
 
 
@@ -98,17 +79,50 @@ class VisionLazyAI(BaseAI):
     def find_angular_point(x, y):
         return math.atan2(x, y)
 
+    def run(self):
+        while not rospy.is_shutdown() and self._scan is None:
+            rospy.sleep(0.1)
 
+        while not rospy.is_shutdown() and self._pointcloud is None:
+            rospy.sleep(0.1)
+
+        while not rospy.is_shutdown():
+            self.loop()
+            self._rate.sleep()
 
 
     def loop(self):
         cost = 0
+        scan = self.get_scan()
+        angle = scan.angle_min
+        m = np.zeros((self.size, self.size))
+
+
+
+        for point in pc2.read_points(self._pointcloud):
+            x, y = point[0], point[1]
+            if self.distance_to_point(x, y) >= 3.0:
+                continue
+
+            mx = int((x + self.max_dist) / self.map_resolution)
+            my = int((y + self.max_dist) / self.map_resolution)
+            m[mx][my] = 1
+
+        for p in scan.ranges:
+            if p < 3.0:
+                if not (p < 1.0 and abs(angle) > math.pi / 2):
+                    px, py = self.find_dist(p, angle)
+                    x = int((px + self.max_dist) / self.map_resolution)
+                    y = int((py + self.max_dist) / self.map_resolution)
+                    m[x][y] = 1
+
+            angle += scan.angle_increment
 
         for angle in self.priority_angles:
             angle = math.radians(angle)
             disp_x = int((self.displacement_check * math.cos(angle))/self.map_resolution)
             disp_y = int((self.displacement_check * math.sin(angle))/self.map_resolution)
-            cost = self.calculate_sum(self.matrix, self.robot_area, (disp_x, disp_y))
+            cost = self.calculate_sum(m, self.robot_area, (disp_x, disp_y))
             if cost <= 1.0:
                 break
 
@@ -117,17 +131,6 @@ class VisionLazyAI(BaseAI):
         else:
             self.set_velocity(0, self.speed)
 
-        '''
-                for p in scan.ranges:
-            if p < 3.0:
-                if not (p < 1.0 and abs(angle) > math.pi / 2):
-                    px, py = self.find_dist(p, angle)
-                    x = int((px + self.max_dist) / self.map_resolution)
-                    y = int((py + self.max_dist) / self.map_resolution)
-                    m[x][y] = 1
-            angle += scan.angle_increment
-
-        '''
 
 
 try:
