@@ -1,0 +1,3 @@
+actionlib_msgs/GoalID goal_id
+geometry_msgs/Pose pose
+uint32 priority
