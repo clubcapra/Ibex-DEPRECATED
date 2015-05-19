@@ -1,0 +1,46 @@
+<launch>
+    <!-- GAZEBO -->
+    <include file="$(find capra_gazebo)/launch/Gazebo.launch">
+        <arg name="world" default="$(find capra_gazebo)/worlds/igvc_advanced_course.world" />l
+        <arg name="gui" default="true" />
+        <arg name="initial_position" default="-x 22.5 -y -40 -rpy 0" />
+    </include>
+
+    <!-- MOVING -->
+    <include file="$(find capra_2dnav)/launch/move_base.launch">
+      <arg name="context" value="dwa" />
+      <arg name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+    </include>
+
+    <include file="$(find capra_ai)/launch/StateAi.launch" />
+
+    <!-- MAPPING -->
+    <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
+        <remap from="cloud" to="cloud_in" />
+    </node>
+
+    <include file="$(find capra_2dnav)/launch/octomap.launch" >
+        <arg name="map_file" value="$(env IBEX_HOME)/maps/igvc_basic.bt" />
+        <arg name="max_range" value="5" />
+        <arg name="latch" value="false" />
+    </include>
+
+    <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
+
+    <!-- VISION -->
+    <include file="$(find seagoatvision_ros)/launch/Seagoat.launch" >
+        <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/sim.filterchain" />
+        <arg name="gui" value="False" />
+        <arg name="calibration_file" value="$(find seagoatvision_ros)/filterchain/calibrate-sim.filterchain" />
+    </include>
+
+    <!--RVIZ  -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(env IBEX_HOME)/rviz_cfg/mapping.rviz"/>
+
+    <!-- GOAL LOADER -->
+    <include file="$(find capra_ai)/launch/GoalManager.launch" >
+        <arg name="file" value="$(env IBEX_HOME)/waypoints/IGVCAdvancedCourse.json" />
+    </include>
+
+
+</launch>

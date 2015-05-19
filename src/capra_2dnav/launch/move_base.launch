@@ -1,5 +1,6 @@
 <launch>
   <arg name="context" default="indoors" />
+  <arg name="base_local_planner" default="base_local_planner/TrajectoryPlannerROS" />
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true" >
     <rosparam file="$(find capra_2dnav)/config/$(arg context)/costmap_common_params.yaml" command="load" ns="global_costmap" />
@@ -8,6 +9,8 @@
     <rosparam file="$(find capra_2dnav)/config/$(arg context)/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find capra_2dnav)/config/$(arg context)/base_local_planner_params.yaml" command="load" />
     <rosparam file="$(find capra_2dnav)/config/$(arg context)/base_global_planner_params.yaml" command="load" />
-      <param name="planner_frequency" value="1.0" />
+      <param name="planner_frequency" value="3.0" />
+      <param name="base_local_planner" value="$(arg base_local_planner)" />
+      <param name="recovery_behaviors" value="[{name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}]" />
   </node>
 </launch>
