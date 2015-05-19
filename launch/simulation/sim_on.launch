@@ -29,7 +29,7 @@
 
     <!-- VISION -->
     <include file="$(find seagoatvision_ros)/launch/Seagoat.launch" >
-        <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/sim.filterchain" />
+        <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/sim_advanced.filterchain" />
         <arg name="gui" value="False" />
         <arg name="calibration_file" value="$(find seagoatvision_ros)/filterchain/calibrate-sim.filterchain" />
     </include>
