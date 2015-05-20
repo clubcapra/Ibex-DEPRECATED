@@ -1,0 +1,7 @@
+<library path="lib/libjuvav_recovery">
+  <class name="juvav_recovery/JuvavRecovery" type="juvav_recovery::JuvavRecovery" base_class_type="nav_core::RecoveryBehavior">
+    <description>
+      A recovery behavior to enjoy the life it has.
+    </description>
+  </class>
+</library>
