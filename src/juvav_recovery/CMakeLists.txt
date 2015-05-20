@@ -1,12 +1,18 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(capra_2dnav)
+project(juvav_recovery)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   rospy
-  sensor_msgs
+  cmake_modules
+  roscpp
+  tf
+  costmap_2d
+  nav_core
+  pluginlib
+  base_local_planner
 )
 
 ## System dependencies are found with CMake's conventions
@@ -79,9 +85,11 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES capra_camera
-#  CATKIN_DEPENDS rospy sensor_msgs
+    INCLUDE_DIRS include
+    LIBRARIES rotate_recovery
+    CATKIN_DEPENDS
+        roscpp
+        pluginlib
 #  DEPENDS system_lib
 )
 
@@ -91,8 +99,8 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
 include_directories(
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -141,13 +149,17 @@ include_directories(
 #   PATTERN ".svn" EXCLUDE
 # )
 
-## Mark other files for installation (e.g. launch and bag files, etc.)
-# install(FILES
-#   # myfile1
-#   # myfile2
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-# )
+add_library(juvav_recovery src/juvav_recovery.cpp)
+target_link_libraries(juvav_recovery ${catkin_LIBRARIES})
 
+install(TARGETS juvav_recovery
+       ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+       LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+       )
+
+install(FILES juvav_recovery.xml
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
 #############
 ## Testing ##
 #############
