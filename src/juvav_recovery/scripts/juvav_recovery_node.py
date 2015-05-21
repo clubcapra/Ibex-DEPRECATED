@@ -7,18 +7,16 @@ import sensor_msgs.point_cloud2 as pc2
 from geometry_msgs.msg import Twist
 import tf
 from cv_bridge import CvBridge
-import numpy as np
-import cv2
-import cv2.cv as cv
 from math import *
-
+from juvav_recovery.srv import *
 
 class JuvavRecoveryNode:
 
     def __init__(self):
 
-        rospy.init_node('juvav_recovery_node', log_level=rospy.DEBUG)
+        rospy.init_node('juvav_recovery_node', log_level=rospy.INFO)
 
+        s_run = rospy.Service('juvav_recovery_node/run', Run, self.handle_run)
 
         pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 
@@ -44,6 +42,9 @@ class JuvavRecoveryNode:
             rate.sleep()
         rospy.spin()
 
+    def handle_run(self, msg):
+        print "Got a call on RUN service!"
+        return True
 
 if __name__ == "__main__":
     try:
