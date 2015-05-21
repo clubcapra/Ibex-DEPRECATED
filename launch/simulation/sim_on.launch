@@ -41,6 +41,7 @@
     <!-- GOAL LOADER -->
     <include file="$(find capra_ai)/launch/GoalManager.launch" >
         <arg name="file" value="$(env IBEX_HOME)/waypoints/IGVCAdvancedCourse.json" />
+        <arg name="loop" value="1" /> <!-- ROBOT WILL LOOP -->
     </include>
 
 

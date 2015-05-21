@@ -57,7 +57,7 @@ DWAPlannerROS:
   max_scaling_factor: 0.2
 
   # default 32.0
-  path_distance_bias: 128.0
+  path_distance_bias: 180.0
 
   # default 0.01
   # The weighting for how much the controller should attempt to avoid obstacles
@@ -82,7 +82,7 @@ DWAPlannerROS:
 
   # default 0.025
   # The step size, in meters, to take between points on a given trajectory
-  sim_granularity: 0.03
+  sim_granularity: 0.1
 
   yaw_goal_tolerance: 3.1416
   xy_goal_tolerance: 0.5
