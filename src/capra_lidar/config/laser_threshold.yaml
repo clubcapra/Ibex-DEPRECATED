@@ -13,7 +13,7 @@ scan_filter_chain:
     upper_threshold: 700
     disp_histogram: 0
 - name: range
-  type: LaserScanRangeFilter
+  type: laser_filters/LaserScanRangeFilter
   params:
     lower_threshold: 0.3
     upper_threshold: 50.0
