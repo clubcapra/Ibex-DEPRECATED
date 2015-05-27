@@ -9,9 +9,10 @@
 
     <!-- MOVING -->
     <include file="$(find capra_2dnav)/launch/move_base.launch">
-      <arg name="context" value="dwa" />
+      <!--<arg name="context" value="dwa" />
       <arg name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
-      <arg name="recovery_behaviors" value="[{name: juvav_recovery, type: juvav_recovery/JuvavRecovery}]" />
+      <arg name="recovery_behaviors" value="[{name: juvav_recovery, type: juvav_recovery/JuvavRecovery}]" />-->#
+        <arg name="context" value="indoors" />
     </include>
 
     <!--

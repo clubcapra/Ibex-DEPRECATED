@@ -12,7 +12,7 @@ DWAPlannerROS:
 
   #The minimum x velocity for the robot in m/s, negative for backwards motion.
   #default: 0.0
-  min_vel_x: -0.1
+  min_vel_x: 0.0
 
   #####################
 
@@ -52,7 +52,7 @@ DWAPlannerROS:
 
   # The absolute value of the minimum translational velocity for the robot in m/s
   # default: 0.1
-  min_trans_vel: 0.0
+  min_trans_vel: 0.2
 
   #####################
 
@@ -62,12 +62,12 @@ DWAPlannerROS:
 
   controller_frequency: 15.0
 
-  penalize_negative_x: true
+  penalize_negative_x: false
 
   max_scaling_factor: 0.2
 
   # default 32.0
-  path_distance_bias: 32.0
+  path_distance_bias: 0.01
 
   goal_distance_bias: 22.0
 
