@@ -5,12 +5,10 @@ from geometry_msgs.msg import PoseStamped, PointStamped, Quaternion, PoseArray, 
 from actionlib_msgs.msg import GoalStatusArray, GoalStatus, GoalID
 from move_base_msgs.msg import MoveBaseActionGoal
 from std_msgs.msg import Bool
-from sensor_msgs.msg import PointCloud2
-from visualization_msgs.msg import InteractiveMarker, InteractiveMarkerUpdate
-import sensor_msgs.point_cloud2 as pc2
-from interactive_markers import interactive_marker_server
+from marker_manager import MarkerManager
 from capra_ai.msg import GoalWithPriority
 from capra_ai.srv import ClearGoalList
+import dynamic_reconfigure.client
 
 
 class GoalManager():
@@ -25,6 +23,7 @@ class GoalManager():
 
     def __init__(self):
         self.goals = []
+        self.marker_manager = MarkerManager()
         self.current_idx = -1
         self.count = 0
         self.upd_count = 0
@@ -35,10 +34,6 @@ class GoalManager():
         self.goal_pub = rospy.Publisher("/move_base/goal", MoveBaseActionGoal, queue_size=10)
         self.done_pub = rospy.Publisher("~last_goal_reached", Bool, queue_size=1)
         self.current_pub = rospy.Publisher("~current", GoalWithPriority, queue_size=1)
-        self.reached_pub = rospy.Publisher("~reached", PointCloud2, queue_size=1)
-        self.future_pub = rospy.Publisher("~future", PointCloud2, queue_size=1)
-        #self.reached_pub = rospy.Publisher("~reached", InteractiveMarkerUpdate, queue_size=1)
-        #self.future_pub = rospy.Publisher("~future", InteractiveMarkerUpdate, queue_size=1)
         rospy.Service("~clear", ClearGoalList, self.handle_clear_goal_list)
         self.priority_to_precision = []
         self.priority_to_precision.append(0.1)  # [0,100[
@@ -55,15 +50,14 @@ class GoalManager():
         self.wait_for_goal()
         self.next_goal()
         while not rospy.is_shutdown():
+            # update rviz interactive markers
             if len(self.goals) > 0:
-                current_goal = GoalWithPriority()
-                current_goal.goal_id = self.goals[self.current_idx].move_base_action_goal.goal_id
-                current_goal.pose = self.goals[self.current_idx].move_base_action_goal.goal.target_pose.pose
-                points = [obj.move_base_action_goal.goal.target_pose.pose.position for obj in self.goals]  # list of Point
-                reached = self.convert_to_pointcloud(points[:self.current_idx])
-                future = self.convert_to_pointcloud(points[self.current_idx:])
-                self.reached_pub.publish(reached)
-                self.future_pub.publish(future)
+                for goal in self.goals:
+                    goal_id = goal.goal_with_priority.goal_id.id
+                    position = goal.goal_with_priority.pose.position
+                    if not self.marker_manager.check_marker(goal_id):
+                        self.marker_manager.create_marker(name = goal_id)
+                    self.marker_manager.update_marker(goal_id, position.x, position.y)
             rate.sleep()
 
     def wait_for_goal(self):
@@ -73,7 +67,7 @@ class GoalManager():
 
     def next_goal(self, idx = 0):
         # idx is current goal
-        if len(self.goals) > idx and idx > self.current_idx:
+        if len(self.goals) > idx > self.current_idx:
             self.current_idx = idx
             self.goal_pub.publish(self.goals[idx].move_base_action_goal)
             self.update_reached_precision(self.goals[idx].goal_with_priority)
@@ -82,7 +76,7 @@ class GoalManager():
 
     def add_waypoint(self, goal_with_priority):  # GoalWithPriority
         now = rospy.get_rostime()
-        self.count = self.count + 1
+        self.count += 1
         goal_id = GoalID()
         goal_id.stamp = now
         goal_id.id = "%s_%i_%i_%i" % (rospy.get_name(), self.count, now.secs, now.nsecs)
@@ -104,19 +98,14 @@ class GoalManager():
                 return idx
         return -1
 
-    def convert_to_pointcloud(self, points):  # list of Point
-        cloud = [[pt.x, pt.y, pt.z] for pt in points]
-        pcl = PointCloud2()
-        pcl = pc2.create_cloud_xyz32(pcl.header, cloud)
-        pcl.header.frame_id = "odom"
-        return pcl
-
     def update_reached_precision(self, goal_with_prirority):
         priority_idx = int(goal_with_prirority.priority / 100)
         precision = self.priority_to_precision[priority_idx]
-        rospy.loginfo("Goal has priority of %i, precision will be %f m" % (goal_with_prirority.priority, precision))
         # http://wiki.ros.org/base_local_planner#Goal_Tolerance_Parameters
-        rospy.set_param("/move_base/TrajectoryPlannerROS/xy_goal_tolerance", precision)
+        client = dynamic_reconfigure.client.Client("/move_base/TrajectoryPlannerROS")
+        params = { 'xy_goal_tolerance' : precision }
+        config = client.update_configuration(params)
+        rospy.loginfo("Goal xy tolerance set to %s", str(precision))
 
     def reset_goal_list(self):  # called when the base has reached the last goal and needs to loop
         # update goal ids
@@ -124,7 +113,7 @@ class GoalManager():
         for idx, msg in enumerate(self.goals):
             now = rospy.get_rostime()
             new_id = "%s_%i_%i_%i" % (rospy.get_name(), self.count, now.secs, now.nsecs)
-            self.count = self.count + 1
+            self.count += 1
             goal_id = GoalID()
             goal_id.stamp = now
             goal_id.id = new_id
