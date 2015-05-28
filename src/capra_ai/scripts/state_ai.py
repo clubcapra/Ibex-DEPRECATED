@@ -90,6 +90,10 @@ class StateAi(object):
 
         self.clear_octomap_service(min, max)
 
+    def reset_octomap(self):
+        self.reset_octomap_service()
+        rospy.loginfo("Octomap reset")
+
     def set_max_vel_x(self, velocity):
         client = dynamic_reconfigure.client.Client("/move_base/TrajectoryPlannerROS")
         params = { 'max_vel_x' : velocity}
