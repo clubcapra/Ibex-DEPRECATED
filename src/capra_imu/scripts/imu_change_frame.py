@@ -60,7 +60,7 @@ def imu_cb(msg):
 
 
 if __name__ == "__main__":
-    rospy.init_node('imu_wrapper')
+    rospy.init_node('imu_change_frame')
     global pub_imu
     pub_imu_zero = rospy.Publisher("/imu/zero", Imu, queue_size=10)
     pub_imu = rospy.Publisher("/imu/data", Imu, queue_size=10)
