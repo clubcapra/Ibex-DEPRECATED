@@ -6,11 +6,11 @@
         <param name="speed_ratio" value="0.996, 1.0"/>
         <param name="position_ratio" value="0.9815, 0.9765"/>
         <!--                                x    y    z    rx   ry   rz -->
-        <rosparam param="covariance_matrix">1.0, 0,   0,   0,   0,   0,
-                                            0,   1.0, 0,   0,   0,   0,
+        <rosparam param="covariance_matrix">0.1, 0,   0,   0,   0,   0,
+                                            0,   0.1, 0,   0,   0,   0,
                                             0,   0,   1.0, 0,   0,   0,
                                             0,   0,   0,   1.0, 0,   0,
                                             0,   0,   0,   0,   1.0, 0,
-                                            0,   0,   0,   0,   0,   1.0</rosparam>
+                                            0,   0,   0,   0,   0,   0.1</rosparam>
     </node>
 </launch>

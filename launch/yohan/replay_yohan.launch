@@ -1,7 +1,7 @@
 <launch>
 
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/kalman.rviz"/>
-    <node pkg="capra_imu" type="imu_display.py" name="imu_display" />
+    <node pkg="capra_imu" type="imu_display.py" name="imu_display" output="screen"/>
 
     <!-- Position -->
 
@@ -10,8 +10,12 @@
     <node pkg="rosbag" type="play" name="rosbag" args="$(env IBEX_HOME)/bags/2015-05-16-14-04-28.bag" >
         <remap from="/tf" to="/tf/null" />
         <remap from="/odometry/filtered" to="/odom/null" />
+        <remap from="/imu/pose" to="/imu/null" />
+        <remap from="/imu/data" to="/imu/null2" />
     </node>
 
+    <node pkg="capra_imu" type="imu_change_frame.py" name="imu_change_frame" output="screen" clear_params="true"/>
+    <node pkg="capra_gps" type="gps_theta.py" name="gps_theta" output="screen" />
 
   <arg name="robot_description" value="$(find capra_2dnav)/models/capra6/capra6.urdf" />
   <node pkg="tf" type="static_transform_publisher" name="footprint_broadcaster" args="0 0 0 0 0 0 base_footprint base_link 50" />
