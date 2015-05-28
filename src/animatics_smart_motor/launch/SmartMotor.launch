@@ -3,8 +3,10 @@
         <param name="serial_port" value="/dev/ttyUSB1004"/>
         <param name="nb_motors" value="2"/>
         <param name="watchdog_timeout" value="150"/>
-        <param name="speed_ratio" value="0.996, 1.0"/>
-        <param name="position_ratio" value="0.9815, 0.9765"/>
+        <!-- differences entre vitesse pour faire aller le robot droit. [droit, gauche]. Pour calibrer,
+         faire avancer le robot avec la manette et s'assurer qu'il va droit -->
+        <param name="speed_ratio" value="0.95, 1.0"/>
+        <param name="position_ratio" value="1.0, 0.95"/>
         <!--                                x    y    z    rx   ry   rz -->
         <rosparam param="covariance_matrix">0.1, 0,   0,   0,   0,   0,
                                             0,   0.1, 0,   0,   0,   0,
