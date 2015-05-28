@@ -1,16 +1,18 @@
 <launch>
     <!-- GAZEBO -->
-    <include file="$(find capra_gazebo)/launch/Gazebo.launch">
-        <arg name="world" default="$(find capra_gazebo)/worlds/igvc_advanced_course.world" />l
-        <arg name="gui" default="true" />
-        <arg name="initial_position" default="-x 22.5 -y -40 -rpy 0" />
-    </include>
+    <group>
+        <remap from="/cmd_vel" to="/smart_cmd_vel"/>
+        <include file="$(find capra_gazebo)/launch/Gazebo.launch">
+            <arg name="world" default="$(find capra_gazebo)/worlds/igvc_advanced_course.world" />l
+            <arg name="gui" default="true" />
+            <arg name="initial_position" default="-x 22.5 -y -40 -rpy 0" />
+        </include>
+    </group>
 
     <!-- MOVING -->
     <include file="$(find capra_2dnav)/launch/move_base.launch">
-      <arg name="context" value="dwa" />
-      <arg name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
-      <arg name="recovery_behaviors" value="[{name: juvav_recovery, type: juvav_recovery/JuvavRecovery}]" />
+        <arg name="context" value="gazebo" />
+        <arg name="recovery_behaviors" value="[{name: juvav_recovery, type: juvav_recovery/JuvavRecovery}]" />
     </include>
 
     <include file="$(find capra_ai)/launch/StateAi.launch" />
@@ -43,6 +45,9 @@
         <arg name="file" value="$(env IBEX_HOME)/waypoints/IGVCAdvancedCourse.json" />
         <arg name="loop" value="1" /> <!-- ROBOT WILL LOOP -->
     </include>
+
+    <!-- FUCK YEAH!! JUVAV RECOVERY -->
+    <node pkg="juvav_recovery" type="juvav_recovery_node.py" name="juvav_recovery_node" output="screen"/>
 
 
 </launch>

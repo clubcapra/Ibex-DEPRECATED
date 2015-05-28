@@ -10,20 +10,23 @@ from cv_bridge import CvBridge
 from math import *
 from juvav_recovery.srv import *
 
+
 class JuvavRecoveryNode:
 
     def __init__(self):
 
-        rospy.init_node('juvav_recovery_node', log_level=rospy.INFO)
+        self.requested_vel = None
+        self.requested_vel_time = 0
 
+        rospy.init_node('juvav_recovery_node', log_level=rospy.INFO)
         s_run = rospy.Service('juvav_recovery_node/run', Run, self.handle_run)
 
-        pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+        self.smart_cmd_vel_publisher = rospy.Publisher('/smart_cmd_vel', Twist, queue_size=10)
+        rospy.Subscriber('/cmd_vel', Twist, self.cmd_vel_callback)
 
-        #publish transform to image
         listener = tf.TransformListener()
 
-        rate = rospy.Rate(10)
+        rate = rospy.Rate(4)  # 4Hz
         while not rospy.is_shutdown():
 
             tf_found = False
@@ -40,11 +43,20 @@ class JuvavRecoveryNode:
                     rospy.logerr("Error looking up tf")
 
             rate.sleep()
-        rospy.spin()
 
-    def handle_run(self, msg):
+    @staticmethod
+    def handle_run(msg):
         print "Got a call on RUN service!"
         return True
+
+    def publish_smart_cmd_vel(self, event):
+        self.smart_cmd_vel_publisher.publish(self.requested_vel)
+
+    def cmd_vel_callback(self, msg):
+        self.requested_vel = msg
+        self.requested_vel_time = rospy.get_time()
+        self.publish_smart_cmd_vel(None)
+
 
 if __name__ == "__main__":
     try:

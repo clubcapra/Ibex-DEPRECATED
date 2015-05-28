@@ -1,12 +1,12 @@
 TrajectoryPlannerROS:
   max_vel_x: 1.4
-  min_vel_x: 0.1
+  min_vel_x: -0.3
   #The rotational velocity allowed for the base in radians/sec
   max_vel_theta: 3.5
   min_vel_theta: -3.5
 
   #The minimum rotational velocity allowed for the base while performing in-place rotations in radians/sec
-  min_in_place_vel_theta: 0.1
+  min_in_place_vel_theta: 0.05
 
   #Speed used for driving during escapes in meters/sec. Must be negative
   escape_vel: -0.3

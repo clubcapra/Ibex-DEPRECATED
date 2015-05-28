@@ -6,3 +6,4 @@ global_costmap:
   static_map: true
   inflation_radius: 10.0
   cost_scaling_factor: 5.0
+  footprint_padding: 0.15

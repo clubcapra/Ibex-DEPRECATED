@@ -1,5 +1,5 @@
-obstacle_range: 2.5
-raytrace_range: 3.0
+obstacle_range: 17.5
+raytrace_range: 4.0
 footprint: [[0.432, -0.21], [0, -0.27], [-0.45, -0.27],  [-0.45, 0.27], [0, 0.27], [0.432, 0.21]]
 #[[0.432, -0.21], [0, -0.32], [-0.52, -0.32],  [-0.52, 0.32], [0, 0.32], [0.432, 0.21]]
 observation_sources: laser_scan_sensor camera_sensor
