@@ -11,10 +11,10 @@ import traceback
 class SerialCom:
 
     listeners = {}
-    received_data = False
     read_thread = None
     error_published = False
     write_lock = threading.Lock()
+    connected = False
 
     def __init__(self, port_name):
         self.serial_port = None
@@ -28,8 +28,22 @@ class SerialCom:
                 rospy.logerr("Port already opened")
 
             self.serial_port = serial.Serial(port=self.port_name, baudrate=9600, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=0.1)
+            # Attendre que les moteurs repondent de quoi.
+            received_data = False
+            while not received_data:
+                # Attention, les moteurs pourraient ne pas etre a 9600baud et mal recevoir la commande,
+                # mais ils semblent toujours renvoyer des donnees.
+                self.send_command(0, Echo(True), True)
+                self.send_command(0, ReportStatus(), True)
+                if len(self.serial_port.read()) > 0:
+                    received_data = True
 
-            self.received_data = False
+            self.send_command(0, SetBaudrate(9600), True)
+            self.send_command(0, Echo(False), True)
+            rospy.sleep(0.1)
+            self.serial_port.flushInput()
+
+            self.connected = True
 
             self.read_thread = threading.Thread(target=self._read_thread)
             self.read_thread.daemon = True
@@ -44,6 +58,7 @@ class SerialCom:
 
     def disconnect(self):
         try:
+            self.connected = False
             if self.serial_port:
                 self.serial_port.close()
                 self.serial_port = None
@@ -58,14 +73,14 @@ class SerialCom:
         time.sleep(0.1)
         self.serial_port.setBaudrate(baudrate)
 
-    def send_command(self, address, command):
+    def send_command(self, address, command, force=False):
         addr = chr(self.broadcast_address + address)
 
         for cmd in str(command).split("\n"):
-            self._send(addr + str(cmd))
+            self._send(addr + str(cmd), force)
 
-    def _send(self, msg):
-        if self.serial_port:
+    def _send(self, msg, force=False):
+        if self.connected or force:
             try:
                 with self.write_lock:
                     self.serial_port.write(msg + " ")
@@ -76,11 +91,9 @@ class SerialCom:
 
     def _read_thread(self):
         try:
-            while self.serial_port:
+            while self.connected:
                 c = self.serial_port.read(1)
-
                 if len(c) == 1:
-                    self.received_data = True
                     response = self.response_parser.add_char(c)
                     if response:
                         if type(response) in self.listeners:
