@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 import roslib
 roslib.load_manifest('capra_camera')
@@ -27,11 +28,17 @@ if USE_PV_CAM:
     bridge = CvBridge()
     image_pub = rospy.Publisher("~image_uncompressed", Image, queue_size=10)
     small_pub = rospy.Publisher("~small_uncompressed", Image, queue_size=10)
-    r = rospy.Rate(6)
+    r = rospy.Rate(20)
     
     while not rospy.is_shutdown():
         img = images[cam.getFrame()]
         small = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
-        image_pub.publish(bridge.cv2_to_imgmsg(img, "bgr8"))
+        # utiliser l'image full size cause parfois des bars dans l'image. c'est peut-être causé par le fait que le 
+        # publish envoie l'image et qu'un process asynchrone de ROS utilise termine l'envoi de l'image APRÈS qu'on 
+        # ait callé un getFrame de nouveau. Le getFrame bloque l'image jusqu'au prochain call getFrame, mais dans le 
+        # cas décrit, l'image serait débloqué avant que ROS ait terminé de la publier. Il faudrait donc en faire une 
+        # copie et publier cette copie pour être sur qu'elle ne se fera pas overwriter
+        
+        #image_pub.publish(bridge.cv2_to_imgmsg(img, "bgr8"))
         small_pub.publish(bridge.cv2_to_imgmsg(small, "bgr8"))
         r.sleep()    

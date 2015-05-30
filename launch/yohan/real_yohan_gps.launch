@@ -9,8 +9,8 @@
     </include>
 
     <!-- MOVING
-    <include file="$(find capra_teleop)/launch/Teleop.launch" /> -->
-
+    <include file="$(find capra_teleop)/launch/Teleop.launch" />
+-->
   <include file="$(find capra_2dnav)/launch/move_base.launch">
     <arg name="context" value="indoors" />
   </include>

@@ -1,0 +1,13 @@
+
+# default 2.5
+obstacle_range: 19.5
+
+
+raytrace_range: 7.0
+footprint: [[0.432, -0.21], [0, -0.27], [-0.45, -0.27],  [-0.45, 0.27], [0, 0.27], [0.432, 0.21]]
+#[[0.432, -0.21], [0, -0.32], [-0.52, -0.32],  [-0.52, 0.32], [0, 0.32], [0.432, 0.21]]
+observation_sources: laser_scan_sensor camera_sensor
+laser_scan_sensor: {sensor_frame: laser, data_type: LaserScan, topic: /scan, marking: true, clearing: true, observation_persistence: 0.0}
+camera_sensor: {sensor_frame: laser, data_type: PointCloud2, topic: /cloud_vision, marking: true, clearing: true, observation_persistence: 0.0, min_obstacle_height: -1.0}
+
+track_unknown_space: false

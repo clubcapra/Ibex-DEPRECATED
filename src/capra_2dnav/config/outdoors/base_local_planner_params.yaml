@@ -1,9 +1,9 @@
 TrajectoryPlannerROS:
-  max_vel_x: 0.8
+  max_vel_x: 0.6
   min_vel_x: 0.1
   #The rotational velocity allowed for the base in radians/sec
-  max_vel_theta: 1.5
-  min_vel_theta: -1.5
+  max_vel_theta: 1.3
+  min_vel_theta: -1.3
 
   #The minimum rotational velocity allowed for the base while performing in-place rotations in radians/sec
   min_in_place_vel_theta: 0.1
@@ -12,7 +12,7 @@ TrajectoryPlannerROS:
   escape_vel: -0.3
 
   #The x acceleration limit in m/s^2
-  acc_lim_theta: 0.4
+  acc_lim_theta: 0.6
   acc_lim_x: 10.0
   acc_lim_y: 10.0
 

@@ -3,6 +3,7 @@
 
 import rospy
 from subprocess import call
+from geometry_msgs.msg import Point
 
 def stop_node(node_name):
     command = "rosnode kill " + node_name
@@ -27,3 +28,5 @@ def set_param(param, value):
 def run(cmd):
     rospy.loginfo("Running command:{0}".format(cmd))
     call(cmd + " &", shell=True)
+
+

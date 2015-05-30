@@ -1,7 +1,7 @@
 <launch>
     <!-- GAZEBO -->
     <include file="$(find capra_gazebo)/launch/Gazebo.launch">
-        <arg name="world" default="$(find capra_gazebo)/worlds/igvc_basic_course.world" />l
+      <arg name="world" default="$(find capra_gazebo)/worlds/igvc_basic_course.world" />l
         <arg name="gui" default="false" />
         <arg name="initial_position" default="-x 0 -y -22.5 -rpy 0" />
     </include>

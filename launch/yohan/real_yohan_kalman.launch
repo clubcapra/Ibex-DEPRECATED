@@ -31,7 +31,7 @@
     <!-- Goals -->
 
     <include file="$(find capra_ai)/launch/GoalManager.launch" >
-        <arg name="file" value="$(env IBEX_HOME)/bags/201505091503-gps.json" />
+        <arg name="file" value="$(env IBEX_HOME)/bags/201505161009-gps.json" />
         <arg name="loop" value="true" />
     </include>
 

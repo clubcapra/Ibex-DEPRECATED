@@ -4,12 +4,13 @@
   <arg name="motors" default="1" />  
   <arg name="gps" default="0" />
   <arg name="camera" default="0" />
+  <arg name="control_panel" default="0" />
 
   <arg name="publish_motor_odom" default="1" />
 
   <!-- Robot and TF -->
   <arg name="robot_description" value="$(find capra_2dnav)/models/capra6/capra6.urdf" />
-  <node pkg="tf" type="static_transform_publisher" name="footprint_broadcaster" args="0 0 0 0 0 0 base_footprint base_link 50" />
+  <node pkg="tf" type="static_transform_publisher" name="footprint_broadcaster" args="0 0 0 0 0 0 base_footprint base_link 30" />
   <rosparam command="load" param="robot_description" file="$(arg robot_description)" />
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="capra6_state_publisher" />  
 
@@ -28,7 +29,9 @@
 
   <!-- IMU -->
   <group if="$(arg imu)">
-    <include file="$(find capra_imu)/launch/Imu.launch" />
+    <include file="$(find capra_imu)/launch/Imu.launch" >
+        <arg name="rviz" value="0" />
+    </include>
   </group>
     
   <!-- GPS -->
@@ -41,10 +44,12 @@
 
   <!-- Camera -->
   <group if="$(arg camera)" >
-      <include file="$(find capra_camera)/launch/CameraProsilica.launch" />
+      <include file="$(find capra_camera)/launch/Camera.launch" />
   </group>
 
   <!-- Control panel -->
-  <include file="$(find capra_controlpanel)/launch/ControlPanelServer.launch" />
+  <group if="$(arg control_panel)" >
+    <include file="$(find capra_controlpanel)/launch/ControlPanelServer.launch" />
+  </group>
 
 </launch>
