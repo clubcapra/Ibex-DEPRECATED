@@ -8,11 +8,9 @@
       <arg name="camera" default="1" />
     </include>
 
-
     <include file="$(find capra_2dnav)/launch/move_base.launch">
         <arg name="context" value="outdoors" />
     </include>
-
 
     <!-- <include file="$(find capra_teleop)/launch/Teleop.launch"></include> -->
 
@@ -22,7 +20,7 @@
     </node>
 
     <include file="$(find capra_2dnav)/launch/octomap.launch" >
-
+      <arg name="map_file" value="$(env IBEX_HOME)/maps/igvc_basic.bt" />
     </include>
 
    <!-- <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen" /> -->
@@ -32,6 +30,7 @@
 
     <!-- VISION -->
     <include file="$(find seagoatvision_ros)/launch/Seagoat.launch" >
+      <!-- <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/lignes-oranges.filterchain" /> -->
         <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/indoors.filterchain" />
         <arg name="gui" value="True" />
         <arg name="calibration_file" default="$(find seagoatvision_ros)/filterchain/calibrate-real.filterchain" />

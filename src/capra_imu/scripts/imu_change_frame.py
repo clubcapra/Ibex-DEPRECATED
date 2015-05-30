@@ -30,7 +30,7 @@ def imu_cb(msg):
     msg_imu.orientation = Quaternion(q_rotated_90[0], q_rotated_90[1], q_rotated_90[2], q_rotated_90[3])
 
     # covariance
-    cov = [1.0,0,0,0,1.0,0,0,0,1.0]
+    cov = [0.001,0,0,0,0.001,0,0,0,0.001]
     msg_imu.orientation_covariance = cov
 
     #euler = tf.transformations.euler_from_quaternion(q_flipped)
@@ -60,7 +60,7 @@ def imu_cb(msg):
 
 
 if __name__ == "__main__":
-    rospy.init_node('imu_wrapper')
+    rospy.init_node('imu_change_frame')
     global pub_imu
     pub_imu_zero = rospy.Publisher("/imu/zero", Imu, queue_size=10)
     pub_imu = rospy.Publisher("/imu/data", Imu, queue_size=10)
