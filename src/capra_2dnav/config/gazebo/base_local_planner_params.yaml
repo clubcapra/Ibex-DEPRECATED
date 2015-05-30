@@ -24,7 +24,7 @@ TrajectoryPlannerROS:
   #The weighting for how much the controller should stay close to the path it was given. default 0.6
   pdist_scale: 0.2
   # The weighting for how much the controller should attempt to avoid obstacles. default 0.01
-  occdist_scale: 0.9
+  occdist_scale: 0.01
   # The weighting for how much the controller should attempt to reach its local goal, also controls speed. default 0.8
   gdist_scale: 0.5
 
