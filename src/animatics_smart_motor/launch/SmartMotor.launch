@@ -3,14 +3,28 @@
         <param name="serial_port" value="/dev/ttyUSB1004"/>
         <param name="nb_motors" value="2"/>
         <param name="watchdog_timeout" value="150"/>
-        <param name="speed_ratio" value="0.996, 1.0"/>
-        <param name="position_ratio" value="0.9815, 0.9765"/>
+        <!-- differences entre vitesse pour faire aller le robot droit. [droit, gauche]. Pour calibrer,
+         faire avancer le robot avec la manette et s'assurer qu'il va droit -->
+        <param name="speed_ratio" value="0.95, 1.0"/>
+        <!-- difference entre la lecture des encodeurs et ce qu'on doit interpreter. C-a-d que si une roue dit qu'elle a tourne
+        de 1 tour mais qu'elle a seulement fait 0.95 tour, on le corrige ici. ca devrait etre lie a la correction de vitesse ci-haut.
+         Pour savoir ce que le robot pense on peut afficher les obstacles dans rviz et deplacer le robot en ligne droite.
+         Les obstacles devraient rester a la même place et un mur droit devrait rester droit. Ca va assez bien de le tester dans
+         le corridor des clubs -->
+        <param name="position_ratio" value="1.0, 0.95"/>
+        <!-- une fois que le robot va droit et qu'il lit bien qu'il va droit (corrige avec speed ratio et position ratio),
+        on peut tweaker la largeur pour que la rotation soit bien calculee. Le calcul de l'orientation se fait avec la moyenne
+        de distance parcourue des 2 roues divisee par la largeur. Plus la largeur est haute, moins le robot pense qu'il a tourne.
+         Encore une fois, le corridor des clubs est un bon test: on place le robot au milieu et on le fait pivoter. Apres un tour,
+         les deux murs du corridor devraient s'enligner avec ceux de la premiere lecture. Si le robot n'a pas assez tourne, on diminue
+          la largeur, et vice-versa-->
+        <param name="robot_width" value="0.53" />
         <!--                                x    y    z    rx   ry   rz -->
-        <rosparam param="covariance_matrix">1.0, 0,   0,   0,   0,   0,
-                                            0,   1.0, 0,   0,   0,   0,
+        <rosparam param="covariance_matrix">0.1, 0,   0,   0,   0,   0,
+                                            0,   0.1, 0,   0,   0,   0,
                                             0,   0,   1.0, 0,   0,   0,
                                             0,   0,   0,   1.0, 0,   0,
                                             0,   0,   0,   0,   1.0, 0,
-                                            0,   0,   0,   0,   0,   1.0</rosparam>
+                                            0,   0,   0,   0,   0,   0.1</rosparam>
     </node>
 </launch>

@@ -1,0 +1,21 @@
+local_costmap:
+  global_frame: map
+  robot_base_frame: base_link
+  update_frequency: 2.75
+  publish_frequency: 1.0
+  static_map: false
+  rolling_window: true
+
+  # default 6.0
+  width: 8.0
+
+  # default 6.0
+  height: 8.0
+
+  resolution: 0.05
+
+  # default 0.4
+  inflation_radius: 0.05
+
+  # default 3.0
+  cost_scaling_factor: 1.1

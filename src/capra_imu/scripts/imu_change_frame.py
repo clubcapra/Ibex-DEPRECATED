@@ -22,20 +22,15 @@ def imu_cb(msg):
     msg_imu.header.frame_id = "base_footprint"
     msg_imu.header.stamp = msg.header.stamp
 
-    initial = [msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w]
+    initial = [msg.orientation.x, msg.orientation.y, -msg.orientation.z, msg.orientation.w]
 
-    rotation_y = quaternion_about_axis(math.pi/2.0, [0, 1, 0])
-    q_rotated_90_y = quaternion_multiply(initial, rotation_y)
-    rotation_x = quaternion_about_axis(math.pi, [1, 0, 0])
-    q_rotated_90_yx = quaternion_multiply(q_rotated_90_y, rotation_x)
-    q_rotated_90_yx[2] = -q_rotated_90_yx[2]
-    rotation_z = quaternion_about_axis(math.pi/2.0, [0, 0, 1])
-    q_final = quaternion_multiply(q_rotated_90_yx, rotation_z)
+    rotation_z = quaternion_about_axis(math.pi/2-0.3, [0, 0, 1])
+    q_rotated_90 = quaternion_multiply(initial, rotation_z)
 
-    msg_imu.orientation = Quaternion(q_final[0], q_final[1], q_final[2], q_final[3])
+    msg_imu.orientation = Quaternion(q_rotated_90[0], q_rotated_90[1], q_rotated_90[2], q_rotated_90[3])
 
     # covariance
-    cov = [1.0,0,0,0,1.0,0,0,0,1.0]
+    cov = [0.001,0,0,0,0.001,0,0,0,0.001]
     msg_imu.orientation_covariance = cov
 
     #euler = tf.transformations.euler_from_quaternion(q_flipped)
@@ -65,7 +60,7 @@ def imu_cb(msg):
 
 
 if __name__ == "__main__":
-    rospy.init_node('imu_wrapper')
+    rospy.init_node('imu_change_frame')
     global pub_imu
     pub_imu_zero = rospy.Publisher("/imu/zero", Imu, queue_size=10)
     pub_imu = rospy.Publisher("/imu/data", Imu, queue_size=10)

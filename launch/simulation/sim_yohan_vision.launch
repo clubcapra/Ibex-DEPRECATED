@@ -2,7 +2,8 @@
     <!-- GAZEBO -->
     <include file="$(find capra_gazebo)/launch/Gazebo.launch">
         <arg name="gui" value="True" />
-        <arg name="world" value="$(find capra_gazebo)/worlds/grass_lanes.world" />
+	<arg name="world" default="$(find capra_gazebo)/worlds/igvc_basic_course.world" />
+        <!-- <arg name="world" value="$(find capra_gazebo)/worlds/grass_lanes.world" /> -->
         <arg name="initial_position" value="-x -17 -y 16.7 -rpy 1.6" />
     </include>
 
@@ -21,7 +22,6 @@
     </node>
 
     <include file="$(find capra_2dnav)/launch/octomap.launch" >
-
     </include>
 
     <!--<remap from="projected_map" to="map" />-->

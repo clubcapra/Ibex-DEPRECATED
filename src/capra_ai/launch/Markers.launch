@@ -1,0 +1,8 @@
+<launch>
+
+    <node name="markers" pkg="capra_ai" type="markers.py" output="screen" />
+
+    <!--RVIZ  -->
+    <node pkg="rviz" type="rviz" name="rviz" />
+
+</launch>

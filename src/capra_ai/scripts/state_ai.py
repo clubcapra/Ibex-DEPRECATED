@@ -9,6 +9,8 @@ from octomap_msgs.srv import BoundingBoxQuery
 from std_srvs.srv import Empty
 from geometry_msgs.msg import Point
 from capra_msgs.srv import GenerateObstacle
+from capra_ai.msg import GoalWithPriority
+import dynamic_reconfigure.client
 import tf
 
 class StateAi(object):
@@ -19,7 +21,8 @@ class StateAi(object):
         self.clear_octomap_service = rospy.ServiceProxy('/octomap_server/clear_bbx', BoundingBoxQuery)
         self.reset_octomap_service = rospy.ServiceProxy('/octomap_server/reset', Empty)
         self.generate_obstacle_service = rospy.ServiceProxy('/obstacle_generator', GenerateObstacle)
-        rospy.Subscriber("/move_base/goal", MoveBaseActionGoal, self.goal_callback)
+        rospy.Subscriber("/goal_manager/current", GoalWithPriority, self.goal_callback)
+        rospy.Subscriber("/goal_manager/last_goal_reached", Bool, self.last_goal_callback)
         self.pub_circle = rospy.Publisher("/obstacle_generator/generate_circle", Bool, queue_size=10)
         self.pub_bar = rospy.Publisher("/obstacle_generator/generate_bar", Bool, queue_size=10)
         self.tf_listener = tf.TransformListener()
@@ -44,12 +47,20 @@ class StateAi(object):
         return None
 
     def goal_callback(self, msg):
-        self.on_goal_targeted(msg)
+        self.goal_count += 1
+        self.on_goal_changed(msg)
+
+    def last_goal_callback(self, msg):
+        if msg.data == True:
+            self.on_last_goal_reached(msg)
 
     def on_start(self):
         return None
 
-    def on_goal_targeted(self, msg):
+    def on_goal_changed(self, msg):
+        return None
+
+    def on_last_goal_reached(self, msg):
         return None
 
     def generate_circle(self, radius, start_rad, end_rad, step_rad):
@@ -78,6 +89,17 @@ class StateAi(object):
         max.z = 5.0
 
         self.clear_octomap_service(min, max)
+
+    def reset_octomap(self):
+        self.reset_octomap_service()
+        rospy.loginfo("Octomap reset")
+
+    def set_max_vel_x(self, velocity):
+        client = dynamic_reconfigure.client.Client("/move_base/TrajectoryPlannerROS")
+        params = { 'max_vel_x' : velocity}
+        config = client.update_configuration(params)
+        rospy.loginfo("Max vel x set to %s", str(velocity))
+
 
 if __name__ == "__main__":
     try:

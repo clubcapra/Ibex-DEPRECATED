@@ -19,3 +19,6 @@
 [submodule "src/LibCamera"]
 	path = src/LibCamera
 	url = https://github.com/clubcapra/LibCamera.git
+[submodule "src/navigation"]
+	path = src/navigation
+	url = https://github.com/clubcapra/navigation.git
