@@ -55,8 +55,8 @@ class GoalManager():
                 for goal in self.goals:
                     goal_id = goal.goal_with_priority.goal_id.id
                     position = goal.goal_with_priority.pose.position
-                    if not self.marker_manager.check_marker(goal_id):
-                        self.marker_manager.create_marker(name = goal_id)
+                    if self.marker_manager.get_marker(goal_id) is not None:
+                        self.marker_manager.create_marker(goal_id, 'odom')
                     self.marker_manager.update_marker(goal_id, position.x, position.y)
             rate.sleep()
 

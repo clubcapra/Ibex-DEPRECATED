@@ -9,41 +9,41 @@ from visualization_msgs.msg import *
 class MarkerManager():
 
     def __init__(self):
-        self.markers = {}
-        self.server = InteractiveMarkerServer("goal_marker_server")
+        self.server = InteractiveMarkerServer("goal_markers")
+        self.markers = []
 
     def process_feedback(self, feedback):
         p = feedback.pose.position
-        rospy.loginfo("%s is now at (%f, %f, %f)" % (feedback.marker_name, p.x, p.y, p.z))
+        # print(feedback.marker_name + " is now at " + str(p.x) + ", " + str(p.y) + ", " + str(p.z))
 
-    def check_marker(self, name):
-        rospy.loginfo("Checking if marker %s exists" % name)
-        return name in self.markers
+    def get_marker(self, name):
+        for marker in self.markers:
+            if marker.name == name:
+                return marker
+        return None
 
     def update_marker(self, name, x, y):
-        rospy.loginfo("Updating marker %s" % name)
-        if self.check_marker(name):
-            marker = self.markers[name]
-            marker.pose.position = x
-            marker.pose.position = y
+        marker = self.get_marker(name)
+        if marker is None:
+            # rospy.loginfo("Marker not found")
+            return
         else:
-            rospy.logerr("Marker %s not found" % name)
+            marker.pose.position.x = x
+            marker.pose.position.y = y;
         self.server.applyChanges()
 
     # name should be goal id
-    def create_marker(self, frame='odom', name=None, callback=None):
-        if not name:
-            now = rospy.get_rostime()
-            name = "%s_%i_%i" % (rospy.get_name(), now.secs, now.nsecs)
+    def create_marker(self, name, frame, callback=None):
         if not callback:
             callback = self.process_feedback
 
+        # create an interactive marker for our server
         int_marker = InteractiveMarker()
         int_marker.header.frame_id = frame
         int_marker.name = name
         int_marker.description = name
 
-        # create a grey box for the marker
+        # create a grey box marker
         box_marker = Marker()
         box_marker.type = Marker.CUBE
         box_marker.scale.x = 0.45
@@ -57,10 +57,10 @@ class MarkerManager():
         # create a non-interactive control which contains the box
         box_control = InteractiveMarkerControl()
         box_control.always_visible = True
-        box_control.markers.append(box_marker)
+        box_control.markers.append( box_marker )
 
         # add the control to the interactive marker
-        int_marker.controls.append(box_control)
+        int_marker.controls.append( box_control )
 
         # create a control which will move the box
         # this control does not contain any markers,
@@ -74,13 +74,11 @@ class MarkerManager():
         control.interaction_mode = InteractiveMarkerControl.MOVE_PLANE
         int_marker.controls.append(control);
 
-        self.markers[name] = int_marker
+        self.markers.append(int_marker)
 
         # add the interactive marker to our collection &
         # tell the server to call processFeedback() when feedback arrives for it
         self.server.insert(int_marker, callback)
-
-        rospy.loginfo("Created marker %s" % name)
 
         # 'commit' changes and send to all clients
         self.server.applyChanges()
