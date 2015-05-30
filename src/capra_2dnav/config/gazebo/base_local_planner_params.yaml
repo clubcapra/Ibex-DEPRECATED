@@ -39,3 +39,5 @@ TrajectoryPlannerROS:
   meter_scoring: true
   publish_cost_grid_pc: true
   publish_cost_grid: true
+
+
