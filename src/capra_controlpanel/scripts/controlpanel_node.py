@@ -89,8 +89,9 @@ def handle_motor_state_changed(msg):
         rospy.loginfo("Motors connected, flashing lights")
         start_flash()
     else:
-        rospy.loginfo("Motors connected, stopping lights")
+        rospy.loginfo("Motors disconnected, stopping lights")
         stop_flash()
+        set_lights(True)
 
 class ControlPanelServer:
 

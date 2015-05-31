@@ -5,6 +5,7 @@
       <arg name="motors" default="1" />
       <arg name="gps" default="0" />
       <arg name="camera" default="0" />
+      <arg name="control_panel" default="1" />
     </include>
 
     <!-- MOVING -->
