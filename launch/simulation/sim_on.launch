@@ -11,7 +11,7 @@
 
     <!-- MOVING -->
     <include file="$(find capra_2dnav)/launch/move_base.launch">
-        <arg name="context" value="gazebo" />
+        <arg name="context" value="indoors" />
         <arg name="recovery_behaviors" value="[]" />
     </include>
 

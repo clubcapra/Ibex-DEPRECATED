@@ -1,21 +1,26 @@
 <launch>
-    <include file="$(find capra_2dnav)/launch/capra_configuration.launch" >
-      <arg name="lidar" default="1" />
-      <arg name="imu" default="0" />
-      <arg name="motors" default="1" />
-      <arg name="gps" default="0" />
-      <arg name="camera" default="0" />
-      <arg name="control_panel" default="1" />
-    </include>
+    <group>
+        <remap from="/cmd_vel" to="/smart_cmd_vel"/>
+
+        <include file="$(find capra_2dnav)/launch/capra_configuration.launch" >
+            <arg name="lidar" default="1" />
+            <arg name="imu" default="0" />
+            <arg name="motors" default="1" />
+            <arg name="gps" default="0" />
+            <arg name="camera" default="0" />
+        </include>
+    </group>
 
     <!-- MOVING -->
     <include file="$(find capra_2dnav)/launch/move_base.launch">
       <!--<arg name="context" value="dwa" />
       <arg name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
       <arg name="recovery_behaviors" value="[{name: juvav_recovery, type: juvav_recovery/JuvavRecovery}]" />-->#
+        <arg name="recovery_behaviors" value="[]" />
         <arg name="context" value="indoors" />
     </include>
 
+     <node pkg="juvav_recovery" type="juvav_recovery_node.py" name="juvav_recovery_node" output="screen"/>
     <!--
     <include file="$(find capra_ai)/launch/StateAi.launch" />
 -->

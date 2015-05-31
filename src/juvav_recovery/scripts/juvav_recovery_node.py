@@ -16,6 +16,7 @@ from numpy import array
 from numpy.linalg import inv
 
 from collections import deque
+import copy
 
 undo_cmd_vel = False
 undo_cmd_vel_time = 0.0
@@ -65,10 +66,13 @@ class BehaviorAnalyzer:
 
             if current_time - self.last_local_path_time[0] > 3.0:
                 nb_invalid_cmd_vel = True
+
+
+
                 last_twist_msgs = [self.last_cmd_vel_values[i] for i in xrange(3)]
                 for lin_x, lin_y, lin_z, ang_x, ang_y, ang_z in [(twist.linear.x, twist.linear.y, twist.linear.z,
                                                                   twist.angular.x, twist.angular.y, twist.angular.z)
-                                                                 for twist in last_twist_msgs]:
+                                                                 for twist in copy.deepcopy(last_twist_msgs)]:
                     if ((lin_x, lin_y, lin_z), (ang_x, ang_y, ang_z)) == ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0)):
                         nb_invalid_cmd_vel += 1
 
@@ -158,6 +162,9 @@ class JuvavRecoveryNode:
 
             try:
 
+                #print id(self.local_path_analyzer.last_cmd_vel_values)
+                #print id(copy.deepcopy(self.local_path_analyzer.last_cmd_vel_values))
+
                 if current_time - self.local_path_analyzer.last_cmd_vel_time[0] > 3.0:
                     undo_cmd_vel = self.local_path_analyzer.is_undo_needed()
                     self.publish_smart_cmd_vel(None)
@@ -165,7 +172,7 @@ class JuvavRecoveryNode:
                 invalid_cmd_vel_stack = True
                 for lin_x, lin_y, lin_z, ang_x, ang_y, ang_z in [
                     (twist.linear.x, twist.linear.y, twist.linear.z, twist.angular.x, twist.angular.y, twist.angular.z)
-                        for twist in self.local_path_analyzer.last_cmd_vel_values]:
+                        for twist in copy.deepcopy(self.local_path_analyzer.last_cmd_vel_values)]:
 
                     if ((lin_x, lin_y, lin_z), (ang_x, ang_y, ang_z)) != ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0)):
                         invalid_cmd_vel_stack = False
