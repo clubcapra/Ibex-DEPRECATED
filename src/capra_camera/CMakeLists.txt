@@ -112,7 +112,7 @@ include_directories(
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(capra_camera_node capra_camera_generate_messages_cpp)
-#add_dependencies(capra_camera_node ${PROJECT_NAME}_gencfg)
+# add_dependencies(capra_camera_node ${PROJECT_NAME}_gencfg)
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(capra_camera_node
