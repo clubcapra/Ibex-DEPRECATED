@@ -5,7 +5,12 @@
     </node>
     <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter">
         <rosparam command="load" file="$(find capra_lidar)/config/laser_threshold.yaml" />
-        <remap from="/scan" to="raw_scan" />
-        <remap from="/scan_filtered" to="/scan" />
+        <remap from="/scan" to="/raw_scan" />
+    </node>
+
+    <node pkg=capra_lidar" type="max_range.py" output="screen" name="max_range">
+        <param name="max_range" value="20"/>
+        <remap from="/scan_in" to="/scan_filtered" />
+        <remap from="/scan_out" to="/scan" />
     </node>
 </launch>
