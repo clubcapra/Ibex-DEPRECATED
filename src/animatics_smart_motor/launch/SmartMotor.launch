@@ -20,8 +20,8 @@
           la largeur, et vice-versa-->
         <param name="robot_width" value="0.53" />
         <!--                                x    y    z    rx   ry   rz -->
-        <rosparam param="covariance_matrix">0.1, 0,   0,   0,   0,   0,
-                                            0,   0.1, 0,   0,   0,   0,
+        <rosparam param="covariance_matrix">1.0, 0,   0,   0,   0,   0,
+                                            0,   1.0, 0,   0,   0,   0,
                                             0,   0,   1.0, 0,   0,   0,
                                             0,   0,   0,   1.0, 0,   0,
                                             0,   0,   0,   0,   1.0, 0,

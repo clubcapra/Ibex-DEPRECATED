@@ -170,7 +170,7 @@ class ControlPanelServer:
                 if not online:
                     rospy.sleep(1.0)
 
-                r.sleep()
+            r.sleep()
 
         rospy.loginfo("Setting lights to ON")
         set_lights(True)

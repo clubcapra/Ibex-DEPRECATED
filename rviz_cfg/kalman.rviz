@@ -74,13 +74,13 @@ Visualization Manager:
     - Angle Tolerance: 0.01
       Class: rviz/Odometry
       Color: 255; 25; 0
-      Enabled: true
+      Enabled: false
       Keep: 0
       Length: 0.25
       Name: Odometry Filtered
       Position Tolerance: 0.01
       Topic: /odometry/filtered
-      Value: true
+      Value: false
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 0; 255; 0
@@ -299,16 +299,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 22.4876
+      Distance: 4.22614
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.0519386
-        Y: -1.91917
-        Z: 1.0094
+        X: 1.10698
+        Y: -0.267684
+        Z: 1.01106
       Name: Current View
       Near Clip Distance: 0.01
       Pitch: 1.5698

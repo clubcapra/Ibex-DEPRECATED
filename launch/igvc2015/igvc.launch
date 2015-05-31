@@ -6,14 +6,15 @@
       <arg name="gps" default="1" />
       <arg name="camera" default="1" />
       <arg name="publish_motor_odom" value="0" />
+      <arg name="control_panel" default="1" />
     </include>
 
-    <!-- MOVING
-    <include file="$(find capra_teleop)/launch/Teleop.launch" />
+    <!-- MOVING -->
+<!--    <include file="$(find capra_teleop)/launch/Teleop.launch" />
 -->
-  <include file="$(find capra_2dnav)/launch/move_base.launch">
-    <arg name="context" value="outdoors" />
-  </include>
+    <include file="$(find capra_2dnav)/launch/move_base.launch">
+        <arg name="context" value="indoors" />
+      </include>
 
     <include file="$(find capra_ai)/launch/StateAi.launch" >
         <arg name="state_ai_name" value="lavoie_basic_state_ai" />

@@ -1,7 +1,7 @@
 <launch>
     <node pkg="lms1xx" name="lms1xx" type="LMS1xx_node" output="screen">
         <param name="host" value="192.168.32.250"/>
-        <remap from="/scan" to="/raw_scan" />
+        <remap from="/scan" to="/raw_scan_50" />
     </node>
     <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter">
         <rosparam command="load" file="$(find capra_lidar)/config/laser_threshold.yaml" />
@@ -13,4 +13,6 @@
         <remap from="/scan_in" to="/scan_filtered" />
         <remap from="/scan_out" to="/scan" />
     </node>
+
+    <node pkg="topic_tools" type="throttle" name="throttle_laser" args=" messages /raw_scan_50 20.0 /raw_scan" />
 </launch>

@@ -40,6 +40,8 @@ def odom_cb(msg):
             cov2.append(10000)
         elif i == 35:
             cov2.append(cov_yaw)
+        elif i == 0 or i == 7 or i == 14:
+            cov2.append(0.1)
         else:
             cov2.append(cov[i])
     new_odom.pose.covariance = cov2
