@@ -8,7 +8,7 @@
         <remap from="/scan" to="/raw_scan" />
     </node>
 
-    <node pkg=capra_lidar" type="max_range.py" output="screen" name="max_range">
+    <node pkg="capra_lidar" type="max_range.py" output="screen" name="max_range">
         <param name="max_range" value="20"/>
         <remap from="/scan_in" to="/scan_filtered" />
         <remap from="/scan_out" to="/scan" />
