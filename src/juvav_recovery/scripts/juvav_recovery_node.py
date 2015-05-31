@@ -5,7 +5,7 @@ import rospy
 from sensor_msgs.msg import Image, PointCloud2
 import sensor_msgs.point_cloud2 as pc2
 from geometry_msgs.msg import Twist
-from nav_msgs.msg import Path
+from nav_msgs.msg import Path, Odometry
 
 import tf
 from cv_bridge import CvBridge
@@ -20,6 +20,8 @@ import copy
 
 undo_cmd_vel = False
 undo_cmd_vel_time = 0.0
+
+
 
 
 class BehaviorAnalyzer:
@@ -140,7 +142,8 @@ class BehaviorAnalyzer:
 class JuvavRecoveryNode:
 
     def __init__(self):
-        self.undo_stack = deque((), 100)
+        self.undo_stack = deque((Odometry,), 100)
+        self.undo_stack.pop()
         self.requested_vel = None
         self.requested_vel_time = 0
 
@@ -152,19 +155,28 @@ class JuvavRecoveryNode:
         self.smart_cmd_vel_publisher = rospy.Publisher('/smart_cmd_vel', Twist, queue_size=10)
         rospy.Subscriber('/cmd_vel', Twist, self.cmd_vel_callback)
         rospy.Subscriber('/move_base/TrajectoryPlannerROS/local_plan', Path, self.local_path_callback)
+        rospy.Subscriber('/odom', Odometry, self.odom_callback)
+
 
         self.tf_listener = tf.TransformListener()
 
         global undo_cmd_vel
+        last_time = rospy.get_time()
+
         rate = rospy.Rate(20)  # 4Hz
         while not rospy.is_shutdown():
             current_time = rospy.get_time()
 
             try:
 
+                if current_time - last_time > 5.0:
+                    undo_cmd_vel = True
+                    last_time = current_time
+
+
                 #print id(self.local_path_analyzer.last_cmd_vel_values)
                 #print id(copy.deepcopy(self.local_path_analyzer.last_cmd_vel_values))
-
+                """
                 if current_time - self.local_path_analyzer.last_cmd_vel_time[0] > 3.0:
                     undo_cmd_vel = self.local_path_analyzer.is_undo_needed()
                     self.publish_smart_cmd_vel(None)
@@ -180,7 +192,7 @@ class JuvavRecoveryNode:
                 if invalid_cmd_vel_stack:
                     undo_cmd_vel = self.local_path_analyzer.is_undo_needed()
                     self.publish_smart_cmd_vel(None)
-
+                """
             except IndexError:
                 pass
 
@@ -209,6 +221,16 @@ class JuvavRecoveryNode:
         #undo_cmd_vel = self.local_path_analyzer.is_undo_needed()
         if undo_cmd_vel:
             try:
+
+                ((trans_x, trans_y, trans_z), (rot_quat_x, rot_quat_y, rot_quat_z, rot_quat_w),
+                 (rot_eul_x, rot_eul_y, rot_eul_z)) = self.undo_stack.pop()
+
+                print '({}, {}, {}) ({}, {}, {})'.format(
+                    trans_x, trans_y, trans_z, rot_eul_x, rot_eul_y, rot_eul_z)
+
+
+
+                """
                 if undo_cmd_vel_time == 0.0:
                     undo_cmd_vel_time = rospy.get_time()
 
@@ -232,13 +254,20 @@ class JuvavRecoveryNode:
                     print 'undo behavior was ended after 1 second'
                 else:
                     print '|', current_time - undo_cmd_vel_time, '|'
-
+                """
             except IndexError:
                 undo_cmd_vel = False
-                undo_cmd_vel_time = 0.0
+                #undo_cmd_vel_time = 0.0
         else:
-            self.undo_stack.append(self.requested_vel)
+            (trans, rotQ) = self.tf_listener.lookupTransform('/base_footprint', '/odom', rospy.Time(0))
+            rotE = tf.transformations.euler_from_quaternion(rotQ)
+
+
+            self.undo_stack.append((trans, rotQ, rotE))
             self.smart_cmd_vel_publisher.publish(self.requested_vel)
+
+
+
 
             self.local_path_analyzer.last_cmd_vel_values.append(self.requested_vel)
             self.local_path_analyzer.last_cmd_vel_time.append(rospy.get_time())
@@ -251,6 +280,9 @@ class JuvavRecoveryNode:
         self.requested_vel = msg
         self.requested_vel_time = rospy.get_time()
         self.publish_smart_cmd_vel(None)
+
+    def odom_callback(self, msg):
+        type(msg)
 
     def local_path_callback(self, msg):
         """
