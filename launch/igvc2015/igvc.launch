@@ -15,7 +15,10 @@
     <arg name="context" value="outdoors" />
   </include>
 
-    <include file="$(find capra_ai)/launch/StateAi.launch" />
+    <include file="$(find capra_ai)/launch/StateAi.launch" >
+        <arg name="state_ai_name" value="lavoie_basic_state_ai" />
+    </include>
+
 
     <!-- MAPPING -->
     <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
