@@ -4,7 +4,7 @@
       <arg name="imu" default="1" />
       <arg name="motors" default="1" />
       <arg name="gps" default="1" />
-      <arg name="camera" default="0" />
+      <arg name="camera" default="1" />
       <arg name="publish_motor_odom" value="0" />
     </include>
 
@@ -14,6 +14,8 @@
   <include file="$(find capra_2dnav)/launch/move_base.launch">
     <arg name="context" value="outdoors" />
   </include>
+
+    <include file="$(find capra_ai)/launch/StateAi.launch" />
 
     <!-- MAPPING -->
     <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
@@ -31,12 +33,20 @@
     <!-- Goals -->
 
     <include file="$(find capra_ai)/launch/GoalManager.launch" >
-        <arg name="file" value="$(env IBEX_HOME)/bags/201505091503-gps.json" />
+        <arg name="file" value="$(env IBEX_HOME)/bags/lavoie-basic-gps.json" />
         <arg name="loop" value="true" />
     </include>
 
+        <!-- VISION -->
+    <include file="$(find seagoatvision_ros)/launch/Seagoat.launch" >
+      <!-- <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/lignes-oranges.filterchain" /> -->
+        <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/indoors.filterchain" />
+        <arg name="gui" value="True" />
+        <arg name="calibration_file" default="$(find seagoatvision_ros)/filterchain/calibrate-real.filterchain" />
+    </include>
+
     <!--RVIZ  -->
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/kalman.rviz"/>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
 
 
 </launch>

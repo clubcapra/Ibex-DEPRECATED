@@ -40,6 +40,7 @@ if __name__ == "__main__":
     rospy.Subscriber("/imu/raw", Imu,  imu_cb_raw)
     listener = tf.TransformListener()
     br = tf.TransformBroadcaster()
+    rospy.spin()
     #while not rospy.is_shutdown():
     #    listener.waitForTransform('/odom', '/base_footprint', rospy.Time(0), rospy.Duration(1.0))
     #    (trans,rotQ) = listener.lookupTransform('/odom', '/base_footprint', rospy.Time(0))
