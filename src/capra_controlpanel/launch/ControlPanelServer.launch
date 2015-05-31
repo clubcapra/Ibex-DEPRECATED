@@ -1,7 +1,8 @@
 <launch>
     <node pkg="capra_controlpanel" name="capra_controlpanel" type="controlpanel_node.py" output="screen">
-        <param name="serial_port" value="/dev/ttyUSB0"/>
+        <param name="serial_port" value="/dev/ttyUSB1000"/>
         <param name="publish_rate" value="5" />
+        <param name="read" value="true" />
         <param name="flash_rate" value="2" />
         <rosparam param="sensor_ids">
             fan: 0
