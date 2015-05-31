@@ -53,13 +53,20 @@ def flash(rate):
 
         if light_on is True:
             light_on = False
-            send("SET LIGHTS OFF")
         else:
             light_on = True
-            send("SET LIGHTS ON")
+
+        set_lights(light_on)
 
         sleep_time = 1.0/rate
         rospy.sleep(sleep_time)
+
+
+def set_lights(state):
+    if state:
+        send("SET LIGHTS ON")
+    else:
+        send("SET LIGHTS OFF")
 
 def send(cmd):
 
@@ -77,9 +84,12 @@ def send(cmd):
 
 
 def handle_motor_state_changed(msg):
+
     if msg.connected and not flash_state :
+        rospy.loginfo("Motors connected, flashing lights")
         start_flash()
     else:
+        rospy.loginfo("Motors connected, stopping lights")
         stop_flash()
 
 class ControlPanelServer:
@@ -160,6 +170,9 @@ class ControlPanelServer:
                     rospy.sleep(1.0)
 
                 r.sleep()
+
+        rospy.loginfo("Setting lights to ON")
+        set_lights(True)
         rospy.spin()
 
 if __name__ == "__main__":
