@@ -29,7 +29,7 @@ class StateAi(object):
 
         self.goal_count = 0
 
-        rospy.sleep(2.0)
+        rospy.sleep(5.0)
         self.save_start_pos()
         self.on_start()
 
@@ -52,6 +52,7 @@ class StateAi(object):
 
     def last_goal_callback(self, msg):
         if msg.data == True:
+            rospy.loginfo("Last goal reached")
             self.on_last_goal_reached(msg)
 
     def on_start(self):
@@ -63,14 +64,14 @@ class StateAi(object):
     def on_last_goal_reached(self, msg):
         return None
 
-    def generate_circle(self, radius, start_rad, end_rad, step_rad):
-        return self.generate_obstacle('circle', (radius, start_rad, end_rad, step_rad))
+    def generate_circle(self, radius, start_rad, end_rad, step_rad, duration):
+        return self.generate_obstacle('circle', (radius, start_rad, end_rad, step_rad), duration)
 
-    def generate_bar(self, length, distance):
-        return self.generate_obstacle('bar', (length, distance))
+    def generate_bar(self, length, distance, duration):
+        return self.generate_obstacle('bar', (length, distance), duration)
 
-    def generate_obstacle(self, type, params):
-        return self.generate_obstacle_service(type, params)
+    def generate_obstacle(self, type, params, duration):
+        return self.generate_obstacle_service(type, params, duration)
 
 
     def clear_octomap(self, center, width, height):
@@ -91,18 +92,52 @@ class StateAi(object):
         self.clear_octomap_service(min, max)
 
     def reset_octomap(self):
-        self.reset_octomap_service()
-        rospy.loginfo("Octomap reset")
+        rospy.loginfo("Resetting by clearing octomap.")
+        min = Point()
+        max = Point()
+
+        min.x = -250
+        max.x = 250
+
+        min.y = -250
+        max.y = 250
+
+        # tweak Z to clear only certain parts of the map (only obstales, only lines, etc)
+        min.z = -5.0
+        max.z = 5.0
+
+        self.clear_octomap_service(min, max)
 
     def set_max_vel_x(self, velocity):
         client = dynamic_reconfigure.client.Client("/move_base/TrajectoryPlannerROS")
         params = { 'max_vel_x' : velocity}
         config = client.update_configuration(params)
-        rospy.loginfo("Max vel x set to %s", str(velocity))
+        rospy.loginfo("max_vel_x set to %s", str(velocity))
 
+
+     #The weighting for how much the controller should stay close to the path it was given. default 0.6
+    def pdist_scale(self, dist):
+        client = dynamic_reconfigure.client.Client("/move_base/TrajectoryPlannerROS")
+        params = { 'pdist_scale' : dist}
+        config = client.update_configuration(params)
+        rospy.loginfo("pdist_scale set to %s", str(dist))
+
+    # The weighting for how much the controller should attempt to avoid obstacles.
+    def occdist_scale(self, dist):
+        client = dynamic_reconfigure.client.Client("/move_base/TrajectoryPlannerROS")
+        params = { 'occdist_scale' : dist}
+        config = client.update_configuration(params)
+        rospy.loginfo("occdist_scale set to %s", str(dist))
+
+    # The weighting for how much the controller should attempt to reach its local goal, also controls speed. default 0.8
+    def gdist_scale(self, dist):
+        client = dynamic_reconfigure.client.Client("/move_base/TrajectoryPlannerROS")
+        params = { 'gdist_scale' : dist}
+        config = client.update_configuration(params)
+        rospy.loginfo("gdist_scale set to %s", str(dist))
 
 if __name__ == "__main__":
     try:
-        a = StateAi()
+        a = StateAi("state_ai")
     except rospy.ROSInterruptException:
         pass

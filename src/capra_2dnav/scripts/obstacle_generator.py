@@ -26,7 +26,7 @@ class PointcloudGenerator:
 
         self.tf_listener = tf.TransformListener()
         self.br = tf.TransformBroadcaster()
-        self.send_duration_in_seconds = rospy.get_param("~send_duration_in_seconds", 1)
+
         self.obstacle_handlers = {
             "circle": self.send_circle,
             "bar": self.send_bar
@@ -38,14 +38,14 @@ class PointcloudGenerator:
     def handle_obstacle_generation(self, req):
         if self.obstacle_handlers.has_key(req.type.lower()):
             rospy.loginfo("Handling obstacle generation request for {} with params {}".format(req.type, req.params))
-            self.obstacle_handlers[req.type.lower()](req.params)
+            self.obstacle_handlers[req.type.lower()](req.params, req.duration)
             return []
         else:
             rospy.logerr("Unrecognized obstacle type {}".format(req.type))
             return []
 
 
-    def send_circle(self, params):
+    def send_circle(self, params, duration):
         # params [radius, start_rad, end_rad, step_rad]
         radius = params[0]
         start_rad = params[1]
@@ -56,9 +56,9 @@ class PointcloudGenerator:
         for i in np.arange(start_rad, end_rad, step_rad, dtype=float): # original range ==> np.arange(pi/4, 2 * pi - pi/4, pi/270.0, dtype=float):
             cloud.append([radius * cos(i), radius * sin(i), 0.0])
 
-        self.send_cloud(cloud)
+        self.send_cloud(cloud, duration)
 
-    def send_bar(self, params):
+    def send_bar(self, params, duration):
         # params [length, distance from robot]
         l = params[0]
         d = params[1]
@@ -66,9 +66,9 @@ class PointcloudGenerator:
         for i in np.arange(-l/2.0, l/2.0, 0.1, dtype=float):
             cloud.append([d, i, 0])
 
-        self.send_cloud(cloud)
+        self.send_cloud(cloud, duration)
 
-    def send_cloud(self, cloud):
+    def send_cloud(self, cloud, duration):
         ref_frame = '/base_footprint'
         obstacle_frame = "/obs"
 
@@ -76,11 +76,11 @@ class PointcloudGenerator:
         self.br.sendTransform(trans,rotQ,rospy.Time.now(), obstacle_frame, "/odom")
 
         pcloud = PointCloud2()
-        rospy.loginfo("Publishing obstacle for {}s and exiting".format(self.send_duration_in_seconds))
+        rospy.loginfo("Publishing obstacle for {}s and exiting".format(duration))
         r = rospy.Rate(10)
         start_time = rospy.get_time()
 
-        while not rospy.is_shutdown() and (rospy.get_time() - start_time) <= self.send_duration_in_seconds:
+        while not rospy.is_shutdown() and (duration != -1 and (rospy.get_time() - start_time) <= duration):
             pcloud = pc2.create_cloud_xyz32(pcloud.header, cloud)
             pcloud.header.frame_id = obstacle_frame
             self.pub_cloud.publish(pcloud)

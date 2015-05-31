@@ -2,7 +2,7 @@
     <!-- GAZEBO -->
     <include file="$(find capra_gazebo)/launch/Gazebo.launch">
       <arg name="world" default="$(find capra_gazebo)/worlds/igvc_basic_course.world" />l
-        <arg name="gui" default="false" />
+        <arg name="gui" default="true" />
         <arg name="initial_position" default="-x 0 -y -22.5 -rpy 0" />
     </include>
 
@@ -11,7 +11,9 @@
       <arg name="context" value="gazebo" />
     </include>
 
-    <include file="$(find capra_ai)/launch/StateAi.launch" />
+    <include file="$(find capra_ai)/launch/StateAi.launch" >
+        <arg name="state_ai_name" value="igvc_basic_state_ai" />
+    </include>
 
     <!-- MAPPING -->
     <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >

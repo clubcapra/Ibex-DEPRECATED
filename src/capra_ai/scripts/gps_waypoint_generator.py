@@ -20,7 +20,7 @@ class GpsWaypointGenerator():
 
 
         if os.path.isdir(self.path): #If it's a path to a directory
-            self.path = os.path.join(self.path, datetime.datetime.now().strftime("%Y%m%d%H%M") + "-gps.json") #We provide a file name
+            self.path = os.path.join(self.path, datetime.datetime.now().strftime("%Y-%m-%d-%H:%M") + "-gps.json") #We provide a file name
 
 
         if not os.path.exists(self.path): #If the file doesn't exist

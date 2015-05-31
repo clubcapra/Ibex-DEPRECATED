@@ -11,7 +11,7 @@ class IGVCBasicStateAI(StateAi):
          super(IGVCBasicStateAI, self).__init__("igvc_basic_state_ai")
 
     def on_start(self):
-        self.generate_circle(3.0, pi/4, 2 * pi - pi/4, pi/270.0)
+        self.generate_circle(3.0, pi/4, 2 * pi - pi/4, pi/270.0, 20)
 
     def on_goal_changed(self, goal_msg):
         rospy.loginfo(goal_msg.priority)
@@ -19,10 +19,10 @@ class IGVCBasicStateAI(StateAi):
             self.clear_octomap(self.start_pos, 10, 10)
 
         if self.goal_count == 4:
-            self.generate_bar(8, -1.0)
+            self.generate_bar(8, -1.0, -1)
 
     def on_last_goal_reached(self, msg):
-        rospy.loginfo("###################################last goal reached")
+        pass
 
 
 if __name__ == "__main__":
