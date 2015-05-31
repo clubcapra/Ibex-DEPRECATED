@@ -8,6 +8,8 @@ from std_msgs.msg import Bool
 from marker_manager import MarkerManager
 from capra_ai.msg import GoalWithPriority
 from capra_ai.srv import ClearGoalList
+from sensor_msgs.msg import PointCloud2
+import sensor_msgs.point_cloud2 as pc2
 import dynamic_reconfigure.client
 
 
@@ -33,6 +35,10 @@ class GoalManager():
         rospy.Subscriber("/move_base/status", GoalStatusArray, self.status_updated_callback)  # track status of goals
         self.goal_pub = rospy.Publisher("/move_base/goal", MoveBaseActionGoal, queue_size=10)
         self.done_pub = rospy.Publisher("~last_goal_reached", Bool, queue_size=1)
+
+        self.reached_pub = rospy.Publisher("~reached", PointCloud2, queue_size=1)
+        self.future_pub = rospy.Publisher("~future", PointCloud2, queue_size=1)
+
         self.current_pub = rospy.Publisher("~current", GoalWithPriority, queue_size=1)
         rospy.Service("~clear", ClearGoalList, self.handle_clear_goal_list)
         self.priority_to_precision = []
@@ -52,11 +58,12 @@ class GoalManager():
         while not rospy.is_shutdown():
             # update rviz interactive markers
             if len(self.goals) > 0:
+                self.publish_goals_pc()
                 for goal in self.goals:
                     goal_id = goal.goal_with_priority.goal_id.id
                     position = goal.goal_with_priority.pose.position
-                    if not self.marker_manager.check_marker(goal_id):
-                        self.marker_manager.create_marker(name = goal_id)
+                    if self.marker_manager.get_marker(goal_id) is not None:
+                        self.marker_manager.create_marker(goal_id, 'odom')
                     self.marker_manager.update_marker(goal_id, position.x, position.y)
             rate.sleep()
 
@@ -163,6 +170,22 @@ class GoalManager():
             del self.goals[:]
         return True
 
+    def publish_goals_pc(self):
+        current_goal = GoalWithPriority()
+        current_goal.goal_id = self.goals[self.current_idx].move_base_action_goal.goal_id
+        current_goal.pose = self.goals[self.current_idx].move_base_action_goal.goal.target_pose.pose
+        points = [obj.move_base_action_goal.goal.target_pose.pose.position for obj in self.goals]  # list of Point
+        reached = self.convert_to_pointcloud(points[:self.current_idx])
+        future = self.convert_to_pointcloud(points[self.current_idx:])
+        self.reached_pub.publish(reached)
+        self.future_pub.publish(future)
+
+    def convert_to_pointcloud(self, points):  # list of Point
+        cloud = [[pt.x, pt.y, pt.z] for pt in points]
+        pcl = PointCloud2()
+        pcl = pc2.create_cloud_xyz32(pcl.header, cloud)
+        pcl.header.frame_id = "odom"
+        return pcl
 
 if __name__ == '__main__':
     rospy.init_node('goal_manager')

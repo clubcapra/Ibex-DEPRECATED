@@ -1,4 +1,4 @@
-<launch>
+<launch>    
     <!-- GAZEBO -->
     <include file="$(find capra_gazebo)/launch/Gazebo.launch">
         <arg name="gui" value="false" />

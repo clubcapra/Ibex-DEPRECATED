@@ -7,6 +7,7 @@ from capra_controlpanel.srv import *
 
 import comm.communication
 from comm.communication import Communication
+from animatics_smart_motor.msg import MotorsConnected
 
 flash_state = False
 
@@ -26,14 +27,22 @@ def handle_controlpanel_flash(req):
     rospy.loginfo("got call FLASH with param " + str(req.state))
 
     if req.state is True and  flash_state is False:
-        flash_state = True
-        flash_thread = threading.Thread(target = flash, args = (rospy.get_param('~flash_rate'),))
-        flash_thread.start()
+        start_flash()
 
     if req.state is False and flash_state is True:
-        flash_state = False
+        stop_flash()
 
     return True
+
+def start_flash():
+    global flash_state
+    flash_state = True
+    flash_thread = threading.Thread(target = flash, args = (rospy.get_param('~flash_rate'),))
+    flash_thread.start()
+
+def stop_flash():
+    global flash_state
+    flash_state = False
 
 def flash(rate):
     global flash_state
@@ -44,13 +53,20 @@ def flash(rate):
 
         if light_on is True:
             light_on = False
-            send("SET LIGHTS OFF")
         else:
             light_on = True
-            send("SET LIGHTS ON")
+
+        set_lights(light_on)
 
         sleep_time = 1.0/rate
         rospy.sleep(sleep_time)
+
+
+def set_lights(state):
+    if state:
+        send("SET LIGHTS ON")
+    else:
+        send("SET LIGHTS OFF")
 
 def send(cmd):
 
@@ -67,6 +83,16 @@ def send(cmd):
     return reply
 
 
+def handle_motor_state_changed(msg):
+
+    if msg.connected and not flash_state :
+        rospy.loginfo("Motors connected, flashing lights")
+        start_flash()
+    else:
+        rospy.loginfo("Motors disconnected, stopping lights")
+        stop_flash()
+        set_lights(True)
+
 class ControlPanelServer:
 
     def __init__(self):
@@ -75,6 +101,8 @@ class ControlPanelServer:
 
         pub_robot_buttons = rospy.Publisher("~buttons", RobotButtons, queue_size=10)
         pub_robot_analog_values = rospy.Publisher("~analog_values", RobotAnalogValues, queue_size=10)
+
+        rospy.Subscriber("/animatics_smart_motor/connected", MotorsConnected, handle_motor_state_changed)
 
         ids = rospy.get_param('~sensor_ids')
         s_set = rospy.Service('capra_controlpanel/set', Set, handle_controlpanel_set)
@@ -92,53 +120,60 @@ class ControlPanelServer:
         rate = rospy.get_param('~publish_rate')
         r = rospy.Rate(rate)
 
+        read = rospy.get_param('~read', False)
+
+
         rospy.loginfo("Starting controlpanel. Message rate(hz): " + str(r))
         while not rospy.is_shutdown():
 
             online = True
 
-            #Read button data
-            robot_buttons = RobotButtons()
-            fields = robot_buttons.__slots__
-            for field in fields:
-                status, reply = comm.communication.instance.send_command("GET " + field)
-                if status is False:
-                    rospy.logerr("Error reading a digital field")
-                    online = False
-                    break
-                else:
-                    online = True
-                    reply_value = reply.split(" ")[1]
-                    if type(robot_buttons.__getattribute__(field)) is bool:
-                        if "OFF" in reply:
-                            robot_buttons.__setattr__(field, False)
-                        else:
-                            robot_buttons.__setattr__(field, True)
+            if read:
+                #Read button data
+                robot_buttons = RobotButtons()
+                fields = robot_buttons.__slots__
+                for field in fields:
+                    status, reply = comm.communication.instance.send_command("GET " + field)
+                    if status is False:
+                        rospy.logerr("Error reading a digital field")
+                        online = False
+                        break
                     else:
-                        robot_buttons.__setattr__(field, str(reply_value))
+                        online = True
+                        reply_value = reply.split(" ")[1]
+                        if type(robot_buttons.__getattribute__(field)) is bool:
+                            if "OFF" in reply:
+                                robot_buttons.__setattr__(field, False)
+                            else:
+                                robot_buttons.__setattr__(field, True)
+                        else:
+                            robot_buttons.__setattr__(field, str(reply_value))
 
-            rospy.logdebug(robot_buttons)
-            pub_robot_buttons.publish(robot_buttons)
+                rospy.logdebug(robot_buttons)
+                pub_robot_buttons.publish(robot_buttons)
 
-            #Read analog data
-            robot_analog_values = RobotAnalogValues()
-            fields = robot_analog_values.__slots__
-            for field in fields:
-                status, reply = comm.communication.instance.send_command("GET " + field)
+                #Read analog data
+                robot_analog_values = RobotAnalogValues()
+                fields = robot_analog_values.__slots__
+                for field in fields:
+                    status, reply = comm.communication.instance.send_command("GET " + field)
 
-                if status is False:
-                    rospy.logerr( "Error reading an analog field")
-                    break
-                else:
-                    robot_analog_values.__setattr__(field, float(reply.split(" ")[1]))
+                    if status is False:
+                        rospy.logerr( "Error reading an analog field")
+                        break
+                    else:
+                        robot_analog_values.__setattr__(field, float(reply.split(" ")[1]))
 
-            rospy.logdebug(robot_analog_values)
-            pub_robot_analog_values.publish(robot_analog_values)
+                rospy.logdebug(robot_analog_values)
+                pub_robot_analog_values.publish(robot_analog_values)
 
-            if not online:
-                rospy.sleep(1.0)
+                if not online:
+                    rospy.sleep(1.0)
 
-            r.sleep()
+                r.sleep()
+
+        rospy.loginfo("Setting lights to ON")
+        set_lights(True)
         rospy.spin()
 
 if __name__ == "__main__":
