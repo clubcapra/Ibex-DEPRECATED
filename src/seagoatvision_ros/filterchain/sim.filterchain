@@ -1,0 +1,43 @@
+[Resize]
+height = 367.0
+width = 646.0
+
+[BGR2RGB]
+
+[RemoveObstacle]
+horizontal_blur = 3
+threshold = 12
+vertical_blur = 18
+
+[Rectangle]
+x1 = 220.0
+x2 = 450.0
+y1 = 300.0
+y2 = 600.0
+
+[SectionFilterCPP]
+grass_max = 27
+grass_min = 1.0
+kernel_dilate_height = 13
+kernel_dilate_width = 12
+kernel_erode_height = 3
+kernel_erode_width = 3
+light_min = 222
+min_area = 151
+sections = 5
+
+[PerspectiveCalibration]
+bottomleftx = 226.0
+bottomlefty = 140.0
+bottomrightx = 419.0
+bottomrighty = 140.0
+topleftx = 50.0
+toplefty = 0.0
+toprightx = 600.0
+toprighty = 0.0
+translationx = 2.0
+translationy = -120.0
+zoom = 152.0
+
+[RosImagePublisher]
+

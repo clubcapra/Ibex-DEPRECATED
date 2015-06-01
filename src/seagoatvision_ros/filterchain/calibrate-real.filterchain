@@ -1,0 +1,36 @@
+[Noop]
+
+[BGR2HSV]
+
+[Rectangle]
+x1 = 290
+x2 = 397
+y1 = 367
+y2 = 332
+
+[Undistort]
+
+[PerspectiveCalibration]
+bottomleftx = 212.0
+bottomlefty = 218.0
+bottomrightx = 381.0
+bottomrighty = 218.0
+topleftx = -31.0
+toplefty = 44.0
+toprightx = 601.0
+toprighty = 44.0
+translationx = -47.0
+translationy = 9.0
+zoom = 232.0
+
+[ColorThreshold]
+c1max = 60.1
+c1min = 0.0
+c2max = 255.0
+c2min = 185.5
+c3max = 255.0
+c3min = 0.0
+shift_hue_plane = False
+
+[RosImagePublisher]
+

@@ -1,0 +1,38 @@
+[Resize]
+height = 367.0
+width = 646.0
+
+[BGR2RGB]
+
+[BGR2HSV]
+
+[Rectangle]
+x1 = 520.0
+x2 = 810.0
+y1 = 734.0
+y2 = 590.0
+
+[PerspectiveCalibration]
+bottomleftx = 226.0
+bottomlefty = 140.0
+bottomrightx = 419.0
+bottomrighty = 140.0
+topleftx = 50.0
+toplefty = 0.0
+toprightx = 600.0
+toprighty = 0.0
+translationx = 2.0
+translationy = -120.0
+zoom = 152.0
+
+[ColorThreshold]
+c1max = 253.2
+c1min = 0.0
+c2max = 255.0
+c2min = 45.0
+c3max = 255.0
+c3min = 0.0
+shift_hue_plane = False
+
+[RosImagePublisher]
+
