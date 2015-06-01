@@ -1,0 +1,36 @@
+[BGR2RGB]
+
+[BGR2HSV]
+
+[Rectangle]
+x1 = 246.0
+x2 = 405.0
+y1 = 407.0
+y2 = 309.0
+
+[Undistort]
+
+[ColorThreshold]
+c1max = 135.9
+c1min = 100.6
+c2max = 255.0
+c2min = 193.2
+c3max = 255.0
+c3min = 13.2
+shift_hue_plane = False
+
+[PerspectiveCalibration]
+bottomleftx = 212.0
+bottomlefty = 218.0
+bottomrightx = 381.0
+bottomrighty = 218.0
+topleftx = -31.0
+toplefty = 44.0
+toprightx = 601.0
+toprighty = 44.0
+translationx = -47.0
+translationy = 9.0
+zoom = 232.0
+
+[RosImagePublisher]
+
