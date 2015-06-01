@@ -108,6 +108,10 @@ echo "Configuring and setting up git and submodules..."
 	git submodule init  
 	git submodule update --init --recursive
 	git submodule foreach git pull origin master
+
+	pushd src/navigation/ 2>&1
+	git checkout indigo-devel 
+	popd 2>&1
 } >> $logFile 2>&1
 
 #build workspace
