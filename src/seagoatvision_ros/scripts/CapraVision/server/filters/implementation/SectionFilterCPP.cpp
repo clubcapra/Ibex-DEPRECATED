@@ -100,10 +100,18 @@ cv::Mat execute_section(cv::Mat hue) {
 }
 
 cv::Mat execute(cv::Mat image) {
-	execute_bgr2hsv(image);
-	cv::Mat hue = execute_remgrass(image);
-	hue = execute_section(hue);
-	cv::Mat chans[] = {hue, hue, hue};
-	cv::merge(chans, 3, image);
-	return image;
+  cv::Size size = image.size();
+  cv::Scalar black = cv::Scalar(0, 0, 0);
+  int margin = 5;
+
+  cv::rectangle(image, cv::Rect(0, 0, size.width, margin), black, CV_FILLED);
+  cv::rectangle(image, cv::Rect(0, size.height - margin, size.width, margin), black, CV_FILLED);
+
+  execute_bgr2hsv(image);
+  cv::Mat hue = execute_remgrass(image);
+  hue = execute_section(hue);
+  cv::Mat chans[] = {hue, hue, hue};
+  cv::merge(chans, 3, image);
+
+  return image;
 }
