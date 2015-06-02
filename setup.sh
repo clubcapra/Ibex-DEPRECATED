@@ -7,10 +7,10 @@ abort()
 	if [ $allDone -eq 0 ]
 	then
 	    echo "
-	=============================================
-	Error install Ibex. Aborting. 
-	Please check $logFile for details
-	============================================="
+=============================================
+Error install Ibex. Aborting. 
+Please check $logFile for details
+=============================================" >&2
 	fi
 }
 
@@ -25,8 +25,7 @@ sudo echo ""
 # setup logfile
 logFile="logsetup.log"
 
-echo "
-=============================================================
+echo "=============================================================
 Installing Ibex...
 The process may take a while. If you're worried something 
 went wrong, juste check the logs ($logFile)
@@ -38,14 +37,14 @@ BASHRC=~/.bashrc
 #install ROS
 echo "Downloading packages..."
 {
-	sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list' 
+	sudo sh -c '. /etc/lsb-release && echo "deb http://mirror.umd.edu/packages.ros.org/ros/ubuntu $DISTRIB_CODENAME main" > /etc/apt/sources.list.d/ros-latest.list'	
 	wget https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o $logFile -O - | sudo apt-key add - 
 	sudo apt-get update 
 	sudo apt-get -y install ros-indigo-desktop-full ros-indigo-lms1xx ros-indigo-robot-pose-ekf ros-indigo-joy ros-indigo-nmea-* ros-indigo-move-base ros-indigo-map-server ros-indigo-hector-slam ros-indigo-gmapping ros-indigo-octomap-ros ros-indigo-octomap-rviz-plugins libgsl0-dev ros-indigo-laser-geometry ros-indigo-amcl ros-indigo-hector-gazebo ros-indigo-hector-gazebo-plugins ros-indigo-hector-sensors-gazebo ros-indigo-robot-localization gitk libjpeg62 libtiff4-dev gir1.2-gtksource-3.0 ros-indigo-prosilica-camera ros-indigo-dwa-local-planner
 
 	sudo apt-get -y install python python-numpy python-scipy python-opencv python-protobuf 
 
-} >> $logFile 2>&1
+} >> $logFile 
 
 #PATH and .bashrc stuff
 echo "Setting up ROS PATH and environment"
@@ -89,7 +88,7 @@ echo "Setting up ROS PATH and environment"
 		rosdep update
 	fi
 
-} >> $logFile 2>&1
+} >> $logFile 
 
 
 #git config stuff
@@ -112,11 +111,11 @@ echo "Configuring and setting up git and submodules..."
 	pushd src/navigation/ 2>&1
 	git checkout indigo-devel 
 	popd 2>&1
-} >> $logFile 2>&1
+} >> $logFile 
 
 #build workspace
 echo "Building workspace... This can take a while"
-catkin_make >> $logFile 2>&1
+catkin_make >> $logFile 
 
 #source workspace
 source $IBEX_DIR/devel/setup.bash
