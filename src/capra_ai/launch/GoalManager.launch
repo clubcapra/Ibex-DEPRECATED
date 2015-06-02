@@ -1,5 +1,5 @@
 <launch>
-    <arg name="file" default="$(env IBEX_HOME)/bags/goal_man_test.json" />
+    <arg name="file" default="$(env IBEX_HOME)/bags/empty.json" />
     <arg name="loop" default="0" />
 
     <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen">

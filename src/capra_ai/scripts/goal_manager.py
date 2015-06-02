@@ -124,9 +124,9 @@ class GoalManager():
             goal_id = GoalID()
             goal_id.stamp = now
             goal_id.id = new_id
-            msg.move_base_goal.goal_id = goal_id
+            msg.move_base_action_goal.goal_id = goal_id
             msg.goal_with_priority.goal_id = goal_id
-            rospy.loginfo("Goal # %i id is now %s" % (self.count, msg.goal_id.id))
+            rospy.loginfo("Goal # %i id is now %s" % (self.count, goal_id.id))
             self.goals[idx] = msg
         self.current_idx = -1
 

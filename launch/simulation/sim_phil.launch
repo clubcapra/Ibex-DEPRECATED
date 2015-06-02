@@ -1,4 +1,4 @@
-<launch>    
+<launch>
     <!-- GAZEBO -->
     <include file="$(find capra_gazebo)/launch/Gazebo.launch">
         <arg name="gui" value="false" />
@@ -31,6 +31,9 @@
 
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
 
-    <include file="$(find capra_ai)/launch/GoalManager.launch" />
+    <include file="$(find capra_ai)/launch/GoalManager.launch">
+        <arg name="loop" value="1" />
+        <arg name="file" value="$(find capra_2dnav)/../../bags/goal_man_test.json" />
+    </include>
 
 </launch>
