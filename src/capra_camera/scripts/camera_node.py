@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # coding=utf-8
-from camera import AcquisitionMode
 
 import roslib
 roslib.load_manifest('capra_camera')
@@ -11,10 +10,10 @@ import cv2
 from includes.OutputGrabber import OutputGrabber
 from dynamic_reconfigure.server import Server
 from capra_camera.cfg import CameraConfig
-import camera # TODO: Remove
+import camera
+
 
 class CameraNode:
-
     def __init__(self):
         # Loading library.
         rospy.init_node('capra_camera')
@@ -29,36 +28,52 @@ class CameraNode:
         rospy.loginfo("Initializing camera")
         initialized = False
         error_printed = False
-        while not initialized and not rospy.is_shutdown():
-            initialized = self._initialize_camera()
-            if not initialized and not error_printed:
-                error_printed = True
-                rospy.logerr("Could not initialize camera. Retrying...")
-        rospy.loginfo("Camera initialized.")
+        # while not initialized and not rospy.is_shutdown():
+        #     initialized = self._initialize_camera()
+        #     if not initialized and not error_printed:
+        #         error_printed = True
+        #         rospy.logerr("Could not initialize camera. Retrying...")
+        # rospy.loginfo("Camera initialized.")
 
         # Parameters
         self.parameter_values = {}
-        self.parameter_handlers = {'acquisition_mode': self.set_acquisition_mode,
-                                   'exposure_auto_alg_mode': self.set_exposure_auto_alg_mode,
-                                   'exposure_value': self.set_exposure_value,
-                                   'exposure_auto_mode': self.set_exposure_auto_mode,
-                                   'exposure_mode': self.set_exposure_mode,
-                                   'gain_auto_mode': self.set_gain_auto_mode,
-                                   'gain_mode': self.set_gain_mode,
-                                   'gain_value': self.set_gain_value,
-                                   'gamma': self.set_gamma,
-                                   'hue': self.set_hue,
-                                   'saturation': self.set_saturation,
-                                   'white_balance_auto_mode': self.set_white_balance_auto_mode,
-                                   'white_balance_mode': self.set_white_balance_mode,
-                                   'white_balance_blue': self.set_white_balance_blue,
-                                   'white_balance_red': self.set_white_balance_red,
-                                   'region_x': self.set_region_x,
-                                   'region_y': self.set_region_y,
-                                   'width': self.set_width,
-                                   'height': self.set_height,
-                                   'pixel_format': self.set_pixel_format
-                                }
+        self.parameter_handlers = { 'acquisition_mode': self.set_acquisition_mode,
+                                    'pixel_format': self.set_pixel_format,
+                                    # ROI
+                                    'region_x': self.set_region_x,
+                                    'region_y': self.set_region_y,
+                                    'width': self.set_width,
+                                    'height': self.set_height,
+                                    # Exposure
+                                    'exposure_auto_adjust_tol': self.set_exposure_auto_adjust_tol,
+                                    'exposure_auto_alg': self.set_exposure_auto_alg,
+                                    'exposure_auto_min': self.set_exposure_auto_min,
+                                    'exposure_auto_max': self.set_exposure_auto_max,
+                                    'exposure_auto_outliers': self.set_exposure_auto_outliers,
+                                    'exposure_auto_rate': self.set_exposure_auto_rate,
+                                    'exposure_auto_target': self.set_exposure_auto_target,
+                                    'exposure_mode': self.set_exposure_mode,
+                                    'exposure_value': self.set_exposure_value,
+                                    # Gain
+                                    'gain_auto_adjust_tol': self.set_gain_auto_adjust_tol,
+                                    'gain_auto_min': self.set_gain_auto_min,
+                                    'gain_auto_max': self.set_gain_auto_max,
+                                    'gain_auto_outliers': self.set_gain_auto_outliers,
+                                    'gain_auto_rate': self.set_gain_auto_rate,
+                                    'gain_auto_target': self.set_gain_auto_target,
+                                    'gain_mode': self.set_gain_mode,
+                                    'gain_value': self.set_gain_value,
+                                    # White balance
+                                    'white_balance_auto_adjust_tol': self.set_white_balance_auto_adjust_tol,
+                                    'white_balance_auto_rate': self.set_white_balance_auto_rate,
+                                    'white_balance_mode': self.set_white_balance_mode,
+                                    'white_balance_blue': self.set_white_balance_blue,
+                                    'white_balance_red': self.set_white_balance_red,
+
+                                    'gamma': self.set_gamma,
+                                    'hue': self.set_hue,
+                                    'saturation': self.set_saturation
+        }
         self.parameter_server = Server(CameraConfig, self._parameter_callback)
 
         # Ros topic and topic rate.
@@ -66,17 +81,36 @@ class CameraNode:
         rate = rospy.Rate(20)
 
         while not rospy.is_shutdown():
-            self.image_pub.publish(self._get_last_image())
+            #self.image_pub.publish(self._get_last_image())
             rate.sleep()
 
-    def _parameter_callback(self, config, level):
-        print config
+    def _parameter_callback(self, configuration, level):
+        print configuration
+        config = configuration.copy()
+        #
+        # # Parametres prioritaires
+        # if 'white_balance_mode' in config:
+        #     self.set_white_balance_mode(config['white_balance_mode'])
+        #     del config['white_balance_mode']
+        #
+        # if 'gain_mode' in config:
+        #     self.set_gain_mode(config['gain_mode'])
+        #     del config['gain_mode']
+        #
+        # if 'exposure_mode' in config:
+        #     self.set_exposure_mode(config['exposure_mode'])
+        #     del config['exposure_mode']
+        #
+        # # Les autres parametres
         # for parameter, value in config.items():
         #     if parameter in self.parameter_handlers:
         #         if not parameter in self.parameter_values:
         #             self.parameter_values[parameter] = None
         #         if self.parameter_values[parameter] != value:
-        #             self.parameter_handlers[parameter](value)
+        #             try:
+        #                 self.parameter_handlers[parameter](value)
+        #             except Exception as e:
+        #                 rospy.logwarn(e.message)
 
         return config
 
@@ -91,25 +125,35 @@ class CameraNode:
         name = self._get_enum_name(camera.AcquisitionMode, value)
         if name:
             rospy.loginfo("Setting acquisition mode: %s", name)
-            self.camera.setAcquisitionMode(value)
+            self.camera.setAcquisitionMode(camera.AcquisitionMode(value))
 
-    def set_exposure_auto_alg_mode(self, value):
-        name = self._get_enum_name(camera.ExposureAutoAlgMode, value)
-        if name:
-            rospy.loginfo("Setting exposure auto alg mode: %s", name)
-            self.camera.setExposureAutoAlgMode(value)
+    def set_exposure_auto_adjust_tol(self, value):
+        rospy.loginfo("Setting exposure auto adjust tol value: %d", value)
+        self.camera.setExposureAutoMode(camera.ExposureAutoMode.ExposureAutoAdjustTol, value)
 
-    def set_exposure_value(self, value):
-        rospy.loginfo("Setting exposure value: %d", value)
-        self.camera.setExposureValue(value)
+    def set_exposure_auto_alg(self, value):
+        rospy.loginfo("Setting exposure auto alg value: %d", value)
+        self.camera.setExposureAutoMode(camera.ExposureAutoMode.ExposureAutoAlg, value)
 
-    def set_exposure_auto_mode(self, value):
-        name = self._get_enum_name(camera.ExposureAutoMode, value)
-        if name:
-            rospy.loginfo("Setting exposure auto mode: %s", name)
-            # TODO: MARCHE PAS
-            rospy.logwarn("Attention, marche pas encore...")
-            #self.camera.setExposureAutoMode(value)
+    def set_exposure_auto_min(self, value):
+        rospy.loginfo("Setting exposure auto min value: %d", value)
+        self.camera.setExposureAutoMode(camera.ExposureAutoMode.ExposureAutoMin, value)
+
+    def set_exposure_auto_max(self, value):
+        rospy.loginfo("Setting exposure auto max value: %d", value)
+        self.camera.setExposureAutoMode(camera.ExposureAutoMode.ExposureAutoMax, value)
+
+    def set_exposure_auto_outliers(self, value):
+        rospy.loginfo("Setting exposure auto outliers value: %d", value)
+        self.camera.setExposureAutoMode(camera.ExposureAutoMode.ExposureAutoOutliers, value)
+
+    def set_exposure_auto_rate(self, value):
+        rospy.loginfo("Setting exposure auto rate value: %d", value)
+        self.camera.setExposureAutoMode(camera.ExposureAutoMode.ExposureAutoRate, value)
+
+    def set_exposure_auto_target(self, value):
+        rospy.loginfo("Setting exposure auto target value: %d", value)
+        self.camera.setExposureAutoMode(camera.ExposureAutoMode.ExposureAutoTarget, value)
 
     def set_exposure_mode(self, value):
         name = self._get_enum_name(camera.ExposureMode, value)
@@ -117,19 +161,39 @@ class CameraNode:
             rospy.loginfo("Setting exposure mode: %s", name)
             self.camera.setExposureMode(value)
 
-    def set_gain_auto_mode(self, value):
-        name = self._get_enum_name(camera.GainAutoMode, value)
-        if name:
-            rospy.loginfo("Setting gain auto mode: %s", name)
-            # TODO: MARCHE PAS
-            rospy.logwarn("Attention, marche pas encore...")
-            #self.camera.setGainAutoMode(value)
+    def set_exposure_value(self, value):
+        rospy.loginfo("Setting exposure value: %d", value)
+        self.camera.setExposureValue(value)
+
+    def set_gain_auto_adjust_tol(self, value):
+        rospy.loginfo("Setting gain auto adjust tol value: %d", value)
+        self.camera.setGainAutoMode(camera.GainAutoMode.GainAutoAdjustTol, value)
+
+    def set_gain_auto_min(self, value):
+        rospy.loginfo("Setting gain auto min value: %d", value)
+        self.camera.setGainAutoMode(camera.GainAutoMode.GainAutoMin, value)
+
+    def set_gain_auto_max(self, value):
+        rospy.loginfo("Setting gain auto max value: %d", value)
+        self.camera.setGainAutoMode(camera.GainAutoMode.GainAutoMax, value)
+
+    def set_gain_auto_outliers(self, value):
+        rospy.loginfo("Setting gain auto outliers value: %d", value)
+        self.camera.setGainAutoMode(camera.GainAutoMode.GainAutoOutliers, value)
+
+    def set_gain_auto_rate(self, value):
+        rospy.loginfo("Setting gain auto rate value: %d", value)
+        self.camera.setGainAutoMode(camera.GainAutoMode.GainAutoRate, value)
+
+    def set_gain_auto_target(self, value):
+        rospy.loginfo("Setting gain auto target value: %d", value)
+        self.camera.setGainAutoMode(camera.GainAutoMode.GainAutoTarget, value)
 
     def set_gain_mode(self, value):
         name = self._get_enum_name(camera.GainMode, value)
         if name:
             rospy.loginfo("Setting gain mode: %s", name)
-            self.camera.setGainMode(value)
+            self.camera.setGainMode(camera.GainMode(value))
 
     def set_gain_value(self, value):
         rospy.loginfo("Setting gain value: %d", value)
@@ -147,13 +211,13 @@ class CameraNode:
         rospy.loginfo("Setting saturation: %d", value)
         self.camera.setSaturation(value)
 
-    def set_white_balance_auto_mode(self, value):
-        name = self._get_enum_name(camera.WhitebalAutoMode, value)
-        if name:
-            rospy.loginfo("Setting white balance auto mode: %s", name)
-            # TODO: MARCHE PAS
-            rospy.logwarn("Attention, marche pas encore...")
-            #self.camera.setWhitebalAutoMode(value)
+    def set_white_balance_auto_adjust_tol(self, value):
+        rospy.loginfo("Setting white balance auto adjust tol value: %d", value)
+        self.camera.setGainAutoMode(camera.WhitebalAutoMode.WhitebalAutoAdjustTol, value)
+
+    def set_white_balance_auto_rate(self, value):
+        rospy.loginfo("Setting white balance auto rate: %d", value)
+        self.camera.setGainAutoMode(camera.WhitebalAutoMode.WhitebalAutoRate, value)
 
     def set_white_balance_mode(self, value):
         name = self._get_enum_name(camera.WhitebalMode, value)
@@ -189,7 +253,7 @@ class CameraNode:
         name = self._get_enum_name(camera.PixelFormat, value)
         if name:
             rospy.loginfo("Setting pixel format: %s", name)
-            self.camera.setPixelFormat(value)
+            self.camera.setPixelFormat(camera.PixelFormat(value))
 
     def _get_last_image(self):
         image = self.images[self.camera.getFrame()]
@@ -203,7 +267,6 @@ class CameraNode:
 
     def _load_camera(self):
         try:
-            import camera
             with OutputGrabber():
                 self.camera = camera.Camera()
             return True
