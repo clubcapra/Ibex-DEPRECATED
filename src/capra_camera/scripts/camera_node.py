@@ -28,12 +28,12 @@ class CameraNode:
         rospy.loginfo("Initializing camera")
         initialized = False
         error_printed = False
-        # while not initialized and not rospy.is_shutdown():
-        #     initialized = self._initialize_camera()
-        #     if not initialized and not error_printed:
-        #         error_printed = True
-        #         rospy.logerr("Could not initialize camera. Retrying...")
-        # rospy.loginfo("Camera initialized.")
+        while not initialized and not rospy.is_shutdown():
+            initialized = self._initialize_camera()
+            if not initialized and not error_printed:
+                error_printed = True
+                rospy.logerr("Could not initialize camera. Retrying...")
+        rospy.loginfo("Camera initialized.")
 
         # Parameters
         self.parameter_values = {}
@@ -81,36 +81,39 @@ class CameraNode:
         rate = rospy.Rate(20)
 
         while not rospy.is_shutdown():
-            #self.image_pub.publish(self._get_last_image())
+            self.image_pub.publish(self._get_last_image())
             rate.sleep()
 
-    def _parameter_callback(self, configuration, level):
-        print configuration
-        config = configuration.copy()
-        #
-        # # Parametres prioritaires
-        # if 'white_balance_mode' in config:
-        #     self.set_white_balance_mode(config['white_balance_mode'])
-        #     del config['white_balance_mode']
-        #
-        # if 'gain_mode' in config:
-        #     self.set_gain_mode(config['gain_mode'])
-        #     del config['gain_mode']
-        #
-        # if 'exposure_mode' in config:
-        #     self.set_exposure_mode(config['exposure_mode'])
-        #     del config['exposure_mode']
-        #
-        # # Les autres parametres
-        # for parameter, value in config.items():
-        #     if parameter in self.parameter_handlers:
-        #         if not parameter in self.parameter_values:
-        #             self.parameter_values[parameter] = None
-        #         if self.parameter_values[parameter] != value:
-        #             try:
-        #                 self.parameter_handlers[parameter](value)
-        #             except Exception as e:
-        #                 rospy.logwarn(e.message)
+    def _handle_parameter(self, parameter, value):
+        if not parameter in self.parameter_values:
+            self.parameter_values[parameter] = None
+        if self.parameter_values[parameter] != value:
+            self.parameter_values[parameter] = value
+            try:
+                self.parameter_handlers[parameter](value)
+            except Exception as e:
+                rospy.logwarn(e.message)
+
+    def _parameter_callback(self, config, level):
+        print config
+
+        # Parametres prioritaires
+        if 'white_balance_mode' in config:
+            self._handle_parameter('white_balance_mode', config['white_balance_mode'])
+
+        if 'gain_mode' in config:
+            self._handle_parameter('gain_mode', config['gain_mode'])
+
+        if 'exposure_mode' in config:
+            self._handle_parameter('exposure_mode', config['exposure_mode'])
+
+        # Les autres parametres
+        for parameter, value in config.items():
+            # Skip parametres prioritaires
+            if parameter in ['white_balance_mode', 'gain_mode', 'exposure_mode']:
+                continue
+            if parameter in self.parameter_handlers:
+                self._handle_parameter(parameter, value)
 
         return config
 
@@ -133,7 +136,7 @@ class CameraNode:
 
     def set_exposure_auto_alg(self, value):
         rospy.loginfo("Setting exposure auto alg value: %d", value)
-        self.camera.setExposureAutoMode(camera.ExposureAutoMode.ExposureAutoAlg, value)
+        self.camera.setExposureAutoAlgMode(camera.ExposureAutoAlgMode(value))
 
     def set_exposure_auto_min(self, value):
         rospy.loginfo("Setting exposure auto min value: %d", value)
@@ -159,7 +162,7 @@ class CameraNode:
         name = self._get_enum_name(camera.ExposureMode, value)
         if name:
             rospy.loginfo("Setting exposure mode: %s", name)
-            self.camera.setExposureMode(value)
+            self.camera.setExposureMode(camera.ExposureMode(value))
 
     def set_exposure_value(self, value):
         rospy.loginfo("Setting exposure value: %d", value)
@@ -213,17 +216,18 @@ class CameraNode:
 
     def set_white_balance_auto_adjust_tol(self, value):
         rospy.loginfo("Setting white balance auto adjust tol value: %d", value)
-        self.camera.setGainAutoMode(camera.WhitebalAutoMode.WhitebalAutoAdjustTol, value)
+
+        self.camera.setExposureAutoAlgMode(camera.ExposureAutoAlgMode(value))
 
     def set_white_balance_auto_rate(self, value):
         rospy.loginfo("Setting white balance auto rate: %d", value)
-        self.camera.setGainAutoMode(camera.WhitebalAutoMode.WhitebalAutoRate, value)
+        self.camera.setWhitebalAutoMode(camera.WhitebalAutoMode.WhitebalAutoRate, value)
 
     def set_white_balance_mode(self, value):
         name = self._get_enum_name(camera.WhitebalMode, value)
         if name:
             rospy.loginfo("Setting white balance mode: %s", name)
-            self.camera.setWhitebalMode(value)
+            self.camera.setWhitebalMode(camera.WhitebalMode(value))
 
     def set_white_balance_blue(self, value):
         rospy.loginfo("Setting white balance blue: %d", value)
