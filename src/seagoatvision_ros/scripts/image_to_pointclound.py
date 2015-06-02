@@ -15,9 +15,9 @@ from math import *
 bridge = CvBridge()
 
 # size of the output cloud. For example, total width in meters is (w/k)*100
-resolution = 40.0 # number of points per meter (float)
-w = 200 # total points for width
-h = 200 # total points for height
+resolution = 20.0 # number of points per meter (float)
+w = 100 # total points for width
+h = 100 # total points for height
 
 # offset of the pointcloud in meters on the x axis. This number was originally chosen to keep existing
 # calibrations valid. If you change it, you have to re-calibrate
