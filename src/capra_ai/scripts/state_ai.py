@@ -20,16 +20,20 @@ class StateAi(object):
 
         self.clear_octomap_service = rospy.ServiceProxy('/octomap_server/clear_bbx', BoundingBoxQuery)
         self.reset_octomap_service = rospy.ServiceProxy('/octomap_server/reset', Empty)
+
+        self.is_ready = False
+        rospy.wait_for_service('/obstacle_generator')
         self.generate_obstacle_service = rospy.ServiceProxy('/obstacle_generator', GenerateObstacle)
         rospy.Subscriber("/goal_manager/current", GoalWithPriority, self.goal_callback)
         rospy.Subscriber("/goal_manager/last_goal_reached", Bool, self.last_goal_callback)
-        self.pub_circle = rospy.Publisher("/obstacle_generator/generate_circle", Bool, queue_size=10)
-        self.pub_bar = rospy.Publisher("/obstacle_generator/generate_bar", Bool, queue_size=10)
+
         self.tf_listener = tf.TransformListener()
+
 
         self.goal_count = 0
 
-        rospy.sleep(5.0)
+        self.tf_listener.waitForTransform("/odom", "/base_footprint", rospy.Time(), rospy.Duration(6.0))
+        self.is_ready = True
         self.save_start_pos()
         self.on_start()
 
@@ -47,10 +51,14 @@ class StateAi(object):
         return None
 
     def goal_callback(self, msg):
+        while not self.is_ready:
+            rospy.sleep(0.1)
         self.goal_count += 1
         self.on_goal_changed(msg)
 
     def last_goal_callback(self, msg):
+        while not self.is_ready:
+            rospy.sleep(0.1)
         if msg.data == True:
             rospy.loginfo("Last goal reached")
             self.on_last_goal_reached(msg)
@@ -96,11 +104,11 @@ class StateAi(object):
         min = Point()
         max = Point()
 
-        min.x = -250
-        max.x = 250
+        min.x = -100
+        max.x = 100
 
-        min.y = -250
-        max.y = 250
+        min.y = -50
+        max.y = 50
 
         # tweak Z to clear only certain parts of the map (only obstales, only lines, etc)
         min.z = -5.0
