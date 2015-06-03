@@ -30,7 +30,7 @@ def imu_cb(msg):
     msg_imu.orientation = Quaternion(q_rotated_90[0], q_rotated_90[1], q_rotated_90[2], q_rotated_90[3])
 
     # covariance
-    cov = [0.001,0,0,0,0.001,0,0,0,0.001]
+    cov = [0.0001,0,0,0,0.0001,0,0,0,0.0001]
     msg_imu.orientation_covariance = cov
 
     #euler = tf.transformations.euler_from_quaternion(q_flipped)

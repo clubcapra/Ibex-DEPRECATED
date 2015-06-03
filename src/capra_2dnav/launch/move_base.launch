@@ -2,6 +2,7 @@
   <arg name="context" default="indoors" />
   <arg name="base_local_planner" default="base_local_planner/TrajectoryPlannerROS" />
   <arg name="recovery_behaviors" default="[{name: conservative_reset, type: clear_costmap_recovery/ClearCostmapRecovery}, {name: rotate_recovery, type: rotate_recovery/RotateRecovery}, {name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}]" />
+  <arg name="odom_topic" default="/odom" />
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true" >
     <rosparam file="$(find capra_2dnav)/config/$(arg context)/costmap_common_params.yaml" command="load" ns="global_costmap" />
@@ -14,5 +15,6 @@
     <param name="controller_frequency" value="20.0" />
     <param name="base_local_planner" value="$(arg base_local_planner)" />
     <rosparam param="recovery_behaviors" subst_value="True">$(arg recovery_behaviors)</rosparam>
+    <remap from="/odom" to="$(arg odom_topic)" />
   </node>
 </launch>
