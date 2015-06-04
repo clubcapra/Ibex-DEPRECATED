@@ -8,7 +8,10 @@ from std_msgs.msg import Bool
 from octomap_msgs.srv import BoundingBoxQuery
 from std_srvs.srv import Empty
 from geometry_msgs.msg import Point
+from geometry_msgs.msg import Pose
+from geometry_msgs.msg import Quaternion
 from capra_msgs.srv import GenerateObstacle
+from capra_ai.srv import AddGoal
 from capra_ai.msg import GoalWithPriority
 import dynamic_reconfigure.client
 import tf
@@ -23,7 +26,9 @@ class StateAi(object):
 
         self.is_ready = False
         rospy.wait_for_service('/obstacle_generator')
+        rospy.wait_for_service('/goal_manager/add_goal')
         self.generate_obstacle_service = rospy.ServiceProxy('/obstacle_generator', GenerateObstacle)
+        self.send_goal_service = rospy.ServiceProxy('/goal_manager/add_goal', AddGoal)
         rospy.Subscriber("/goal_manager/current", GoalWithPriority, self.goal_callback)
         rospy.Subscriber("/goal_manager/last_goal_reached", Bool, self.last_goal_callback)
 
@@ -62,6 +67,25 @@ class StateAi(object):
         if msg.data == True:
             rospy.loginfo("Last goal reached")
             self.on_last_goal_reached(msg)
+
+    def send_goal(self, x, y, priority=100):
+        goal = GoalWithPriority()
+        goal.pose.x = x
+        goal.pose.y = y
+        goal.pose.z = 0
+        goal.orientation.w = 1
+        goal.priority = priority
+        self.send_goal_service(goal)
+
+    def send_relative_goal(self, rx, ry, priority=100):
+        goal = GoalWithPriority()
+        current_trans = self.get_pos()[0]
+        goal.pose.x = current_trans[0] + rx
+        goal.pose.y = current_trans[1] + ry
+        goal.pose.z = 0
+        goal.orientation.w = 1
+        goal.priority = priority
+        self.send_goal_service(goal)
 
     def on_start(self):
         return None
