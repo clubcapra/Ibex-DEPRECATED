@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(env IBEX_HOME)/launch/igvc2015/igvc.launch" >
+      <arg name="state_ai_name" default="qualif2" />
+    </include>
+</launch>
