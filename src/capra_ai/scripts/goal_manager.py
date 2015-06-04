@@ -82,7 +82,7 @@ class GoalManager():
             self.current_pub.publish(self.goals[idx].goal_with_priority)
             rospy.loginfo("Published goal # %i" % (idx + 1))
 
-    def add_waypoint(self, goal_with_priority):  # GoalWithPriority
+    def add_waypoint(self, goal_with_priority, add_after_current = False):  # GoalWithPriority
         goal_id = new_goal_id()
         pose = goal_with_priority.pose
         goal_with_priority.goal_id = goal_id
@@ -93,7 +93,10 @@ class GoalManager():
         move_base_msg.goal_id = goal_id
         goal = GoalManager.GoalWrapper(move_base_msg, goal_with_priority)
         goal.goal_with_priority = goal_with_priority
-        self.goals.append(goal)
+        if add_after_current:
+            self.goals.insert(self.current_idx + 1, goal)
+        else:
+            self.goals.append(goal)
         rospy.loginfo("Received goal:\n\tx:%f\n\ty:%f" % (pose.position.x, pose.position.y))
 
     def get_index_of(self, goal_id):
@@ -173,7 +176,8 @@ class GoalManager():
         
     def handle_add_goal(self, req):
         goal_id = new_goal_id()
-        self.add_waypoint(req.goal_with_priority)
+        self.add_waypoint(req.goal_with_priority, req.add_after_current)
+        return True
 
     def publish_goals_pc(self):
         current_goal = GoalWithPriority()
