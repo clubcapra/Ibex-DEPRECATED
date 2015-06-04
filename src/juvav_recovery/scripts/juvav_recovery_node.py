@@ -234,9 +234,9 @@ class JuvavRecoveryNode:
 
 
 
-                precision_x = 0.08
+                precision_x = 0.14#0.08
                 precision_y = 0.1
-                precision_yaw = 0.001
+                precision_yaw = 0.05#0.001
 
                 twist_found = False
 
