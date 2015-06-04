@@ -83,7 +83,7 @@ class GoalManager():
             rospy.loginfo("Published goal # %i" % (idx + 1))
 
     def add_waypoint(self, goal_with_priority, add_after_current = False):  # GoalWithPriority
-        goal_id = new_goal_id()
+        goal_id = self.new_goal_id()
         pose = goal_with_priority.pose
         goal_with_priority.goal_id = goal_id
         move_base_msg = MoveBaseActionGoal()
@@ -118,14 +118,14 @@ class GoalManager():
         # update goal ids
         # set current idx to -1
         for idx, msg in enumerate(self.goals):
-            goal_id = new_goal_id()
+            goal_id = self.new_goal_id()
             msg.move_base_action_goal.goal_id = goal_id
             msg.goal_with_priority.goal_id = goal_id
             rospy.loginfo("Goal # %i id is now %s" % (self.count, goal_id.id))
             self.goals[idx] = msg
         self.current_idx = -1
         
-    def new_goal_id():
+    def new_goal_id(self):
         now = rospy.get_rostime()
         new_id = "%s_%i_%i_%i" % (rospy.get_name(), self.count, now.secs, now.nsecs)
         self.count += 1
@@ -175,7 +175,7 @@ class GoalManager():
         return True
         
     def handle_add_goal(self, req):
-        goal_id = new_goal_id()
+        goal_id = self.new_goal_id()
         self.add_waypoint(req.goal_with_priority, req.add_after_current)
         return True
 
