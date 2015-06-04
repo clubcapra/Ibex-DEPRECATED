@@ -7,7 +7,7 @@ from move_base_msgs.msg import MoveBaseActionGoal
 from std_msgs.msg import Bool
 from marker_manager import MarkerManager
 from capra_ai.msg import GoalWithPriority
-from capra_ai.srv import ClearGoalList
+from capra_ai.srv import ClearGoalList, AddGoal
 from sensor_msgs.msg import PointCloud2
 import sensor_msgs.point_cloud2 as pc2
 import dynamic_reconfigure.client
@@ -41,6 +41,7 @@ class GoalManager():
 
         self.current_pub = rospy.Publisher("~current", GoalWithPriority, queue_size=1)
         rospy.Service("~clear", ClearGoalList, self.handle_clear_goal_list)
+        rospy.Service("~add_goal", AddGoal, self.handle_add_goal)
         self.priority_to_precision = []
         self.priority_to_precision.append(0.1)  # [0,100[
         self.priority_to_precision.append(0.4)  # [100,200[
@@ -82,11 +83,7 @@ class GoalManager():
             rospy.loginfo("Published goal # %i" % (idx + 1))
 
     def add_waypoint(self, goal_with_priority):  # GoalWithPriority
-        now = rospy.get_rostime()
-        self.count += 1
-        goal_id = GoalID()
-        goal_id.stamp = now
-        goal_id.id = "%s_%i_%i_%i" % (rospy.get_name(), self.count, now.secs, now.nsecs)
+        goal_id = new_goal_id()
         pose = goal_with_priority.pose
         goal_with_priority.goal_id = goal_id
         move_base_msg = MoveBaseActionGoal()
@@ -118,17 +115,21 @@ class GoalManager():
         # update goal ids
         # set current idx to -1
         for idx, msg in enumerate(self.goals):
-            now = rospy.get_rostime()
-            new_id = "%s_%i_%i_%i" % (rospy.get_name(), self.count, now.secs, now.nsecs)
-            self.count += 1
-            goal_id = GoalID()
-            goal_id.stamp = now
-            goal_id.id = new_id
+            goal_id = new_goal_id()
             msg.move_base_action_goal.goal_id = goal_id
             msg.goal_with_priority.goal_id = goal_id
             rospy.loginfo("Goal # %i id is now %s" % (self.count, goal_id.id))
             self.goals[idx] = msg
         self.current_idx = -1
+        
+    def new_goal_id():
+        now = rospy.get_rostime()
+        new_id = "%s_%i_%i_%i" % (rospy.get_name(), self.count, now.secs, now.nsecs)
+        self.count += 1
+        goal_id = GoalID()
+        goal_id.stamp = now
+        goal_id.id = new_id
+        return goal_id
 
     def status_updated_callback(self, msg):  # GoalStatusArray
         intermediate_statuses = [GoalStatus.PENDING, GoalStatus.ACTIVE, GoalStatus.RECALLING, GoalStatus.PREEMPTING]
@@ -169,6 +170,10 @@ class GoalManager():
             self.current_idx = -1
             del self.goals[:]
         return True
+        
+    def handle_add_goal(self, req):
+        goal_id = new_goal_id()
+        self.add_waypoint(req.goal_with_priority)
 
     def publish_goals_pc(self):
         current_goal = GoalWithPriority()
