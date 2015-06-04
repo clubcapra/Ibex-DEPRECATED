@@ -5,8 +5,8 @@ import serial
 from time import sleep
 from threading import Thread
 
-class ImuCalibration:
 
+class ImuCalibration:
     def __init__(self):
         rospy.init_node('imu_calibration', log_level=rospy.INFO)
         self.port = rospy.get_param("~serial_port", "/dev/ttyUSB2000")
@@ -24,12 +24,14 @@ class ImuCalibration:
         return checksum
 
     def calibrate(self):
+        global done
         rospy.loginfo("\nHard/Soft iron calibration before reset:")
         self.getHSI()
         self.sendCommand("VNWRG,44,2,0,"+self.convergeRate) #reset calibration
         self.sendCommand("VNWRG,44,1,3,"+self.convergeRate) #start calibration
 
         #start thread reading HSI values
+        done = False
         t = Thread(target=self.HSIThread)
         t.daemon = True
         t.start()
@@ -39,7 +41,7 @@ class ImuCalibration:
         except EOFError:
             pass
 
-        t.signal = False #stop thread reading HSI values
+        done = True #stop thread reading HSI values
 
         self.sendCommand("VNWRG,44,0,3,"+self.convergeRate) #stop calibration
         rospy.loginfo("\nHard/Soft iron calibration after calibration:")
@@ -58,7 +60,7 @@ class ImuCalibration:
                   "z   "+data[6]+" "+data[7]+" "+data[8]+"   (MZ - "+data[11]+")"+"\n"
 
     def HSIThread(self):
-        while True:
+        while not done:
             sleep(3)
             self.getHSI()
 
