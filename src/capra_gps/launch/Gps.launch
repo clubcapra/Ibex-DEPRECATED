@@ -23,6 +23,6 @@
 
     </node>
 
-    <node pkg="capra_gps" type="gps_theta.py" name="gps_theta" output="screen" />
+    <node pkg="capra_gps" type="gps_low_cov.py" name="gps_low_cov" output="screen" />
 
 </launch>

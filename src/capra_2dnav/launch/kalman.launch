@@ -10,7 +10,7 @@
       <param name="world_frame" value="odom"/>
 
       <param name="odom0" value="/odom"/>
-      <param name="odom1" value="/odometry/gps" />
+      <param name="odom1" value="/odometry/gps_cov" />
       <param name="imu0" value="/imu/data"/>
 
         <!--

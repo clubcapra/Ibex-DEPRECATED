@@ -33,7 +33,7 @@ def imu_cb(msg):
 
     # covariance
     #cov = [0.0001,0,0,0,0.0001,0,0,0,0.0001]
-    cov = [0.1,0,0,0,0.1,0,0,0,0.1]
+    cov = [0.01,0,0,0,0.01,0,0,0,0.01]
     msg_imu.orientation_covariance = cov
 
     #euler = tf.transformations.euler_from_quaternion(q_flipped)
