@@ -40,6 +40,7 @@ class StateAi(object):
         self.tf_listener.waitForTransform("/odom", "/base_footprint", rospy.Time(), rospy.Duration(6.0))
         self.is_ready = True
         self.save_start_pos()
+        rospy.loginfo("StateAi {} started.".format(name))
         self.on_start()
 
         rospy.spin()
@@ -68,24 +69,24 @@ class StateAi(object):
             rospy.loginfo("Last goal reached")
             self.on_last_goal_reached(msg)
 
-    def send_goal(self, x, y, priority=100):
+    def send_goal(self, x, y, priority=100,  add_after_current=False):
         goal = GoalWithPriority()
-        goal.pose.x = x
-        goal.pose.y = y
-        goal.pose.z = 0
-        goal.orientation.w = 1
+        goal.pose.position.x = x
+        goal.pose.position.y = y
+        goal.pose.position.z = 0
+        goal.pose.orientation.w = 1
         goal.priority = priority
-        self.send_goal_service(goal)
+        self.send_goal_service(goal, add_after_current)
 
-    def send_relative_goal(self, rx, ry, priority=100):
+    def send_relative_goal(self, rx, ry, priority=100, add_after_current=False):
         goal = GoalWithPriority()
         current_trans = self.get_pos()[0]
-        goal.pose.x = current_trans[0] + rx
-        goal.pose.y = current_trans[1] + ry
-        goal.pose.z = 0
-        goal.orientation.w = 1
+        goal.pose.position.x = current_trans[0] + rx
+        goal.pose.position.y = current_trans[1] + ry
+        goal.pose.position.z = 0
+        goal.pose.orientation.w = 1
         goal.priority = priority
-        self.send_goal_service(goal)
+        self.send_goal_service(goal, add_after_current)
 
     def on_start(self):
         return None

@@ -83,6 +83,7 @@ class GoalManager():
             rospy.loginfo("Published goal # %i" % (idx + 1))
 
     def add_waypoint(self, goal_with_priority, add_after_current = False):  # GoalWithPriority
+
         goal_id = self.new_goal_id()
         pose = goal_with_priority.pose
         goal_with_priority.goal_id = goal_id
@@ -136,7 +137,10 @@ class GoalManager():
 
     def status_updated_callback(self, msg):  # GoalStatusArray
         intermediate_statuses = [GoalStatus.PENDING, GoalStatus.ACTIVE, GoalStatus.RECALLING, GoalStatus.PREEMPTING]
+
         for goal in msg.status_list:
+            status = GoalManager.status_list[goal.status]
+            rospy.logerr("Goal %s. %s" % (status, goal.text))
             goal_idx = self.get_index_of(goal.goal_id.id)
             if goal.status == GoalStatus.SUCCEEDED:  # do a little dance to celebrate
                 last_goal_reached = Bool()

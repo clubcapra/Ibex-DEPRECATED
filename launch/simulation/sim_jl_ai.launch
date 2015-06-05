@@ -12,7 +12,7 @@
     </include>
 
     <include file="$(find capra_ai)/launch/StateAi.launch" >
-        <arg name="state_ai_name" value="igvc_basic_state_ai" />
+        <arg name="state_ai_name" value="qualif1" />
     </include>
 
     <!-- MAPPING -->
@@ -40,7 +40,7 @@
 
     <!-- GOAL LOADER -->
     <include file="$(find capra_ai)/launch/GoalManager.launch" >
-        <arg name="file" value="$(env IBEX_HOME)/waypoints/IGVCBasicCourse.json" />
+        <arg name="file" value="$(env IBEX_HOME)/bags/qualif1.json" />
     </include>
 
 

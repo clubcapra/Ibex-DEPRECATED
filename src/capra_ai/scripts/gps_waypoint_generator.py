@@ -49,7 +49,7 @@ class GpsWaypointGenerator():
             rospy.loginfo("No GPS data")
             return
 
-        self.waypoints.append({'x': data.longitude, 'y': data.latitude, 'gps':1, 'priorite':0})
+        self.waypoints.append({'x': data.longitude, 'y': data.latitude, 'gps':1, 'priorite':100})
         self.file.seek(0)
         self.file.write(json.dumps(self.waypoints))
         self.file.truncate()
