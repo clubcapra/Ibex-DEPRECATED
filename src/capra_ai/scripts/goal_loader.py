@@ -13,6 +13,7 @@ class GoalLoader():
 
     def __init__(self):
         rospy.wait_for_service('/move_base/make_plan')
+        rospy.wait_for_service('/octomap_server/reset')
         rospy.sleep(2.0)  # wait for move_base to be ready
         self.msgs = []
         self.pub_topic = '/goal_manager/waypoint'

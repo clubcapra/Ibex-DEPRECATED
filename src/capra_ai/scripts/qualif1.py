@@ -11,8 +11,7 @@ class Qualif1(StateAi):
          super(Qualif1, self).__init__("qualif1")
 
     def on_start(self):
-        self.generate_circle(1.8, pi/4, 2 * pi - pi/4, pi/270.0, 1000)
-        #self.send_goal(10, 0, 10)
+        self.generate_circle(1.8, pi/4, 2 * pi - pi/4, pi/270.0, -1)
 
     def on_goal_changed(self, goal_msg):
         pass
