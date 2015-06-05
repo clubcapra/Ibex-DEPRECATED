@@ -24,7 +24,9 @@ def imu_cb(msg):
 
     initial = [msg.orientation.x, msg.orientation.y, -msg.orientation.z, msg.orientation.w]
 
-    rotation_z = quaternion_about_axis(math.pi-0.6, [0, 0, 1])
+    #mag_declination = 0.6 #mtl
+    mag_declination = 0.2 # rochester
+    rotation_z = quaternion_about_axis(math.pi/2.0-mag_declination , [0, 0, 1])
     q_rotated_90 = quaternion_multiply(initial, rotation_z)
 
     msg_imu.orientation = Quaternion(q_rotated_90[0], q_rotated_90[1], q_rotated_90[2], q_rotated_90[3])
