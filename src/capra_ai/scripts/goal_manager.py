@@ -7,7 +7,7 @@ from move_base_msgs.msg import MoveBaseActionGoal
 from std_msgs.msg import Bool
 from marker_manager import MarkerManager
 from capra_ai.msg import GoalWithPriority
-from capra_ai.srv import ClearGoalList, AddGoal
+from capra_ai.srv import ClearGoalList, AddGoal, CancelGoal
 from sensor_msgs.msg import PointCloud2
 import sensor_msgs.point_cloud2 as pc2
 import dynamic_reconfigure.client
@@ -16,7 +16,8 @@ import dynamic_reconfigure.client
 class GoalManager():
 
     # provide the status name and text for detail
-    status_list = ["pending", "active", "preempted", "succeeded", "aborted", "rejected", "preempting", "recalling", "recalled", "lost"]
+    status_list = ["pending", "active", "preempted", "succeeded", "aborted", "rejected", "preempting", "recalling",
+                   "recalled", "lost"]
 
     class GoalWrapper():
         def __init__(self, move_base_action_goal, goal_with_priority):
@@ -42,6 +43,7 @@ class GoalManager():
         self.current_pub = rospy.Publisher("~current", GoalWithPriority, queue_size=1)
         rospy.Service("~clear", ClearGoalList, self.handle_clear_goal_list)
         rospy.Service("~add_goal", AddGoal, self.handle_add_goal)
+        rospy.Service("~cancel_goal", CancelGoal, self.handle_cancel_goal)
         self.priority_to_precision = []
         self.priority_to_precision.append(0.1)  # [0,100[
         self.priority_to_precision.append(0.4)  # [100,200[
@@ -156,6 +158,8 @@ class GoalManager():
                     self.next_goal(goal_idx + 1)
             elif goal.status in intermediate_statuses:  # transitional state, so just wait
                 pass
+            elif goal.status == GoalStatus.PREEMPTED:
+                pass
             else:  # the robot's dead
                 status = GoalManager.status_list[goal.status]
                 rospy.logerr("Goal %s. %s" % (status, goal.text))
@@ -181,6 +185,11 @@ class GoalManager():
     def handle_add_goal(self, req):
         goal_id = self.new_goal_id()
         self.add_waypoint(req.goal_with_priority, req.add_after_current)
+        return True
+
+    def handle_cancel_goal(self, req):
+        if req.cancel:
+            self.next_goal(self.current_idx + 1)
         return True
 
     def publish_goals_pc(self):

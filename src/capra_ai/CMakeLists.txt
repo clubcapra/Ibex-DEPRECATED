@@ -61,6 +61,7 @@ find_package(catkin REQUIRED COMPONENTS
    FILES
    ClearGoalList.srv
    AddGoal.srv
+   CancelGoal.srv
  )
 
 ## Generate actions in the 'action' folder
