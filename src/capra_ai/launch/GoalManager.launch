@@ -9,4 +9,3 @@
         <param name="file" value="$(arg file)" />
     </node>
 </launch>
-d
