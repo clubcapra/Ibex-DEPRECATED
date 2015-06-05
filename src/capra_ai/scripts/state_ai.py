@@ -14,6 +14,7 @@ from capra_msgs.srv import GenerateObstacle
 from capra_ai.srv import AddGoal
 from capra_ai.msg import GoalWithPriority
 import dynamic_reconfigure.client
+from nav_msgs.msg import Odometry
 import tf
 
 class StateAi(object):
@@ -27,6 +28,8 @@ class StateAi(object):
         self.is_ready = False
         rospy.wait_for_service('/obstacle_generator')
         rospy.wait_for_service('/goal_manager/add_goal')
+        rospy.wait_for_message('/odom/filtered', Odometry, timeout=None)
+        rospy.sleep(0.02)
         self.generate_obstacle_service = rospy.ServiceProxy('/obstacle_generator', GenerateObstacle)
         self.send_goal_service = rospy.ServiceProxy('/goal_manager/add_goal', AddGoal)
         rospy.Subscriber("/goal_manager/current", GoalWithPriority, self.goal_callback)

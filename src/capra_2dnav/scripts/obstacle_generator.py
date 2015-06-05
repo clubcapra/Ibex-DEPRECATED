@@ -11,7 +11,7 @@ import numpy as np
 import tf
 
 class PointcloudGenerator:
-
+    obs_index = 0
     def __init__(self):
 
         rospy.init_node('pointcloud_generator')
@@ -70,17 +70,19 @@ class PointcloudGenerator:
 
     def send_cloud(self, cloud, duration):
         ref_frame = '/base_footprint'
-        obstacle_frame = "/obs"
+        self.obs_index += 1
+        obstacle_frame = "/obs{}".format(self.obs_index)
 
         (trans, rotQ) = self.tf_listener.lookupTransform("/odom", ref_frame, rospy.Time(0))
-        self.br.sendTransform(trans,rotQ,rospy.Time.now(), obstacle_frame, "/odom")
+
 
         pcloud = PointCloud2()
-        rospy.loginfo("Publishing obstacle for {}s and exiting".format(duration))
+        rospy.loginfo("Publishing obstacle on frame {} for {}s and exiting".format(obstacle_frame, duration))
         r = rospy.Rate(10)
         start_time = rospy.get_time()
 
-        while not rospy.is_shutdown() and (duration != -1 and (rospy.get_time() - start_time) <= duration):
+        while not rospy.is_shutdown() and (duration == -1 or (rospy.get_time() - start_time) <= duration):
+            self.br.sendTransform(trans,rotQ,rospy.Time.now(), obstacle_frame, "/odom")
             pcloud = pc2.create_cloud_xyz32(pcloud.header, cloud)
             pcloud.header.frame_id = obstacle_frame
             self.pub_cloud.publish(pcloud)
