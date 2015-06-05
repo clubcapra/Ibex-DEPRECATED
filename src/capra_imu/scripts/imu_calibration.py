@@ -24,14 +24,13 @@ class ImuCalibration:
         return checksum
 
     def calibrate(self):
-        global done
         rospy.loginfo("\nHard/Soft iron calibration before reset:")
         self.getHSI()
         self.sendCommand("VNWRG,44,2,0,"+self.convergeRate) #reset calibration
         self.sendCommand("VNWRG,44,1,3,"+self.convergeRate) #start calibration
 
         #start thread reading HSI values
-        done = False
+        self.done = False
         t = Thread(target=self.HSIThread)
         t.daemon = True
         t.start()
@@ -60,7 +59,7 @@ class ImuCalibration:
                   "z   "+data[6]+" "+data[7]+" "+data[8]+"   (MZ - "+data[11]+")"+"\n"
 
     def HSIThread(self):
-        while not done:
+        while not self.done:
             sleep(3)
             self.getHSI()
 
