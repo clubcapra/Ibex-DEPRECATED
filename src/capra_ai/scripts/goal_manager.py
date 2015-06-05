@@ -139,8 +139,6 @@ class GoalManager():
         intermediate_statuses = [GoalStatus.PENDING, GoalStatus.ACTIVE, GoalStatus.RECALLING, GoalStatus.PREEMPTING]
 
         for goal in msg.status_list:
-            status = GoalManager.status_list[goal.status]
-            rospy.logerr("Goal %s. %s" % (status, goal.text))
             goal_idx = self.get_index_of(goal.goal_id.id)
             if goal.status == GoalStatus.SUCCEEDED:  # do a little dance to celebrate
                 last_goal_reached = Bool()
