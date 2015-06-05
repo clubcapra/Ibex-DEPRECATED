@@ -12,7 +12,7 @@
     </include>
 
     <include file="$(find capra_ai)/launch/StateAi.launch" >
-        <arg name="state_ai_name" value="qualif1" />
+        <arg name="state_ai_name" value="igvc_basic_south" />
     </include>
 
     <!-- MAPPING -->
