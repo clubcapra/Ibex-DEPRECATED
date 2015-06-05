@@ -3,33 +3,33 @@
 [BGR2HSV]
 
 [Rectangle]
-x1 = 290
-x2 = 397
-y1 = 367
-y2 = 332
+x1 = 290.0
+x2 = 397.0
+y1 = 367.0
+y2 = 332.0
 
 [Undistort]
 
 [PerspectiveCalibration]
-bottomleftx = 212.0
-bottomlefty = 218.0
+bottomleftx = 215.0
+bottomlefty = 272.0
 bottomrightx = 381.0
-bottomrighty = 218.0
-topleftx = -31.0
-toplefty = 44.0
-toprightx = 601.0
-toprighty = 44.0
+bottomrighty = 272.0
+topleftx = -137.0
+toplefty = 32.0
+toprightx = 699.0
+toprighty = 32.0
 translationx = -47.0
-translationy = 9.0
-zoom = 232.0
+translationy = 143.0
+zoom = 240.0
 
 [ColorThreshold]
-c1max = 60.1
-c1min = 0.0
+c1max = 220.6
+c1min = 138.5
 c2max = 255.0
-c2min = 185.5
+c2min = 92.6
 c3max = 255.0
-c3min = 0.0
+c3min = 108.5
 shift_hue_plane = False
 
 [RosImagePublisher]
