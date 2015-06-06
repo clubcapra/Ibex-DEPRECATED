@@ -14,7 +14,7 @@ class IGVCBasicNorth(StateAi):
         self.generate_circle(7.0, pi/4, 2 * pi - pi/4, pi/270.0, 20)
 
     def on_goal_changed(self, goal_msg):
-        rospy.loginfo("Targeting goal with priority: {}", goal_msg.priority)
+        rospy.loginfo("Targeting goal with priority: {}".format(goal_msg.priority))
         if goal_msg.priority == 406:
             self.clear_octomap(self.start_pos, 10, 10)
 
@@ -28,7 +28,7 @@ class IGVCBasicNorth(StateAi):
             pass
 
         if goal_msg.priority == 402:
-            self.generate_bar(8, 2, -1)
+            self.generate_bar(8, -2.0, -1)
 
 
 
