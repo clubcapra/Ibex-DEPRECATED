@@ -91,7 +91,7 @@ class GoalLoader():
         return response.goal_xy
 
     def convert_dms_to_decimal(self, degrees, minutes, seconds, is_negatif):
-        return degrees + ((minutes+(seconds/60))/60) * (-1 if is_negatif else 1)
+        return (degrees + (minutes+(seconds/60))/60) * (-1 if is_negatif else 1)
 
     def convert_decimal_to_dms(self, decimal):
         minutes_seconds = decimal % 1 * 60
