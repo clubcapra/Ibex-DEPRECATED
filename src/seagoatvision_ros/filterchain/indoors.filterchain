@@ -3,21 +3,21 @@
 [Undistort]
 
 [Rectangle]
-x1 = 284
-x2 = 398
-y1 = 419
-y2 = 276
+x1 = 266.0
+x2 = 444.0
+y1 = 419.0
+y2 = 276.0
 
 [SectionFilterCPP]
-grass_max = 163.0
-grass_min = 108.0
+grass_max = 255
+grass_min = 10
 kernel_dilate_height = 1.0
 kernel_dilate_width = 1.0
 kernel_erode_height = 1.0
 kernel_erode_width = 1.0
-light_min = 140.0
-min_area = 320.0
-sections = 7.0
+light_min = 133
+min_area = 320
+sections = 7
 
 [ParticleFilter]
 area_min = 52.0
