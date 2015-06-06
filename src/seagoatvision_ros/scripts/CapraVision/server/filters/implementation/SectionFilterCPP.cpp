@@ -3,8 +3,8 @@
 
 #define DOCSTRING "Section filter in C++"
 
-int grass_min = 12;
-int grass_max = 80;
+int grass_min = 12; // min threshold on green
+int grass_max = 80; // max threshold on gren
 
 int light_min = 100;
 
@@ -66,10 +66,13 @@ cv::Mat execute_section(cv::Mat hue) {
 
 	cv::erode(hue, hue, kerode);
 
-	int rows = hue.size().height;
+	cv::Size size = hue.size();
+	int rows = size.height;
 	int section_size = rows / sections;
 
-	for(int i=0;i<sections;i++) {
+	cv::rectangle(hue, cv::Rect(0, 0, size.width, section_size), cv::Scalar(0, 0, 0), CV_FILLED);
+
+	for(int i=0;i< sections;i++) {
 		int start = section_size * i;
 		int end = section_size * (i + 1);
 		if(end > rows) {
@@ -100,13 +103,6 @@ cv::Mat execute_section(cv::Mat hue) {
 }
 
 cv::Mat execute(cv::Mat image) {
-  cv::Size size = image.size();
-  cv::Scalar black = cv::Scalar(0, 0, 0);
-  int margin = 5;
-
-  cv::rectangle(image, cv::Rect(0, 0, size.width, margin), black, CV_FILLED);
-  cv::rectangle(image, cv::Rect(0, size.height - margin, size.width, margin), black, CV_FILLED);
-
   execute_bgr2hsv(image);
   cv::Mat hue = execute_remgrass(image);
   hue = execute_section(hue);
