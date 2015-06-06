@@ -16,6 +16,7 @@ from capra_ai.msg import GoalWithPriority
 import dynamic_reconfigure.client
 from nav_msgs.msg import Odometry
 import tf
+import math
 
 class StateAi(object):
 
@@ -24,11 +25,14 @@ class StateAi(object):
 
         self.clear_octomap_service = rospy.ServiceProxy('/octomap_server/clear_bbx', BoundingBoxQuery)
         self.reset_octomap_service = rospy.ServiceProxy('/octomap_server/reset', Empty)
-
+        is_sim = rospy.get_param("~is_simulation", False)
+        print is_sim
         self.is_ready = False
         rospy.wait_for_service('/obstacle_generator')
         rospy.wait_for_service('/goal_manager/add_goal')
-        rospy.wait_for_message('/odometry/filtered', Odometry, timeout=None)
+        rospy.wait_for_service('/move_base/make_plan')
+        if not is_sim:
+            rospy.wait_for_message('/odometry/filtered', Odometry, timeout=None)
         rospy.sleep(0.02)
         self.generate_obstacle_service = rospy.ServiceProxy('/obstacle_generator', GenerateObstacle)
         self.send_goal_service = rospy.ServiceProxy('/goal_manager/add_goal', AddGoal)
@@ -72,6 +76,15 @@ class StateAi(object):
             rospy.loginfo("Last goal reached")
             self.on_last_goal_reached(msg)
 
+    def send_goal_ahead(self, distance, priority=100,  add_after_current=False):
+        (pos,rot) = self.get_pos()
+        erot = tf.transformations.euler_from_quaternion(rot)
+        dx = math.cos(erot[2]) * distance
+        dy = math.sin(erot[2]) * distance
+        self.send_goal(pos[0] + dx, pos[1] + dy, priority, add_after_current)
+
+
+
     def send_goal(self, x, y, priority=100,  add_after_current=False):
         goal = GoalWithPriority()
         goal.pose.position.x = x
@@ -81,15 +94,10 @@ class StateAi(object):
         goal.priority = priority
         self.send_goal_service(goal, add_after_current)
 
+
     def send_relative_goal(self, rx, ry, priority=100, add_after_current=False):
-        goal = GoalWithPriority()
         current_trans = self.get_pos()[0]
-        goal.pose.position.x = current_trans[0] + rx
-        goal.pose.position.y = current_trans[1] + ry
-        goal.pose.position.z = 0
-        goal.pose.orientation.w = 1
-        goal.priority = priority
-        self.send_goal_service(goal, add_after_current)
+        self.send_goal(current_trans[0] + rx, current_trans[1] + ry, priority, add_after_current)
 
     def on_start(self):
         return None
@@ -101,13 +109,13 @@ class StateAi(object):
         return None
 
     def generate_circle(self, radius, start_rad, end_rad, step_rad, duration):
-        return self.generate_obstacle('circle', (radius, start_rad, end_rad, step_rad), duration)
+        self.generate_obstacle('circle', (radius, start_rad, end_rad, step_rad), duration)
 
     def generate_bar(self, length, distance, duration):
-        return self.generate_obstacle('bar', (length, distance), duration)
+        self.generate_obstacle('bar', (length, distance), duration)
 
     def generate_obstacle(self, type, params, duration):
-        return self.generate_obstacle_service(type, params, duration)
+        self.generate_obstacle_service(type, params, duration)
 
 
     def clear_octomap(self, center, width, height):

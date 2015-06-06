@@ -8,6 +8,7 @@ from capra_msgs.srv import GenerateObstacle
 from std_msgs.msg import Bool
 from math import *
 import numpy as np
+import threading
 import tf
 
 class PointcloudGenerator:
@@ -45,6 +46,7 @@ class PointcloudGenerator:
             return []
 
 
+
     def send_circle(self, params, duration):
         # params [radius, start_rad, end_rad, step_rad]
         radius = params[0]
@@ -56,7 +58,8 @@ class PointcloudGenerator:
         for i in np.arange(start_rad, end_rad, step_rad, dtype=float): # original range ==> np.arange(pi/4, 2 * pi - pi/4, pi/270.0, dtype=float):
             cloud.append([radius * cos(i), radius * sin(i), 0.0])
 
-        self.send_cloud(cloud, duration)
+        t = threading.Thread(target=self.send_cloud, args=(cloud, duration,))
+        t.start()
 
     def send_bar(self, params, duration):
         # params [length, distance from robot]
@@ -66,7 +69,8 @@ class PointcloudGenerator:
         for i in np.arange(-l/2.0, l/2.0, 0.1, dtype=float):
             cloud.append([d, i, 0])
 
-        self.send_cloud(cloud, duration)
+        t = threading.Thread(target=self.send_cloud, args=(cloud, duration,))
+        t.start()
 
     def send_cloud(self, cloud, duration):
         ref_frame = '/base_footprint'

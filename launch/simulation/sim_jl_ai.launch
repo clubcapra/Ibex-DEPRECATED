@@ -2,17 +2,18 @@
     <!-- GAZEBO -->
     <include file="$(find capra_gazebo)/launch/Gazebo.launch">
       <arg name="world" default="$(find capra_gazebo)/worlds/igvc_basic_course.world" />l
-        <arg name="gui" default="true" />
+        <arg name="gui" default="false" />
         <arg name="initial_position" default="-x 0 -y -22.5 -rpy 0" />
     </include>
 
     <!-- MOVING -->
     <include file="$(find capra_2dnav)/launch/move_base.launch">
-      <arg name="context" value="gazebo" />
+     <!-- <arg name="context" value="gazebo" />-->
     </include>
 
     <include file="$(find capra_ai)/launch/StateAi.launch" >
         <arg name="state_ai_name" value="igvc_basic_south" />
+        <arg name="is_simulation" value="true" />
     </include>
 
     <!-- MAPPING -->
@@ -40,7 +41,7 @@
 
     <!-- GOAL LOADER -->
     <include file="$(find capra_ai)/launch/GoalManager.launch" >
-        <arg name="file" value="$(env IBEX_HOME)/bags/qualif1.json" />
+        <arg name="file" value="$(env IBEX_HOME)/bags/empty.json" />
     </include>
 
 

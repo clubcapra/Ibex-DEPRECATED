@@ -12,9 +12,14 @@ class IGVCBasicSouth(StateAi):
 
     def on_start(self):
         self.generate_circle(7.0, pi/4, 2 * pi - pi/4, pi/270.0, -1)
+        self.send_goal_ahead(10)
 
     def on_goal_changed(self, goal_msg):
-        rospy.loginfo("Targeting goal with priority: {}", goal_msg.priority)
+        rospy.loginfo("Targeting goal with priority: {}".format(goal_msg.priority))
+
+        rospy.sleep(2)
+        self.send_goal_ahead(10)
+
         if goal_msg.priority == 302:
             self.clear_octomap(self.start_pos, 10, 10)
 
