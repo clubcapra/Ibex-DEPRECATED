@@ -20,6 +20,8 @@ class GoalLoader():
         self.latlong_service = None
         self.pub_topic = '/goal_manager/waypoint'
         self.goal_pub = rospy.Publisher(self.pub_topic, GoalWithPriority, queue_size=10)
+        self.tf_pub_topic = '/goal_manager/tf_waypoint'
+        self.tf_goal_pub = rospy.Publisher(self.tf_pub_topic, GoalWithPriority, queue_size=10)
         rate = rospy.Rate(10)
         while self.goal_pub.get_num_connections() == 0:
             rate.sleep()
@@ -60,20 +62,27 @@ class GoalLoader():
                 pose_msg = PoseStamped()
                 pose_msg.pose.position.x = point['x']
                 pose_msg.pose.position.y = point['y']
-                pose_msg.pose.orientation = Quaternion(w = 1)
+                pose_msg.pose.orientation = Quaternion(w = 1.0)
             # goal_id will be filled in later on in the goal_manager
             # leave it blank
             goal_msg = GoalWithPriority()
             goal_msg.pose = pose_msg.pose
             goal_msg.priority = point['priorite']
-            self.msgs.append(goal_msg)
+            need_tf = point['gps'] == -1
+            self.msgs.append((goal_msg, need_tf))
 
     def send(self):
         # publish on /goal_manager/waypoint in order of file
-        rospy.loginfo("Publishing %i points on %s" % (len(self.msgs), self.pub_topic))
-        for goal_msg in self.msgs:
-            self.goal_pub.publish(goal_msg)
-            rospy.loginfo("Published goal on /goal_manager/waypoint")
+        rospy.loginfo("Publishing %i points on goal_manager waypoint topics" % len(self.msgs))
+        for goal_tuple in self.msgs:
+            goal_msg = goal_tuple[0]
+            need_tf = goal_tuple[1]
+            if need_tf:
+                self.tf_goal_pub.publish(goal_msg)
+                rospy.loginfo("Published goal on /goal_manager/tf_waypoint")
+            else:
+                self.goal_pub.publish(goal_msg)
+                rospy.loginfo("Published goal on /goal_manager/waypoint")
 
     def convert_gps_to_pose(self, coords):
         # create NavSatFix msg

@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 import rospy
-from geometry_msgs.msg import PoseStamped, PointStamped, Quaternion, PoseArray, Pose
+import tf
+import math
+from geometry_msgs.msg import PointStamped, Quaternion, Pose, Point
 from actionlib_msgs.msg import GoalStatusArray, GoalStatus, GoalID
 from move_base_msgs.msg import MoveBaseActionGoal
 from std_msgs.msg import Bool
@@ -20,9 +22,10 @@ class GoalManager():
                    "recalled", "lost"]
 
     class GoalWrapper():
-        def __init__(self, move_base_action_goal, goal_with_priority):
+        def __init__(self, move_base_action_goal, goal_with_priority, need_tf = False):
             self.move_base_action_goal = move_base_action_goal
             self.goal_with_priority = goal_with_priority
+            self.need_tf = need_tf
 
     def __init__(self):
         self.goals = []
@@ -31,19 +34,25 @@ class GoalManager():
         self.count = 0
         self.upd_count = 0
         self.loop_goals = bool(rospy.get_param("~loop", default = False))
+
         rospy.Subscriber("/clicked_point", PointStamped, self.point_received_callback)  # rviz goals
         rospy.Subscriber("~waypoint", GoalWithPriority, self.goal_received_callback)  # receive goals from other nodes
+        rospy.Subscriber("~tf_waypoint", GoalWithPriority, self.tf_goal_received_callback)
         rospy.Subscriber("/move_base/status", GoalStatusArray, self.status_updated_callback)  # track status of goals
+
         self.goal_pub = rospy.Publisher("/move_base/goal", MoveBaseActionGoal, queue_size=10)
         self.done_pub = rospy.Publisher("~last_goal_reached", Bool, queue_size=1)
+        self.current_pub = rospy.Publisher("~current", GoalWithPriority, queue_size=1)
 
         self.reached_pub = rospy.Publisher("~reached", PointCloud2, queue_size=1)
         self.future_pub = rospy.Publisher("~future", PointCloud2, queue_size=1)
 
-        self.current_pub = rospy.Publisher("~current", GoalWithPriority, queue_size=1)
         rospy.Service("~clear", ClearGoalList, self.handle_clear_goal_list)
         rospy.Service("~add_goal", AddGoal, self.handle_add_goal)
         rospy.Service("~cancel_goal", CancelGoal, self.handle_cancel_goal)
+
+        self.tf_listener = tf.TransformListener()
+
         self.priority_to_precision = []
         self.priority_to_precision.append(0.1)  # [0,100[
         self.priority_to_precision.append(0.4)  # [100,200[
@@ -79,13 +88,25 @@ class GoalManager():
         # idx is current goal
         if len(self.goals) > idx > self.current_idx:
             self.current_idx = idx
+            if self.goals[idx].need_tf:
+                self.tf_listener.waitForTransform("/odom", "/base_footprint", rospy.Time(), rospy.Duration(6.0))
+                t = self.tf_listener.getLatestCommonTime("/odom", "/base_footprint")
+                (trans, rot) = self.tf_listener.lookupTransform("/odom", "/base_footprint", t)
+                erot = tf.transformations.euler_from_quaternion(rot)
+                distance = self.goals[idx].goal_with_priority.pose.position.x
+                yaw = erot[2]
+                dx = math.cos(yaw) * distance + trans[0]
+                dy = math.sin(yaw) * distance + trans[1]
+                pos = Point(x = dx, y = dy)
+                self.goals[idx].goal_with_priority.pose.position = pos
+                self.goals[idx].move_base_action_goal.goal.target_pose.pose.position = pos
+                rospy.loginfo("Goal was transformed, new pos is ( %f, %f ) with yaw of %f" % (dx, dy, yaw))
             self.goal_pub.publish(self.goals[idx].move_base_action_goal)
             self.update_reached_precision(self.goals[idx].goal_with_priority)
             self.current_pub.publish(self.goals[idx].goal_with_priority)
             rospy.loginfo("Published goal # %i" % (idx + 1))
 
-    def add_waypoint(self, goal_with_priority, add_after_current = False):  # GoalWithPriority
-
+    def add_waypoint(self, goal_with_priority, add_after_current = False, need_tf = False):  # GoalWithPriority
         goal_id = self.new_goal_id()
         pose = goal_with_priority.pose
         goal_with_priority.goal_id = goal_id
@@ -94,7 +115,7 @@ class GoalManager():
         move_base_msg.goal.target_pose.header.frame_id = 'odom'
         move_base_msg.goal.target_pose.pose = pose
         move_base_msg.goal_id = goal_id
-        goal = GoalManager.GoalWrapper(move_base_msg, goal_with_priority)
+        goal = GoalManager.GoalWrapper(move_base_msg, goal_with_priority, need_tf = need_tf)
         goal.goal_with_priority = goal_with_priority
         if add_after_current:
             self.goals.insert(self.current_idx + 1, goal)
@@ -139,7 +160,6 @@ class GoalManager():
 
     def status_updated_callback(self, msg):  # GoalStatusArray
         intermediate_statuses = [GoalStatus.PENDING, GoalStatus.ACTIVE, GoalStatus.RECALLING, GoalStatus.PREEMPTING]
-
         for goal in msg.status_list:
             #status = GoalManager.status_list[goal.status]
             #rospy.logerr("Goal %s. %s" % (status, goal.text))
@@ -172,9 +192,13 @@ class GoalManager():
         goal_msg = GoalWithPriority()
         goal_msg.pose = Pose()
         goal_msg.pose.position = msg.point
-        goal_msg.pose.orientation = Quaternion(w = 1)
+        goal_msg.pose.orientation = Quaternion(w = 1.0)
         goal_msg.priority = 0
         self.add_waypoint(goal_msg)
+
+    def tf_goal_received_callback(self, goal_msg):  #GoalWithPriority
+        rospy.loginfo("Received GoalWithPriority msg with need_tf=true")
+        self.add_waypoint(goal_msg, need_tf = True)
 
     def handle_clear_goal_list(self, req):
         if req.data:
