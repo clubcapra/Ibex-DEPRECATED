@@ -2,16 +2,11 @@
 
 [Undistort]
 
-[RemoveObstacle]
-horizontal_blur = 19
-threshold = 85
-vertical_blur = 19
-
 [Rectangle]
-x1 = 246.0
-x2 = 405.0
-y1 = 407.0
-y2 = 309.0
+x1 = 284
+x2 = 398
+y1 = 419
+y2 = 276
 
 [SectionFilterCPP]
 grass_max = 163.0
@@ -30,17 +25,17 @@ kernel_height = 3.0
 kernel_width = 3.0
 
 [PerspectiveCalibration]
-bottomleftx = 215.0
-bottomlefty = 272.0
-bottomrightx = 381.0
-bottomrighty = 272.0
-topleftx = -137.0
-toplefty = 32.0
+bottomleftx = 176.0
+bottomlefty = 253.0
+bottomrightx = 393.0
+bottomrighty = 253.0
+topleftx = -127.0
+toplefty = 61.0
 toprightx = 699.0
-toprighty = 32.0
+toprighty = 63.0
 translationx = -47.0
-translationy = 143.0
-zoom = 240.0
+translationy = 35.0
+zoom = 166.0
 
 [RosImagePublisher]
 
