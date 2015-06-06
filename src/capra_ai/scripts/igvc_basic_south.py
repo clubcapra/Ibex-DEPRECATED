@@ -16,11 +16,11 @@ class IGVCBasicSouth(StateAi):
 
     def on_goal_changed(self, goal_msg):
         rospy.loginfo("Targeting goal with priority: {}".format(goal_msg.priority))
-        if goal_msg.priority == 402:
-            self.clear_octomap(self.start_pos, 10, 10)
+
+
 
         if goal_msg.priority == 103: ## First GOAL
-            pass
+            self.clear_octomap(self.start_pos, 10, 10)
 
         if goal_msg.priority == 404: ## MiddlePoint
             pass

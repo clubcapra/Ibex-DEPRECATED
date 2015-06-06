@@ -1,0 +1,7 @@
+[
+  {"y": 2, "x": 1, "priorite": 101, "gps": 0},
+  {"y": 0, "x": 4, "priorite": 302, "gps": -1},
+  {"y": 0, "x": -4, "priorite": 303, "gps": -1},
+  {"y": 5, "x": 6, "priorite": 104, "gps": 0}
+
+]
