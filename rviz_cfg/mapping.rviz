@@ -293,13 +293,13 @@ Visualization Manager:
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 0; 255; 0
-      Enabled: false
+      Enabled: true
       Keep: 100
       Length: 0.5
       Name: Odometry GPS
       Position Tolerance: 0.1
       Topic: /odometry/gps
-      Value: false
+      Value: true
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 255; 25; 0
@@ -454,15 +454,15 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -3.91317
-        Y: 0.533751
+        X: -0.623171
+        Y: -0.731197
         Z: 1.49315e-05
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.5198
+      Pitch: 1.2198
       Target Frame: <Fixed Frame>
       Value: XYOrbit (rviz)
-      Yaw: 5.84359
+      Yaw: 2.8254
     Saved: ~
 Window Geometry:
   Camera:
