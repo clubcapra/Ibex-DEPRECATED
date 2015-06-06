@@ -90,8 +90,8 @@ class GoalLoader():
                       response.goal_xy.pose.position.y))
         return response.goal_xy
 
-    def convert_dms_to_decimal(self, degrees, minutes, seconds):
-        return degrees + ((minutes+(seconds/60))/60)
+    def convert_dms_to_decimal(self, degrees, minutes, seconds, is_negatif):
+        return degrees + ((minutes+(seconds/60))/60) * (-1 if is_negatif else 1)
 
     def convert_decimal_to_dms(self, decimal):
         minutes_seconds = decimal % 1 * 60
@@ -101,7 +101,6 @@ class GoalLoader():
 
     def convert_dms_string_to_decimal(self, dms_string):
         title = re.search('(\d{1,3}).(\d{1,2}).([\d\.]*).\s([NSEWO])', dms_string, re.IGNORECASE)
-        # print title.group(1), title.group(2), title.group(3), title.group(4)
         degrees = int(title.group(1))
         minutes = int(title.group(2))
         seconds = float(title.group(3))
@@ -116,10 +115,7 @@ class GoalLoader():
         if seconds < 0 or seconds >= 60:
             rospy.logerr("seconds field out of range, must be within [0, 60[")
             return
-        if orientation in 'SWO':
-            degrees *= -1
-        # print degrees, minutes, seconds
-        return self.convert_dms_to_decimal(degrees, minutes, seconds)
+        return self.convert_dms_to_decimal(degrees, minutes, seconds, orientation in 'SWO')
 
 if __name__ == '__main__':
     rospy.init_node('goal_loader')
