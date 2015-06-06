@@ -1,12 +1,17 @@
 [BGR2RGB]
 
+[Undistort]
+
+[RemoveObstacle]
+horizontal_blur = 19
+threshold = 85
+vertical_blur = 19
+
 [Rectangle]
 x1 = 246.0
 x2 = 405.0
 y1 = 407.0
 y2 = 309.0
-
-[Undistort]
 
 [SectionFilterCPP]
 grass_max = 163.0
