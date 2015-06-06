@@ -11,25 +11,25 @@ y2 = 332.0
 [Undistort]
 
 [PerspectiveCalibration]
-bottomleftx = 215.0
-bottomlefty = 272.0
-bottomrightx = 381.0
-bottomrighty = 272.0
-topleftx = -137.0
-toplefty = 32.0
+bottomleftx = 176.0
+bottomlefty = 253.0
+bottomrightx = 393.0
+bottomrighty = 253.0
+topleftx = -127.0
+toplefty = 61.0
 toprightx = 699.0
-toprighty = 32.0
+toprighty = 63.0
 translationx = -47.0
-translationy = 143.0
-zoom = 240.0
+translationy = 35.0
+zoom = 166.0
 
 [ColorThreshold]
-c1max = 220.6
-c1min = 138.5
+c1max = 16.1
+c1min = 0.0
 c2max = 255.0
-c2min = 92.6
+c2min = 177.9
 c3max = 255.0
-c3min = 108.5
+c3min = 130.5
 shift_hue_plane = False
 
 [RosImagePublisher]
