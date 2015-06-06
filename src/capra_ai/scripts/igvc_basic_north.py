@@ -15,19 +15,19 @@ class IGVCBasicNorth(StateAi):
 
     def on_goal_changed(self, goal_msg):
         rospy.loginfo("Targeting goal with priority: {}", goal_msg.priority)
-        if goal_msg.priority == 306:
+        if goal_msg.priority == 406:
             self.clear_octomap(self.start_pos, 10, 10)
 
-        if goal_msg.priority == 103: ## First GOAL
+        if goal_msg.priority == 105: ## First GOAL
             pass
 
-        if goal_msg.priority == 304: ## MiddlePoint
+        if goal_msg.priority == 404: ## MiddlePoint
             pass
 
-        if goal_msg.priority == 105: ## Last GOAL
+        if goal_msg.priority == 103: ## Last GOAL
             pass
 
-        if goal_msg.priority == 302:
+        if goal_msg.priority == 402:
             self.generate_bar(8, 2, -1)
 
 

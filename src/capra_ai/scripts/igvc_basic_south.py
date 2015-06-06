@@ -20,19 +20,19 @@ class IGVCBasicSouth(StateAi):
         rospy.sleep(2)
         self.send_goal_ahead(10)
 
-        if goal_msg.priority == 302:
+        if goal_msg.priority == 402:
             self.clear_octomap(self.start_pos, 10, 10)
 
         if goal_msg.priority == 103: ## First GOAL
             pass
 
-        if goal_msg.priority == 304: ## MiddlePoint
+        if goal_msg.priority == 404: ## MiddlePoint
             pass
 
         if goal_msg.priority == 105: ## Last GOAL
             pass
 
-        if goal_msg.priority == 306:
+        if goal_msg.priority == 406:
             self.generate_bar(8, 2, -1)
 
     def on_last_goal_reached(self, msg):

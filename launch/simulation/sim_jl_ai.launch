@@ -41,7 +41,7 @@
 
     <!-- GOAL LOADER -->
     <include file="$(find capra_ai)/launch/GoalManager.launch" >
-        <arg name="file" value="$(env IBEX_HOME)/bags/empty.json" />
+        <arg name="file" value="$(env IBEX_HOME)/bags/igvc_basic_south.json" />
     </include>
 
 
