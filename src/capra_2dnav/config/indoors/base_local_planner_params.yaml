@@ -19,7 +19,8 @@ TrajectoryPlannerROS:
   #The amount of time to forward-simulate trajectories in seconds
   sim_time: 1.3
   #The step size, in radians, to take between angular samples on a given trajectory
-  angular_sim_granularity: 0.05
+  angular_sim_granularity: 0.06
+  sim_granularity: 0.05
   #The weighting for how much the controller should stay close to the path it was given. default 0.6
   pdist_scale: 0.25
   # The weighting for how much the controller should attempt to avoid obstacles. default 0.01

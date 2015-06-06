@@ -12,9 +12,9 @@
     <rosparam file="$(find capra_2dnav)/config/$(arg context)/base_local_planner_params.yaml" command="load" />
     <rosparam file="$(find capra_2dnav)/config/$(arg context)/base_global_planner_params.yaml" command="load" />
     <param name="planner_frequency" value="2.0" />
-    <param name="controller_frequency" value="18.0" />
+    <param name="controller_frequency" value="15.0" />
     <param name="base_local_planner" value="$(arg base_local_planner)" />
-    <rosparam param="recovery_behaviors" subst_value="True">$(arg recovery_behaviors)</rosparam>
+    <param name="recovery_behaviors" value="$(arg recovery_behaviors)" />
     <remap from="/odom" to="$(arg odom_topic)" />
   </node>
 </launch>

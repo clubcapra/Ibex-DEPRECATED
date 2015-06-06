@@ -1,5 +1,5 @@
 <launch>
     <include file="$(env IBEX_HOME)/launch/igvc2015/igvc.launch" >
-      <arg name="state_ai_name" default="parking" />
+      <arg name="state_ai_name" default="practice" />
     </include>
 </launch>
