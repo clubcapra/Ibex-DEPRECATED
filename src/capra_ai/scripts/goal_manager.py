@@ -54,11 +54,11 @@ class GoalManager():
         self.tf_listener = tf.TransformListener()
 
         self.priority_to_precision = []
-        self.priority_to_precision.append(0.1)  # [0,100[
-        self.priority_to_precision.append(0.4)  # [100,200[
-        self.priority_to_precision.append(1.0)  # [200,300[
-        self.priority_to_precision.append(2.0)  # [300,400[
-        self.priority_to_precision.append(4.0)  # [400,500[
+        self.priority_to_precision.append(0.8)  # [0,100[
+        self.priority_to_precision.append(0.8)  # [100,200[
+        self.priority_to_precision.append(0.8)  # [200,300[
+        self.priority_to_precision.append(0.8)  # [300,400[
+        self.priority_to_precision.append(0.8)  # [400,500[
         self.loop()
 
     def loop(self):
@@ -130,6 +130,7 @@ class GoalManager():
         return -1
 
     def update_reached_precision(self, goal_with_prirority):
+        return
         priority_idx = int(goal_with_prirority.priority / 100)
         precision = self.priority_to_precision[priority_idx]
         # http://wiki.ros.org/base_local_planner#Goal_Tolerance_Parameters

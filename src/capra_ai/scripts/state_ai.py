@@ -73,7 +73,7 @@ class StateAi(object):
         while not self.is_ready:
             rospy.sleep(0.1)
         if msg.data == True:
-            rospy.loginfo("Last goal reached")
+            #rospy.loginfo("Last goal reached")
             self.on_last_goal_reached(msg)
 
     def send_goal_ahead(self, distance, priority=100,  add_after_current=False):

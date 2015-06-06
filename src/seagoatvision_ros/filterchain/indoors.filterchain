@@ -10,12 +10,12 @@ y2 = 276.0
 
 [SectionFilterCPP]
 grass_max = 255
-grass_min = 10
+grass_min = 79
 kernel_dilate_height = 1.0
 kernel_dilate_width = 1.0
 kernel_erode_height = 1.0
 kernel_erode_width = 1.0
-light_min = 133
+light_min = 190
 min_area = 320
 sections = 7
 

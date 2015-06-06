@@ -1,7 +1,7 @@
 <launch>
 
-    <arg name="file" value="$(env IBEX_HOME)/bags/2015-05-16-14-04-28.bag" />
-    <!-- <arg name="file" value="~/.ros/2015-05-16-14-04-28.bag" /> -->
+    <!--<arg name="file" value="$(env IBEX_HOME)/bags/2015-05-16-14-04-28.bag" />-->
+     <arg name="file" value="/home/capra/.ros/2015-06-06-14-53-50.bag" />
 
     <node pkg="rosbag" type="play" name="rosbag" args=" $(arg file)" >
         <remap from="/odom" to="/odom/null" />
@@ -32,6 +32,11 @@
         <arg name="gui" value="True" />
         <arg name="calibration_file" default="$(find seagoatvision_ros)/filterchain/calibrate-real.filterchain" />
     </include>
+
+    <include file="$(find capra_2dnav)/launch/move_base.launch">
+    <arg name="context" value="indoors" />
+    <arg name="odom_topic" value="/odom" />
+        </include>
 
     <!--RVIZ  -->
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(env IBEX_HOME)/rviz_cfg/mapping.rviz"/>
