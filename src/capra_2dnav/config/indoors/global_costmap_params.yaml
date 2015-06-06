@@ -7,6 +7,6 @@ global_costmap:
   cost_scaling_factor: 5.0
   footprint_padding: 0.13
 
-planner_patience: 0.5
+planner_patience: 1.5
 controller_patience: 1.5
-recovery_behavior_enabled: false
+recovery_behavior_enabled: true
