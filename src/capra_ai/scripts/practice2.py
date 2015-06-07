@@ -11,7 +11,8 @@ class Practice2(StateAi):
          super(Practice2, self).__init__("practice2")
 
     def on_start(self):
-        self.generate_circle(2.0, pi/4, 2 * pi - pi/4, pi/270.0, 30)
+        #self.generate_circle(2.0, pi/4, 2 * pi - pi/4, pi/270.0, 30)
+        pass
 
     def on_goal_changed(self, goal_msg):
        rospy.loginfo("Targeting goal with priority: {}".format(goal_msg.priority))

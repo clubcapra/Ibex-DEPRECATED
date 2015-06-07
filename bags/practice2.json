@@ -1,17 +1,8 @@
 [
-  {"y": 5, "x": 0, "priorite": 401, "gps": 0},
-
-  {"y": 10, "x": 0, "priorite": 402, "gps": 0},
-  {"y": 15, "x": 0, "priorite":103, "gps": 0},
-
-  {"y": 20, "x": 0, "priorite": 404, "gps": 0},
-
-  {"y": 25, "x": 0, "priorite": 105, "gps": 0},
-  {"y": 30, "x": 0, "priorite":406, "gps": 0},
-
-
-  {"y": 35, "x": 0, "priorite": 400, "gps": 0},
-  {"y": 40, "x": 0, "priorite": 100, "gps": 0}
+  {"y": 0, "x": 4, "priorite": 401, "gps": 0},
+  {"y": 4, "x": 4, "priorite": 401, "gps": 0},
+  {"y": 4, "x": 0, "priorite": 401, "gps": 0},
+  {"y": 0, "x": 0, "priorite": 401, "gps": 0}
 
 
 ]
