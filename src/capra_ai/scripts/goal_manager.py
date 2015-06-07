@@ -180,7 +180,7 @@ class GoalManager():
             elif goal.status in intermediate_statuses:  # transitional state, so just wait
                 pass
             elif goal.status == GoalStatus.PREEMPTED:
-                pass
+                rospy.logwarn("Goal was preempted. %s" % goal.text)
             else:  # the robot's dead
                 status = GoalManager.status_list[goal.status]
                 rospy.logerr("Goal %s. %s" % (status, goal.text))
