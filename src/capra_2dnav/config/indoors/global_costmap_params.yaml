@@ -10,3 +10,7 @@ global_costmap:
 planner_patience: 240.0
 controller_patience: 240.0
 recovery_behavior_enabled: false
+
+
+controller_frequency: 10.0
+update_frequency: 10.0

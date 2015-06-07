@@ -1,11 +1,11 @@
 #! /usr/bin/env python
 
-
 import rospy
 from sensor_msgs.msg import Image, PointCloud2
 import sensor_msgs.point_cloud2 as pc2
 from geometry_msgs.msg import Twist, Vector3
-from nav_msgs.msg import Path, Odometry
+from nav_msgs.msg import Path, Odometry, OccupancyGrid
+from map_msgs.msg import OccupancyGridUpdate
 
 import tf
 from cv_bridge import CvBridge
@@ -145,11 +145,36 @@ class BehaviorAnalyzer:
 
 class JuvavRecoveryNode:
 
+
     def __init__(self):
+
+        self.precision_x = rospy.get_param('/juvav_recovery_node/precision_x')
+        self.precision_yaw = rospy.get_param('/juvav_recovery_node/precision_yaw')
+
+        self.max_accel_x = rospy.get_param('/juvav_recovery_node/max_accel_x')
+        self.min_accel_x = rospy.get_param('/juvav_recovery_node/min_accel_x')
+        self.accel_x_mult_factor = rospy.get_param('/juvav_recovery_node/accel_x_mult_factor')
+
+        self.max_accel_yaw = rospy.get_param('/juvav_recovery_node/max_accel_yaw')
+        self.min_accel_yaw = rospy.get_param('/juvav_recovery_node/min_accel_yaw')
+        self.accel_yaw_mult_factor = rospy.get_param('/juvav_recovery_node/accel_yaw_mult_factor')
+
+        self.map_width = rospy.get_param('/juvav_recovery_node/juvav_map_width')
+        self.map_height = rospy.get_param('/juvav_recovery_node/juvav_map_height')
+
+        self.nb_cmd_vel_zeros = rospy.get_param('/juvav_recovery_node/nb_zeros_between_states')
+
+        self.cmd_vel_zeros_stack = []
+        self.last_cmd_vel_twist = Twist(linear=Vector3(x=0.0, y=0.0, z=0.0), angular=Vector3(x=0.0, y=0.0, z=0.0))
+        self.last_cmd_vel_was_reversed = False
+
         self.undo_stack = deque((Odometry,), 100)
         self.undo_stack.pop()
         self.requested_vel = None
         self.requested_vel_time = 0
+
+        self.last_cmd_vel_from_move_base = 0.0
+        self.last_cmd_vel_from_juvav = 0.0
 
         self.local_path_analyzer = BehaviorAnalyzer()
 
@@ -160,7 +185,7 @@ class JuvavRecoveryNode:
         rospy.Subscriber('/cmd_vel', Twist, self.cmd_vel_callback)
         rospy.Subscriber('/move_base/TrajectoryPlannerROS/local_plan', Path, self.local_path_callback)
         rospy.Subscriber('/odom', Odometry, self.odom_callback)
-
+        rospy.Subscriber('/move_base/local_costmap/costmap', OccupancyGrid, self.costmap_callback)
 
         self.tf_listener = tf.TransformListener()
 
@@ -180,6 +205,13 @@ class JuvavRecoveryNode:
                     undo_cmd_vel = True
                     print 'JUVAV!!'
                 count += 1
+
+                if undo_cmd_vel and rospy.get_time() - self.last_cmd_vel_from_move_base > 0.5:
+                    self.publish_smart_cmd_vel(None)
+                    #print '{}({}) {}({})'.format(
+                    #   self.last_cmd_vel_from_move_base, rospy.get_time() - self.last_cmd_vel_from_move_base,
+                    #   self.last_cmd_vel_from_juvav, rospy.get_time() - self.last_cmd_vel_from_juvav,)
+
 
                 #print id(self.local_path_analyzer.last_cmd_vel_values)
                 #print id(copy.deepcopy(self.local_path_analyzer.last_cmd_vel_values))
@@ -203,9 +235,6 @@ class JuvavRecoveryNode:
             except IndexError:
                 pass
 
-
-
-
             #is_undo_needed = self.local_path_analyzer.is_undo_needed()
             #if is_undo_needed != undo_cmd_vel:
             #    undo_cmd_vel = is_undo_needed
@@ -222,146 +251,170 @@ class JuvavRecoveryNode:
         return True
 
     def publish_smart_cmd_vel(self, event):
+
+        def get_current_x_y_yaw():
+            """
+            :return: (float, float, float)
+            """
+            ((_x, _y, _z), _rotQ) = self.tf_listener.lookupTransform('/base_footprint', '/odom', rospy.Time(0))
+            _yaw = tf.transformations.euler_from_quaternion(_rotQ)[2]
+
+            return -_x + self.map_width / 2.0, -_y + self.map_height / 2.0, _yaw
+
         global undo_cmd_vel, undo_cmd_vel_time
+
+        if undo_cmd_vel:
+            self.last_cmd_vel_from_juvav = rospy.get_time()
+
         current_time = rospy.get_time()
 
-        #undo_cmd_vel = self.local_path_analyzer.is_undo_needed()
         if undo_cmd_vel:
             try:
 
-                #for i in xrange(len(self.undo_stack)):
-                #    print self.undo_stack[i]
-
-
-
-                precision_x = 0.14#0.08
-                precision_y = 0.1
-                precision_yaw = 0.05#0.001
-
                 twist_found = False
+                skipped_twist_str = ''
 
-                new_trans_x = 0.0
-                new_yaw = 0.0
+                new_x = new_yaw = 0.0
+                current_x = current_yaw = 0.0
+                target_x = target_yaw = 0.0
                 while not twist_found:
+                    (current_x, current_y, current_yaw) = get_current_x_y_yaw()
+                    (target_x, target_y, target_yaw) = self.undo_stack[-1]
 
-                    ((current_trans_x, current_trans_y, trans_z), rotQ) = self.tf_listener.lookupTransform('/base_footprint', '/odom', rospy.Time(0))
-                    current_yaw = tf.transformations.euler_from_quaternion(rotQ)[2]
 
-
-                    (target_trans_x, target_trans_y, target_yaw) = self.undo_stack[-1]
-
-                    #if -precision_x <= current_trans_x - target_trans_x <= precision_x \
-                    #        and -precision_yaw <= current_trans_x - target_yaw <= precision_yaw:
-                    #    self.undo_stack.pop()
-                    #    print 'ENDED'
-                    #else:
-                    #    twist_found = True
-
-                    if abs(current_yaw - target_yaw) > precision_yaw:
-                        new_yaw = (current_yaw - target_yaw) * 7.0
+                    if abs(current_yaw - target_yaw) > self.precision_yaw:
+                        new_yaw = (current_yaw - target_yaw) * self.accel_yaw_mult_factor
                         twist_found = True
+
                     else:
-                        if abs(current_trans_x - target_trans_x) > precision_x:
-                            new_trans_x = (current_trans_x - target_trans_x) * 6.0
+                        if abs(target_x - current_x) > self.precision_x:
+                            new_x = (target_x - current_x) * self.accel_x_mult_factor
                             twist_found = True
+
                         else:
-                            self.undo_stack.pop()
-                            #twist_found = True
-                            print 'ENDED'
+                            t_x, t_y, t_yaw = self.undo_stack.pop()
+                            print '[{}, {}, {}]'.format(t_x, t_y, t_yaw)
+                            skipped_twist_str += '.'
 
-                    #if abs(new_yaw) < 0.05:
-                    #    new_yaw = copysign(0.05, new_yaw)
+                print skipped_twist_str
 
+                ### print '({} {}) = {}'.format(current_x - target_x, target_x - current_x, new_x)
 
-                    #new_yaw = current_yaw - target_yaw
-                    #if -precision_yaw <= new_yaw <= precision_yaw:
-                    #    new_yaw = 0.0
-                    #    new_trans_x = current_trans_x - target_trans_x
-                    #    if abs(new_trans_x) < 0.6:
-                    #        new_trans_x = copysign(0.6, new_trans_x)
-                    #else:
-                    #    if abs(new_yaw) < 0.1:
-                    #            new_yaw = copysign(0.1, new_yaw)
+                # validate min_max accel for both x and yaw
+                if new_x != 0.0:
+                    if abs(new_x) < self.min_accel_x:
+                        new_x = copysign(self.min_accel_x, new_x)
 
+                    if abs(new_x) > self.max_accel_x:
+                        new_x = copysign(self.max_accel_x, new_x)
 
+                if new_yaw != 0.0:
+                    if abs(new_yaw) < self.min_accel_yaw:
+                        new_yaw = copysign(self.min_accel_yaw, new_yaw)
 
-                #if new_trans_x >= new_trans_y:
-                #    factor = new_trans_x / 0.4
-                #else:
-                #    factor = new_trans_y / 0.4
+                    if abs(new_yaw) > self.max_accel_yaw:
+                        new_yaw = copysign(self.max_accel_yaw, new_yaw)
 
-                #new_trans_x *= factor
-                #new_trans_y *= factor
+                # check if state change occured
+                if self.last_cmd_vel_twist.linear.x != 0.0:
+                    if self.last_cmd_vel_was_reversed and \
+                            copysign(1.0, self.last_cmd_vel_twist.linear.x) != copysign(1.0, new_x):
+                        print '--1'
 
-                twist = Twist(
-                    linear=Vector3(x=new_trans_x, y=0.0, z=0.0),
-                    angular=Vector3(x=0.0, y=0.0, z=new_yaw))
+                        while len(self.cmd_vel_zeros_stack) < self.nb_cmd_vel_zeros:
+                            self.cmd_vel_zeros_stack.append(Twist(linear=Vector3(x=0.0, y=0.0, z=0.0),
+                                                                  angular=Vector3(x=0.0, y=0.0, z=0.0)))
 
-                #print '({}, {}, {})'.format(trans_x, trans_y, yaw)
+                if self.last_cmd_vel_twist.angular.z != 0.0:
+                    if self.last_cmd_vel_was_reversed and \
+                            copysign(1.0, self.last_cmd_vel_twist.angular.z) != copysign(1.0, new_yaw):
+                        print '--2'
+                        while len(self.cmd_vel_zeros_stack) < self.nb_cmd_vel_zeros:
+                            self.cmd_vel_zeros_stack.append(Twist(linear=Vector3(x=0.0, y=0.0, z=0.0),
+                                                                  angular=Vector3(x=0.0, y=0.0, z=0.0)))
 
+                if not self.last_cmd_vel_was_reversed and len(self.cmd_vel_zeros_stack) == 0:
+                    print '--3'
+                    while len(self.cmd_vel_zeros_stack) < self.nb_cmd_vel_zeros:
+                            self.cmd_vel_zeros_stack.append(Twist(linear=Vector3(x=0.0, y=0.0, z=0.0),
+                                                                  angular=Vector3(x=0.0, y=0.0, z=0.0)))
 
-                self.smart_cmd_vel_publisher.publish(twist)
-                print '({}, {}, {})'.format(current_trans_x, current_trans_y, current_yaw)
-                print '({}, {}, {})'.format(target_trans_x, target_trans_y, target_yaw)
-                print '({}, {}, {})'.format(twist.linear.x, twist.linear.y, twist.angular.z)
-                print 'publishing undo cmd_vel msg on /smart_cmd_vel'
+                # pop cmd_vel_zeros if any
+                if len(self.cmd_vel_zeros_stack) > 0:
+                    twist = self.cmd_vel_zeros_stack.pop()
+                    ### print 'cmd_vel_zeros', '({}, {})'.format(new_x, new_yaw)
 
-
-                """
-                if undo_cmd_vel_time == 0.0:
-                    undo_cmd_vel_time = rospy.get_time()
-
-                twist = self.undo_stack.pop()
-                #assert isinstance(twist, Twist)
-
-                twist.linear.x *= -1.0
-                twist.linear.y *= -1.0
-                twist.linear.z *= -1.0
-
-                twist.angular.x *= -1.0
-                twist.angular.y *= -1.0
-                twist.angular.z *= -1.0
-
-                self.smart_cmd_vel_publisher.publish(twist)
-                print 'publishing undo cmd_vel msg on /smart_cmd_vel'
-
-                if current_time - undo_cmd_vel_time > 1.0:
-                    undo_cmd_vel = False
-                    undo_cmd_vel_time = 0.0
-                    print 'undo behavior was ended after 1 second'
                 else:
-                    print '|', current_time - undo_cmd_vel_time, '|'
-                """
+                    twist = Twist(
+                        linear=Vector3(x=new_x, y=0.0, z=0.0),
+                        angular=Vector3(x=0.0, y=0.0, z=new_yaw))
+
+                    ### print '({4}{0:.5f} -{8}-> {1:.5f}{5}, {6}{2:.5f} -{9}-> {3:.5f}{7})'.format(
+                    ###     current_x, target_x, current_yaw, target_yaw,
+                    ###     '[' if new_x != 0.0 else '', ']' if new_x != 0.0 else '',
+                    ###     '[' if new_yaw != 0.0 else '', ']' if new_yaw != 0.0 else '',
+                    ###     '|{}|'.format(new_x) if new_x != 0.0 else '',
+                    ###     '|{}|'.format(new_yaw) if new_yaw != 0.0 else ''
+                    ### )
+
+                # publish twist msg
+                self.smart_cmd_vel_publisher.publish(twist)
+                self.last_cmd_vel_was_reversed = True
+                self.last_cmd_vel_twist = twist
+
+                #
+                #print '({} - {}, {}, {})'.format(target_x, current_y, current_yaw)
+
+                #print '({:.4f} + {:.4f}({:.4f}) = {:.4f}, 0.0, {:.4f} + {:.4f}({:.4f}) = {:.4f})\n'.format(
+                #    current_x, current_x - target_x, new_x, target_x,
+                #    current_yaw, current_yaw - target_yaw, new_yaw, target_yaw)
+
+                #print '({}, {}, {})'.format(target_x - current_x,
+                #                            target_y - current_y,
+                #                            target_yaw - current_yaw)
+                #print '({}, {}, {})'.format(twist.linear.x, twist.linear.y, twist.angular.z)
+                #print 'publishing undo cmd_vel msg on /smart_cmd_vel'
+
             except IndexError:
                 undo_cmd_vel = False
                 #undo_cmd_vel_time = 0.0
         else:
             try:
-                ((trans_x, trans_y, trans_z), rotQ) = self.tf_listener.lookupTransform('/base_footprint', '/odom', rospy.Time(0))
-                yaw = tf.transformations.euler_from_quaternion(rotQ)[2]
 
+                (x, y, yaw) = get_current_x_y_yaw()
 
-                self.undo_stack.append((trans_x, trans_y, yaw))
-                self.smart_cmd_vel_publisher.publish(self.requested_vel)
+                if self.last_cmd_vel_was_reversed:
+                    print '--4'
+                    while len(self.cmd_vel_zeros_stack) < self.nb_cmd_vel_zeros:
+                            self.cmd_vel_zeros_stack.append(Twist(linear=Vector3(x=0.0, y=0.0, z=0.0),
+                                                                  angular=Vector3(x=0.0, y=0.0, z=0.0)))
 
+                if len(self.cmd_vel_zeros_stack) > 0:
+                    twist = self.cmd_vel_zeros_stack.pop()
 
+                else:
+                    self.undo_stack.append((x, y, yaw))
+                    twist = self.requested_vel
 
+                    self.last_cmd_vel_twist = self.requested_vel
+                    self.last_cmd_vel_was_reversed = False
 
-                self.local_path_analyzer.last_cmd_vel_values.append(self.requested_vel)
-                self.local_path_analyzer.last_cmd_vel_time.append(rospy.get_time())
+                    self.local_path_analyzer.last_cmd_vel_values.append(self.requested_vel)
+                    self.local_path_analyzer.last_cmd_vel_time.append(rospy.get_time())
+
+                self.smart_cmd_vel_publisher.publish(twist)
+
+                print '({:.5f}, {:.5f}, {:.5f})'.format(x, y, yaw)
+
                 #print '.'
-
-
 
                 (last_trans_x, last_trans_y, last_yaw) = self.undo_stack[1]
 
-
-
-                print '({}, {}, {})'.format(trans_x, trans_y, yaw)
-                print '({}, {}, {})'.format(trans_x - last_trans_x, trans_y - last_trans_y, yaw - last_yaw)
-                print '(({}, {}, {}) ({}, {}, {}))'.format(
-                    self.requested_vel.linear.x, self.requested_vel.linear.y, self.requested_vel.linear.z,
-                    self.requested_vel.angular.x, self.requested_vel.angular.y, self.requested_vel.angular.z)
+                #print '({}, {}, {})'.format(trans_x, trans_y, yaw)
+                #print '({}, {}, {})'.format(trans_x - last_trans_x, trans_y - last_trans_y, yaw - last_yaw)
+                #print '(({}, {}, {}) ({}, {}, {}))'.format(
+                #    self.requested_vel.linear.x, self.requested_vel.linear.y, self.requested_vel.linear.z,
+                #    self.requested_vel.angular.x, self.requested_vel.angular.y, self.requested_vel.angular.z)
             except IndexError:
                 pass
 
@@ -369,9 +422,43 @@ class JuvavRecoveryNode:
         self.requested_vel = msg
         self.requested_vel_time = rospy.get_time()
         self.publish_smart_cmd_vel(None)
+        self.last_cmd_vel_from_move_base = rospy.get_time()
 
     def odom_callback(self, msg):
         type(msg)
+
+    def costmap_callback(self, msg):
+        x = msg.info.origin.position.x
+        y = msg.info.origin.position.y
+        w = msg.info.width
+        h = msg.info.height
+
+        if x < 0:
+            if y < 0:   # (-x, -y)
+                x = abs(x)
+                y = abs(y) + h / 2.0
+            else:       # (-x, y)
+                x = abs(x)
+                y -= h / 2.0
+        else:
+            if y < 0:   # (x, -y)
+                x += w / 2.0
+                y = abs(y) + h / 2.0
+            else:       # (x, y)
+                x += w / 2.0
+                y -= h / 2.0
+
+        x = int(round(x))
+        y = int(round(y))
+        index = w * y + x
+
+        #print x, y, index, msg.data[index]
+
+        ##print type(msg.data[int(round(y, 0))])##[int(round(x, 0))]
+
+        #print len(msg.data)
+
+        #print msg.data[len(msg.data) / 2]
 
     def local_path_callback(self, msg):
         """

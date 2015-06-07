@@ -41,13 +41,31 @@
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(env IBEX_HOME)/rviz_cfg/mapping.rviz"/>
 
     <!-- GOAL LOADER -->
-    <include file="$(find capra_ai)/launch/GoalManager.launch" >
-        <arg name="file" value="$(env IBEX_HOME)/waypoints/IGVCAdvancedCourse.json" />
-        <arg name="loop" value="1" /> <!-- ROBOT WILL LOOP -->
-    </include>
+    <include file="$(find capra_ai)/launch/GoalManager.launch" > -->
+        <arg name="file" value="$(env IBEX_HOME)/bags/empty.json" />
+        <!-- <arg name="file" value="$(env IBEX_HOME)/waypoints/IGVCAdvancedCourse.json" /> -->
+        <!-- <arg name="loop" value="1" /> --> <!-- ROBOT WILL LOOP -->
+    </include> -->
 
     <!-- FUCK YEAH!! JUVAV RECOVERY -->
-    <node pkg="juvav_recovery" type="juvav_recovery_node.py" name="juvav_recovery_node" output="screen"/>
+    <node pkg="juvav_recovery" type="juvav_recovery_node.py" name="juvav_recovery_node" output="screen">
+        <param name="precision_x" value="0.14" />
+        <param name="precision_yaw" value="0.05" />
+
+        <param name="max_accel_x" value="0.6" />
+        <param name="min_accel_x" value="0.1" />
+        <param name="accel_x_mult_factor" value="1.0" />
+
+        <param name="max_accel_yaw" value="0.8" />
+        <param name="min_accel_yaw" value="0.05" />
+        <param name="accel_yaw_mult_factor" value="7.0" />
+
+        <param name="juvav_map_width" value="3000" />
+        <param name="juvav_map_height" value="3000" />
+
+        <param name="nb_zeros_between_states" value="3" />
+
+    </node>
 
 
 </launch>
