@@ -11,7 +11,8 @@ class IGVCBasicSouth(StateAi):
          super(IGVCBasicSouth, self).__init__("igvc_basic_south")
 
     def on_start(self):
-        self.generate_circle(2.0, pi/4, 2 * pi - pi/4, pi/270.0, 120)
+        #self.generate_circle(2.0, pi/4, 2 * pi - pi/4, pi/270.0, 120)
+        pass
 
 
     def on_goal_changed(self, goal_msg):

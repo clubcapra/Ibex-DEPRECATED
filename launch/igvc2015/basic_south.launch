@@ -3,6 +3,6 @@
       <arg name="state_ai_name" default="igvc_basic_south" />
       <arg name="autonomous" default="1" />
       <arg name="remote" default="0" />
-      <arg name="record" default="1" />
+      <arg name="record" default="0" />
     </include>
 </launch>
