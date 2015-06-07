@@ -4,8 +4,8 @@ import rospy
 import tf
 import math
 from geometry_msgs.msg import PointStamped, Quaternion, Pose, Point
-from actionlib_msgs.msg import GoalStatusArray, GoalStatus, GoalID
-from move_base_msgs.msg import MoveBaseActionGoal
+from actionlib_msgs.msg import GoalStatus, GoalID
+from move_base_msgs.msg import MoveBaseActionGoal, MoveBaseActionFeedback, MoveBaseActionResult
 from std_msgs.msg import Bool
 from marker_manager import MarkerManager
 from capra_ai.msg import GoalWithPriority
@@ -21,29 +21,36 @@ class GoalManager():
     status_list = ["pending", "active", "preempted", "succeeded", "aborted", "rejected", "preempting", "recalling",
                    "recalled", "lost"]
 
+    # common format for all goals
     class GoalWrapper():
         def __init__(self, move_base_action_goal, goal_with_priority, need_tf = False):
             self.move_base_action_goal = move_base_action_goal
             self.goal_with_priority = goal_with_priority
             self.need_tf = need_tf
 
+    # define topics on which to receive waypoints
+    # define publishers
+    # start utility services
+    # define priority to precision map
     def __init__(self):
         self.goals = []
         self.marker_manager = MarkerManager()
         self.current_idx = -1
         self.count = 0
         self.upd_count = 0
-        self.loop_goals = bool(rospy.get_param("~loop", default = False))
+        self.loop_goals = bool(rospy.get_param("~loop", default=False))
+
+        self.tf_listener = tf.TransformListener()
 
         rospy.Subscriber("/clicked_point", PointStamped, self.point_received_callback)  # rviz goals
-        rospy.Subscriber("~waypoint", GoalWithPriority, self.goal_received_callback)  # receive goals from other nodes
-        rospy.Subscriber("~tf_waypoint", GoalWithPriority, self.tf_goal_received_callback)
-        rospy.Subscriber("/move_base/status", GoalStatusArray, self.status_updated_callback)  # track status of goals
+        rospy.Subscriber("~waypoint", GoalWithPriority, self.goal_received_callback)  # no transform
+        rospy.Subscriber("~tf_waypoint", GoalWithPriority, self.tf_goal_received_callback)  # needs transform
+        rospy.Subscriber("/move_base/feedback", MoveBaseActionFeedback, self.feedback_received_callback)
+        rospy.Subscriber("/move_base/result", MoveBaseActionResult, self.result_received_callback)
 
         self.goal_pub = rospy.Publisher("/move_base/goal", MoveBaseActionGoal, queue_size=10)
         self.done_pub = rospy.Publisher("~last_goal_reached", Bool, queue_size=1)
         self.current_pub = rospy.Publisher("~current", GoalWithPriority, queue_size=1)
-
         self.reached_pub = rospy.Publisher("~reached", PointCloud2, queue_size=1)
         self.future_pub = rospy.Publisher("~future", PointCloud2, queue_size=1)
 
@@ -51,16 +58,18 @@ class GoalManager():
         rospy.Service("~add_goal", AddGoal, self.handle_add_goal)
         rospy.Service("~cancel_goal", CancelGoal, self.handle_cancel_goal)
 
-        self.tf_listener = tf.TransformListener()
-
         self.priority_to_precision = []
-        self.priority_to_precision.append(0.8)  # [0,100[
-        self.priority_to_precision.append(0.8)  # [100,200[
-        self.priority_to_precision.append(0.8)  # [200,300[
-        self.priority_to_precision.append(0.8)  # [300,400[
-        self.priority_to_precision.append(0.8)  # [400,500[
+        self.priority_to_precision.append(0.1)  # [0,100[
+        self.priority_to_precision.append(0.4)  # [100,200[
+        self.priority_to_precision.append(1.0)  # [200,300[
+        self.priority_to_precision.append(2.0)  # [300,400[
+        self.priority_to_precision.append(4.0)  # [400,500[
+
         self.loop()
 
+    # send first goal on reception
+    # publish all goals in a pointcloud
+    # publish interactive markers
     def loop(self):
         rate = rospy.Rate(10)
         # wait for the first goal, because the publisher waits for a success to publish the next one
@@ -79,11 +88,15 @@ class GoalManager():
                     self.marker_manager.update_marker(goal_id, position.x, position.y)
             rate.sleep()
 
+    # if list is empty, block until it is not
     def wait_for_goal(self):
         rate = rospy.Rate(10)
         while len(self.goals) == 0 and not rospy.is_shutdown():
             rate.sleep()
 
+    # send next goal to move base
+    # update goal tolerance
+    # transform its frame if necessary
     def next_goal(self, idx = 0):
         # idx is current goal
         if len(self.goals) > idx > self.current_idx:
@@ -103,9 +116,11 @@ class GoalManager():
                 rospy.loginfo("Goal was transformed, new pos is ( %f, %f ) with yaw of %f" % (dx, dy, yaw))
             self.goal_pub.publish(self.goals[idx].move_base_action_goal)
             self.update_reached_precision(self.goals[idx].goal_with_priority)
+            rospy.sleep(0.05)
             self.current_pub.publish(self.goals[idx].goal_with_priority)
             rospy.loginfo("Published goal # %i" % (idx + 1))
 
+    # prepare goal for sending
     def add_waypoint(self, goal_with_priority, add_after_current = False, need_tf = False):  # GoalWithPriority
         goal_id = self.new_goal_id()
         pose = goal_with_priority.pose
@@ -129,15 +144,21 @@ class GoalManager():
                 return idx
         return -1
 
+    # if precision has changed since last goal, change it with dynamic_reconfigure
     def update_reached_precision(self, goal_with_prirority):
         return
+        tolerance_param = 'xy_goal_tolerance'
         priority_idx = int(goal_with_prirority.priority / 100)
         precision = self.priority_to_precision[priority_idx]
         # http://wiki.ros.org/base_local_planner#Goal_Tolerance_Parameters
         client = dynamic_reconfigure.client.Client("/move_base/TrajectoryPlannerROS")
-        params = { 'xy_goal_tolerance' : precision }
-        config = client.update_configuration(params)
-        rospy.loginfo("Goal xy tolerance set to %s", str(precision))
+        old_config = client.get_configuration(0.05)
+        if old_config is None or old_config[tolerance_param] != precision:
+            params = { tolerance_param : precision }
+            new_config = client.update_configuration(params)
+            rospy.loginfo("Goal xy tolerance set to %s", str(precision))
+        else:
+            rospy.loginfo("Goal tolerance not updated")
 
     def reset_goal_list(self):  # called when the base has reached the last goal and needs to loop
         # update goal ids
@@ -149,7 +170,9 @@ class GoalManager():
             rospy.loginfo("Goal # %i id is now %s" % (self.count, goal_id.id))
             self.goals[idx] = msg
         self.current_idx = -1
-        
+
+    # generate a new id
+    # format is [node name]_[goal number]_[time]
     def new_goal_id(self):
         now = rospy.get_rostime()
         new_id = "%s_%i_%i_%i" % (rospy.get_name(), self.count, now.secs, now.nsecs)
@@ -159,13 +182,15 @@ class GoalManager():
         goal_id.id = new_id
         return goal_id
 
+    # status updates for all goals
     def status_updated_callback(self, msg):  # GoalStatusArray
         intermediate_statuses = [GoalStatus.PENDING, GoalStatus.ACTIVE, GoalStatus.RECALLING, GoalStatus.PREEMPTING]
         for goal in msg.status_list:
-            #status = GoalManager.status_list[goal.status]
-            #rospy.logerr("Goal %s. %s" % (status, goal.text))
+            # status = GoalManager.status_list[goal.status]
+            # rospy.logerr("Goal %s. %s" % (status, goal.text))
             goal_idx = self.get_index_of(goal.goal_id.id)
             if goal.status == GoalStatus.SUCCEEDED:  # do a little dance to celebrate
+                rospy.loginfo("Goal %s reached!" % goal.goal_id.id)
                 last_goal_reached = Bool()
                 last_goal_reached.data = not self.loop_goals and goal_idx + 1 == len(self.goals)
                 self.done_pub.publish(last_goal_reached)
@@ -180,10 +205,31 @@ class GoalManager():
             elif goal.status in intermediate_statuses:  # transitional state, so just wait
                 pass
             elif goal.status == GoalStatus.PREEMPTED:
-                rospy.logwarn("Goal was preempted. %s" % goal.text)
+                rospy.logwarn("Goal %s was preempted. %s" % (goal.goal_id.id, goal.text))
             else:  # the robot's dead
                 status = GoalManager.status_list[goal.status]
-                rospy.logerr("Goal %s. %s" % (status, goal.text))
+                rospy.logerr("Goal %s %s. %s" % (goal.goal_id.id, status, goal.text))
+
+    def result_received_callback(self, msg):  # MoveBaseActionResult
+        current_goal = self.goals[self.current_idx].goal_with_priority
+        if current_goal.goal_id.id == msg.status.goal_id.id:
+            rospy.loginfo("Goal %s %s. %s" % (msg.status.goal_id.id, GoalManager.status_list[msg.status.status],
+                                             msg.status.text))
+            self.wait_for_goal()
+            self.next_goal(self.current_idx + 1)
+
+    def feedback_received_callback(self, msg):  # MoveBaseActionFeedback
+        current_pos = msg.feedback.base_position.pose.position
+        current_goal = self.goals[self.current_idx].goal_with_priority
+        if current_goal.goal_id.id == msg.status.goal_id.id:
+            goal_pos = current_goal.pose.position
+            priority_idx = int(current_goal.priority / 100)
+            precision = self.priority_to_precision[priority_idx]
+            distance = ((goal_pos.x - current_pos.x) ** 2 + (goal_pos.y - current_pos.y) ** 2) ** 0.5
+            if distance <= precision:
+                rospy.loginfo("Goal has been reached!")
+                self.wait_for_goal()
+                self.next_goal(self.current_idx + 1)
 
     def goal_received_callback(self, goal_msg):  # GoalWithPriority
         rospy.loginfo("Received GoalWithPriority msg")
@@ -208,7 +254,6 @@ class GoalManager():
         return True
         
     def handle_add_goal(self, req):
-        goal_id = self.new_goal_id()
         self.add_waypoint(req.goal_with_priority, req.add_after_current)
         return True
 
