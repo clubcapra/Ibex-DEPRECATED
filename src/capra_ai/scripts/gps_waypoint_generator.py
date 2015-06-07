@@ -29,9 +29,6 @@ class GpsWaypointGenerator():
 
         self.gps_subscriber = rospy.Subscriber("/gps/fix", NavSatFix, self.callback)
 
-
-
-
     def callback(self, data):
         self.lock.acquire()
         self.currentData = data
@@ -69,7 +66,7 @@ class GpsWaypointGenerator():
                 break
 
             self.keep()
-            rospy.sleep(1.)
+            rospy.sleep(2)
 
 if __name__ == "__main__":
     try:

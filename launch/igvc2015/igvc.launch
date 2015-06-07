@@ -28,6 +28,7 @@
         <include file="$(find capra_ai)/launch/StateAi.launch" >
             <arg name="state_ai_name" value="$(arg state_ai_name)" />
         </include>
+        <include file="$(find capra_ai)/launch/GPSPointRecorder.launch" />
         <!-- Goals -->
 
         <include file="$(find capra_ai)/launch/GoalManager.launch" >
@@ -58,7 +59,7 @@
     </include>
 
     <group if="$(arg record)" >
-        <node pkg="rosbag" type="record" name="rosbag_record" output="screen" args="/odom /odometry/filtered /odometry/gps /imu/data /image_raw /scan /rosout /gps/fix /odometry/gps_cov" />
+        <node pkg="rosbag" type="record" name="rosbag_record" output="screen" args="/odom /odometry/filtered /odometry/gps /imu/data /image_raw /scan /rosout /gps/fix /odometry/gps_cov /goal_manager/future" />
     </group>
 
     <!--RVIZ  -->
