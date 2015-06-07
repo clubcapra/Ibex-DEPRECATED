@@ -44,6 +44,7 @@ class FlagFilter:
     display_undistorted_image = False
     display_perspective_image = False
     display_lines_image = False
+    initialized = False
 
     def __init__(self):
         rospy.init_node('capra_flag_filter')
@@ -60,6 +61,18 @@ class FlagFilter:
         rospy.spin()
         cv2.destroyAllWindows()
 
+    def _save_config(self, config):
+        try:
+            lines = []
+            for parameter in sorted(config):
+                if parameter in ["save", "groups"]:
+                    continue
+                lines.append("%s: %s" % (parameter, str(config[parameter])))
+            with open(config.filename, "w") as f:
+                f.writelines(lines)
+        except Exception as ex:
+            pass
+
     def _parameter_callback(self, config, level):
         for parameter, value in config.items():
             if hasattr(self, parameter):
@@ -68,6 +81,14 @@ class FlagFilter:
                     setattr(self, parameter, value)
                     if parameter.startswith("perspective_"):
                         self.update_perspective_matrix = True
+
+        if config.save and self.initialized:
+            print "Save"
+            config.save = False
+            self._save_config(config)
+
+
+        self.initialized = True
         return config
 
     def _get_ellipse_mask(self, width, height):
