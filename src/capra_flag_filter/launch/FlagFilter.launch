@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="capra_flag_filter" name="capra_flag_filter" type="flag_filter.py" output="screen">
+        <rosparam command="load" file="$(find capra_flag_filter)/yaml/flags.yaml" />
+    </node>
+</launch>

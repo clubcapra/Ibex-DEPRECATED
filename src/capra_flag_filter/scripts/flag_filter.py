@@ -1,6 +1,13 @@
+#!/usr/bin/env python
+# coding=utf-8
+
+PACKAGE = 'capra_flag_filter'
+IMAGE_TOPIC = '/image_raw_throttle'
+
 import roslib
-roslib.load_manifest('capra_camera')
+roslib.load_manifest(PACKAGE)
 import rospy
+import rospkg
 from sensor_msgs.msg import Image
 import cv2
 import numpy as np
@@ -13,6 +20,10 @@ class FlagFilter:
     last_image = None
     perspective_matrix = None
     update_perspective_matrix = True
+    rectangle_left_x = 250
+    rectangle_left_y = 300
+    rectangle_right_x = 400
+    rectangle_right_y = 400
     perspective_bottom_left_x = 176.0
     perspective_bottom_left_y = 253.0
     perspective_bottom_right_x = 393.0
@@ -39,6 +50,7 @@ class FlagFilter:
     line_stripe_width = 300
     line_length = 300
     display_raw_image = False
+    display_rectangle_image = False
     display_thresholded_image = False
     display_points_image = False
     display_undistorted_image = False
@@ -56,22 +68,24 @@ class FlagFilter:
                                        [0, 630.79035702238025/2, 366.50000000000000/2],
                                        [0,                  0,                  1]])
         self.bridge = CvBridge()
-        rospy.Subscriber("/image_raw_throttle", Image, self._image_callback)
+        rospy.Subscriber(IMAGE_TOPIC, Image, self._image_callback)
         rospy.Timer(rospy.Duration(0.1), self._filter_callback)
         rospy.spin()
         cv2.destroyAllWindows()
 
     def _save_config(self, config):
+        rospy.loginfo("Saving configuration to %s..." % config.filename)
         try:
             lines = []
             for parameter in sorted(config):
                 if parameter in ["save", "groups"]:
                     continue
                 lines.append("%s: %s" % (parameter, str(config[parameter])))
-            with open(config.filename, "w") as f:
-                f.writelines(lines)
+            rospack = rospkg.RosPack()
+            with open(rospack.get_path(PACKAGE) + '/' + config.filename, "w") as f:
+                f.write("\n".join(lines))
         except Exception as ex:
-            pass
+            rospy.logerr("Could not save configuration file: %s" % str(ex.message))
 
     def _parameter_callback(self, config, level):
         for parameter, value in config.items():
@@ -83,10 +97,8 @@ class FlagFilter:
                         self.update_perspective_matrix = True
 
         if config.save and self.initialized:
-            print "Save"
             config.save = False
             self._save_config(config)
-
 
         self.initialized = True
         return config
@@ -154,6 +166,60 @@ class FlagFilter:
 
         return lines
 
+    def _find_lines_intersection(self, line1, line2):
+        xdiff = (line1[0][0] - line1[1][0], line2[0][0] - line2[1][0])
+        ydiff = (line1[0][1] - line1[1][1], line2[0][1] - line2[1][1])
+
+        def det(a, b):
+            return a[0] * b[1] - a[1] * b[0]
+
+        div = det(xdiff, ydiff)
+        if div == 0:
+            return None
+
+        d = (det(*line1), det(*line2))
+        x = det(d, xdiff) / div
+        y = det(d, ydiff) / div
+
+        return x, y
+
+    def _filter_lines(self, lines1, lines2, points1, points2):
+        lines1_2 = np.asarray(lines1)
+        lines2_2 = np.asarray(lines2)
+
+        # TODO: Please optimize me.
+        # Le but c'est que les lignes horizontales coupent pas les lignes verticales.
+        # Ça peut arriver s'il y a du rouge à gauche du bleu.
+        for l1 in lines1_2:
+            min_x_l1 = min([l1[0][0], l1[1][0]])
+            max_x_l1 = max([l1[0][0], l1[1][0]])
+            for l2 in lines2_2:
+                min_x_l2 = min([l2[0][0], l2[1][0]])
+                max_x_l2 = max([l2[0][0], l2[1][0]])
+                intersection = self._find_lines_intersection(l1, l2)
+                # Ça intersecte pas, donc on continue.
+                if intersection is None:
+                    continue
+                intersection_x, intersection_y = intersection
+                # Il y a une intersection et elle est bien située entre les deux lignes.
+                if min_x_l1 <= intersection_x <= max_x_l1 and min_x_l2 <= intersection_x <= max_x_l2:
+                    # La ligne 1 est horizontale et c'est elle qu'on veut couper.
+                    if l1[0][1] == l1[1][1]:
+                        if len([p for p in points1 if p[0] == l1[0][0]]) == 0:
+                            l1[0][0] = intersection_x
+                        else:
+                            l1[1][0] = intersection_x
+                    # La ligne 2 est horizontale et c'est elle qu'on veut couper.
+                    if l2[0][1] == l2[1][1]:
+                        if len([p for p in points2 if p[0] == l2[0][0]]) == 0:
+                            l2[0][0] = intersection_x
+                        else:
+                            l2[1][0] = intersection_x
+
+        # On remet les listes de tableaux en listes de tuples.
+        return [((l[0][0], l[0][1]), (l[1][0], l[1][1])) for l in lines1_2], \
+               [((l[0][0], l[0][1]), (l[1][0], l[1][1])) for l in lines2_2]
+
     def _undistort_points(self, points):
         if len(points) == 0:
             return []
@@ -201,6 +267,15 @@ class FlagFilter:
         ellipse_mask = self._get_ellipse_mask(width, height)
         img = cv2.bitwise_and(img, img, mask=ellipse_mask)
 
+        # Hide lidar with a black rectangle.
+        cv2.rectangle(img,
+                      (self.rectangle_left_x, self.rectangle_left_y),
+                      (self.rectangle_right_x, self.rectangle_right_y),
+                      (0, 0, 0,),
+                      -1)
+        if self.display_rectangle_image:
+            cv2.imshow("Rectangle", img)
+
         # Threshold colors to find blue and red.
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         blue_mask = self._get_threshold_mask(hsv,
@@ -247,6 +322,8 @@ class FlagFilter:
         # Calculate the lines to block the robot.
         blue_lines = self._get_lines(blue_points, self.line_stripe_width)
         red_lines = self._get_lines(red_points, self.line_stripe_width, False)
+        blue_lines, red_lines = self._filter_lines(blue_lines, red_lines, blue_points, red_points)
+
         if self.display_lines_image:
             for l in blue_lines:
                 cv2.line(perspective_image, l[0], l[1], (255, 0, 0), 1)
