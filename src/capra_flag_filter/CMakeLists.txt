@@ -8,7 +8,10 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   rospy
   sensor_msgs
+  dynamic_reconfigure
 )
+
+generate_dynamic_reconfigure_options(cfg/FlagFilter.cfg)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
