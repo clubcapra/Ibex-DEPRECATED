@@ -12,7 +12,7 @@
     </include>
 
     <include file="$(find capra_ai)/launch/StateAi.launch" >
-        <arg name="state_ai_name" value="igvc_basic_south" />
+        <arg name="state_ai_name" value="practice2" />
         <arg name="is_simulation" value="true" />
     </include>
 
@@ -41,7 +41,7 @@
 
     <!-- GOAL LOADER -->
     <include file="$(find capra_ai)/launch/GoalManager.launch" >
-        <arg name="file" value="$(env IBEX_HOME)/bags/igvc_basic_south.json" />
+        <arg name="file" value="$(env IBEX_HOME)/bags/practice2.json" />
     </include>
 
 
