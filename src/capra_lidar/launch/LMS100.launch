@@ -2,6 +2,7 @@
     <node pkg="lms1xx" name="lms1xx" type="LMS1xx_node" output="screen">
         <param name="host" value="192.168.32.250"/>
         <remap from="/scan" to="/raw_scan_50" />
+    </node>
 
     <node pkg="capra_lidar" type="max_range.py" output="screen" name="max_range">
         <param name="max_range" value="20"/>
@@ -10,13 +11,19 @@
     </node>
 
     <node pkg="topic_tools" type="throttle" name="throttle_laser" args=" messages /raw_scan_50 20.0 /raw_scan" />
-    </node>
+
 
     <!--scan filters -->
+
     <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter">
         <rosparam command="load" file="$(find capra_lidar)/config/laser_threshold_5m.yaml" />
         <remap from="/scan" to="/scan" />
         <remap from="/scan_filtered" to="/scan_5m" />
+    </node>
+
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter_5m">
+        <rosparam command="load" file="$(find capra_lidar)/config/laser_threshold.yaml" />
+        <remap from="/scan" to="/raw_scan" />
     </node>
 
 </launch>
