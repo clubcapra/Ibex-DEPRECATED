@@ -14,3 +14,4 @@ srv_gen/
 *.iml
 .idea/
 *.bag
+*gps.txt
