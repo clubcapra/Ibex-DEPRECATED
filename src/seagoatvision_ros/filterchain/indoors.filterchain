@@ -41,5 +41,6 @@ zoom = 166.0
 bottomy = 135
 resolution = 20
 
+
 [RosImagePublisher]
 

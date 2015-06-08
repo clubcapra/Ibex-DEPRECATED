@@ -34,7 +34,6 @@ class LaserObstacleFilter:
 
         current = []
         obstacles = []
-        min_angle, max_angle = 1231324, -3212134
 
         for i in range(len(angles)):
             angle = angles[i]
@@ -44,36 +43,77 @@ class LaserObstacleFilter:
                 if len(current) > 0:
                     obstacles.append(current)
                     current = []
-                    min_angle, max_angle = 1231324, -3212134
             else:
                 current.append(i)
 
         if len(current) > 0:
             obstacles.append(current)
             
-
         for obstacle in obstacles:
             a, b = obstacle[0], obstacle[-1]
+        
+            if isnan(self.scan.ranges[a]) or isnan(self.scan.ranges[b]): continue
 
-            print ('(%f, %f)' % (angles[a], self.scan.ranges[a]))
 
-            p1 = cos(angles[a]) * self.scan.ranges[a], sin(angles[a]) * self.scan.ranges[a]
-            p2 = cos(angles[b]) * self.scan.ranges[b] - 0.440, sin(angles[b]) * self.scan.ranges[b] 
-            #  0.440 :: height of laser
+            laser_height = 0.44
+            obstacle_height = 1
+            ang = 0.01
 
-            if not (isnan(p1[0]) or isnan(p1[1]) or isnan(p2[0]) or isnan(p2[1])):
-                p1_pix = self.meters_to_pixels(*p1)
-                p2_pix = self.meters_to_pixels(*p2)
+            p1 = np.array([cos(angles[a] - ang) * self.scan.ranges[a], sin(angles[a] - ang) * self.scan.ranges[a]])
+            p2 = np.array([cos(angles[b] + ang) * self.scan.ranges[b], sin(angles[b] + ang) * self.scan.ranges[b]])
+            
+            p1_m = self.meters_to_pixels(*p1)
+            p2_m = self.meters_to_pixels(*p2)
 
-                cv2.rectangle(image, p1_pix, (p2_pix[0], p2_pix[1] + 5), (255, 0, 0), -1)
+            
 
+            real_bottomy = 240
+            trans_real = np.array([self.trans[0], 240])
+
+            d1 = p1_m - trans_real
+            d2 = p2_m - trans_real
+
+            k = 5
+            m1 = d1 * k + p1_m
+            m2 = d2 * k + p2_m
+
+
+            cv2.fillPoly(image, [np.array([
+                p1_m.astype(int),
+                m1.astype(int),
+                m2.astype(int),
+                p2_m.astype(int)
+            ])], (0, 0, 0))
+                
+            # cv2.line(image, tuple(self.meters_to_pixels(*p1)), tuple(self.meters_to_pixels(*p2)), (0, 0, 255))
+
+            # cv2.line(image, tuple(p1_m.astype(int)), tuple(m1.astype(int)), (0, 255, 0))
+            # cv2.line(image, tuple(p2_m.astype(int)), tuple(m2.astype(int)), (0, 255, 0))
+
+            # cv2.line(image, tuple(trans_real.astype(int)), tuple(self.meters_to_pixels(*p1)), (0, 255, 0))
+            # cv2.line(image, tuple(trans_real.astype(int)), tuple(self.meters_to_pixels(*p2)), (0, 255, 0))
+            
+            # cv2.line(image, tuple(map(int, self.trans)), tuple(self.meters_to_pixels(*p1).astype(int)), (0, 255, 0))
+
+            # cv2.rectangle(image, p1_pix, (p2_pix[0], p2_pix[1] + 5), (255, 0, 0), -1)
+
+
+#             points = [
+#                 self.meters_to_pixels(p1[0], p1[1] - laser_height),
+#                 self.meters_to_pixels(p2[0], p2[1] - laser_height),
+#                 self.meters_to_pixels(p2[0], p2[1] + obstacle_height),
+#                 self.meters_to_pixels(p1[0], p1[1] + obstacle_height),
+#             ]
+
+
+   
         return image
         
     def handle_cloud(self, msg):
         self.scan = msg
 
     def meters_to_pixels(self, x, y):
-        return (int(self.trans[0] - y * self.res[0]), int(self.trans[1] - x * self.res[1] + 1.255 * self.res[1]))
+        return np.array([int(self.trans[0] - y * self.res[0]), int(self.trans[1] - x * self.res[1] + 1.255 * self.res[1])])
 
         
 
