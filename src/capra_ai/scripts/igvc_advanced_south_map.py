@@ -16,7 +16,14 @@ class IGVCAdvancedSouthMap(StateAi):
 
     def on_goal_changed(self, goal_msg):
         rospy.loginfo("Targeting goal with priority: {}".format(goal_msg.priority))
-        pass
+
+        if goal_msg.priority == 122:
+            self.set_max_vel_x(1.05)
+
+        if goal_msg.priority == 501:
+            self.set_max_vel_x(0.85)
+            self.generate_bar(5, -2.0, -1)
+
 
 
 
