@@ -5,8 +5,6 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /Global Costmap1
-        - /Local Costmap1
       Splitter Ratio: 0.560091
     Tree Height: 696
   - Class: rviz/Selection
@@ -170,18 +168,18 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: costmap
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Global Costmap
       Topic: /move_base/global_costmap/costmap
-      Value: true
+      Value: false
     - Alpha: 0.9
       Class: rviz/Map
       Color Scheme: costmap
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Local Costmap
       Topic: /move_base/local_costmap/costmap
-      Value: true
+      Value: false
     - Class: rviz/Camera
       Enabled: false
       Image Rendering: background and overlay
@@ -448,22 +446,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 13.25
+      Distance: 7.94596
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.20375
-        Y: 0.584011
-        Z: 1.41205e-05
+        X: 1.01163
+        Y: 0.0690202
+        Z: 1.45973e-05
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.0198
+      Pitch: 0.8148
       Target Frame: <Fixed Frame>
       Value: XYOrbit (rviz)
-      Yaw: 6.17859
+      Yaw: 3.09359
     Saved: ~
 Window Geometry:
   Camera:

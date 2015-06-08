@@ -61,13 +61,11 @@ class LaserObstacleFilter:
             p2 = cos(angles[b]) * self.scan.ranges[b] - 0.440, sin(angles[b]) * self.scan.ranges[b] 
             #  0.440 :: height of laser
 
+            if not (isnan(p1[0]) or isnan(p1[1]) or isnan(p2[0]) or isnan(p2[1])):
+                p1_pix = self.meters_to_pixels(*p1)
+                p2_pix = self.meters_to_pixels(*p2)
 
-            p1_pix = self.meters_to_pixels(*p1)
-            p2_pix = self.meters_to_pixels(*p2)
-
-            cv2.rectangle(image, p1_pix, (p2_pix[0], p2_pix[1] + 5), (255, 0, 0), -1)
-            
-
+                cv2.rectangle(image, p1_pix, (p2_pix[0], p2_pix[1] + 5), (255, 0, 0), -1)
 
         return image
         
@@ -79,4 +77,4 @@ class LaserObstacleFilter:
 
         
 
-            
+
