@@ -8,49 +8,74 @@ from sensor_msgs.msg import PointCloud2
 import sensor_msgs.point_cloud2 as pc2
 
 
+
+
 class LaserObstacleFilter:
     def __init__(self):
         self.bottomy = Parameter("Bottom Y", 0,734,73)
         self.resolution = Parameter("Resolution", 0, 500, 20)
-        self.cloud = None
+        self.scan = None
+        self.size = (0, 0)
+        self.res = (0, 0)
+        self.trans = [0, 0]
 
-        rospy.Subscriber('/cloud_laser', PointCloud2, self.handle_cloud)
+        rospy.Subscriber('/scan_5m', LaserScan, self.handle_cloud)
 
     def execute(self, image):
-        if self.cloud is None:
+        height, width = image.shape[:2]
+        self.trans[0] = width / 2.0
+        self.trans[1] = self.bottomy.get_current_value()
+        self.res = width / 5.0, height / 5.0
+
+        if self.scan is None:
             return image
 
-        points = pc2.read_points(self.cloud)
-        height, width = image.shape[:2]
-        dw = width / 2.0
-        dy = self.bottomy.get_current_value()
+        angles = np.arange(self.scan.angle_min, self.scan.angle_max, self.scan.angle_increment)
 
-        resx, resy = width / 5.0, height / 5.0
+        current = []
+        obstacles = []
+        min_angle, max_angle = 1231324, -3212134
 
-        # pixels / m =  x / m
-        # 
+        for i in range(len(angles)):
+            angle = angles[i]
+            r = self.scan.ranges[i]
 
-        # points = [[0, 0, 0], [0, -1, 0], [1, 0, 0], [0, 1, 0]]
-        i = 0
+            if isnan(r):
+                if len(current) > 0:
+                    obstacles.append(current)
+                    current = []
+                    min_angle, max_angle = 1231324, -3212134
+            else:
+                current.append(i)
 
-        for p in points:
-            x, y, z = p
+        if len(current) > 0:
+            obstacles.append(current)
             
-            if isnan(x) or x ** 2 + y ** 2 > 5 ** 2: continue
 
-            # print str((int(x * resx + dw), int(-y * resy + dy)))
-            # cv2.rectangle(image, (int(x * resx + dw), int(-y * resy + dy)), (int(x * resx + dw + 5), int(-y * resy + dy + 5)), (255, 255, 0), -1)
-            # cv2.rectangle(image, (int(x * resx + dw), int(-y * resy + dy)), (int(x * resx + dw + 5), int(-y * resy + dy + 5)), (255, 255, 0), -1)
-            cv2.rectangle(image, (int(dw - y * resx), int(dy - x * resy + 1.255 * resy)), (int(dw - y * resx + 5), int(dy - x * resy + 5 + 1.255 * resy)), (255, i * 85 % 255, 0), -1)
-            # print str( (int(x + dw), int(-y + dy)))
+        for obstacle in obstacles:
+            a, b = obstacle[0], obstacle[-1]
 
-            i += 1
+            print ('(%f, %f)' % (angles[a], self.scan.ranges[a]))
+
+            p1 = cos(angles[a]) * self.scan.ranges[a], sin(angles[a]) * self.scan.ranges[a]
+            p2 = cos(angles[b]) * self.scan.ranges[b] - 0.440, sin(angles[b]) * self.scan.ranges[b] 
+            #  0.440 :: height of laser
+
+
+            p1_pix = self.meters_to_pixels(*p1)
+            p2_pix = self.meters_to_pixels(*p2)
+
+            cv2.rectangle(image, p1_pix, (p2_pix[0], p2_pix[1] + 5), (255, 0, 0), -1)
+            
+
 
         return image
         
     def handle_cloud(self, msg):
-        self.cloud = msg
+        self.scan = msg
 
+    def meters_to_pixels(self, x, y):
+        return (int(self.trans[0] - y * self.res[0]), int(self.trans[1] - x * self.res[1] + 1.255 * self.res[1]))
 
         
 
