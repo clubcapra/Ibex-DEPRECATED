@@ -66,3 +66,21 @@ if __name__ == "__main__":
     print a
 
 
+    advanced = [
+        {"y": convert_dms_string_to_decimal("42d40m45.15153s N"), "x": convert_dms_string_to_decimal("83d11m41.73259s W"), "priorite": 111, "gps": 2},
+        {"y": convert_dms_string_to_decimal("42d40m45.56451s N"), "x": convert_dms_string_to_decimal("83d11m42.17312s W"), "priorite": 122, "gps": 2},
+        {"y": convert_dms_string_to_decimal("42d40m45.24725s N"), "x": convert_dms_string_to_decimal("83d11m42.85466s W"), "priorite": 133, "gps": 2},
+        {"y": convert_dms_string_to_decimal("42d40m45.43535s N"), "x": convert_dms_string_to_decimal("83d11m43.40301s W"), "priorite": 144, "gps": 2},
+        {"y": convert_dms_string_to_decimal("42d40m46.21219s N"), "x": convert_dms_string_to_decimal("83d11m43.45800s W"), "priorite": 155, "gps": 2},
+        {"y": convert_dms_string_to_decimal("42d40m46.28430s N"), "x": convert_dms_string_to_decimal("83d11m42.94653s W"), "priorite": 166, "gps": 2},
+        {"y": convert_dms_string_to_decimal("42d40m46.01355s N"), "x": convert_dms_string_to_decimal("83d11m42.17641s W"), "priorite": 177, "gps": 2},
+        {"y": convert_dms_string_to_decimal("42d40m46.45277s N"), "x": convert_dms_string_to_decimal("83d11m41.83221s W"), "priorite": 188, "gps": 2}
+    ]
+
+    print advanced
+
+
+
+    print
+
+
