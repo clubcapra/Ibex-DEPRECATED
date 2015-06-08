@@ -191,8 +191,8 @@
             <updateRate>50</updateRate>
             <offset>0 0 0</offset>
             <gaussianNoise>0.01 0.01 0</gaussianNoise>
-            <referenceLatitude>45.501689</referenceLatitude>
-            <referenceLongitude>-73.567256</referenceLongitude>
+            <referenceLatitude>42.6788964267</referenceLatitude>
+            <referenceLongitude>-83.19547769</referenceLongitude>
             <referenceHeading>0</referenceHeading>
         </plugin>
 

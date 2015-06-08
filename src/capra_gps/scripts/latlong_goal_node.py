@@ -9,25 +9,26 @@ pub_goal = None
 pub_convert = None
 sub_convert = None
 
-p = None
+p = []
 def handle_xy_goal(req):
-    global p
-    p = PoseStamped()
-    p.header = req.header
-    p.pose = req.pose.pose
-    rospy.loginfo("GPS goal converted to xy: " + str(p.pose.position.x) + ", " + str(p.pose.position.y) + ". Publishing..")
+    new_pos = PoseStamped()
+    new_pos.header = req.header
+    new_pos.pose = req.pose.pose
+    rospy.loginfo("GPS goal converted to xy: " + str(new_pos.pose.position.x) + ", " + str(new_pos.pose.position.y) + ". Publishing..")
     global pub_goal
-    pub_goal.publish(p)
+    pub_goal.publish(new_pos)
+    global p
+    p.append(new_pos)
 
 
 def handle_add_latlong_goal(req):
     rospy.loginfo("Received GPS goal: " + str(req.goal_latlong.longitude) + ", " + str(req.goal_latlong.latitude))
     pub_convert.publish(req.goal_latlong)
     global p
-    while p is None:
-        rospy.sleep(0.1)
-    answer = p
-    p = None
+    start_size = len(p)
+    while len(p) == start_size:
+        rospy.sleep(0.01)
+    answer = p[start_size]
     return answer
 
 # Subscribe to gps fix and forward to the converter at the beginning
@@ -42,7 +43,7 @@ class LatlongGoalTransformer:
 
         # send first (real) coordinates to converter.
         global pub_convert
-        pub_convert = rospy.Publisher("~convert_latlong", NavSatFix, queue_size=10)
+        pub_convert = rospy.Publisher("~convert_latlong", NavSatFix, queue_size=100)
 
         sub_convert = rospy.Subscriber("/gps/fix", NavSatFix, handle_fix)
         rospy.sleep(1)

@@ -1,0 +1,40 @@
+<launch>
+
+
+    <!-- GAZEBO -->
+    <include file="$(find capra_gazebo)/launch/Gazebo.launch">
+        <arg name="gui" value="false" />
+    </include>
+
+    <!-- MOVING -->
+
+      <include file="$(find capra_2dnav)/launch/move_base.launch">
+        <arg name="context" value="gazebo" />
+      </include>
+
+    <!-- MAPPING -->
+  <include file="$(find capra_2dnav)/launch/octomap.launch" >
+        <arg name="map_file" value="$(env IBEX_HOME)/maps/igvc_basic.bt" />
+    </include>
+
+
+    <include file="$(find capra_ai)/launch/GoalManager.launch" >
+        <arg name="file" value="$(env IBEX_HOME)/bags/igvc_basic_south.json" />
+        <arg name="loop" value="false" />
+    </include>
+
+    <!-- MAPPING -->
+    <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
+        <remap from="cloud" to="cloud_in" />
+    </node>
+
+
+
+    <!-- Positionning -->
+    <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
+
+
+    <!--RVIZ  -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(env IBEX_HOME)/rviz_cfg/waypoints.rviz"/>
+
+</launch>
