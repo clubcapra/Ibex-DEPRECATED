@@ -1,7 +1,7 @@
 import rospy
 from sensor_msgs.msg import LaserScan
 import numpy as np
-from math import sin, cos, isnan
+from math import sin, cos, isnan, pi
 from CapraVision.server.filters.parameter import  Parameter
 import cv2
 from sensor_msgs.msg import PointCloud2
@@ -52,16 +52,23 @@ class LaserObstacleFilter:
             
         for obstacle in obstacles:
             a, b = obstacle[0], obstacle[-1]
+
+            # filter out obstacles that are ~5 degrees wide
+            if abs(angles[a] - angles[b]) < 0.0872664626: continue
         
             if isnan(self.scan.ranges[a]) or isnan(self.scan.ranges[b]): continue
 
 
             laser_height = 0.44
             obstacle_height = 1
-            ang = 0.1
+            ang = 0.12
+            
+            dn_d = 0.08
+            dn_1 = sin(angles[a] + 2 * pi) * dn_d
+            dn_2 = sin(angles[a] + 2 * pi) * dn_d
 
-            p1 = np.array([cos(angles[a] - ang) * self.scan.ranges[a], sin(angles[a] - ang) * self.scan.ranges[a]])
-            p2 = np.array([cos(angles[b] + ang) * self.scan.ranges[b], sin(angles[b] + ang) * self.scan.ranges[b]])
+            p1 = np.array([cos(angles[a] - ang + dn_1) * self.scan.ranges[a], sin(angles[a] - ang + dn_1) * self.scan.ranges[a]])
+            p2 = np.array([cos(angles[b] + ang + dn_2) * self.scan.ranges[b], sin(angles[b] + ang + dn_2) * self.scan.ranges[b]])
             
             p1_m = self.meters_to_pixels(*p1)
             p2_m = self.meters_to_pixels(*p2)
