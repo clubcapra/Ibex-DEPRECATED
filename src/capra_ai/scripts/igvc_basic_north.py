@@ -18,21 +18,19 @@ class IGVCBasicNorth(StateAi):
         rospy.loginfo("Targeting goal with priority: {}".format(goal_msg.priority))
 
         if goal_msg.priority == 105: ## First GOAL
-            self.set_max_vel_x(0.95)
+            pass
 
 
         if goal_msg.priority == 404: ## MiddlePoint
+            self.set_max_vel_x(0.95)
             self.clear_octomap(self.start_pos, 5, 5)
 
         if goal_msg.priority == 103: ## Last GOAL
-            self.set_max_vel_x(0.8)
+            pass
 
         if goal_msg.priority == 402:
+            self.set_max_vel_x(0.85)
             self.generate_bar(8, -1.5, -1)
-
-
-
-
 
     def on_last_goal_reached(self, msg):
         rospy.loginfo("WE FINISHED THE BASIC COURSE !!! CONGRATS EVERYONE !!!")

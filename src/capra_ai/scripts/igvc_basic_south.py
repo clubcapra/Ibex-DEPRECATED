@@ -20,15 +20,17 @@ class IGVCBasicSouth(StateAi):
 
 
         if goal_msg.priority == 103: ## First GOAL
-            self.set_max_vel_x(0.95)
+            pass
 
         if goal_msg.priority == 404: ## MiddlePoint
+            self.set_max_vel_x(0.1)
             self.clear_octomap(self.start_pos, 5, 5)
 
         if goal_msg.priority == 105: ## Last GOAL
-            self.set_max_vel_x(0.8)
+            pass
 
         if goal_msg.priority == 406:
+            self.set_max_vel_x(0.85)
             self.generate_bar(8, -1.5, -1)
 
     def on_last_goal_reached(self, msg):

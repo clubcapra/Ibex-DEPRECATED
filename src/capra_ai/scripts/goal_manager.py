@@ -59,11 +59,12 @@ class GoalManager():
         rospy.Service("~cancel_goal", CancelGoal, self.handle_cancel_goal)
 
         self.priority_to_precision = []
-        self.priority_to_precision.append(1.2)  # [0,100[
-        self.priority_to_precision.append(1.2)  # [100,200[
-        self.priority_to_precision.append(1.2)  # [200,300[
-        self.priority_to_precision.append(1.2)  # [300,400[
-        self.priority_to_precision.append(1.2)  # [400,500[
+        d = 1.2
+        self.priority_to_precision.append(d)  # [0,100[
+        self.priority_to_precision.append(d)  # [100,200[
+        self.priority_to_precision.append(d)  # [200,300[
+        self.priority_to_precision.append(d)  # [300,400[
+        self.priority_to_precision.append(d)  # [400,500[
 
         self.loop()
 

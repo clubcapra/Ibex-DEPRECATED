@@ -9,15 +9,15 @@ y1 = 419.0
 y2 = 276.0
 
 [SectionFilterCPP]
-grass_max = 255
-grass_min = 48
+grass_max = 255.0
+grass_min = 48.0
 kernel_dilate_height = 1.0
 kernel_dilate_width = 1.0
 kernel_erode_height = 1.0
 kernel_erode_width = 1.0
-light_min = 130
-min_area = 320
-sections = 7
+light_min = 145.0
+min_area = 320.0
+sections = 7.0
 
 [ParticleFilter]
 area_min = 52.0
@@ -36,11 +36,6 @@ toprighty = 63.0
 translationx = -47.0
 translationy = 35.0
 zoom = 166.0
-
-[LaserObstacleFilter]
-bottomy = 135
-resolution = 20
-
 
 [RosImagePublisher]
 
