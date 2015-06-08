@@ -37,5 +37,9 @@ translationx = -47.0
 translationy = 35.0
 zoom = 166.0
 
+[LaserObstacleFilter]
+bottomy = 135
+resolution = 20
+
 [RosImagePublisher]
 
