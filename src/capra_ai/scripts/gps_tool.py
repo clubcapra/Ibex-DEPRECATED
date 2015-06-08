@@ -79,8 +79,8 @@ if __name__ == "__main__":
 
     print advanced
 
+    a = haversine(83.1950059643718, 42.679157701026455,83.195056705, 42.6791805883)
 
-
-    print
+    print a
 
 

@@ -4,6 +4,7 @@ from state_ai import StateAi
 import rospy
 from math import pi
 from std_msgs.msg import Bool
+from subprocess import call
 
 class IGVCAdvancedSouthMap(StateAi):
 
@@ -19,6 +20,19 @@ class IGVCAdvancedSouthMap(StateAi):
 
         if goal_msg.priority == 122:
             self.set_max_vel_x(1.05)
+
+        if goal_msg.priority == 601:
+            call("rosnode kill /image_to_pointclound" + " &", shell=True)
+            call("rosnode kill /throttle_laser" + " &", shell=True)
+
+        if goal_msg.priority == 111:
+            call("rosrun seagoatvision_ros image_to_pointclound.py _in:=\"/seagoat_node/image_filtered\" _out:=/cloud_vision" + " &", shell=True)
+            call("rosrun topic_tools throttle messages /raw_scan_50 20.0 /raw_scan" + " &", shell=True)
+
+
+
+
+
 
         if goal_msg.priority == 501:
             self.set_max_vel_x(0.85)
