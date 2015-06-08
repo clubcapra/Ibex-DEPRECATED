@@ -55,12 +55,12 @@ if __name__ == "__main__":
 
     print lats
     a = haversine(lats['long1'], lats['lat1'],lats['long2'], lats['lat2'])
-    print a
+    print a/2
     lats = {
         'lat1': convert_dms_string_to_decimal("42 40 44.35053  N"), # 42.67884391111111
         'long1': convert_dms_string_to_decimal("83 11 41.88869  W"), # -83.19496646388889
-        'lat2': 42.679004999000,#42.67884391111111
-        'long2': -83.19496908055555 # -83.19496908055555
+        'lat2': 42.678915085,#42.67884391111111
+        'long2': -83.195066874288 # -83.19496908055555
     }
     a = haversine(lats['long1'], lats['lat1'],lats['long2'], lats['lat2'])
     print a
