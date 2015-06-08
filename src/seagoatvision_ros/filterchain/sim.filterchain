@@ -26,6 +26,7 @@ zoom = 152.0
 [LaserObstacleFilter]
 bottomy = 140.0
 resolution = 20.0
+realy = 280.0
 
 [SectionFilterCPP]
 grass_max = 80

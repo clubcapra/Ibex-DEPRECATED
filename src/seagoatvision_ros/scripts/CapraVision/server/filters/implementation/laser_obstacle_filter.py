@@ -13,6 +13,7 @@ import sensor_msgs.point_cloud2 as pc2
 class LaserObstacleFilter:
     def __init__(self):
         self.bottomy = Parameter("Bottom Y", 0,734,73)
+        self.realy = Parameter("Real bottom y", 0, 654, 33)
         self.resolution = Parameter("Resolution", 0, 500, 20)
         self.scan = None
         self.size = (0, 0)
@@ -57,7 +58,7 @@ class LaserObstacleFilter:
 
             laser_height = 0.44
             obstacle_height = 1
-            ang = 0.01
+            ang = 0.1
 
             p1 = np.array([cos(angles[a] - ang) * self.scan.ranges[a], sin(angles[a] - ang) * self.scan.ranges[a]])
             p2 = np.array([cos(angles[b] + ang) * self.scan.ranges[b], sin(angles[b] + ang) * self.scan.ranges[b]])
@@ -68,7 +69,7 @@ class LaserObstacleFilter:
             
 
             real_bottomy = 240
-            trans_real = np.array([self.trans[0], 240])
+            trans_real = np.array([self.trans[0], self.realy.get_current_value()])
 
             d1 = p1_m - trans_real
             d2 = p2_m - trans_real
@@ -76,7 +77,6 @@ class LaserObstacleFilter:
             k = 5
             m1 = d1 * k + p1_m
             m2 = d2 * k + p2_m
-
 
             cv2.fillPoly(image, [np.array([
                 p1_m.astype(int),
