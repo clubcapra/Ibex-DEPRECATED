@@ -17,6 +17,9 @@ class IGVCAdvancedNorthMap(StateAi):
     def on_goal_changed(self, goal_msg):
         rospy.loginfo("Targeting goal with priority: {}".format(goal_msg.priority))
 
+        if goal_msg.priority == 102:
+            self.generate_bar(5, -1.0, -1)
+
 
     def on_last_goal_reached(self, msg):
         rospy.loginfo("WE FINISHED THE ADVANCED COURSE !!! CONGRATS EVERYONE !!!")

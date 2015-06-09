@@ -1,9 +1,9 @@
 <launch>
 
     <!--<arg name="file" value="$(env IBEX_HOME)/bags/2015-06-06-17-20-10.bag" /> -->
-    <arg name="file" value="/home/capra/.ros/2015-06-07-12-12-56.bag" />
+    <arg name="file" value="/home/capra/.ros/2015-06-08-13-55-50.bag" />
 
-    <node pkg="rosbag" type="play" name="rosbag" args=" $(arg file)" >
+    <node pkg="rosbag" type="play" name="rosbag" args="-r 4  $(arg file)" >
         <remap from="/odom" to="/odom/null" />
     </node>
 
@@ -41,5 +41,12 @@
 
     <!--RVIZ  -->
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(env IBEX_HOME)/rviz_cfg/mapping.rviz"/>
+
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter">
+        <rosparam command="load" file="$(find capra_lidar)/config/laser_threshold_5m.yaml" />
+        <remap from="/scan" to="/scan" />
+        <remap from="/scan_filtered" to="/scan_5m" />
+    </node>
+
 
 </launch>

@@ -26,7 +26,7 @@ class IGVCAdvancedSouthMap(StateAi):
             call("rosnode kill /throttle_laser" + " &", shell=True)
 
         if goal_msg.priority == 111:
-            call("rosrun seagoatvision_ros image_to_pointclound.py _in:=\"/seagoat_node/image_filtered\" _out:=/cloud_vision" + " &", shell=True)
+            call("rosrun seagoatvision_ros image_to_pointclound.py _in:=/seagoat_node/image_filtered _out:=/cloud_vision" + " &", shell=True)
             call("rosrun topic_tools throttle messages /raw_scan_50 20.0 /raw_scan" + " &", shell=True)
 
 

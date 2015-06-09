@@ -1,4 +1,10 @@
+[Noop]
+
 [BGR2RGB]
+
+[RemoveGrass]
+technique = 1.0
+threshold = 25.0
 
 [Undistort]
 
@@ -7,22 +13,6 @@ x1 = 266.0
 x2 = 444.0
 y1 = 419.0
 y2 = 276.0
-
-[SectionFilterCPP]
-grass_max = 255.0
-grass_min = 48.0
-kernel_dilate_height = 1.0
-kernel_dilate_width = 1.0
-kernel_erode_height = 1.0
-kernel_erode_width = 1.0
-light_min = 145.0
-min_area = 320.0
-sections = 7.0
-
-[ParticleFilter]
-area_min = 52.0
-kernel_height = 3.0
-kernel_width = 3.0
 
 [PerspectiveCalibration]
 bottomleftx = 176.0
@@ -36,6 +26,27 @@ toprighty = 63.0
 translationx = -47.0
 translationy = 35.0
 zoom = 166.0
+
+[LaserObstacleFilter]
+bottomy = 133.0
+realy = 258.0
+resolution = 20.0
+
+[SectionFilterCPP]
+grass_max = 255
+grass_min = 33
+kernel_dilate_height = 1.0
+kernel_dilate_width = 1.0
+kernel_erode_height = 1.0
+kernel_erode_width = 1.0
+light_min = 129
+min_area = 320
+sections = 7
+
+[ParticleFilter]
+area_min = 52.0
+kernel_height = 3.0
+kernel_width = 3.0
 
 [RosImagePublisher]
 
