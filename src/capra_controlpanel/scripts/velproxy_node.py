@@ -5,7 +5,7 @@ from capra_controlpanel.msg import RobotButtons
 from sensor_msgs.msg import Joy
 from geometry_msgs.msg import Twist
 
-SWITCH_STATE_BUTTON = 8
+SWITCH_STATE_BUTTON = 7
 
 class velproxy_node:
 

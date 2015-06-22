@@ -1,0 +1,26 @@
+<launch>
+      <arg name="computer_topic" value="/cmd_vel_computer"/>
+  <arg name="remote_topic" value="/cmd_vel_remote"/>
+  <include file="$(find capra_2dnav)/launch/capra_configuration.launch">
+    <arg name="imu" value="0" />
+  </include>
+
+    <group>
+    <remap from="/cmd_vel" to="$(arg computer_topic)" />
+   <include file="$(find capra_ai)/launch/LazyAI.launch">
+    <arg name="speed" value="0.5"/>
+  </include>
+  </group>
+
+  <group>
+    <remap from="/cmd_vel" to="$(arg remote_topic)" />
+    <include file="$(find capra_teleop)/launch/Teleop.launch"/>
+  </group>
+
+  <include file="$(find capra_controlpanel)/launch/velproxy.launch">
+    <arg name="computer_topic" value="$(arg computer_topic)"/>
+    <arg name="remote_topic" value="$(arg remote_topic)"/>
+  </include>
+
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(env IBEX_HOME)/rviz_cfg/demo_cones.rviz"/>
+</launch>
