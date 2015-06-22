@@ -3,6 +3,17 @@ animatics_smart_motor
 Noeud ROS créé pour les [[Moteurs Animatics]] et conçu pour être partagé avec la communauté.
 Le fonctionnement a été fortement basé sur l'ancien code en Java: https://github.com/ClubCapra-Deprecated/SmartMotor
 
+## Calibration
+
+Il y a 3 étapes à la calibration:
+
+1. Faire avancer le robot avec la manette et s'assurer qu'il va droit. Ajuster le paramètre speed_ratio, qui représente la difference entre les vitesses de chacun des moteurs. [droit, gauche]. 
+
+2. Afficher les obstacles dans rviz et deplacer le robot en ligne droite. Les obstacles devraient rester a la même place et un mur droit devrait rester droit. Ca va assez bien de le tester dans le corridor des clubs. Si on a un problème, il faut ajuster le paramètre position_ration. C'est la différence entre la lecture des encodeurs et ce qu'on doit interpreter. C-a-d que si une roue dit qu'elle a tourne de 1 tour mais qu'elle a seulement fait 0.95 tour, on le corrige ici. ca devrait etre lie a la correction de vitesse ci-haut, possiblement simplement l'inverse des valeurs (si on doit faire tourner une roue à 0.98 de la vitesse de l'autre roue, les chances sont que l'autre roue devra multiplier sa distance parcourée par 0.98)
+
+3. Une fois que le robot va droit et qu'il lit bien qu'il va droit (corrige avec speed ratio et position ratio),
+on peut tweaker la largeur pour que la rotation soit bien calculée. Le calcul de l'orientation se fait avec la moyenne de distance parcourue des 2 roues divisee par la largeur. Plus la largeur est haute, moins le robot pense qu'il a tourne. Encore une fois, le corridor des clubs est un bon test: on place le robot au milieu et on le fait pivoter. Apres un tour, les deux murs du corridor devraient s'enligner avec ceux de la premiere lecture. Si le robot n'a pas assez tourne, on diminue la largeur, et vice-versa
+
 ##  Paramètres 
 #### Resolution
 Nombre d'encoder counts du moteur pour un tour complet
