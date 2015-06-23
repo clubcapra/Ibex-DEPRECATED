@@ -7,12 +7,9 @@
     <include file="$(find capra_ai)/launch/GPSWaypointGenerator.launch" />
 
     <!-- MOVING -->
-    <group>
-      <remap from="map" to="projected_map" />
       <include file="$(find capra_2dnav)/launch/move_base.launch">
         <arg name="context" value="indoors" />
       </include>
-    </group>
 
     <!-- MAPPING -->
     <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >

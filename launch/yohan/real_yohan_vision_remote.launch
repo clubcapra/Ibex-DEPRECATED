@@ -20,7 +20,6 @@
 
   <include file="$(find capra_2dnav)/launch/octomap.launch" />
 
-  <!--<remap from="projected_map" to="map" />-->
   <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
 
   <!-- VISION -->

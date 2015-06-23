@@ -10,12 +10,9 @@
     <include file="$(find capra_ai)/launch/GPSWaypointGenerator.launch" />
 
     <!-- MOVING
-    <group>
-      <remap from="map" to="projected_map" />
       <include file="$(find capra_2dnav)/launch/move_base.launch">
         <arg name="context" value="indoors" />
-      </include>
-    </group>-->
+      </include>-->
 
     <include file="$(find capra_teleop)/launch/Teleop.launch"/>
 

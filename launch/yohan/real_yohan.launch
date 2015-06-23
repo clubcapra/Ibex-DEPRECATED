@@ -5,12 +5,9 @@
    <include file="$(find capra_teleop)/launch/Teleop.launch" />
 
     <!-- MOVING
-    <group>
-      <remap from="map" to="projected_map" />
       <include file="$(find capra_2dnav)/launch/move_base.launch">
         <arg name="context" value="indoors" />
-      </include>
-    </group>-->
+      </include>-->
 
 
     <!-- MAPPING
@@ -26,7 +23,6 @@
 
     <include file="$(find capra_2dnav)/launch/octomap.launch" />
 
-    <!--<remap from="projected_map" to="map" />-->
     <!--<node pkg="octomap_server" type="octomap_server_node" name="octomap_server" />-->
     <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
 

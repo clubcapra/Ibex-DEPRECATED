@@ -26,7 +26,6 @@
 
     </node>
 
-    <!--<remap from="projected_map" to="map" />-->
     <!--<node pkg="octomap_server" type="octomap_server_node" name="octomap_server" />-->
     <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
 
