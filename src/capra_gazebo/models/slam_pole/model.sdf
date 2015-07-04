@@ -1,0 +1,22 @@
+<?xml version='1.0'?>
+<sdf version='1.4'>
+    <model name="slam_pole">
+        <static>true</static>
+	    <link name="link">
+		<collision name='collision'>
+		    <geometry>
+			<mesh>
+			    <uri>model://slam_pole/meshes/slam_pole.dae</uri>
+			</mesh>
+		    </geometry>
+		</collision>
+		<visual name='visual'>
+		    <geometry>
+			<mesh>
+			    <uri>model://slam_pole/meshes/slam_pole.dae</uri>
+			</mesh>
+		    </geometry>
+		</visual>
+	    </link>
+    </model>
+</sdf>

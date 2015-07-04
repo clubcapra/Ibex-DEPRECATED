@@ -1,0 +1,8 @@
+<launch>
+    <!-- GAZEBO -->
+    <include file="$(find capra_gazebo)/launch/Gazebo.launch">
+      	<arg name="world" default="$(find capra_gazebo)/worlds/slam.world" />
+        <arg name="gui" default="true" />
+        <arg name="initial_position" default="-x 0 -y 0 -rpy 0" />
+    </include>
+</launch>
