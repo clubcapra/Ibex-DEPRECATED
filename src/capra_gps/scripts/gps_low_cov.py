@@ -19,7 +19,7 @@ def odom_cb(msg):
     cov2 = []
     for i in range(0, len(cov)):
         if i == 0 or i == 7 or i == 14:
-            cov2.append(0.1)
+            cov2.append(5.0)
         else:
             cov2.append(cov[i])
     new_odom.pose.covariance = cov2

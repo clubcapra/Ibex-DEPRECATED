@@ -10,7 +10,7 @@ class LazyAI(BaseAI):
     def __init__(self):
         super(LazyAI, self).__init__("lazy_ai")
         #Les angles ou le robot peut aller (A gauche seulement dans cet AI)
-        self.priority_angles = [int(v.strip()) for v in self.get_param("~priority_angles", "0, 10, 20, 30, 40, 50, 60").split(",")]
+        self.priority_angles = [int(v.strip()) for v in self.get_param("~priority_angles", "0, 10, -10,  20, -20, 30, -30, 40, -40, 50, -50, 60, -60").split(",")]
         #La taille de la carte generee (en m). Le robot est au milieu.
         self.map_size = self.get_param("~map_size", 6.0)
         #La resolution de la carte generee
