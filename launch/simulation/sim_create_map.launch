@@ -1,0 +1,23 @@
+<launch>
+    <!-- GAZEBO -->
+    <include file="$(find capra_gazebo)/launch/Gazebo.launch">
+      	<arg name="world" default="$(find capra_gazebo)/worlds/slam.world" />
+        <arg name="gui" default="false" />
+        <arg name="initial_position" default="-x 0 -y 0 -rpy 0" />
+    </include>
+
+
+    <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
+        <remap from="cloud" to="cloud_in" />
+    </node>
+
+    <include file="$(find capra_2dnav)/launch/octomap.launch" >
+        <arg name="max_range" value="100" />
+        <arg name="latch" value="false" />
+    </include>
+
+
+    <!--RVIZ  -->
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
+</launch>

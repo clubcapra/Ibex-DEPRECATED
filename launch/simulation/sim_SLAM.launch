@@ -1,0 +1,52 @@
+<launch>
+    <!-- GAZEBO -->
+
+
+    <include file="$(find capra_gazebo)/launch/Gazebo.launch">
+        <arg name="world" default="$(find capra_gazebo)/worlds/slam.world" />
+        <arg name="gui" default="false" />
+        <arg name="initial_position" default="-x 0 -y 0 -rpy 0" />
+        <arg name="tf_topic" value="/tf_gazebo" />
+    </include>
+
+       <include file="$(find capra_2dnav)/launch/move_base.launch">
+       <arg name="context" value="indoors" />
+   </include>
+
+    <!--
+    <node pkg="tf" type="static_transform_publisher" name="robot_static_pos" args="0 0 0 0 0 0 odom base_footprint 50" />
+
+-->
+    <node pkg="capra_2dnav" name="slow_odom" type="slow_odom.py" output="screen">
+        <rosparam param="slowdown_factor">1.0</rosparam>
+    </node>
+
+    <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
+        <remap from="cloud" to="cloud_in" />
+    </node>
+
+    <node pkg="map_server" name="map_server" type="map_server" args="$(env IBEX_HOME)/map.yaml" />
+
+    <!--
+    <include file="$(find capra_2dnav)/launch/octomap.launch" >
+        <arg name="max_range" value="100" />
+        <arg name="latch" value="false" />
+    </include>
+-->
+
+    <node pkg="amcl" type="amcl" name="amcl_node" >
+        <rosparam param="use_map_topic" >true</rosparam>
+        <rosparam param="initial_pose_x" >0.0</rosparam>
+        <rosparam param="initial_pose_y" >0.0</rosparam>
+        <rosparam param="initial_pose_a" >0.0</rosparam>
+
+     </node>
+<!--
+    <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
+-->
+
+
+    <!--RVIZ  -->
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/slam.rviz"/>
+</launch>
