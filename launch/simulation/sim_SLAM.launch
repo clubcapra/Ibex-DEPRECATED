@@ -1,15 +1,14 @@
 <launch>
     <!-- GAZEBO -->
 
-
     <include file="$(find capra_gazebo)/launch/Gazebo.launch">
         <arg name="world" default="$(find capra_gazebo)/worlds/slam.world" />
-        <arg name="gui" default="false" />
+        <arg name="gui" default="true" />
         <arg name="initial_position" default="-x 0 -y 0 -rpy 0" />
         <arg name="tf_topic" value="/tf_gazebo" />
     </include>
 
-       <include file="$(find capra_2dnav)/launch/move_base.launch">
+    <include file="$(find capra_2dnav)/launch/move_base.launch">
        <arg name="context" value="indoors" />
    </include>
 
@@ -25,26 +24,40 @@
         <remap from="cloud" to="cloud_in" />
     </node>
 
-    <node pkg="map_server" name="map_server" type="map_server" args="$(env IBEX_HOME)/map.yaml" />
+<!--
+    <node pkg="map_server" name="map_server" type="map_server" args="$(env IBEX_HOME)/maps/capra.yaml" />
+-->
 
     <!--
     <include file="$(find capra_2dnav)/launch/octomap.launch" >
-        <arg name="max_range" value="100" />
+        <arg name="max_range" value="19" />
+        <arg name="frame_id" value="map"/>
         <arg name="latch" value="false" />
     </include>
--->
+    -->
 
+
+    <node pkg="gmapping" name="slam_gmapping" type="slam_gmapping" output="screen">
+      <param name="maxUrange" value="19" />
+      <param name="xmin" value="-10" />
+      <param name="ymin" value="-10" />
+      <param name="xmax" value="10" />
+      <param name="ymax" value="10" />
+    </node>
+
+
+<!--
     <node pkg="amcl" type="amcl" name="amcl_node" >
         <rosparam param="use_map_topic" >true</rosparam>
         <rosparam param="initial_pose_x" >0.0</rosparam>
         <rosparam param="initial_pose_y" >0.0</rosparam>
         <rosparam param="initial_pose_a" >0.0</rosparam>
-
-     </node>
-<!--
-    <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
+    </node>
 -->
 
+     <!--
+     <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
+     -->
 
     <!--RVIZ  -->
 

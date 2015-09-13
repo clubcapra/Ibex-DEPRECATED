@@ -36,6 +36,9 @@
     </include>
     -->
 
+    <node pkg="capra_ai" name="beacon_locator" type="beacon_locator.py" output="screen">
+    </node>
+
 
     <node pkg="gmapping" name="slam_gmapping" type="slam_gmapping" output="screen">
       <param name="maxUrange" value="19" />
