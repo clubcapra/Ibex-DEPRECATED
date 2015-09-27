@@ -1,0 +1,43 @@
+<commands>
+	<command name="goal"> 
+		<title>Point</title>
+		<controls>
+			<control label="Precision" arg="precision" type="decimal">1.0</control>
+		</controls>
+		<types>
+			<command name="gps">
+				<title>Point GPS</title>
+				<controls>
+					<control label="Longitude" arg="long" type="decimal">1.0</control>
+
+				</controls>
+			</command>
+			<command name="wrw">
+				<title>ete</title>
+				<controls>
+					<control label="wr" arg="wr" type="wr">1.0</control>
+
+				</controls>
+			</command>
+		</types>
+
+	
+	</command>
+	<command name="ddr">
+		<title>Nouveau</title>
+		<controls>
+			<control label="sdf" arg="precision" type="decimal">1sdf0</control>
+		</controls>
+		<types>
+			<command name="gps">
+				<title>El nouvea GPS</title>
+				<controls>
+					<control label="FD" arg="losdng" type="fds">1sdf0</control>
+
+				</controls>
+			</command>
+		</types>
+
+	
+	</command>
+</commands>
