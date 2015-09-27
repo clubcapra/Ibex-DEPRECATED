@@ -115,4 +115,10 @@ class MotorController(AbstractMotor):
             else:
                 self.motors[i].set_speed(left_speed)
 
+    def set_motor_speed(self, motor, speed):
+        if self.mode != SetMode.VELOCITY:
+            self.set_mode(SetMode.VELOCITY)
+        if motor < len(self.motors):
+            self.motors[motor].set_speed(speed)
+
 

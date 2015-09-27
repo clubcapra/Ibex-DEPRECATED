@@ -1,0 +1,58 @@
+{
+	"name"		: "ZeldaMain",
+	"bpm" 		: 140,
+	"tracks" 	:
+	[
+		{
+			"name"	: "Melody",
+			"content" 	:
+			[
+				{	"tone"	: "C1", "beat": 0.5},
+				{	"tone"	: "G0", "beat": 1},
+				{	"tone"	: "C1", "beat": 0.5},
+				{	"tone"	: "C1", "beat": 0.5},
+				{	"tone"	: "D1", "beat": 0.5},
+				{	"tone"	: "E1", "beat": 0.5},
+				{	"tone"	: "F1", "beat": 0.5},
+				{	"tone"	: "G1", "beat": 1},
+
+				{	"tone"	: "G1", "beat": 0.5},
+				{	"tone"	: "G1", "beat": 0.5},
+				{	"tone"	: "Gs1", "beat": 0.5},
+				{	"tone"	: "As2", "beat": 0.5},
+				{	"tone"	: "C2", "beat": 1},
+
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "As2", "beat": 0.5},
+				{	"tone"	: "Gs1", "beat": 0.5},
+				{	"tone"	: "As2", "beat": 0.5},
+				{	"tone"	: "As2", "beat": 0.5},
+				{	"tone"	: "G1", "beat": 1},
+
+				{	"tone"	: "G1", "beat": 1},
+				{	"tone"	: "F1", "beat": 0.5},
+				{	"tone"	: "F1", "beat": 0.5},
+				{	"tone"	: "G1", "beat": 0.5},
+				{	"tone"	: "Gs1", "beat": 1},
+
+				{	"tone"	: "G1", "beat": 0.5},
+				{	"tone"	: "F1", "beat": 0.5},
+				{	"tone"	: "E1", "beat": 0.5},
+				{	"tone"	: "E1", "beat": 0.5},
+				{	"tone"	: "F1", "beat": 0.5},
+				{	"tone"	: "G1", "beat": 1},
+
+				{	"tone"	: "F1", "beat": 0.5},
+				{	"tone"	: "D1", "beat": 0.5},
+				{	"tone"	: "D1", "beat": 0.5},
+				{	"tone"	: "D1", "beat": 0.5},
+				{	"tone"	: "E1", "beat": 0.5},
+				{	"tone"	: "F1", "beat": 1},
+				{	"tone"	: "X", "beat": 0.5}
+
+			]
+		}
+
+	]
+}

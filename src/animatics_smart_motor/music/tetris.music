@@ -1,0 +1,228 @@
+{
+	"name"		: "Tetris",
+	"bpm" 		: 120,
+	"tracks" 	:
+	[
+		{
+			"name"	: "Melody",
+			"content" 	:
+			[
+				{	"tone"	: "E2", "beat": 1.0},
+				{	"tone"	: "B2", "beat": 0.5},
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "D2", "beat": 1.0},
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "B2", "beat": 0.5},
+
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "A2", "beat": 0.5},
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "E2", "beat": 1.0},
+				{	"tone"	: "D2", "beat": 0.5},
+				{	"tone"	: "C2", "beat": 0.5},
+
+				{	"tone"	: "B2", "beat": 1.5},
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "D2", "beat": 1.0},
+				{	"tone"	: "E2", "beat": 1.0},
+
+				{	"tone"	: "C2", "beat": 1.0},
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "X", 	"beat": 1.0},
+
+				{	"tone"	: "D2", "beat": 1.0},
+				{	"tone"	: "F2", "beat": 0.5},
+				{	"tone"	: "A3", "beat": 1.0},
+				{	"tone"	: "G2", "beat": 0.5},
+				{	"tone"	: "F2", "beat": 0.5},
+				{	"tone"	: "E2", "beat": 1.5},
+
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "E2", "beat": 1.0},
+				{	"tone"	: "D2", "beat": 0.5},
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "B2", "beat": 1.0},
+
+				{	"tone"	: "B2", "beat": 0.5},
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "D2", "beat": 1.0},
+				{	"tone"	: "E2", "beat": 1.0},
+				{	"tone"	: "C2", "beat": 1.0},
+
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "X", "beat": 1.0},
+
+
+				{	"tone"	: "E2", "beat": 1.0},
+				{	"tone"	: "B2", "beat": 0.5},
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "D2", "beat": 1.0},
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "B2", "beat": 0.5},
+
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "A2", "beat": 0.5},
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "E2", "beat": 1.0},
+				{	"tone"	: "D2", "beat": 0.5},
+				{	"tone"	: "C2", "beat": 0.5},
+
+				{	"tone"	: "B2", "beat": 1.5},
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "D2", "beat": 1.0},
+				{	"tone"	: "E2", "beat": 1.0},
+
+				{	"tone"	: "C2", "beat": 1.0},
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "X", 	"beat": 1.0},
+
+				{	"tone"	: "D2", "beat": 1.0},
+				{	"tone"	: "F2", "beat": 0.5},
+				{	"tone"	: "A3", "beat": 1.0},
+				{	"tone"	: "G2", "beat": 0.5},
+				{	"tone"	: "F2", "beat": 0.5},
+				{	"tone"	: "E2", "beat": 1.5},
+
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "E2", "beat": 1.0},
+				{	"tone"	: "D2", "beat": 0.5},
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "B2", "beat": 1.0},
+
+				{	"tone"	: "B2", "beat": 0.5},
+				{	"tone"	: "C2", "beat": 0.5},
+				{	"tone"	: "D2", "beat": 1.0},
+				{	"tone"	: "E2", "beat": 1.0},
+				{	"tone"	: "C2", "beat": 1.0},
+
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "X", "beat": 1.0},
+
+
+
+				{	"tone"	: "E1", "beat": 2.0},
+				{	"tone"	: "C1", "beat": 2.0},
+
+				{	"tone"	: "D1", "beat": 2.0},
+				{	"tone"	: "B1", "beat": 2.0},
+
+				{	"tone"	: "C1", "beat": 2.0},
+				{	"tone"	: "A1", "beat": 2.0},
+
+				{	"tone"	: "Gs1", "beat": 2.0},
+				{	"tone"	: "B1", "beat": 1.0},
+				{	"tone"	: "X", "beat": 1.0},
+
+
+				{	"tone"	: "E1", "beat": 2.0},
+				{	"tone"	: "C1", "beat": 2.0},
+
+				{	"tone"	: "D1", "beat": 2.0},
+				{	"tone"	: "B1", "beat": 2.0},
+
+				{	"tone"	: "C1", "beat": 1.0},
+				{	"tone"	: "E1", "beat": 1.0},
+				{	"tone"	: "A2", "beat": 2.0},
+
+				{	"tone"	: "Gs2", "beat": 2.0},
+				{	"tone"	: "X", "beat": 2.0}
+			]
+		},
+		{
+			"name"	: "Bass",
+			"content" 	:
+			[
+
+				{	"tone"	: "A1", "beat": 2.0},
+				{	"tone"	: "E1", "beat": 2.0},
+
+				{	"tone"	: "A1", "beat": 2.0},
+				{	"tone"	: "D1", "beat": 2.0},
+
+				{	"tone"	: "A1", "beat": 2.0},
+				{	"tone"	: "E1", "beat": 2.0},
+
+				{	"tone"	: "A1", "beat": 1.0},
+				{	"tone"	: "E1", "beat": 1.0},
+				{	"tone"	: "A1", "beat": 0.5},
+				{	"tone"	: "B1", "beat": 0.5},
+				{	"tone"	: "C1", "beat": 0.5},
+				{	"tone"	: "D1", "beat": 0.5},
+
+				{	"tone"	: "D1", "beat": 2.0},
+				{	"tone"	: "A1", "beat": 2.0},
+
+				{	"tone"	: "C1", "beat": 2.0},
+				{	"tone"	: "G1", "beat": 2.0},
+
+				{	"tone"	: "C1", "beat": 2.0},
+				{	"tone"	: "E1", "beat": 1.5},
+				{	"tone"	: "X", "beat": 0.5},
+
+				{	"tone"	: "E1", "beat": 2.0},
+				{	"tone"	: "A1", "beat": 2.0},
+
+
+				{	"tone"	: "A1", "beat": 2.0},
+				{	"tone"	: "E1", "beat": 2.0},
+
+				{	"tone"	: "A1", "beat": 2.0},
+				{	"tone"	: "D1", "beat": 2.0},
+
+				{	"tone"	: "A1", "beat": 2.0},
+				{	"tone"	: "E1", "beat": 2.0},
+
+				{	"tone"	: "A1", "beat": 1.0},
+				{	"tone"	: "E1", "beat": 1.0},
+				{	"tone"	: "A1", "beat": 0.5},
+				{	"tone"	: "B1", "beat": 0.5},
+				{	"tone"	: "C1", "beat": 0.5},
+				{	"tone"	: "D1", "beat": 0.5},
+
+				{	"tone"	: "D1", "beat": 2.0},
+				{	"tone"	: "A1", "beat": 2.0},
+
+				{	"tone"	: "C1", "beat": 2.0},
+				{	"tone"	: "G1", "beat": 2.0},
+
+				{	"tone"	: "C1", "beat": 2.0},
+				{	"tone"	: "E1", "beat": 1.5},
+				{	"tone"	: "X", "beat": 0.5},
+
+				{	"tone"	: "E1", "beat": 2.0},
+				{	"tone"	: "A1", "beat": 2.0},
+
+
+				{	"tone"	: "A1", "beat": 2.0},
+				{	"tone"	: "E1", "beat": 2.0},
+
+				{	"tone"	: "Gs0", "beat": 2.0},
+				{	"tone"	: "E1", "beat": 2.0},
+
+				{	"tone"	: "A1", "beat": 2.0},
+				{	"tone"	: "E1", "beat": 2.0},
+
+				{	"tone"	: "Gs0", "beat": 1.0},
+				{	"tone"	: "E1", "beat": 1.0},
+				{	"tone"	: "X", "beat": 2.0},
+
+				{	"tone"	: "A1", "beat": 2.0},
+				{	"tone"	: "E1", "beat": 2.0},
+
+				{	"tone"	: "Gs0", "beat": 2.0},
+				{	"tone"	: "E1", "beat": 2.0},
+
+				{	"tone"	: "A1", "beat": 2.0},
+				{	"tone"	: "E1", "beat": 2.0},
+
+				{	"tone"	: "Gs0", "beat": 1.0},
+				{	"tone"	: "E1", "beat": 1.0},
+				{	"tone"	: "X", "beat": 2.0}
+			]
+		}
+	]
+}

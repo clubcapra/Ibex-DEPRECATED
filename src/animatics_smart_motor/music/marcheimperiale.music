@@ -1,0 +1,32 @@
+{
+	"name"		: "ImperialMarch",
+	"bpm" 		: 120,
+	"tracks" 	:
+	[
+		{
+			"name"	: "Melody",
+			"content" 	:
+			[
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "E1", "beat": 1.0},
+				{	"tone"	: "C2", "beat": 0.25},
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "E1", "beat": 1.0},
+				{	"tone"	: "D2", "beat": 0.25},
+				{	"tone"	: "A2", "beat": 2.0},
+
+				{	"tone"	: "E2", "beat": 1.0},
+				{	"tone"	: "E2", "beat": 1.0},
+				{	"tone"	: "E2", "beat": 1.0},
+				{	"tone"	: "F2", "beat": 1.0},
+				{	"tone"	: "C2", "beat": 0.25},
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "E1", "beat": 1.0},
+				{	"tone"	: "D2", "beat": 0.25},
+				{	"tone"	: "A2", "beat": 2.0}
+			]
+		}
+	]
+}

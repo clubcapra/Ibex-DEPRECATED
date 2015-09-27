@@ -1,0 +1,45 @@
+{
+	"name"		: "Bonnefete",
+	"bpm" 		: 120,
+	"tracks" 	:
+	[
+		{
+			"name"	: "Melody",
+			"content" 	:
+			[
+				{	"tone"	: "C1", "beat": 0.5},
+				{	"tone"	: "C1", "beat": 0.25},
+				{	"tone"	: "D1", "beat": 1.0},
+				{	"tone"	: "C1", "beat": 0.5},
+				{	"tone"	: "F1", "beat": 0.5},
+				{	"tone"	: "E1", "beat": 1.5},
+
+				{	"tone"	: "C1", "beat": 0.5},
+				{	"tone"	: "C1", "beat": 0.25},
+				{	"tone"	: "D1", "beat": 1.0},
+				{	"tone"	: "C1", "beat": 0.5},
+				{	"tone"	: "G1", "beat": 0.5},
+				{	"tone"	: "F1", "beat": 1.5},
+
+				{	"tone"	: "C1", "beat": 0.5},
+				{	"tone"	: "C1", "beat": 0.25},
+				{	"tone"	: "C2", "beat": 1.0},
+				{	"tone"	: "A2", "beat": 0.5},
+				{	"tone"	: "F1", "beat": 0.5},
+				{	"tone"	: "F1", "beat": 0.25},
+				{	"tone"	: "E1", "beat": 1.0},
+				{	"tone"	: "D1", "beat": 1.5},
+
+				{	"tone"	: "As2", "beat": 0.5},
+				{	"tone"	: "As2", "beat": 0.25},
+				{	"tone"	: "A2", "beat": 1.0},
+				{	"tone"	: "F1", "beat": 0.5},
+				{	"tone"	: "G1", "beat": 0.5},
+				{	"tone"	: "F1", "beat": 1.0},
+				{	"tone"	: "X", "beat": 1.5}
+
+			]
+		}
+
+	]
+}

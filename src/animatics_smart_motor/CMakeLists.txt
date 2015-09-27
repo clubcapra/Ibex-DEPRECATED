@@ -12,6 +12,11 @@ add_message_files(
   MotorsConnected.msg
 )
 
+add_service_files(
+  FILES
+  SetMotorsSpeed.srv
+)
+
 generate_messages(
   DEPENDENCIES
   geometry_msgs
