@@ -7,17 +7,8 @@ class CommandManager:
 
         self.commands = dict()
 
-        tree = ET.parse('Command.xml')
-        commands = tree.getroot()
-        for command in commands:
-            c = self.parse_command(command, "")
-            types = dict()
-            for type in command.find("types"):
-                t = self.parse_command(type, c.name)
-                types[t.name] = t
-            self.commands[c.name] = [c, types]
+        self.load_commands()
 
-        print self.commands
 
 
     def parse_command(self, command, parentName):
@@ -34,6 +25,19 @@ class CommandManager:
 
         c = Command(name, parentName, title, ctrls)
         return c
+
+    def load_commands(self):
+        tree = ET.parse('Command.xml')
+        commands = tree.getroot()
+        for command in commands:
+            c = self.parse_command(command, "")
+            for type in command.find("types"):
+                t = self.parse_command(type, c.name)
+                t.controls = c.controls + t.controls
+                self.commands[t.compose_name()] = t
+
+        print self.commands
+
 
 if __name__ == "__main__":
     CommandManager()

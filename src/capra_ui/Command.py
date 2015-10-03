@@ -8,6 +8,9 @@ class Command:
         self.title = title
         self.controls = controls
 
+    def compose_name(self):
+        return self.parentName + self.name
+
 class CommmandControl:
     def __init__(self, label, arg, type, default):
         self.label = label

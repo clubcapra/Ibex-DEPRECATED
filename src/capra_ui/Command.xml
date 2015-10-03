@@ -12,7 +12,7 @@
 
 				</controls>
 			</command>
-			<command name="wrw">
+			<command name="odom">
 				<title>ete</title>
 				<controls>
 					<control label="wr" arg="wr" type="wr">1.0</control>
@@ -23,13 +23,13 @@
 
 	
 	</command>
-	<command name="ddr">
+	<command name="obstacle">
 		<title>Nouveau</title>
 		<controls>
-			<control label="sdf" arg="precision" type="decimal">1sdf0</control>
+			<control label="precision" arg="precision" type="decimal">1sdf0</control>
 		</controls>
 		<types>
-			<command name="gps">
+			<command name="circle">
 				<title>El nouvea GPS</title>
 				<controls>
 					<control label="FD" arg="losdng" type="fds">1sdf0</control>
