@@ -1,6 +1,5 @@
 <launch>
 	 <include file="$(find capra_2dnav)/launch/capra_configuration.launch" >
-          <arg name="imu" value="0" />
      </include>
 
     <!-- MOVING -->
