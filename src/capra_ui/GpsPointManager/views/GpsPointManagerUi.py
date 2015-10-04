@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'views/GpsPointManager.ui'
 #
-# Created: Sun Sep 27 18:47:15 2015
+# Created: Sun Oct  4 15:27:20 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -78,6 +78,22 @@ class Ui_MainWindow(object):
         self.lineEdit_latitude = QtGui.QLineEdit(self.formLayoutWidget)
         self.lineEdit_latitude.setObjectName(_fromUtf8("lineEdit_latitude"))
         self.formLayout.setWidget(2, QtGui.QFormLayout.FieldRole, self.lineEdit_latitude)
+        self.pushButton_up = QtGui.QPushButton(self.centralwidget)
+        self.pushButton_up.setGeometry(QtCore.QRect(90, 500, 41, 41))
+        self.pushButton_up.setText(_fromUtf8(""))
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/images/images/up_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_up.setIcon(icon2)
+        self.pushButton_up.setIconSize(QtCore.QSize(32, 32))
+        self.pushButton_up.setObjectName(_fromUtf8("pushButton_up"))
+        self.pushButton_down = QtGui.QPushButton(self.centralwidget)
+        self.pushButton_down.setGeometry(QtCore.QRect(130, 500, 41, 41))
+        self.pushButton_down.setText(_fromUtf8(""))
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(_fromUtf8(":/images/images/down_arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_down.setIcon(icon3)
+        self.pushButton_down.setIconSize(QtCore.QSize(32, 32))
+        self.pushButton_down.setObjectName(_fromUtf8("pushButton_down"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 25))

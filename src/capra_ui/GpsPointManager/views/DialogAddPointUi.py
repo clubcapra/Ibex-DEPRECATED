@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'views/DialogAddPoint.ui'
 #
-# Created: Sun Sep 27 18:47:15 2015
+# Created: Sun Oct  4 15:27:20 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
