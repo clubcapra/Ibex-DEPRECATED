@@ -1,5 +1,8 @@
 <launch>
-    <arg name="port" default="/dev/ttyACM0" />
+    <arg name="front_port" default="/dev/ttyUSB7" />
+    <arg name="front_baud" default="115200" />
+    <arg name="rear_port" default="/dev/ttyUSB6" />
+    <arg name="rear_baud" default="115200" />
     <node pkg="roboteq_motor" name="roboteq_motor" type="roboteq_motor_node.py" output="screen" clear_params="true">
         <param name="serial_port" value="/dev/ttyUSB1004"/>
         <param name="nb_motors" value="2"/>
@@ -28,9 +31,20 @@
                                             0,   0,   0,   0,   1.0, 0,
                                             0,   0,   0,   0,   0,   1.0</rosparam>
     </node>
-    <node pkg="roboteq_driver" type="driver_node" name="roboteq_driver" output="screen">
-        <param name="port" value="$(arg port)" />
-        <param name="value" value="115200" />
+    <node pkg="roboteq_driver" type="driver_node" name="roboteq_driver_front" output="screen">
+        <param name="port" value="$(arg front_port)" />
+        <param name="value" value="$(arg front_baud)" />
+        <rosparam param="channels">[ "left", "right" ]</rosparam>
+        <remap from="/left/cmd" to="roboteq_driver/front/left" />
+        <remap from="/right/cmd" to="roboteq_driver/front/right" />
+    </node>
+     <node pkg="roboteq_driver" type="driver_node" name="roboteq_driver_rear" output="screen">
+        <param name="port" value="$(arg rear_port)" />
+        <param name="value" value="$(arg rear_baud)" />
+        <rosparam param="channels">[ "left", "right" ]</rosparam>
+        <remap from="/left/cmd" to="roboteq_driver/rear/left" />
+        <remap from="/right/cmd" to="roboteq_driver/rear/right" />
 
     </node>
+
 </launch>

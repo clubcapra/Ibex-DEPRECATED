@@ -10,30 +10,36 @@ import math
 class RoboteqMotor:
     def __init__(self):
         rospy.init_node("roboteq_motor")
-        rospy.Subscriber("/roboteq_driver/feedback", Feedback, self.feedback_report)
-        rospy.Subscriber("/roboteq_driver/status", Status, self.status_report)
-        self.commander = rospy.Publisher("/roboteq_driver/cmd", Command, queue_size=10)
+        rospy.Subscriber("/left/feedback", Feedback, self.feedback_report_right)
+        rospy.Subscriber("/right/feedback", Status, self.feedback_report_left)
+        self.front_left = rospy.Publisher("/roboteq_driver/front/left", Command, queue_size=10)
+        self.front_right = rospy.Publisher("roboteq_driver/front/right", Command, queue_size=10)
+        self.rear_left = rospy.Publisher("roboteq_driver/rear/left", Command, queue_size=10)
+        self.rear_right = rospy.Publisher("roboteq_driver/rear/right", Command, queue_size=10)
 
-        while True:
+
+        while not rospy.is_shutdown():
             self.run()
-            rospy.sleep(10)
+
 
 
     def run(self):
         motorCommand = Command()
         motorCommand.setpoint = 100.0
         motorCommand.mode = Command.MODE_VELOCITY
-        self.commander.publish(motorCommand)
+        self.front_left.publish(motorCommand)
+        self.front_right.publish(motorCommand)
+        self.rear_left.publish(motorCommand)
+        self.rear_right.publish(motorCommand)
 
 
 
-    def status_report(self, status):
 
-        rospy.loginfo("Reporting status, fault {} status {}".format(status.fault, status.status))
+    def feedback_report_right(self, feedback):
+        rospy.loginfo("RIGHT v,p {},{}".format(feedback.measured_velocity, feedback.measured_position))
 
-    def feedback_report(self, feedback):
-
-        rospy.loginfo("Reporting feedback {}".format(feedback.motor_current))
+    def feedback_report_left(self, feedback):
+        rospy.loginfo("LEFT v,p {},{}".format(feedback.measured_velocity, feedback.measured_position))
 
 
 
