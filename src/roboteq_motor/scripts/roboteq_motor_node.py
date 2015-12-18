@@ -27,19 +27,10 @@ class RoboteqMotorController:
         self.rear_right_motor = Motor(rospy.Publisher("roboteq_driver/rear/right", Command, queue_size=10))
         self.swivel = None
 
-
-
-        rospy.Subscriber("roboteq_driver/front/left", Feedback, self.feedback_report_right)
-        rospy.Subscriber("/right/feedback", Status, self.feedback_report_left)
-
-
-        rospy.Timer(rospy.Duration.from_sec(50.0/1000), self.velocity_timer)
-        rospy.Timer(rospy.Duration.from_sec(1.0/1000), self.publish_odom)
-
-
-
-
-
+        rospy.Subscriber("roboteq_driver/front/left", Feedback, self.front_left_motor._feedback_callback())
+        rospy.Subscriber("roboteq_driver/front/right",Feedback, self.front_right_motor._feedback_callback())
+        rospy.Subscriber("roboteq_driver/rear/left", Feedback, self.rear_left_motor._feedback_callback())
+        rospy.Subscriber("roboteq_driver/rear/right", Feedback, self.rear_right_motor._feedback_callback())
 
     def velocity_timer(self, event):
         self.front_left_motor.set_velocity(4)
