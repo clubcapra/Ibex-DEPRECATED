@@ -50,36 +50,9 @@ class Motor:
     #Return the status of the controller
     def get_controller_status(self):
 
+        #Dictonary that contains the fault status
+        status = { 1 : "Overheat",2:"Overvoltage",4:"Undervoltage",8:"Short Detected",16:"Estop",32:"SPEXExcitation",64:"MOSFET Failure",128:"Startup Config Problem",0:"No problem detected"}
+
         fault = self.last_status.fault
 
-        #monolithic for the win (no proper switch case in python )
-        #Future improvement to add a dictionary for the fault status
-        if(fault == 1):
-
-            return "Overheat"
-
-        elif(fault == 2):
-            return "Overvoltage"
-
-        elif(fault == 4):
-            return "Undervoltage"
-
-        elif(fault == 8):
-            return "Short Detected"
-
-        elif(fault == 16):
-            return "Estop"
-
-        elif(fault == 32):
-            return "SPEXExcitation"
-
-        elif(fault == 64):
-            return "MOSFET Failure"
-
-        elif(fault == 128):
-            return "Startup Config Problem"
-
-        elif(fault == 0):
-            return "No Problem detected"
-        else:
-            return "Unknown Fault Status"
+        return status[fault]
