@@ -55,4 +55,4 @@ class Motor:
 
         fault = self.last_status.fault
 
-        return status[fault]
+        return status.get(fault,"error")
