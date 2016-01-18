@@ -11,8 +11,12 @@ class MotorConductor:
     def measured_position(self):
         pass
 
+    #Set the mode of the command
+    #int8 MODE_STOPPED=-1
+    #int8 MODE_VELOCITY=0 (DEFAULT)
+    #int8 MODE_POSITION=1
     def set_motors_mode(self):
-        pass
+        return 0
 
     def disconnect(self):
         pass

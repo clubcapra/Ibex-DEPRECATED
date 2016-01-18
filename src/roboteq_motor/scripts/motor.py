@@ -4,13 +4,14 @@ class Motor:
         self.last_feedback
         self.last_status
         #Temporary value
-        self.wheel_size = 0.25
+        self.temporary_wheel_size = 0.3302
+       # self.wheel_size = 0.25 39.6/3.14
 
     def set_velocity(self, velocity):
         pass
 
     def get_current_velocity(self):
-        return self.last_feedback.measured_velocity * self.wheel_size
+        return self.last_feedback.measured_velocity * self.temporary_wheel_size/2
 
     #Return the current pull from the motor
     def get_motor_current(self):
@@ -41,7 +42,7 @@ class Motor:
     #int8 MODE_VELOCITY=0 (DEFAULT)
     #int8 MODE_POSITION=1
     def set_mode(self, mode):
-        pass
+        return 0
 
     #Return the last status message
     def _status_callback(self,msg):
