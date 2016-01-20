@@ -1,0 +1,8 @@
+<launch>
+
+  <node pkg="nodelet" name="capra_filters_nodelet_manager" type="nodelet" args="manager" output="screen"/>
+
+  <node pkg="nodelet" name="blur_filter" type="nodelet" args="load capra_filters/blur_filter capra_filters_nodelet_manager" output="screen">
+  </node>
+
+</launch>
