@@ -1,8 +1,24 @@
 <launch>
 
+  <node pkg="rqt_gui" name="capra_filters_ui" type="rqt_gui">
+
+  </node>
+
+
+  <node pkg="ros_vision" name="webcam_node" type="webcam_node.py">
+  </node>
+
   <node pkg="nodelet" name="capra_filters_nodelet_manager" type="nodelet" args="manager" output="screen"/>
 
   <node pkg="nodelet" name="blur_filter" type="nodelet" args="load capra_filters/blur_filter capra_filters_nodelet_manager" output="screen">
+    <param name="ksize" value="10" />
+    <param name="input" value="/capra_camera/image" />
+    <param name="output" value="/capra_camara/image/blur" />
+  </node>
+
+  <node pkg="nodelet" name="rectangle_filter" type="nodelet" args="load capra_filters/rectangle capra_filters_nodelet_manager" output="screen">
+    <param name="input" value="/capra_camera/image" />
+    <param name="output" value="/capra_camara/image/rect" />
   </node>
 
 </launch>

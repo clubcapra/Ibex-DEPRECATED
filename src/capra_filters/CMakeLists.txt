@@ -9,10 +9,13 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   nodelet
   dynamic_reconfigure
+  cv_bridge
+  image_transport
 )
 
 generate_dynamic_reconfigure_options(
   src/${PROJECT_NAME}/blur_filter.cfg
+  src/${PROJECT_NAME}/rectangle.cfg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -122,6 +125,7 @@ include_directories(include)
 ## Declare a C++ library
 add_library(capra_filters
   src/${PROJECT_NAME}/blur_filter.cpp
+  src/${PROJECT_NAME}/rectangle.cpp
 )
 target_link_libraries(capra_filters ${catkin_LIBRARIES})
 

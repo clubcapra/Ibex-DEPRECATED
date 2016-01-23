@@ -4,4 +4,11 @@
       Simple kernel blur filter
     </description>
   </class>
+
+  <class name="capra_filters/rectangle" type="capra_filters::Rectangle" base_class_type="nodelet::Nodelet">
+    <description>
+      Render a black rectangle
+    </description>
+  </class>
+
 </library>

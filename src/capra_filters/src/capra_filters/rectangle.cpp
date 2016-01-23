@@ -1,25 +1,28 @@
 #include <capra_filters/filter.h>
 
-#include <capra_filters/blur_filterConfig.h>
+#include <capra_filters/rectangleConfig.h>
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
 #include <opencv2/imgproc/imgproc.hpp>
 
 namespace capra_filters {
 
-  class BlurFilter : public capra_filters::Filter<capra_filters::blur_filterConfig> {
+  class Rectangle : public capra_filters::Filter<capra_filters::rectangleConfig> {
 
   public:
-    BlurFilter() {
+    Rectangle() {
     }
 
-    virtual void configure(capra_filters::blur_filterConfig& config, uint32_t level) {
-      ksize_ = config.ksize;
+    virtual void configure(capra_filters::rectangleConfig& config, uint32_t level) {
+      x_ = config.x;
+      y_ = config.y;
+      width_ = config.width;
+      height_ = config.height;
 
       if(config.input != input_) {
         input_ = config.input;
         sub_.shutdown();
-        sub_ = it_->subscribe(input_, 1, &BlurFilter::handleInput, this);
+        sub_ = it_->subscribe(input_, 1, &Rectangle::handleInput, this);
       }
 
       if(config.output != output_) {
@@ -38,9 +41,7 @@ namespace capra_filters {
         NODELET_ERROR_STREAM("cv_bridge exception: " << e.what());
       }
 
-      if(ksize_ > 0) {
-        cv::blur(cv_ptr->image, cv_ptr->image, cv::Size(ksize_, ksize_));
-      }
+      cv::rectangle(cv_ptr->image, cv::Point(x_, y_), cv::Point(x_ + width_, y_ + height_), cv::Scalar(0, 0, 0), CV_FILLED);
 
       pub_.publish(cv_ptr->toImageMsg());
     }
@@ -55,9 +56,9 @@ namespace capra_filters {
     image_transport::Publisher pub_;
     image_transport::Subscriber sub_;
 
-    int ksize_;
+    int x_, y_, width_, height_;
     std::string input_, output_;
   };
 
-  PLUGINLIB_EXPORT_CLASS(capra_filters::BlurFilter, nodelet::Nodelet);
+  PLUGINLIB_EXPORT_CLASS(capra_filters::Rectangle, nodelet::Nodelet);
 }
