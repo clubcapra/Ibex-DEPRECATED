@@ -16,6 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
 generate_dynamic_reconfigure_options(
   src/${PROJECT_NAME}/blur_filter.cfg
   src/${PROJECT_NAME}/rectangle.cfg
+  src/${PROJECT_NAME}/section_filter.cfg
+  src/${PROJECT_NAME}/perspective_calibration.cfg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -126,6 +128,8 @@ include_directories(include)
 add_library(capra_filters
   src/${PROJECT_NAME}/blur_filter.cpp
   src/${PROJECT_NAME}/rectangle.cpp
+  src/${PROJECT_NAME}/section_filter.cpp
+  src/${PROJECT_NAME}/perspective_calibration.cpp
 )
 target_link_libraries(capra_filters ${catkin_LIBRARIES})
 

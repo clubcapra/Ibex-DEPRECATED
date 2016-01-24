@@ -1,24 +1,50 @@
 <launch>
 
-  <node pkg="rqt_gui" name="capra_filters_ui" type="rqt_gui">
+  <node pkg="rqt_gui" name="capra_filters_ui" type="rqt_gui" />
 
-  </node>
-
-
-  <node pkg="ros_vision" name="webcam_node" type="webcam_node.py">
-  </node>
+  <!-- <node pkg="ros_vision" name="webcam_node" type="webcam_node.py" /> -->
+  <node pkg="rosbag" name="rosbag_player" type="play" args="/home/capra/.ros/2015-06-07-14-19-39.bag --loop" />
 
   <node pkg="nodelet" name="capra_filters_nodelet_manager" type="nodelet" args="manager" output="screen"/>
 
   <node pkg="nodelet" name="blur_filter" type="nodelet" args="load capra_filters/blur_filter capra_filters_nodelet_manager" output="screen">
-    <param name="ksize" value="10" />
-    <param name="input" value="/capra_camera/image" />
-    <param name="output" value="/capra_camara/image/blur" />
+    <param name="ksize" value="9" />
+    <param name="input" value="/image_raw" />
+    <param name="output" value="/capra_filters/blur_filter" />
   </node>
 
-  <node pkg="nodelet" name="rectangle_filter" type="nodelet" args="load capra_filters/rectangle capra_filters_nodelet_manager" output="screen">
-    <param name="input" value="/capra_camera/image" />
-    <param name="output" value="/capra_camara/image/rect" />
+  <node pkg="nodelet" name="rectangle" type="nodelet" args="load capra_filters/rectangle capra_filters_nodelet_manager" output="screen">
+    <param name="x" value="252" />
+    <param name="y" value="277" />
+    <param name="width" value="161" />
+    <param name="height" value="88" />
+    <param name="input" value="/capra_filters/blur_filter" />
+    <param name="output" value="/capra_filters/rect" />
+  </node>
+
+  <node pkg="nodelet" name="perspective" type="nodelet" args="load capra_filters/perspective_calibration capra_filters_nodelet_manager" output="screen">
+    <param name="bottom_left_x" value="176" />
+    <param name="bottom_left_y" value="253" />
+    <param name="bottom_right_x" value="393" />
+    <param name="bottom_right_y" value="253" />
+    <param name="top_left_x" value="-127" />
+    <param name="top_left_y" value="61" />
+    <param name="top_right_x" value="699" />
+    <param name="top_right_y" value="63" />
+    <param name="translation_x" value="-47" />
+    <param name="translation_y" value="-20" />
+    <param name="zoom" value="166" />
+    <param name="input" value="/capra_filters/rect" />
+    <param name="output" value="/capra_filters/calibrated" />
+  </node>
+
+  <node pkg="nodelet" name="section_filter" type="nodelet" args="load capra_filters/section_filter capra_filters_nodelet_manager" output="screen">
+    <param name="grass_min" value="146" />
+    <param name="grass_max" value="255" />
+    <param name="light_min" value="155" />
+    <param name="min_area" value="566" />
+    <param name="input" value="/capra_filters/rect" />
+    <param name="output" value="/capra_filters/section_filter" />
   </node>
 
 </launch>

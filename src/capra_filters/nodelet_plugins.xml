@@ -11,4 +11,17 @@
     </description>
   </class>
 
+  <class name="capra_filters/perspective_calibration" type="capra_filters::PerspectiveCalibration" base_class_type="nodelet::Nodelet">
+    <description>
+      Perspective calibration
+    </description>
+  </class>
+
+
+  <class name="capra_filters/section_filter" type="capra_filters::SectionFilter" base_class_type="nodelet::Nodelet">
+    <description>
+      Section filter to detect white lines on grass
+    </description>
+  </class>
+
 </library>
