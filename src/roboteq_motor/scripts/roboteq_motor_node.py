@@ -19,21 +19,20 @@ class RoboteqMotor:
         self.requested_vel_time = 0
         self.last_vel = None
 
-        rospy.Subscriber("/cmd_vel", Twist, self.cmd_vel_callback)
-        rospy.Timer(rospy.Duration.from_sec(50.0/1000), self.velocity_timer)
-        rospy.Timer(rospy.Duration.from_sec(1.0/Config.get_publish_rate()), self.publish_odom)
-
         #Motor conductor create motors at relevant locations
         self.motor_conductor = MotorConductor()
 
         #Link motors with Cmd and Feedback topics
         for motor in self.motor_conductor.get_motors():
             motor.link(rospy.Publisher("roboteq_driver/{}/{}/cmd".format(*motor.get_axial_location()), Command, queue_size=10))
-            rospy.Subscriber("/goal_manager/current", Feedback, motor._feedback_callback)
+            rospy.Subscriber("/roboteq_driver/{}/{}/feedback".format(*motor.get_axial_location()), Feedback, motor._feedback_callback)
+            #TODO: Do something with status, considering it's related to the drive and not individual motors
 
         #TODO: Connect swivel.
 
-
+        rospy.Subscriber("/cmd_vel", Twist, self.cmd_vel_callback)
+        rospy.Timer(rospy.Duration.from_sec(50.0/1000), self.velocity_timer)
+        rospy.Timer(rospy.Duration.from_sec(1.0/Config.get_publish_rate()), self.publish_odom)
 
     def velocity_timer(self, event):
         if rospy.get_time() - self.requested_vel_time > Config.get_watchdog_timeout(): # Velocity has not be honoured in time
@@ -51,6 +50,7 @@ class RoboteqMotor:
         self.requested_vel_time = rospy.get_time()
 
     def publish_odom(self,event):
+        #TODO: seems obvious to me
         #throw new NotImplementedException(); #C#
         pass
 

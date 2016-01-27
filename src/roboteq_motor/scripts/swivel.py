@@ -1,6 +1,7 @@
+
 class Swivel:
     def __init__(self):
-        pass
+        self.serial_com = None
 
     def set_angle(self,angle):
         pass
