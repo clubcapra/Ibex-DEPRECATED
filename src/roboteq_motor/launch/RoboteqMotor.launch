@@ -10,6 +10,7 @@
         <param name="port" value="$(arg front_port)" />
         <param name="value" value="$(arg front_baud)" />
         <rosparam param="channels">[ "left", "right" ]</rosparam>
+        <remap from="/status" to="roboteq_driver/front/status" />
         <remap from="/left/cmd" to="roboteq_driver/front/left/cmd" />
         <remap from="/right/cmd" to="roboteq_driver/front/right/cmd" />
         <remap from="/left/feedback" to="roboteq_driver/front/left/feedback" />
@@ -20,6 +21,7 @@
         <param name="port" value="$(arg rear_port)" />
         <param name="value" value="$(arg rear_baud)" />
         <rosparam param="channels">[ "left", "right" ]</rosparam>
+        <remap from="/status" to="roboteq_driver/rear/status" />
         <remap from="/left/cmd" to="roboteq_driver/rear/left" />
         <remap from="/right/cmd" to="roboteq_driver/rear/right" />
         <remap from="/left/feedback" to="roboteq_driver/rear/left/feedback" />

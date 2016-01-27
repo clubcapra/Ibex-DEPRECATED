@@ -1,76 +1,64 @@
 #!/usr/bin/env python
 
 import roslib
-roslib.load_manifest('roboteq_motor_controller')
 import rospy
 from roboteq_msgs.msg import Feedback, Command, Status
+from includes.config import Config
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from motor import Motor
+from motor_conductor import MotorConductor
 
 import math
 
-class RoboteqMotorController:
+class RoboteqMotor:
     def __init__(self):
-        rospy.init_node("roboteq_motor_controller")
+        rospy.init_node("roboteq_motor")
 
         self.requested_vel = None
         self.requested_vel_time = 0
+        self.last_vel = None
 
         rospy.Subscriber("/cmd_vel", Twist, self.cmd_vel_callback)
+        rospy.Timer(rospy.Duration.from_sec(50.0/1000), self.velocity_timer)
+        rospy.Timer(rospy.Duration.from_sec(1.0/Config.get_publish_rate()), self.publish_odom)
 
-        self.front_left_motor = Motor(rospy.Publisher("roboteq_driver/front/left", Command, queue_size=10))
-        self.front_right_motor = Motor(rospy.Publisher("roboteq_driver/front/right", Command, queue_size=10))
-        self.rear_left_motor = Motor(rospy.Publisher("roboteq_driver/rear/left", Command, queue_size=10))
-        self.rear_right_motor = Motor(rospy.Publisher("roboteq_driver/rear/right", Command, queue_size=10))
-        self.swivel = None
+        #Motor conductor create motors at relevant locations
+        self.motor_conductor = MotorConductor()
 
-        rospy.Subscriber("roboteq_driver/front/left", Feedback, self.front_left_motor._feedback_callback())
-        rospy.Subscriber("roboteq_driver/front/right" ,Feedback, self.front_right_motor._feedback_callback())
-        rospy.Subscriber("roboteq_driver/rear/left", Feedback, self.rear_left_motor._feedback_callback())
-        rospy.Subscriber("roboteq_driver/rear/right", Feedback, self.rear_right_motor._feedback_callback())
+        #Link motors with Cmd and Feedback topics
+        for motor in self.motor_conductor.get_motors():
+            motor.link(rospy.Publisher("roboteq_driver/{}/{}/cmd".format(*motor.get_axial_location()), Command, queue_size=10))
+            rospy.Subscriber("/goal_manager/current", Feedback, motor._feedback_callback)
 
-        rospy.Subscriber("roboteq_driver/front/left", Status, self.front_left_motor._status_callback())
-        rospy.Subscriber("roboteq_driver/front/right", Status, self.front_right_motor._status_callback())
-        rospy.Subscriber("roboteq_driver/rear/left", Status, self.rear_left_motor._status_callback())
-        rospy.Subscriber("roboteq_driver/rear/right", Status, self.rear_right_motor._status_callback())
+        #TODO: Connect swivel.
+
+
 
     def velocity_timer(self, event):
-        self.front_left_motor.set_velocity(4)
+        if rospy.get_time() - self.requested_vel_time > Config.get_watchdog_timeout(): # Velocity has not be honoured in time
+            if self.last_vel.linear.x != 0 or self.last_vel.angular.z != 0:
+                last_vel = Twist()
+                self.motor_conductor.set_velocity(0, 0)  # Can't trust last requested velocity anymore. Stop motors and cry
+        else:
+            if self.last_vel.linear.x != self.requested_vel.linear.x or self.last_vel.angular.z != self.requested_vel.angular.z: # Don't spam motors if the velocity has remained unchanged
+                self.last_vel = self.requested_vel
+                self.motor_conductor.set_velocity(self.last_vel.linear.x, self.last_vel.angular.z)
 
-
-        pass
 
     def cmd_vel_callback(self,msg):
         self.requested_vel = msg
         self.requested_vel_time = rospy.get_time()
 
     def publish_odom(self,event):
+        #throw new NotImplementedException(); #C#
         pass
 
-    def run(self):
-        motorCommand = Command()
-        motorCommand.setpoint = 100.0
-        motorCommand.mode = Command.MODE_VELOCITY
-        self.front_left.publish(motorCommand)
-        self.front_right.publish(motorCommand)
-        self.rear_left.publish(motorCommand)
-        self.rear_right.publish(motorCommand)
 
-    def get_motor_status(self):
-        front_left_motor_status = self.front_left_motor.get_controller_status()
-        front_right_motor_status = self.front_right_motor.get_controller_status()
-        rear_left_motor_status = self.rear_left_motor.get_controller_status()
-        rear_right_motor_status = self.rear_right_motor.get_controller_status()
-
-        rospy.loginfo(front_left_motor_status)
-        rospy.loginfo(front_right_motor_status)
-        rospy.loginfo(rear_left_motor_status)
-        rospy.loginfo(rear_right_motor_status)
 
 if __name__ == "__main__":
     try:
-        motor = RoboteqMotorController()
+        motor = RoboteqMotor()
     except rospy.ROSInterruptException:
         pass
 
