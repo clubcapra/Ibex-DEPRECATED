@@ -1,6 +1,3 @@
-[submodule "src/ros_vision"]
-	path = src/ros_vision
-	url = https://github.com/clubcapra/ros_vision.git
 [submodule "src/octomap_mapping"]
 	path = src/octomap_mapping
 	url = https://github.com/OctoMap/octomap_mapping.git
