@@ -73,3 +73,7 @@ class Motor:
         fault = self.last_status.fault
 
         return status.get(fault,"error")
+
+    #Publish command on a topic
+    def send_command(self):
+        pass
