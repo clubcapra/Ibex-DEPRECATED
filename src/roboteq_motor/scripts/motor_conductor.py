@@ -8,6 +8,7 @@ class MotorConductor:
     REAR = "rear"
     LEFT = "left"
     RIGHT = "right"
+    SWIVEL = "swivel"
 
     def __init__(self):
         self.motor_front_left = Motor(MotorConductor.FRONT, MotorConductor.LEFT)
@@ -15,7 +16,7 @@ class MotorConductor:
         self.motor_rear_left = Motor(MotorConductor.REAR, MotorConductor.LEFT)
         self.motor_rear_right = Motor(MotorConductor.REAR, MotorConductor.RIGHT)
 
-        self.swivel = Swivel()
+        self.swivel = Swivel(MotorConductor.SWIVEL, MotorConductor.RIGHT)
 
     def get_motors(self):
         return [self.motor_front_left, self.motor_front_right, self.motor_rear_left, self.motor_rear_right]

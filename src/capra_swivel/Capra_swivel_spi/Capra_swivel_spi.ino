@@ -109,9 +109,9 @@ float readEncoderPos() {
 		LSB_pos = _sendSPINoOpCMD();
 	}
 
-	float deg = 360.0 * (0x0FFF & (MSB_pos << 8 | LSB_pos)) / 4096.0;
+	float deg = (0x0FFF & (MSB_pos << 8 | LSB_pos));
 
-	return floor(deg * 100.0) / 100.0;
+	return deg;
 }
 
 byte _sendSPINoOpCMD() {

@@ -28,7 +28,7 @@ class RoboteqMotor:
             rospy.Subscriber("/roboteq_driver/{}/{}/feedback".format(*motor.get_axial_location()), Feedback, motor._feedback_callback)
             #TODO: Do something with status, considering it's related to the drive and not individual motors
 
-        #TODO: Connect swivel.
+
 
         rospy.Subscriber("/cmd_vel", Twist, self.cmd_vel_callback)
         rospy.Timer(rospy.Duration.from_sec(50.0/1000), self.velocity_timer)
