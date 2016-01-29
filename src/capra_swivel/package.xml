@@ -4,7 +4,7 @@
     <version>0.0.1</version>
     <description>Node that control Read the serial port for the value of the encoder</description>
     <maintainer email="capra@clubcapra.com">Capra</maintainer>
-    <licence>GPLv3</licence>
+    <license>GPLv3</license>
     <url type="repository">https://github.com/clubcapra/Ibex</url>
     <author email="capra@clubcapra.com">Capra</author>
 
