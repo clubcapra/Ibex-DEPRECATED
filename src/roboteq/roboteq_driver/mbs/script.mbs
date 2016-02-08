@@ -1,5 +1,5 @@
 SCRIPT_VER=29
-MAX_CHANNELS=1
+MAX_CHANNELS=2
 Dim last_mode[2] as Integer
 
 ' Mode values are:
@@ -76,7 +76,7 @@ top:
 				setconfig(_ICAP, ch, 0)
 			end if
 		end if
-		
+
 		' Send feedback for this channel at 25Hz.
 		GoSub PrintFeedback
 	next
@@ -104,7 +104,7 @@ PrintFeedback:
 	print(":", getvalue(_TEMP, ch+1))
 	print("\r")
 	Return
-	
+
 PrintStatus:
 	print("&s:", SCRIPT_VER)
 	print(":", getvalue(_FLTFLAG))

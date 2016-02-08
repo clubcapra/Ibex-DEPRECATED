@@ -1,9 +1,9 @@
 <launch>
-    <arg name="front_port" default="/dev/ttyUSB7" />
+    <arg name="front_port" default="/dev/ttyACM0" />
     <arg name="front_baud" default="115200" />
-    <arg name="rear_port" default="/dev/ttyUSB6" />
+    <arg name="rear_port" default="/dev/ttyACM1" />
     <arg name="rear_baud" default="115200" />
-    <arg name="swivel_port" default="/dev/ttyUSB8"/>
+    <arg name="swivel_port" default="/dev/ttyACM2"/>
     <arg name="swivel_baud" default="115200"/>
     <node pkg="roboteq_motor" name="roboteq_motor" type="roboteq_motor_node.py" output="screen" clear_params="true">
 
