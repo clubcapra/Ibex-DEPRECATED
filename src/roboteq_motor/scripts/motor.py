@@ -1,7 +1,10 @@
-
-
+from roboteq_msgs.msg import Feedback, Command, Status
 
 class Motor:
+    MODE_STOPPED = -1
+    MODE_VELOCITY = 0
+    MODE_POSITION = 1
+
     def __init__(self, y_axial_location, x_axial_location):
         self.y_axial_location = y_axial_location
         self.x_axial_location = x_axial_location
@@ -10,17 +13,20 @@ class Motor:
         self.last_status = None
 
         self.cmd_publisher = None
+        self.cmd_mode = 0
 
-        #Temporary value
-        self.temporary_wheel_size = 0.3302
-       # self.wheel_size = 0.25 39.6/3.14
+        self.wheel_diameter = 1.0
+        self.gear_ratio = 1.0
+        self.position_ratio = 1.0
+        self.speed_ration = 1.0
 
     def link(self, cmd_publisher):
         self.cmd_publisher = cmd_publisher
 
 
     def set_velocity(self, velocity):
-        pass
+        radial_velocity = ((velocity * self.speed_ration) / self.wheel_diameter) * self.gear_ratio
+        self.send_command(radial_velocity)
 
 
     def get_current_velocity(self):
@@ -53,12 +59,12 @@ class Motor:
     def encoder_radial_velocity(self):
         self.last_feedback.measured_velocity
 
-    #Set the mode of the command
-    #int8 MODE_STOPPED=-1
-    #int8 MODE_VELOCITY=0 (DEFAULT)
-    #int8 MODE_POSITION=1
+
     def set_mode(self, mode):
-        return 0
+        self.cmd_mode = mode
+
+    def get_mode(self):
+        return self.cmd_mode
 
     #Return the last status message
     def _status_callback(self,msg):
@@ -75,5 +81,8 @@ class Motor:
         return status.get(fault,"error")
 
     #Publish command on a topic
-    def send_command(self):
-        pass
+    def send_command(self, setpoint):
+        command = Command()
+        command.mode = self.get_mode()
+        command.setpoint = setpoint
+
