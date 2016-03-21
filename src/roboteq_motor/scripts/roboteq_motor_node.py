@@ -3,7 +3,7 @@
 import roslib
 import rospy
 from roboteq_msgs.msg import Feedback, Command, Status
-from includes.config import Config
+from config import Config
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from motor import Motor
@@ -57,9 +57,9 @@ class RoboteqMotor:
 
 
 
-if __name__ == "__main__":
-    try:
-        motor = RoboteqMotor()
-    except rospy.ROSInterruptException:
-        pass
+#if __name__ == "__main__":
+ #   try:
+  #      motor = RoboteqMotor()
+  #  except rospy.ROSInterruptException:
+ #       pass
 

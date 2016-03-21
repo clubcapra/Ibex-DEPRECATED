@@ -1,6 +1,6 @@
 import serial
 from motor import Motor
-from includes.config import Config
+from config import Config
 import math
 import rospy
 

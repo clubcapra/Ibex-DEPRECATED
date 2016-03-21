@@ -1,6 +1,6 @@
 from motor import Motor
 from swivel import Swivel
-from includes.config import Config
+from config import Config
 import numpy as np
 import math
 
