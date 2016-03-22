@@ -7,69 +7,48 @@ echo "Testing motor"
 sleep 5
 echo "Testing front right motor"
 
-for i in 1 2 3 4 5
-do
-	sleep 0.1
-	rostopic pub /roboteq_driver/front/right/cmd roboteq_msgs/Command 0 5000
-	sleep 0.1
-	rostopic pub /roboteq_driver/front/right/cmd roboteq_msgs/Command 0 5000
-	sleep 0.1
-	rostopic pub /roboteq_driver/front/right/cmd roboteq_msgs/Command 0 10000
-	sleep 0.1
-	rostopic pub /roboteq_driver/front/right/cmd roboteq_msgs/Command 0 10000
-done
+(rostopic pub /roboteq_driver/front/right/cmd roboteq_msgs/Command 0 500 -r 10)
 
-echo "Testing front right motor done"
+sleep 5
 
-for j in 1 2 3 4 5
-do
+echo "Done testing motor"
 
-	sleep 0.1
-	rostopic pub /roboteq_driver/front/left/cmd roboteq_msgs/Command 0 5000
-	sleep 0.1
-	rostopic pub /roboteq_driver/front/left/cmd roboteq_msgs/Command 0 5000
-	sleep 0.1
-	rostopic pub /roboteq_driver/front/left/cmd roboteq_msgs/Command 0 5000
-	sleep 0.1
-	rostopic pub /roboteq_driver/front/left/cmd roboteq_msgs/Command 0 5000
-	
-done
+sleep 1
 
-echo "Testing front left motor done" 
+echo "Testing left front motor"
 
-echo "Testing rear left motor"
+ (rostopic pub /roboteq_driver/front/left/cmd roboteq_msgs/Command 0 500 -r 10)
 
-for k in 1 2 3 4 5
-do 
-	sleep 0.1
-	rostopic pub /roboteq_driver/rear/left/cmd roboteq_msgs/Command 0 5000
-	sleep 0.1
-	rostopic pub /roboteq_driver/rear/left/cmd roboteq_msgs/Command 0 5000
-	sleep 0.1
-	rostopic pub /roboteq_driver/rear/left/cmd roboteq_msgs/Command 0 5000
-	sleep 0.1
-	rostopic pub /roboteq_driver/rear/left/cmd roboteq_msgs/Command 0 5000
-	sleep 0.1
-	rostopic pub /roboteq_driver/rear/left/cmd roboteq_msgs/Command 0 5000
+sleep 5
 
-done
+echo "Done testing motor"
 
-echo "Testing rear left motor done"
+sleep 1
 
-echo "Testing rear right motor"
+echo "Testing right rear motor"
 
-for l in 1 2 3 4 5
-do
-	sleep 0.1
-	rostopic pub /roboteq_driver/rear/right/cmd roboteq_msgs/Command 0 5000
-	sleep 0.1
-	rostopic pub /roboteq_driver/rear/right/cmd roboteq_msgs/Command 0 5000
-	sleep 0.1
-	rostopic pub /roboteq_driver/rear/right/cmd roboteq_msgs/Command 0 5000
-	sleep 0.1
-	rostopic pub /roboteq_driver/rear/right/cmd roboteq_msgs/Command 0 5000
-	sleep 0.1
-	rostopic pub /roboteq_driver/rear/right/cmd roboteq_msgs/Command 0 5000
-done
+ (rostopic pub /roboteq_driver/rear/right/cmd roboteq_msgs/Command 0 500 -r 10)
 
-echo "Done testing rear right motor"
+echo "Done testing motor"
+
+sleep 1
+
+echo "Testing left rear motor"
+
+ (rostopic pub /roboteq_driver/rear/left/cmd roboteq_msgs/Command 0 500 -r 10)
+
+sleep 5
+
+echo "Done testing motor"
+
+sleep 1
+
+echo "Testing right rear motor"
+
+ (rostopic pub /roboteq_driver/rear/right/cmd roboteq_msgs/Command 0 500 -r 10)
+
+sleep 5
+
+echo "Testing done killing all motor"
+
+killall -9 roscore
