@@ -31,17 +31,21 @@ namespace capra_filters {
     }
 
     virtual void handleInput(const sensor_msgs::ImageConstPtr &msg) {
-      cv_bridge::CvImagePtr cv_ptr;
+      cv_bridge::CvImageConstPtr in;
+      cv_bridge::CvImage out;
 
       try {
-        cv_ptr = cv_bridge::toCvCopy(msg);
+        in = cv_bridge::toCvShare(msg);
       } catch(cv_bridge::Exception &e) {
         NODELET_ERROR_STREAM("cv_bridge exception: " << e.what());
       }
 
-      cv::resize(cv_ptr->image, cv_ptr->image, cv::Size(width_, height_));
+      out.header = in->header;
+      out.encoding = in->encoding;
 
-      pub_.publish(cv_ptr->toImageMsg());
+      cv::resize(in->image, out.image, cv::Size(width_, height_));
+
+      pub_.publish(out.toImageMsg());
     }
 
   private:
