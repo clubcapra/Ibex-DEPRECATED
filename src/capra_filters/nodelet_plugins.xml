@@ -24,4 +24,16 @@
     </description>
   </class>
 
+  <class name="capra_filters/resize" type="capra_filters::Resize" base_class_type="nodelet::Nodelet">
+    <description>
+      Resize an image
+    </description>
+  </class>
+
+  <class name="capra_filters/bgr2rgb" type="capra_filters::Bgr2Rgb" base_class_type="nodelet::Nodelet">
+    <description>
+      Converts colors from RGB to BGR
+    </description>
+  </class>
+
 </library>

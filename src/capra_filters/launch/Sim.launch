@@ -1,0 +1,57 @@
+<launch>
+  <arg name="gui" default="true" />
+  <arg name="manager_name" default="capra_filters_nodelet_manager" />
+
+  <group if="$(arg gui)">
+    <node pkg="rqt_gui" name="capra_filters_ui" type="rqt_gui" />
+  </group>
+
+  <node pkg="nodelet" name="$(arg manager_name)" type="nodelet" args="manager" output="screen"/>
+
+  <node pkg="nodelet" name="bgr2rgb" type="nodelet" args="load capra_filters/bgr2rgb $(arg manager_name)" output="screen">
+    <param name="input" value="/image_raw" />
+    <param name="output" value="/capra_filters/bgr" />
+  </node>
+
+  <node pkg="nodelet" name="resize" type="nodelet" args="load capra_filters/resize $(arg manager_name)" output="screen">
+    <param name="width" value="646" />
+    <param name="height" value="367" />
+    <param name="input" value="/capra_filters/bgr" />
+    <param name="output" value="/capra_filters/resize" />
+  </node>
+
+
+  <node pkg="nodelet" name="rectangle" type="nodelet" args="load capra_filters/rectangle $(arg manager_name)" output="screen">
+    <param name="x" value="220" />
+    <param name="y" value="250" />
+    <param name="width" value="230" />
+    <param name="height" value="300" />
+    <param name="input" value="/capra_filters/resize" />
+    <param name="output" value="/capra_filters/rectangle" />
+  </node>
+
+  <node pkg="nodelet" name="perspective" type="nodelet" args="load capra_filters/perspective_calibration $(arg manager_name)" output="screen">
+    <param name="bottom_left_x" value="226" />
+    <param name="bottom_left_y" value="140" />
+    <param name="bottom_right_x" value="419" />
+    <param name="bottom_right_y" value="140" />
+    <param name="top_left_x" value="50" />
+    <param name="top_left_y" value="0" />
+    <param name="top_right_x" value="600" />
+    <param name="top_right_y" value="0" />
+    <param name="translation_x" value="2" />
+    <param name="translation_y" value="-120" />
+    <param name="zoom" value="152" />
+    <param name="input" value="/capra_filters/rectangle" />
+    <param name="output" value="/capra_filters/perspective" />
+  </node>
+
+  <node pkg="nodelet" name="section_filter" type="nodelet" args="load capra_filters/section_filter $(arg manager_name)" output="screen">
+    <param name="grass_min" value="146" />
+    <param name="grass_max" value="255" />
+    <param name="light_min" value="155" />
+    <param name="min_area" value="566" />
+    <param name="input" value="/capra_filters/perspective" />
+    <param name="output" value="/capra_filters/section_filter" />
+    </node>
+</launch>
