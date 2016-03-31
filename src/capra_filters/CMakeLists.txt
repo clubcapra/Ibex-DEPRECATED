@@ -5,12 +5,14 @@ project(capra_filters)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  rospy
   roscpp
   std_msgs
   nodelet
   dynamic_reconfigure
   cv_bridge
   image_transport
+  message_generation
 )
 
 generate_dynamic_reconfigure_options(
@@ -20,6 +22,16 @@ generate_dynamic_reconfigure_options(
   src/${PROJECT_NAME}/perspective_calibration.cfg
   src/${PROJECT_NAME}/resize.cfg
   src/${PROJECT_NAME}/bgr2rgb.cfg
+)
+
+add_service_files(
+  FILES
+  SaveFilterchain.srv
+)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
 )
 
 ##################################
