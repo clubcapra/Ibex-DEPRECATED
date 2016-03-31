@@ -1,5 +1,5 @@
 <library path="lib/libcapra_filters">
-  <class name="capra_filters/blur_filter" type="capra_filters::BlurFilter" base_class_type="nodelet::Nodelet">
+  <class name="capra_filters/blur" type="capra_filters::BlurFilter" base_class_type="nodelet::Nodelet">
     <description>
       Simple kernel blur filter
     </description>
