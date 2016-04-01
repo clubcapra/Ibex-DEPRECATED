@@ -22,6 +22,7 @@ generate_dynamic_reconfigure_options(
   src/${PROJECT_NAME}/perspective_calibration.cfg
   src/${PROJECT_NAME}/resize.cfg
   src/${PROJECT_NAME}/bgr2rgb.cfg
+  src/${PROJECT_NAME}/image_to_pointcloud.cfg
 )
 
 add_service_files(
@@ -62,6 +63,7 @@ add_library(capra_filters
   src/${PROJECT_NAME}/perspective_calibration.cpp
   src/${PROJECT_NAME}/resize.cpp
   src/${PROJECT_NAME}/bgr2rgb.cpp
+  src/${PROJECT_NAME}/image_to_pointcloud.cpp
 )
 target_link_libraries(capra_filters ${catkin_LIBRARIES})
 

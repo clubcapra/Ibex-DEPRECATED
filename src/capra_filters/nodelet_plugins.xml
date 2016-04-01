@@ -36,4 +36,9 @@
     </description>
   </class>
 
+  <class name="capra_filters/image_to_pointcloud" type="capra_filters::ImageToPointcloud" base_class_type="nodelet::Nodelet">
+    <description>
+      Converts a image into gray scale pointcloud
+    </description>
+  </class>
 </library>
