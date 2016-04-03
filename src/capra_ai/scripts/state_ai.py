@@ -18,10 +18,11 @@ from nav_msgs.msg import Odometry
 import tf
 import math
 
+
 class StateAi(object):
 
-    def __init__(self, name):
-        rospy.init_node(name)
+    def __init__(self, name, log_level=rospy.INFO, start=True):
+        rospy.init_node(name, log_level=log_level)
 
         self.clear_octomap_service = rospy.ServiceProxy('/octomap_server/clear_bbx', BoundingBoxQuery)
         self.reset_octomap_service = rospy.ServiceProxy('/octomap_server/reset', Empty)
@@ -48,9 +49,10 @@ class StateAi(object):
         self.is_ready = True
         self.save_start_pos()
         rospy.loginfo("StateAi {} started.".format(name))
-        self.on_start()
 
-        rospy.spin()
+        if start:
+            self.on_start()
+            rospy.spin()
 
     def save_start_pos(self):
         self.start_pos = self.get_pos()[0]
@@ -82,7 +84,6 @@ class StateAi(object):
         dx = math.cos(erot[2]) * distance
         dy = math.sin(erot[2]) * distance
         self.send_goal(pos[0] + dx, pos[1] + dy, priority, add_after_current)
-
 
 
     def send_goal(self, x, y, priority=100,  add_after_current=False):
@@ -134,6 +135,9 @@ class StateAi(object):
         max.z = 5.0
 
         self.clear_octomap_service(min, max)
+
+    def debug(self, text):
+        rospy.logdebug(text)
 
     def reset_octomap(self):
         rospy.loginfo("Resetting by clearing octomap.")
