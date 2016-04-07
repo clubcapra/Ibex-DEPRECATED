@@ -154,7 +154,6 @@ def compile_cpp_filters():
         created class that wraps the c++ filters
         """
         def execute(self, image):
-            print image.__class__
             cppfunc(image)
             return image
         return execute

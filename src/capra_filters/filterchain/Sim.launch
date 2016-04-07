@@ -1,0 +1,9 @@
+<launch>
+  <arg name="nodelet_manager_name" />
+  <node pkg="nodelet" ns="capra_filters" name="blur" type="nodelet" args="load capra_filters/blur /$(arg nodelet_manager_name)">
+    <param name="ksize" value="15" />
+    <param name="output" value="/capra_filters/blur" />
+    <param name="input" value="/capra_camera/image" />
+    <param name="type" value="capra_filters/blur" />
+  </node>
+</launch>

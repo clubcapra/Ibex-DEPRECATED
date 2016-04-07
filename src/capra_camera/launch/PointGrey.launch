@@ -1,0 +1,9 @@
+<launch>
+    <include ns="left_camera" file="$(find pointgrey_camera_driver)/launch/camera.launch">
+      <arg name="camera_serial" value="15360545" />
+    </include>
+
+    <include ns="right_camera" file="$(find pointgrey_camera_driver)/launch/camera.launch">
+      <arg name="camera_serial" value="15360549" />
+    </include>
+</launch>

@@ -1,5 +1,5 @@
 <library path="lib/libcapra_filters">
-  <class name="capra_filters/blur_filter" type="capra_filters::BlurFilter" base_class_type="nodelet::Nodelet">
+  <class name="capra_filters/blur" type="capra_filters::BlurFilter" base_class_type="nodelet::Nodelet">
     <description>
       Simple kernel blur filter
     </description>
@@ -24,4 +24,21 @@
     </description>
   </class>
 
+  <class name="capra_filters/resize" type="capra_filters::Resize" base_class_type="nodelet::Nodelet">
+    <description>
+      Resize an image
+    </description>
+  </class>
+
+  <class name="capra_filters/bgr2rgb" type="capra_filters::Bgr2Rgb" base_class_type="nodelet::Nodelet">
+    <description>
+      Converts colors from RGB to BGR
+    </description>
+  </class>
+
+  <class name="capra_filters/image_to_pointcloud" type="capra_filters::ImageToPointcloud" base_class_type="nodelet::Nodelet">
+    <description>
+      Converts a image into gray scale pointcloud
+    </description>
+  </class>
 </library>
