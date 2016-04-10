@@ -174,9 +174,9 @@ class ImuCalibrationMenu:
             else:
                 break
 
-        uncertainty_x = 0.254
-        uncertainty_y = 0.254
-        uncertainty_z = 0.254
+        uncertainty_x = 0.05
+        uncertainty_y = 0.05
+        uncertainty_z = 0.05
         offset = [baseline_x, baseline_y, baseline_z]
         distance_between_antennas = numpy.linalg.norm(offset)
 
