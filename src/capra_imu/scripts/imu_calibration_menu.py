@@ -42,17 +42,23 @@ class ImuCalibrationMenu:
             self.calibrate_gps_antenna_a_offset()
         elif option == "3":
             self.calibrate_gps_compass_baseline()
+        elif option == "4":
+            self.display_gps_antenna_a_offset()
+        elif option == "5":
+            self.display_gps_compass_baseline()
         else:
-            self.display_error("'" + option + "' is not valid option.")
+            self.display_error("'{}' is not valid option.".format(option))
 
     def display_menu(self):
-        print "\n" + Color.BOLD + "Available Options" + Color.END
-        print "1) Hard Soft Iron Calibration"
-        print "2) GPS Antenna A Offset (IMU --> GPS Antenna B)"
-        print "3) GPS Compass Baseline (GPS Antenna A --> GPS Antenna B)"
+        print "{}Available Options{}".format(Color.BOLD, Color.END)
+        print "1) {}Calibrate{} Hard Soft Iron Calibration".format(Color.GREEN, Color.END)
+        print "2) {}Calibrate{} GPS Antenna A Offset".format(Color.GREEN, Color.END)
+        print "3) {}Calibrate{} GPS Compass Baseline".format(Color.GREEN, Color.END)
+        print "4) {}Display{} GPS Antenna A Offset".format(Color.BLUE, Color.END)
+        print "5) {}Display{} GPS Compass Baseline".format(Color.BLUE, Color.END)
 
     def display_error(self, error_message):
-        print Color.BOLD + Color.RED + "ERROR! " + Color.END + Color.RED + error_message + Color.END
+        print "{}{}ERROR!{}{} {}{}{}".format(Color.BOLD, Color.RED, Color.END, Color.END, Color.RED, error_message, Color.END)
 
     # calculate checksum for vectornav communication protocol
     def calculate_checksum(self, command):
@@ -64,7 +70,7 @@ class ImuCalibrationMenu:
     def calibrate_hsi(self):
         self.serialPort.connect(self.port, self.baud, 1000)
 
-        rospy.loginfo("\nHard/Soft iron calibration before reset:")
+        rospy.loginfo("\nHard/Soft iron calibration before reset :")
         self.get_hsi()
         self.send_command("VNWRG,44,2,0," + self.convergeRate)  # reset calibration
         self.send_command("VNWRG,44,1,3," + self.convergeRate)  # start calibration
@@ -105,10 +111,14 @@ class ImuCalibrationMenu:
             sleep(3)
             self.get_hsi()
 
+    def parse_command_response(self, response):
+        index = response.find("*")
+        return response[9:index].split(",")
+
     def calibrate_gps_antenna_a_offset(self):
         while True:
             try:
-                offset_x = float(raw_input("Offset x: "))
+                offset_x = float(raw_input("Offset x : "))
             except ValueError:
                 self.display_error("Input is not a float.")
                 continue
@@ -124,7 +134,7 @@ class ImuCalibrationMenu:
                     break
         while True:
             try:
-                offset_y = float(raw_input("Offset y: "))
+                offset_y = float(raw_input("Offset y : "))
             except ValueError:
                 self.display_error("Input is not a float")
                 continue
@@ -132,26 +142,34 @@ class ImuCalibrationMenu:
                 break
         while True:
             try:
-                offset_z = float(raw_input("Offset z: "))
+                offset_z = float(raw_input("Offset z : "))
             except ValueError:
                 self.display_error("Input is not a float.")
                 continue
             else:
                 break
 
-        offset = [offset_x, offset_y, offset_z]
-        print "Offset {}".format(offset)
-
         self.serialPort.connect(self.port, self.baud, 1000)
         self.send_command("$VNWRG,57,{},{},{}".format(offset_x, offset_y, offset_z))
-        rospy.loginfo("\nGPS Antenna A Offset after calibration:")
-        rospy.loginfo("\n{}".format(offset))
         self.serialPort.close()
+
+        self.display_gps_antenna_a_offset()
+
+    def display_gps_antenna_a_offset(self):
+        self.serialPort.connect(self.port, self.baud, 1000)
+        response = self.send_command("VNRRG,57")
+        self.serialPort.close()
+
+        parsed = self.parse_command_response(response)
+        offset = [float(parsed[i]) for i in range(0, 3)]
+
+        print "\n{}Current GPS Antenna A Offset{}".format(Color.BOLD, Color.END)
+        print "{}\n".format(offset)
 
     def calibrate_gps_compass_baseline(self):
         while True:
             try:
-                baseline_x = float(raw_input("Baseline x: "))
+                baseline_x = float(raw_input("Baseline x : "))
             except ValueError:
                 self.display_error("Input is not a float.")
                 continue
@@ -159,7 +177,7 @@ class ImuCalibrationMenu:
                 break
         while True:
             try:
-                baseline_y = float(raw_input("Baseline y: "))
+                baseline_y = float(raw_input("Baseline y : "))
             except ValueError:
                 self.display_error("Input is not a float")
                 continue
@@ -167,7 +185,7 @@ class ImuCalibrationMenu:
                 break
         while True:
             try:
-                baseline_z = float(raw_input("Baseline z: "))
+                baseline_z = float(raw_input("Baseline z : "))
             except ValueError:
                 self.display_error("Input is not a float.")
                 continue
@@ -180,13 +198,26 @@ class ImuCalibrationMenu:
         offset = [baseline_x, baseline_y, baseline_z]
         distance_between_antennas = numpy.linalg.norm(offset)
 
-        print "Distance between antennas: {}".format(distance_between_antennas)
+        print "Distance between antennas: {0:.2f}".format(distance_between_antennas)
 
         self.serialPort.connect(self.port, self.baud, 1000)
         self.send_command("$VNWRG,93,{},{},{},{},{},{}".format(baseline_x, baseline_y, baseline_z, uncertainty_x, uncertainty_y, uncertainty_z))
-        rospy.loginfo("\nGPS Compass Baseline after calibration:")
-        rospy.loginfo("\n{}".format(offset))
         self.serialPort.close()
+
+        self.display_gps_compass_baseline()
+
+    def display_gps_compass_baseline(self):
+        self.serialPort.connect(self.port, self.baud, 1000)
+        response = self.send_command("VNRRG,96")
+        self.serialPort.close()
+
+        parsed = self.parse_command_response(response)
+        offset = [float(parsed[i]) for i in range(0, 3)]
+        uncertainty = [float(parsed[i]) for i in range(3, 6)]
+
+        print "\n{}Current GPS Compass Baseline{}".format(Color.BOLD, Color.END)
+        print "Offset : {}".format(offset)
+        print "Uncertainty : {}\n".format(uncertainty)
 
     def send_command(self, command):
         checksum = self.calculate_checksum(command)
