@@ -36,26 +36,30 @@ class ImuCalibrationMenu:
         input_option = raw_input("\nPlease select an option: ")
         option = input_option.lower()
 
-        if option == "1":
-            self.calibrate_hsi()
-        elif option == "2":
-            self.calibrate_gps_antenna_a_offset()
-        elif option == "3":
-            self.calibrate_gps_compass_baseline()
-        elif option == "4":
-            self.display_gps_antenna_a_offset()
-        elif option == "5":
-            self.display_gps_compass_baseline()
-        else:
-            self.display_error("'{}' is not valid option.".format(option))
+        if option != "q":
+            if option == "1":
+                self.calibrate_hsi()
+            elif option == "2":
+                self.calibrate_gps_antenna_a_offset()
+            elif option == "3":
+                self.calibrate_gps_compass_baseline()
+            elif option == "4":
+                self.display_gps_antenna_a_offset()
+            elif option == "5":
+                self.display_gps_compass_baseline()
+            else:
+                self.display_error("'{}' is not valid option.".format(option))
+
+            self.start_workflow()
 
     def display_menu(self):
-        print "{}Available Options{}".format(Color.BOLD, Color.END)
+        print "\n{}Available Options{}".format(Color.BOLD, Color.END)
         print "1) {}Calibrate{} Hard Soft Iron Calibration".format(Color.GREEN, Color.END)
         print "2) {}Calibrate{} GPS Antenna A Offset".format(Color.GREEN, Color.END)
         print "3) {}Calibrate{} GPS Compass Baseline".format(Color.GREEN, Color.END)
         print "4) {}Display{} GPS Antenna A Offset".format(Color.BLUE, Color.END)
         print "5) {}Display{} GPS Compass Baseline".format(Color.BLUE, Color.END)
+        print "Q) Quit"
 
     def display_error(self, error_message):
         print "{}{}ERROR!{}{} {}{}{}".format(Color.BOLD, Color.RED, Color.END, Color.END, Color.RED, error_message, Color.END)
@@ -150,7 +154,7 @@ class ImuCalibrationMenu:
                 break
 
         self.serialPort.connect(self.port, self.baud, 1000)
-        self.send_command("$VNWRG,57,{},{},{}".format(offset_x, offset_y, offset_z))
+        self.send_command("VNWRG,57,{},{},{}".format(offset_x, offset_y, offset_z))
         self.serialPort.close()
 
         self.display_gps_antenna_a_offset()
@@ -164,7 +168,7 @@ class ImuCalibrationMenu:
         offset = [float(parsed[i]) for i in range(0, 3)]
 
         print "\n{}Current GPS Antenna A Offset{}".format(Color.BOLD, Color.END)
-        print "{}\n".format(offset)
+        print "{}".format(offset)
 
     def calibrate_gps_compass_baseline(self):
         while True:
@@ -201,14 +205,14 @@ class ImuCalibrationMenu:
         print "Distance between antennas: {0:.2f}".format(distance_between_antennas)
 
         self.serialPort.connect(self.port, self.baud, 1000)
-        self.send_command("$VNWRG,93,{},{},{},{},{},{}".format(baseline_x, baseline_y, baseline_z, uncertainty_x, uncertainty_y, uncertainty_z))
+        self.send_command("VNWRG,93,{},{},{},{},{},{}".format(baseline_x, baseline_y, baseline_z, uncertainty_x, uncertainty_y, uncertainty_z))
         self.serialPort.close()
 
         self.display_gps_compass_baseline()
 
     def display_gps_compass_baseline(self):
         self.serialPort.connect(self.port, self.baud, 1000)
-        response = self.send_command("VNRRG,96")
+        response = self.send_command("VNRRG,93")
         self.serialPort.close()
 
         parsed = self.parse_command_response(response)
@@ -217,7 +221,7 @@ class ImuCalibrationMenu:
 
         print "\n{}Current GPS Compass Baseline{}".format(Color.BOLD, Color.END)
         print "Offset : {}".format(offset)
-        print "Uncertainty : {}\n".format(uncertainty)
+        print "Uncertainty : {}".format(uncertainty)
 
     def send_command(self, command):
         checksum = self.calculate_checksum(command)
