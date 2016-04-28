@@ -47,6 +47,10 @@ class ImuCalibrationMenu:
                 self.display_gps_antenna_a_offset()
             elif option == "5":
                 self.display_gps_compass_baseline()
+            elif option == "6":
+                self.write_settings()
+            elif option == "7":
+                self.restore_factory_settings()
             else:
                 self.display_error("'{}' is not valid option.".format(option))
 
@@ -54,12 +58,14 @@ class ImuCalibrationMenu:
 
     def display_menu(self):
         print "\n{}Available Options{}".format(Color.BOLD, Color.END)
-        print "1) {}Calibrate{} Hard Soft Iron Calibration".format(Color.GREEN, Color.END)
+        print "1) {}Calibrate{} Hard/Soft Iron".format(Color.GREEN, Color.END)
         print "2) {}Calibrate{} GPS Antenna A Offset".format(Color.GREEN, Color.END)
         print "3) {}Calibrate{} GPS Compass Baseline".format(Color.GREEN, Color.END)
         print "4) {}Display{} GPS Antenna A Offset".format(Color.BLUE, Color.END)
         print "5) {}Display{} GPS Compass Baseline".format(Color.BLUE, Color.END)
-        print "Q) Quit"
+        print "6) {}Save{} Settings to Flash Memory".format(Color.DARKCYAN, Color.END)
+        print "7) {}Restore{} Settings to Factory Default".format(Color.DARKCYAN, Color.END)
+        print "Q) {}Quit{}".format(Color.YELLOW, Color.END)
 
     def display_error(self, error_message):
         print "{}{}ERROR!{}{} {}{}{}".format(Color.BOLD, Color.RED, Color.END, Color.END, Color.RED, error_message, Color.END)
@@ -222,6 +228,20 @@ class ImuCalibrationMenu:
         print "\n{}Current GPS Compass Baseline{}".format(Color.BOLD, Color.END)
         print "Offset : {}".format(offset)
         print "Uncertainty : {}".format(uncertainty)
+
+    def write_settings(self):
+        self.serialPort.connect(self.port, self.baud, 1000)
+        self.send_command("VNWNV")
+        self.serialPort.close()
+
+        print "\n{}Settings Written to Flash Memory{}".format(Color.BOLD, Color.END)
+
+    def restore_factory_settings(self):
+        self.serialPort.connect(self.port, self.baud, 1000)
+        self.send_command("VNRFS")
+        self.serialPort.close()
+
+        print "\n{}Settings Restored to Factory Default{}".format(Color.BOLD, Color.END)
 
     def send_command(self, command):
         checksum = self.calculate_checksum(command)
