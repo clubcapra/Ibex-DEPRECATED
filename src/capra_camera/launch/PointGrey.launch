@@ -14,4 +14,11 @@
     <arg name="camera_serial" value="15360545" />
     <arg name="calibrated" value="$(arg calibrated)" />
   </include>
+
+  <node pkg="stereo_image_proc" name="stereo" type="stereo_image_proc" ns="stereo">
+    <remap from="/left/image_raw" to="/left_camera/camera/image_color" />
+    <remap from="/left/camera_info" to="/left_camera/camera/camera_info" />
+    <remap from="/right/image_raw" to="/right_camera/camera/image_color" />
+    <remap from="/right/camera_info" to="/right_camera/camera/camera_info" />
+  </node>
 </launch>
