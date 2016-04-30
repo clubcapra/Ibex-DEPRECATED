@@ -1,9 +1,17 @@
 <launch>
-    <include ns="left_camera" file="$(find pointgrey_camera_driver)/launch/camera.launch">
-      <arg name="camera_serial" value="15360545" />
-    </include>
+  <arg name="frame_rate" default="15" />
+  <arg name="calibrated" default="1" />
 
-    <include ns="right_camera" file="$(find pointgrey_camera_driver)/launch/camera.launch">
-      <arg name="camera_serial" value="15360549" />
-    </include>
+  <param name="/right_camera/camera/camera_nodelet/frame_rate" value="$(arg frame_rate)"/>
+  <param name="/left_camera/camera/camera_nodelet/frame_rate" value="$(arg frame_rate)"/>
+
+  <include ns="left_camera" file="$(find pointgrey_camera_driver)/launch/camera.launch">
+    <arg name="camera_serial" value="15360549" />
+    <arg name="calibrated" value="$(arg calibrated)" />
+  </include>
+
+  <include ns="right_camera" file="$(find pointgrey_camera_driver)/launch/camera.launch">
+    <arg name="camera_serial" value="15360545" />
+    <arg name="calibrated" value="$(arg calibrated)" />
+  </include>
 </launch>
