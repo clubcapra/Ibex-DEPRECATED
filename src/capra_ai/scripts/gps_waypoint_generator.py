@@ -15,12 +15,14 @@ class GpsWaypointGenerator():
         self.currentData = None
         self.lock = threading.Lock()
         self.path = rospy.get_param("~output_location")
+        self.output_type = rospy.get_param("~output_type")
         self.waypoints = list()
         self.file = None
 
 
         if os.path.isdir(self.path): #If it's a path to a directory
-            self.path = os.path.join(self.path, datetime.datetime.now().strftime("%Y-%m-%d-%H:%M") + "-gps.json") #We provide a file name
+            file_type = "xml" if self.output_type == "xml" else "json"
+            self.path = os.path.join(self.path, datetime.datetime.now().strftime("%Y-%m-%d-%H:%M") + "-gps." + file_type) #We provide a file name
 
 
         if not os.path.exists(self.path): #If the file doesn't exist
@@ -36,7 +38,6 @@ class GpsWaypointGenerator():
 
 
     def keep(self):
-
         self.lock.acquire()
         data = copy.copy(self.currentData)
         self.currentData = None
@@ -48,9 +49,16 @@ class GpsWaypointGenerator():
 
         self.waypoints.append({'x': data.longitude, 'y': data.latitude, 'gps':1, 'priorite':100})
         self.file.seek(0)
-        self.file.write(json.dumps(self.waypoints))
-        self.file.truncate()
+        if self.output_type == "xml":
+            self.file.write("<run>")
+            for waypoint in self.waypoints:
+                self.file.write('<goal x="{:.14f}" y="{:.14f}" type="gps" priorite="100">'.format(waypoint.longitude, waypoint.latitute))
+                self.file.write("</goal>")
+            self.file.write("</run>")
+        else:
+            self.file.write(json.dumps(self.waypoints))
 
+        self.file.truncate()
 
 
     def start(self):
