@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: roboteq_motor
+Description: Description of roboteq_motor
+Version: 0.0.9
+Cflags: 
+Libs: -L/usr/local/lib 
+Requires: 

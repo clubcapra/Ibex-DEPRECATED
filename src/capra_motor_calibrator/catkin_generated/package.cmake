@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "capra_motor_calibrator")
+set(capra_motor_calibrator_MAINTAINER "Philippe Gorley <gorley.philippe@gmail.com>")
+set(capra_motor_calibrator_DEPRECATED "")
+set(capra_motor_calibrator_VERSION "0.0.1")
+set(capra_motor_calibrator_BUILD_DEPENDS "animatics_smart_motor" "message_generation")
+set(capra_motor_calibrator_RUN_DEPENDS "message_runtime" "rospy")
+set(capra_motor_calibrator_BUILDTOOL_DEPENDS "catkin")

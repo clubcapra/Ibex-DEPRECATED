@@ -1,0 +1,2 @@
+set(roboteq_msgs_MESSAGE_FILES "/home/capra/Ibex/src/roboteq/roboteq_msgs/msg/Command.msg;/home/capra/Ibex/src/roboteq/roboteq_msgs/msg/Feedback.msg;/home/capra/Ibex/src/roboteq/roboteq_msgs/msg/Status.msg")
+set(roboteq_msgs_SERVICE_FILES "")

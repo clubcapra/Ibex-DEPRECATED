@@ -1,0 +1,2 @@
+set(capra_msgs_MESSAGE_FILES "msg/AiStatus.msg;msg/EStopStatus.msg;msg/SensorsTelemetry.msg")
+set(capra_msgs_SERVICE_FILES "srv/SetWheelSpeed.srv;srv/ToggleLight.srv;srv/ResetPosition.srv;srv/ModuleToggle.srv;srv/AddGoal.srv;srv/CollectHardIronFieldCalibrationData.srv;srv/ComputeHardIronFieldCalibration.srv;srv/InitializeHardIronFieldCalibration.srv;srv/StartAcquisition.srv;srv/StopAcquisition.srv;srv/GenerateObstacle.srv")

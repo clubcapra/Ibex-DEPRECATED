@@ -1,0 +1,2 @@
+set(capra_ai_MESSAGE_FILES "/home/capra/Ibex/src/capra_ai/msg/GoalWithPriority.msg")
+set(capra_ai_SERVICE_FILES "/home/capra/Ibex/src/capra_ai/srv/ClearGoalList.srv;/home/capra/Ibex/src/capra_ai/srv/AddGoal.srv;/home/capra/Ibex/src/capra_ai/srv/CancelGoal.srv")

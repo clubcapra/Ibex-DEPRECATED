@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "capra_swivel")
+set(capra_swivel_MAINTAINER "capra <capra@todo.todo>")
+set(capra_swivel_DEPRECATED "")
+set(capra_swivel_VERSION "0.0.0")
+set(capra_swivel_BUILD_DEPENDS )
+set(capra_swivel_RUN_DEPENDS )
+set(capra_swivel_BUILDTOOL_DEPENDS "catkin")

@@ -1,0 +1,41 @@
+[BGR2RGB]
+
+[Undistort]
+
+[Rectangle]
+x1 = 284.0
+x2 = 398.0
+y1 = 419.0
+y2 = 276.0
+
+[SectionFilterCPP]
+grass_max = 202.0
+grass_min = 16.0
+kernel_dilate_height = 1.0
+kernel_dilate_width = 1.0
+kernel_erode_height = 1.0
+kernel_erode_width = 1.0
+light_min = 119.0
+min_area = 239.0
+sections = 7.0
+
+[ParticleFilter]
+area_min = 48.0
+kernel_height = 1.0
+kernel_width = 1.0
+
+[PerspectiveCalibration]
+bottomleftx = 176.0
+bottomlefty = 253.0
+bottomrightx = 393.0
+bottomrighty = 253.0
+topleftx = -127.0
+toplefty = 61.0
+toprightx = 699.0
+toprighty = 63.0
+translationx = -47.0
+translationy = 35.0
+zoom = 166.0
+
+[RosImagePublisher]
+

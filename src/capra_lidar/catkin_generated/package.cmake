@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "capra_lidar")
+set(capra_lidar_MAINTAINER "mathieu <mathieu@todo.todo>")
+set(capra_lidar_DEPRECATED "")
+set(capra_lidar_VERSION "0.0.0")
+set(capra_lidar_BUILD_DEPENDS "roscpp" "rospy" "sensor_msgs" "std_msgs")
+set(capra_lidar_RUN_DEPENDS "roscpp" "rospy" "sensor_msgs" "std_msgs")
+set(capra_lidar_BUILDTOOL_DEPENDS "catkin")

@@ -1,0 +1,2 @@
+set(capra_controlpanel_MESSAGE_FILES "/home/capra/Ibex/src/capra_controlpanel/msg/RobotButtons.msg;/home/capra/Ibex/src/capra_controlpanel/msg/RobotAnalogValues.msg")
+set(capra_controlpanel_SERVICE_FILES "/home/capra/Ibex/src/capra_controlpanel/srv/Set.srv;/home/capra/Ibex/src/capra_controlpanel/srv/Flash.srv")

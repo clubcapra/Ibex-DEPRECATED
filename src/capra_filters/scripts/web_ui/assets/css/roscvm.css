@@ -1,0 +1,210 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+._jsPlumb_connector
+{
+    z-index: 10;
+}
+
+.gui-header {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 300px;
+    width: 100%;
+    z-index: 15;
+    background-color: #ffffff;
+}
+
+.gui-body {
+    position: absolute;
+    min-width: 100%;
+    top: 300px;
+}
+
+.inputs-container {
+    position: absolute;
+    width: 335px;
+    top: 10px;
+    margin: 0 100px 0 0;
+}
+
+.feed-container {
+    position: relative;
+    height: 300px;
+    width: 320px;
+    float: left;
+}
+
+.feed-header {
+    position: relative;
+    height: 40px;
+}
+
+.feed-controls {
+    margin-bottom: 5px;
+}
+
+.settings-container {
+    position: relative;
+    height: 300px;
+    width: 300px;
+    float: left;
+    background-color: #ffffff;
+}
+
+.properties-container {
+    position: relative;
+    height: 300px;
+    width: calc(100% - 950px);
+    float: left;
+    margin-right: 5px;
+    margin-left: 5px;
+    background-color: #ffffff;
+}
+
+canvas {
+    background-color: #000000;
+    position: relative;
+    z-index: 1;
+}
+
+.feed-info {
+    position: absolute;
+    bottom: 5px;
+    right: 15px;
+    background-color: #ffffff;
+    z-index: 2;
+}
+
+.workspace {
+    position: absolute;
+    top: 10px;
+    left: 400px;
+}
+
+/**********/
+
+.filtergroup-add {
+    position: relative;
+    height: 40px;
+    width: 100%;
+    text-align: center;
+}
+
+.filtergroup {
+    position: relative;
+    height: 300px;
+    margin: 10px 0px 30px 0px;
+}
+
+.filtergroup-header {
+    position: relative;
+    text-align: center;
+}
+
+.filtergroup-name {
+    width: 100%;
+}
+
+.filtergroup-body {
+    position: relative;
+    height: 275px;
+    white-space: nowrap;
+}
+
+.filter {
+    position: relative;
+    display: inline-block;
+    height: 250px;
+    width: 500px;
+    margin: 0px 10px 0px 10px;
+}
+
+.filter-placeholder {
+    position: relative;
+    display: inline-block;
+    height: 250px;
+    width: 500px;
+    margin: 0px 10px 0px 10px;
+    background-color: #bce8f1;
+}
+
+.selected-filter {
+   border-color: #66AFE9;
+   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+   outline: 0 none;
+}
+
+.filter-header {
+    position: relative;
+    height: 50px;
+}
+
+.filter-controls {
+    position: relative;
+    float: right;
+}
+
+.filter-picker-wrapper, .filter-picker {
+    height: 50px;
+    width: 200px;
+}
+
+.filter-name {
+    position: relative;
+    float: left;
+    padding-left: 20px;
+}
+
+.filter-type {
+    position: relative;
+    float: left;
+    text-align: left;
+}
+
+.filter-body {
+    position: relative;
+    height: 200px;
+}
+
+.filter-inputs {
+    position: relative;
+    float: left;
+    height: 100%;;
+    width: 50%;
+    border-right: 1px dotted slategrey;
+}
+
+.filter-outputs {
+    position: relative;
+    float: left;
+    height: 100%;
+    width: 50%;
+}
+
+.add-filter-container {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    vertical-align: top;
+}
+
+.add-filter {
+    height: 100%;
+    width: 100%;
+}
+
+.inactive {
+    visibility: hidden;
+}
+
+#filter-properties {
+    margin: 0px 10px 0px 10px;
+}
+
+.slider {
+    margin-bottom: 10px;
+}

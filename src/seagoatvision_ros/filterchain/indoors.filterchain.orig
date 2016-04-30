@@ -1,0 +1,49 @@
+[BGR2RGB]
+
+[Undistort]
+
+[Rectangle]
+x1 = 266.0
+x2 = 444.0
+y1 = 419.0
+y2 = 276.0
+
+[SectionFilterCPP]
+grass_max = 255
+grass_min = 48
+kernel_dilate_height = 1.0
+kernel_dilate_width = 1.0
+kernel_erode_height = 1.0
+kernel_erode_width = 1.0
+light_min = 136
+min_area = 320
+sections = 7
+
+[ParticleFilter]
+area_min = 52.0
+kernel_height = 3.0
+kernel_width = 3.0
+
+[PerspectiveCalibration]
+bottomleftx = 176.0
+bottomlefty = 253.0
+bottomrightx = 393.0
+bottomrighty = 253.0
+topleftx = -127.0
+toplefty = 61.0
+toprightx = 699.0
+toprighty = 63.0
+translationx = -47.0
+translationy = 35.0
+zoom = 166.0
+
+<<<<<<< Updated upstream
+[LaserObstacleFilter]
+bottomy = 135
+resolution = 20
+
+
+=======
+>>>>>>> Stashed changes
+[RosImagePublisher]
+

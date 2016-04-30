@@ -1,0 +1,3 @@
+float32 tension
+float32 current
+float32 temperature

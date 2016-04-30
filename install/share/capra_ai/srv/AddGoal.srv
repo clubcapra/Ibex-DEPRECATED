@@ -1,0 +1,4 @@
+GoalWithPriority goal_with_priority
+bool add_after_current
+---
+bool success

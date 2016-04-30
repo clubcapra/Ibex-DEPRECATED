@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "capra_jaus")
+set(capra_jaus_MAINTAINER "draco <draco@todo.todo>")
+set(capra_jaus_DEPRECATED "")
+set(capra_jaus_VERSION "0.0.0")
+set(capra_jaus_BUILD_DEPENDS )
+set(capra_jaus_RUN_DEPENDS )
+set(capra_jaus_BUILDTOOL_DEPENDS "catkin")

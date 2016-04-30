@@ -1,0 +1,2 @@
+set(seagoatvision_ros_MESSAGE_FILES "")
+set(seagoatvision_ros_SERVICE_FILES "/home/capra/Ibex/src/seagoatvision_ros/srv/ShowGui.srv")

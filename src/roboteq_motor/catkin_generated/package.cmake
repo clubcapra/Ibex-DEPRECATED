@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "roboteq_motor")
+set(roboteq_motor_MAINTAINER "Capra <capra@clubcapra.com>")
+set(roboteq_motor_DEPRECATED "")
+set(roboteq_motor_VERSION "0.0.9")
+set(roboteq_motor_BUILD_DEPENDS "message_generation" "geometry_msgs" "nav_msgs" "roboteq_driver")
+set(roboteq_motor_RUN_DEPENDS "message_runtime" "geometry_msgs" "nav_msgs" "rospy" "roboteq_driver")
+set(roboteq_motor_BUILDTOOL_DEPENDS "catkin")

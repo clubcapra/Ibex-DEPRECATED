@@ -1,0 +1,3 @@
+sensor_msgs/NavSatFix goal_latlong
+---
+geometry_msgs/PoseStamped goal_xy

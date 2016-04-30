@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "microstrain_3dmgx1_imu")
+set(microstrain_3dmgx1_imu_MAINTAINER "Mathieu Gascon-Lefebvre <mathieuglefebvre@gmail.com>")
+set(microstrain_3dmgx1_imu_DEPRECATED "")
+set(microstrain_3dmgx1_imu_VERSION "0.0.1")
+set(microstrain_3dmgx1_imu_BUILD_DEPENDS "message_generation" "rospy" "sensor_msgs")
+set(microstrain_3dmgx1_imu_RUN_DEPENDS "rospy" "sensor_msgs")
+set(microstrain_3dmgx1_imu_BUILDTOOL_DEPENDS "catkin")

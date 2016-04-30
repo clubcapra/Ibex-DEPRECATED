@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "capra_imu")
+set(capra_imu_MAINTAINER "Yohan <capra@ens.etsmtl.ca>")
+set(capra_imu_DEPRECATED "")
+set(capra_imu_VERSION "0.0.0")
+set(capra_imu_BUILD_DEPENDS "rospy" "std_msgs" "nav_msgs" "sensor_msgs")
+set(capra_imu_RUN_DEPENDS "rospy" "std_msgs" "nav_msgs" "sensor_msgs")
+set(capra_imu_BUILDTOOL_DEPENDS "catkin")

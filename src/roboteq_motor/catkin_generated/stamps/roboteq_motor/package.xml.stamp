@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <name>roboteq_motor</name>
+  <version>0.0.9</version>
+  <description>Driver for a differential drive robot using RoboteQ MDC2460 drivers</description>
+  <maintainer email="capra@clubcapra.com">Capra</maintainer>
+  <license>GPLv3</license>
+  <url type="repository">https://github.com/clubcapra/Ibex/</url>
+  <author email="capra@clubcapra.com">Capra</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>message_generation</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>nav_msgs</build_depend>
+  <build_depend>roboteq_driver</build_depend>
+
+  <run_depend>message_runtime</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>nav_msgs</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>roboteq_driver</run_depend>
+
+</package>

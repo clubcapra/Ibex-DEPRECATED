@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "seagoatvision_ros")
+set(seagoatvision_ros_MAINTAINER "yohan <yohan@todo.todo>")
+set(seagoatvision_ros_DEPRECATED "")
+set(seagoatvision_ros_VERSION "0.0.0")
+set(seagoatvision_ros_BUILD_DEPENDS "message_generation")
+set(seagoatvision_ros_RUN_DEPENDS "message_runtime")
+set(seagoatvision_ros_BUILDTOOL_DEPENDS "catkin")

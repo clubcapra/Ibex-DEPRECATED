@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: capra_teleop
+Description: Description of capra_teleop
+Version: 0.1.0
+Cflags: 
+Libs: -L/usr/local/lib 
+Requires: 

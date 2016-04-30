@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "animatics_smart_motor")
+set(animatics_smart_motor_MAINTAINER "Mathieu Gascon-Lefebvre <mathieuglefebvre@gmail.com>")
+set(animatics_smart_motor_DEPRECATED "")
+set(animatics_smart_motor_VERSION "0.0.9")
+set(animatics_smart_motor_BUILD_DEPENDS "message_generation" "geometry_msgs" "nav_msgs")
+set(animatics_smart_motor_RUN_DEPENDS "message_runtime" "geometry_msgs" "nav_msgs" "rospy")
+set(animatics_smart_motor_BUILDTOOL_DEPENDS "catkin")

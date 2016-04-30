@@ -1,0 +1,2 @@
+string name
+Filter[] filters

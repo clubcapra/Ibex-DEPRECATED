@@ -1,0 +1,15 @@
+* capra_filters
+** Manager
+*** Register filter
+
+
+** Filters
+*** capra_filters/resize
+Resize an image to the given size
+
+** Adding a filter
+- Create filter_name.{cfg,cpp}
+- Add the files to the CMakeLists.txt
+- Make the config file executable (chmod +x filter_name.cfg)
+- Add the nodelet to nodelet_plugings.xml
+- catkin_make

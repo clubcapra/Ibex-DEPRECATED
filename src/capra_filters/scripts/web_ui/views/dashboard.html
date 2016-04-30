@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ROSCVM</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="styles/bootstrap.min.css" />
+        <link rel="stylesheet" href="styles/roscvm.css" />
+        <link rel="stylesheet" href="styles/jquery-ui.css">
+        <script src="scripts/jquery-2.1.1.min.js"></script>
+        <script src="scripts/bootstrap.min.js"></script>
+        <script src="scripts/jquery-ui.min.js"></script>
+        <script src="scripts/jquery.jsPlumb-1.7.2-min.js"></script>
+        <script src="scripts/roscvm.js"></script>
+    </head>
+
+    <body>
+        <div id="load-dialog" style="display: none" title="Load this filter chain?">
+            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>The changes made to the current filter chain will be lost. Do you want to continue?</p>
+        </div>
+        <div id="filtergroup-dialog" style="display: none" title="Filter Group">
+            <fieldset>
+                <label for="edit-filtergroup-name">Filter Group Name</label>
+                <input type="text" id="edit-filtergroup-name" class="form-control" />
+            </fieldset>
+        </div>
+        <div id="filter-dialog" style="display: none" title="Filter">
+            <fieldset>
+                <label for="edit-filter-name">Filter Name</label>
+                <input type="text" id="edit-filter-name" class="form-control" />
+            </fieldset>
+        </div>
+        <div class="gui-header">
+            <div class="settings-container">
+                <div class="input-group">
+                    <input id="workspace-name" type="text" class="form-control" />
+                    <span class="input-group-btn">
+                        <button id="save-workspace" class="btn btn-default" type="button">Save Workspace</button>
+                    </span>
+                </div>
+                <div class="input-group">
+                    <select id="workspace-picker" class="form-control"></select>
+                    <span class="input-group-btn">
+                        <button id="load-workspace" class="btn btn-default" type="button">Load Workspace</button>
+                    </span>
+                </div>
+                <br />
+                <button id="optimize-positions" class="btn btn-default btn-block" type="button">Optimize Filter Positions</button>
+                <button id="reset-workspace" class="btn btn-default btn-block" type="button">Reset Workspace</button>
+            </div>
+            <div id="properties-container" class="properties-container panel panel-default">
+                <div id="filter-type-name" class="panel-heading"></div>
+                <div class="panel-body" style="max-height: 190px;overflow-y:scroll;">
+                    <p id="filter-type-description"></p>
+                    <form id="filter-properties" role="form">
+                    </form>
+                </div>
+            </div>
+            <div id="feed1-container" class="feed-container">
+                <select id="feed1-topics" class="topic-selector form-control"></select>
+                <span class="feed-controls btn-group btn-group-xs btn-group-justified" role="group">
+                    <a href="#" id="feed1-snapshot" class="btn btn-default"><span class="glyphicon glyphicon-camera"></span>&nbsp;Save Snapshot</a>
+                    <a href="#" id="feed1-start-record" class="btn btn-default"><span class="glyphicon glyphicon-play"></span>&nbsp;Start Recording</a>
+                    <a href="#" id="feed1-stop-record" class="btn btn-default" style="display: none"><span class="glyphicon glyphicon-stop"></span>&nbsp;Stop Recording</a>
+                </span>
+                <img id="feed1" width="320" height="240" />
+                <span id="feed1-info" class="feed-info"></span>
+            </div>
+
+            <div id="feed2-container" class="feed-container">
+                <select id="feed2-topics" class="topic-selector form-control"></select>
+                <span class="feed-controls btn-group btn-group-xs btn-group-justified" role="group">
+                    <a href="#" id="feed2-snapshot" class="btn btn-default"><span class="glyphicon glyphicon-camera"></span>&nbsp;Save Snapshot</a>
+                    <a href="#" id="feed2-start-record" class="btn btn-default"><span class="glyphicon glyphicon-play"></span>&nbsp;Start Recording</a>
+                    <a href="#" id="feed2-stop-record" class="btn btn-default" style="display: none"><span class="glyphicon glyphicon-stop"></span>&nbsp;Stop Recording</a>
+                </span>
+                <img id="feed2" width="320" height="240" />
+                <span id="feed2-info" class="feed-info"></span>
+            </div>
+        </div>
+        <div id="gui-body" class="gui-body">
+            <div class="inputs-container">
+            </div>
+            <div id="workspace" class="workspace">
+                <button type="button" class="filtergroup-add top btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
+                <button type="button" class="filtergroup-add bottom btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+        </div>
+    </body>
+</html>

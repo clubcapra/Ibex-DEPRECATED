@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: capra_demos
+Description: Description of capra_demos
+Version: 0.0.0
+Cflags: 
+Libs: -L/usr/local/lib 
+Requires: 

@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "roboteq_diagnostics")
+set(roboteq_diagnostics_MAINTAINER "Mike Purvis <mpurvis@clearpathrobotics.com>")
+set(roboteq_diagnostics_DEPRECATED "")
+set(roboteq_diagnostics_VERSION "0.2.0")
+set(roboteq_diagnostics_BUILD_DEPENDS )
+set(roboteq_diagnostics_RUN_DEPENDS "rospy" "diagnostic_msgs" "roboteq_msgs")
+set(roboteq_diagnostics_BUILDTOOL_DEPENDS "catkin")

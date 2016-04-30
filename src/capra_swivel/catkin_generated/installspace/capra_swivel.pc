@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: capra_swivel
+Description: Description of capra_swivel
+Version: 0.0.0
+Cflags: 
+Libs: -L/usr/local/lib 
+Requires: 

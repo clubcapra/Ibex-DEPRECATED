@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: capra_msgs
+Description: Description of capra_msgs
+Version: 0.0.0
+Cflags: -I/usr/local/include
+Libs: -L/usr/local/lib 
+Requires: 

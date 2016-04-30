@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: animatics_smart_motor
+Description: Description of animatics_smart_motor
+Version: 0.0.9
+Cflags: -I/usr/local/include
+Libs: -L/usr/local/lib 
+Requires: 

@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: capra_camera
+Description: Description of capra_camera
+Version: 0.0.0
+Cflags: 
+Libs: -L/usr/local/lib 
+Requires: 

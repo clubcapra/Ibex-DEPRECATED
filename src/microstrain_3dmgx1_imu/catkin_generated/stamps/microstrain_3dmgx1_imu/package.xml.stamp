@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <name>microstrain_3dmgx1_imu</name>
+  <version>0.0.1</version>
+  <description>ROS driver for the microstrain 3DM-GX1 IMU</description>
+
+  <maintainer email="mathieuglefebvre@gmail.com">Mathieu Gascon-Lefebvre</maintainer>
+  <license>GPLv3</license>
+
+  <url type="repository">https://github.com/clubcapra/microstrain_3dmgx2_imu</url>
+  <author email="mathieuglefebvre@gmail.com">Mathieu Gascon-Lefebvre</author>
+  <author email="capra@ens.etsmtl.ca">Maxime Dupras</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>message_generation</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+
+</package>

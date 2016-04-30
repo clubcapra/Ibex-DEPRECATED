@@ -1,0 +1,2 @@
+set(capra_motor_calibrator_MESSAGE_FILES "")
+set(capra_motor_calibrator_SERVICE_FILES "/home/capra/Ibex/src/capra_motor_calibrator/srv/CalibrateMotor.srv")

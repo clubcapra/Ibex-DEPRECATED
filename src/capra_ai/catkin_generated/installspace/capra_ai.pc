@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: capra_ai
+Description: Description of capra_ai
+Version: 0.0.0
+Cflags: -I/usr/local/include
+Libs: -L/usr/local/lib 
+Requires: message_runtime

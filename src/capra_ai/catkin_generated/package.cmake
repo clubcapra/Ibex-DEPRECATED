@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "capra_ai")
+set(capra_ai_MAINTAINER "capra <capra@todo.todo>")
+set(capra_ai_DEPRECATED "")
+set(capra_ai_VERSION "0.0.0")
+set(capra_ai_BUILD_DEPENDS "capra_msgs" "geometry_msgs" "nav_msgs" "rospy" "sensor_msgs" "std_msgs" "rosbag" "octomap_msgs" "message_generation" "dynamic_reconfigure")
+set(capra_ai_RUN_DEPENDS "dynamic_reconfigure" "capra_msgs" "geometry_msgs" "nav_msgs" "rospy" "sensor_msgs" "std_msgs" "move_base_msgs2" "octomap_msgs" "message_runtime")
+set(capra_ai_BUILDTOOL_DEPENDS "catkin")

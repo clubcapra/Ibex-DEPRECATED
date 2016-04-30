@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "capra_teleop")
+set(capra_teleop_MAINTAINER "Mathieu Gascon-Lefebvre <mathieuglefebvre@gmail.com>")
+set(capra_teleop_DEPRECATED "")
+set(capra_teleop_VERSION "0.1.0")
+set(capra_teleop_BUILD_DEPENDS "sensor_msgs")
+set(capra_teleop_RUN_DEPENDS "sensor_msgs" "rospy")
+set(capra_teleop_BUILDTOOL_DEPENDS "catkin")

@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: capra_lidar
+Description: Description of capra_lidar
+Version: 0.0.0
+Cflags: 
+Libs: -L/usr/local/lib 
+Requires: 

@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "roboteq_driver")
+set(roboteq_driver_MAINTAINER "Mike Purvis <mpurvis@clearpathrobotics.com>")
+set(roboteq_driver_DEPRECATED "")
+set(roboteq_driver_VERSION "0.2.0")
+set(roboteq_driver_BUILD_DEPENDS "roboteq_msgs" "roscpp" "serial")
+set(roboteq_driver_RUN_DEPENDS "roboteq_msgs" "roscpp" "serial")
+set(roboteq_driver_BUILDTOOL_DEPENDS "catkin")
