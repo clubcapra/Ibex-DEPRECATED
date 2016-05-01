@@ -1,0 +1,62 @@
+<launch>
+    <arg name="file" default="empty.xml" />
+    <arg name="autonomous" default="1" />
+    <arg name="remote" default="0" />
+    <arg name="record" default="0" />
+
+    <include file="$(find capra_2dnav)/launch/capra_configuration.launch" >
+      <arg name="lidar" default="1" />
+      <arg name="imu" default="1" />
+      <arg name="motors" default="1" />
+      <arg name="gps" default="1" />
+      <arg name="camera" default="1" />
+      <arg name="publish_motor_odom" value="0" />
+      <arg name="control_panel" default="1" />
+    </include>
+
+    <!-- MOVING -->
+    <group if="$(arg remote)" >
+        <include file="$(find capra_teleop)/launch/Teleop.launch" />
+    </group>
+
+    <group if="$(arg autonomous)">
+        <include file="$(find capra_2dnav)/launch/move_base.launch">
+            <arg name="context" value="indoors" />
+            <arg name="odom_topic" value="/odom" />
+        </include>
+        <include file="$(find capra_ai)/launch/StateAi.launch" >
+            <arg name="state_ai_name" value="$(arg state_ai_name)" />
+        </include>
+        <include file="$(find capra_ai)/launch/GPSPointRecorder.launch" />
+        <!-- Goals -->
+
+        <include file="$(find capra_ai)/launch/StateAiLoader.launch" >
+            <arg name="state_file" value="$(arg file)" />
+            <arg name="loop" value="false" />
+        </include>
+    </group>
+
+    <!-- MAPPING -->
+    <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
+        <remap from="cloud" to="cloud_in" />
+    </node>
+
+    <include file="$(find capra_2dnav)/launch/octomap.launch" >
+        <arg name="map_file" value="$(env IBEX_HOME)/maps/igvc_basic.bt" />
+    </include>
+
+    <!-- Positionning -->
+    <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
+    
+    <include file="$(find capra_2dnav)/launch/kalman.launch" />
+
+    <!-- VISION -->
+
+    <group if="$(arg record)" >
+        <node pkg="rosbag" type="record" name="rosbag_record" output="screen" args="/odom /odometry/filtered /odometry/gps /imu/data /image_raw /scan /rosout /gps/fix /odometry/gps_cov /goal_manager/future" />
+    </group>
+
+    <!--RVIZ  -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(env IBEX_HOME)/rviz_cfg/mapping.rviz"/>
+
+</launch>

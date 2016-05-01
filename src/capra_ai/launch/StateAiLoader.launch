@@ -1,0 +1,11 @@
+<launch>
+    <arg name="state_file" default="empty.xml" />
+    <arg name="loop" default="false"/>
+    <node name="state_ai_loader" pkg="capra_ai" type="state_ai_loader.py" output="screen">
+        <param name="state_file" value="$(env IBEX_HOME)/capra_ai/runs/$(arg state_file)" />
+    </node>
+    <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen">
+        <param name="loop" value="$(arg loop)" />
+    </node>
+    <node pkg="capra_2dnav" type="obstacle_generator.py" name="obstacle_generator" output="screen" />
+</launch>

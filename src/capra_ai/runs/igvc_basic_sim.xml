@@ -6,10 +6,16 @@
   <onLastGoalReached>
     <debug text="Last goal reached" />
   </onLastGoalReached>
-
-  <goal priority="100" x="0" y="-15">
+  <goal priority="100" x="15" y="15" type="odom">
     <debug text="Goal #100 reached" />
-    <clearOctomap center_x="3" center_y="234" width="12" height="12" />
-    <debug text="Octomap cleared" />
+  </goal>
+  <goal priority="101" x="10" y="-10" type="odom">
+    <debug text="Goal #100 reached" />
+  </goal>
+  <goal priority="102" x="-5" y="-5" type="odom">
+    <debug text="Goal #100 reached" />
+  </goal>
+  <goal priority="103" x="20" y="-5" type="odom">
+    <debug text="Goal #100 reached" />
   </goal>
 </run>

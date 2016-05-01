@@ -9,7 +9,8 @@ import inflection
 import inspect
 from capra_ai.srv import AddGoal
 from capra_ai.msg import GoalWithPriority
-
+from sensor_msgs.msg import NavSatFix
+from capra_gps.srv import AddLatlongGoal
 
 def camel2snake(name):
     return inflection.underscore(name)
@@ -36,12 +37,14 @@ class StateAiLoader(StateAi):
 
     def __init__(self):
         super(StateAiLoader, self).__init__("state_ai_loader", log_level=rospy.DEBUG, start=False)
-
+        print "yo !---------------------------------------------------------------------------"
         self.state_file = rospy.get_param('~state_file')
+        rospy.loginfo("Parsing {} run configuration file".format(self.state_file))
         self.root = ET.parse(self.state_file).getroot()
         self.fn_map = {}
         self.last_goal = None
-
+        self.latlong_service = None
+        self.current_goal_index = 0
         self._validate_state_file()
         self._publish_goals()
 
@@ -57,6 +60,7 @@ class StateAiLoader(StateAi):
             self._invoke_action(action.tag, action.attrib)
 
     def on_goal_changed(self, goal_msg):
+        self.current_goal_index += 1
         for action in self.root.findall('./goal[@priority="%s"]/*' % goal_msg.priority):
             self._invoke_action(action.tag, action.attrib)
 
@@ -68,7 +72,7 @@ class StateAiLoader(StateAi):
         assert len(self.root.findall('onStart')) == 1, 'There should be only one onStart tag per file'
         assert len(self.root.findall('onLastGoalReached')) == 1, 'There should only be one onLastGoalReached tag per file'
 
-        goal_attrs = ['priority', 'x', 'y']
+        goal_attrs = ['priority', 'x', 'y', 'type']
 
         for goal in self.root.findall('goal'):
             for key in goal_attrs:
@@ -89,8 +93,32 @@ class StateAiLoader(StateAi):
 
     def _publish_goals(self):
         for goal in self.root.findall('./goal'):
-            self.send_goal(float(goal.attrib['x']), float(goal.attrib['y']), int(goal.attrib['priority']))
+            rospy.loginfo("pusblishing goals")
+            if goal.attrib['type'] == 'gps':
+                x, y = self.convert_to_pose(goal.attrib['x'], goal.attrib['y'])
+                self.send_goal(x, y, int(goal.attrib['priority']))
+            else:
+                self.send_goal(float(goal.attrib['x']), float(goal.attrib['y']), int(goal.attrib['priority']))
 
+    def convert_to_pose(self, x, y):
+        if not self.latlong_service:
+            rospy.loginfo("Waiting for AddLatLongGoal service...")
+            rospy.wait_for_service('/latlong_goal_node/AddLatlongGoal')
+            rospy.loginfo("AddLatLongGoal service responded")
+            self.latlong_service = rospy.ServiceProxy('/latlong_goal_node/AddLatlongGoal', AddLatlongGoal)
+        # create NavSatFix msg
+        nav_msg = NavSatFix()
+        nav_msg.header.stamp = rospy.get_rostime()
+        nav_msg.header.frame_id = 'odom'
+        # x is longitude, y is latitude
+        nav_msg.longitude = x
+        nav_msg.latitude = y
+        # convert using /latlong_goal_node/AddLatLongGoal service
+        # returns PoseStamped
+        response = self.latlong_service(nav_msg)
+        rospy.loginfo("Converted NavSatFix to PoseStamped -> (%f, %f)" % (response.goal_xy.pose.position.x,
+                      response.goal_xy.pose.position.y))
+        return response.goal_xy.pose.position.x, response.goal_xy.pose.position.y
 
     def _invoke_action(self, action, params):
         typed_params = {}
