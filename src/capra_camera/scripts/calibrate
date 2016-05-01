@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-rosrun camera_calibration cameracalibrator.py -s 9x11 -q 0.1 right:=/right_camera/camera/image_color left:=/left_camera/camera/image_color right_camera:=/right_camera/camera left_camera:=/left_camera/camera --approximate=0.2
+rosrun camera_calibration cameracalibrator.py -s 9x11 -q 0.1 right:=/right_camera/camera/image_color left:=/left_camera/camera/image_color right_camera:=/right_camera/camera left_camera:=/left_camera/camera --approximate=0.01
