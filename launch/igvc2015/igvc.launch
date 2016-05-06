@@ -1,5 +1,4 @@
 <launch>
-
     <arg name="state_ai_name" default="" />
     <arg name="autonomous" default="1" />
     <arg name="remote" default="0" />
@@ -48,6 +47,7 @@
 
     <!-- Positionning -->
     <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
+    
     <include file="$(find capra_2dnav)/launch/kalman.launch" />
 
         <!-- VISION -->

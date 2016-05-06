@@ -6,16 +6,16 @@
   <onLastGoalReached>
     <debug text="Last goal reached" />
   </onLastGoalReached>
-  <goal priority="100" x="15" y="15" type="odom">
-    <debug text="Goal #100 reached" />
+  <goal priority="100" x="2" y="0" type="odom">
+    <debug text="Goal #101 reached" />
   </goal>
-  <goal priority="101" x="10" y="-10" type="odom">
-    <debug text="Goal #100 reached" />
+  <goal priority="101" x="2" y="2" type="odom">
+    <debug text="Goal #102 reached" />
   </goal>
-  <goal priority="102" x="-5" y="-5" type="odom">
-    <debug text="Goal #100 reached" />
+  <goal priority="102" x="0" y="2" type="odom">
+    <debug text="Goal #103 reached" />
   </goal>
-  <goal priority="103" x="20" y="-5" type="odom">
-    <debug text="Goal #100 reached" />
+  <goal priority="103" x="0" y="0" type="odom">
+    <debug text="Goal #104 reached" />
   </goal>
 </run>

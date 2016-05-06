@@ -1,0 +1,9 @@
+<launch>
+  <node pkg="image_view" name="image_view" type="stereo_view">
+    <remap from="image" to="image_color" />
+
+    <param name="autosize" value="true" />
+    <param name="approximate_sync" value="true" />
+  </node>
+
+</launch>

@@ -1,10 +1,10 @@
 <launch>
-  <arg name="frame_rate" default="8" />
-  <arg name="calibrated" default="0" />
+  <arg name="frame_rate" default="15" />
+  <arg name="calibrated" default="1" />
   <arg name="white_balance_blue" default="929" />
   <arg name="white_balance_red" default="601" />
   <arg name="auto_white_balance" default="false" />
-  <arg name="video_mode" default="format7_mode0" />
+  <arg name="video_mode" default="format7_mode2" />
 
   <param name="/right_camera/camera/camera_nodelet/frame_rate" value="$(arg frame_rate)"/>
   <param name="/left_camera/camera/camera_nodelet/frame_rate" value="$(arg frame_rate)"/>
@@ -14,8 +14,11 @@
   <param name="/left_camera/camera/camera_nodelet/white_balance_red" value="$(arg white_balance_red)"/>
   <param name="/right_camera/camera/camera_nodelet/auto_white_balance" value="$(arg auto_white_balance)"/>
   <param name="/left_camera/camera/camera_nodelet/auto_white_balance" value="$(arg auto_white_balance)"/>
+
+
   <param name="/right_camera/camera/camera_nodelet/video_mode" value="$(arg video_mode)"/>
   <param name="/left_camera/camera/camera_nodelet/video_mode" value="$(arg video_mode)"/>
+
 
   <include ns="left_camera" file="$(find pointgrey_camera_driver)/launch/camera.launch">
     <arg name="camera_serial" value="15360549" />

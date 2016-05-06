@@ -24,9 +24,6 @@
             <arg name="context" value="indoors" />
             <arg name="odom_topic" value="/odom" />
         </include>
-        <include file="$(find capra_ai)/launch/StateAi.launch" >
-            <arg name="state_ai_name" value="$(arg state_ai_name)" />
-        </include>
         <include file="$(find capra_ai)/launch/GPSPointRecorder.launch" />
         <!-- Goals -->
 

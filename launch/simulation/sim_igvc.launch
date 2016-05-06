@@ -1,0 +1,38 @@
+<launch>
+    <arg name="file" default="igvc_basic_sim.xml"/>
+    <!-- GAZEBO -->
+    <include file="$(find capra_gazebo)/launch/Gazebo.launch">
+      <arg name="world" default="$(find capra_gazebo)/worlds/igvc_basic_course.world" />l
+        <arg name="gui" default="true" />
+        <arg name="initial_position" default="-x 0 -y -22.5 -rpy 0" />
+    </include>
+
+    <!-- MOVING -->
+    <include file="$(find capra_2dnav)/launch/move_base.launch">
+      <arg name="context" value="gazebo" />
+    </include>
+
+
+    <!-- MAPPING -->
+    <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
+        <remap from="cloud" to="cloud_in" />
+    </node>
+
+    <include file="$(find capra_2dnav)/launch/octomap.launch" >
+        <arg name="map_file" value="$(env IBEX_HOME)/maps/igvc_basic.bt" />
+        <arg name="max_range" value="5" />
+        <arg name="latch" value="false" />
+    </include>
+
+    <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
+
+
+    <!--RVIZ  -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(env IBEX_HOME)/rviz_cfg/mapping.rviz"/>
+
+    <include file="$(find capra_ai)/launch/StateAiLoader.launch" >
+            <arg name="state_file" value="$(arg file)" />
+            <arg name="loop" value="false" />
+    </include>
+
+</launch>
