@@ -1,0 +1,15 @@
+<launch>
+
+  <arg name="gui" default="true" />
+  <arg name="manager_name" default="capra_filters_nodelet_manager" />
+
+  <group if="$(arg gui)">
+    <node pkg="rqt_gui" name="capra_filters_ui" type="rqt_gui" />
+  </group>
+
+  <node pkg="nodelet" name="$(arg manager_name)" type="nodelet" args="manager" output="screen" />
+  
+  
+
+
+</launch>
