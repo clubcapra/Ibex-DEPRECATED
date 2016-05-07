@@ -3,6 +3,7 @@
 from state_ai import StateAi
 import rospy
 from math import pi
+from math import radians
 from std_msgs.msg import Bool
 import xml.etree.ElementTree as ET
 import inflection
@@ -119,6 +120,9 @@ class StateAiLoader(StateAi):
         rospy.loginfo("Converted NavSatFix to PoseStamped -> (%f, %f)" % (response.goal_xy.pose.position.x,
                       response.goal_xy.pose.position.y))
         return response.goal_xy.pose.position.x, response.goal_xy.pose.position.y
+
+    def generate_circle(self, radius, start_deg, end_deg, step_deg, duration):
+        super(StateAiLoader, self).generate_circle(radius, radians(start_deg), radians(end_deg), radians(step_deg), duration)
 
     def _invoke_action(self, action, params):
         typed_params = {}
