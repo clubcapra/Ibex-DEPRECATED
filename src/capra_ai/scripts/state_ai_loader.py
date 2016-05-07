@@ -38,6 +38,9 @@ class StateAiLoader(StateAi):
 
     def __init__(self):
         super(StateAiLoader, self).__init__("state_ai_loader", log_level=rospy.DEBUG, start=False)
+        rospy.wait_for_service('/move_base/make_plan')
+        rospy.wait_for_service('/octomap_server/reset')
+        rospy.sleep(2.0)  # wait for move_base to be ready
         print "---------------------------------------------------------------------------"
         self.state_file = rospy.get_param('~state_file')
         rospy.loginfo("Parsing {} run configuration file".format(self.state_file))
@@ -93,6 +96,7 @@ class StateAiLoader(StateAi):
 
 
     def _publish_goals(self):
+
         for goal in self.root.findall('./goal'):
             rospy.loginfo("pusblishing goals")
             if goal.attrib['type'] == 'gps':
