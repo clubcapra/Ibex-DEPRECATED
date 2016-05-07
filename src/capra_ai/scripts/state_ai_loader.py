@@ -38,7 +38,7 @@ class StateAiLoader(StateAi):
 
     def __init__(self):
         super(StateAiLoader, self).__init__("state_ai_loader", log_level=rospy.DEBUG, start=False)
-        print "yo !---------------------------------------------------------------------------"
+        print "---------------------------------------------------------------------------"
         self.state_file = rospy.get_param('~state_file')
         rospy.loginfo("Parsing {} run configuration file".format(self.state_file))
         self.root = ET.parse(self.state_file).getroot()
@@ -112,8 +112,8 @@ class StateAiLoader(StateAi):
         nav_msg.header.stamp = rospy.get_rostime()
         nav_msg.header.frame_id = 'odom'
         # x is longitude, y is latitude
-        nav_msg.longitude = x
-        nav_msg.latitude = y
+        nav_msg.longitude = float(x)
+        nav_msg.latitude = float(y)
         # convert using /latlong_goal_node/AddLatLongGoal service
         # returns PoseStamped
         response = self.latlong_service(nav_msg)

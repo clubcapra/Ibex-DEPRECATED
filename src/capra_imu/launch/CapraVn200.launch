@@ -2,7 +2,7 @@
 
 	<node pkg="vectornav" type="vn200_node" name="vectornav"  output="screen" > 
 	  
-	  <param name="serial_port" type="string" value="/dev/ttyUSB2001" />
+	  <param name="serial_port" type="string" value="/dev/ttyUSB2000" />
 	  <param name="serial_baud" type="int"    value="115200" />
 	  
 	  <!-- Type: 0 None (Polling method), 19 IMU, 20 GPS, 22 INS -->
