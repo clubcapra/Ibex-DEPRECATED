@@ -57,15 +57,15 @@ class ImuCalibrationMenu:
             self.start_workflow()
 
     def display_menu(self):
-        print "\n{}Available Options{}".format(Color.BOLD, Color.END)
-        print "1) {}Calibrate{} Hard/Soft Iron".format(Color.GREEN, Color.END)
-        print "2) {}Calibrate{} GPS Antenna A Offset".format(Color.GREEN, Color.END)
-        print "3) {}Calibrate{} GPS Compass Baseline".format(Color.GREEN, Color.END)
-        print "4) {}Display{} GPS Antenna A Offset".format(Color.BLUE, Color.END)
-        print "5) {}Display{} GPS Compass Baseline".format(Color.BLUE, Color.END)
-        print "6) {}Save{} Settings to Flash Memory".format(Color.DARKCYAN, Color.END)
-        print "7) {}Restore{} Settings to Factory Default".format(Color.DARKCYAN, Color.END)
-        print "Q) {}Quit{}".format(Color.YELLOW, Color.END)
+        print "\n{}{}Available Options{}{}".format(Color.BOLD, Color.UNDERLINE, Color.END, Color.END)
+        print "1) {}Calibrate{} Hard/Soft Iron".format(Color.BOLD, Color.END)
+        print "2) {}Calibrate{} GPS Antenna A Offset".format(Color.BOLD, Color.END)
+        print "3) {}Calibrate{} GPS Compass Baseline".format(Color.BOLD, Color.END)
+        print "4) {}Display{} GPS Antenna A Offset".format(Color.BOLD, Color.END)
+        print "5) {}Display{} GPS Compass Baseline".format(Color.BOLD, Color.END)
+        print "6) {}Save{} Settings to Flash Memory".format(Color.BOLD, Color.END)
+        print "7) {}Restore{} Settings to Factory Default".format(Color.BOLD, Color.END)
+        print "Q) {}Quit{}".format(Color.BOLD, Color.END)
 
     def display_error(self, error_message):
         print "{}{}ERROR!{}{} {}{}{}".format(Color.BOLD, Color.RED, Color.END, Color.END, Color.RED, error_message, Color.END)
