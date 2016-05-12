@@ -25,8 +25,8 @@ class ImuCalibrationMenu:
         self.port = rospy.get_param("~serial_port", "/dev/ttyUSB2000")
         self.baud = rospy.get_param("~serial_baud", 115200)
         self.convergeRate = rospy.get_param("~converge_rate", "5")
-        self.serialPort = SerialCom()
-        self.hsi_done = False
+        self.serial_port = SerialCom()
+        self.serial_port.connect(self.port, self.baud, 1000)
 
         self.start_workflow()
 
@@ -55,6 +55,8 @@ class ImuCalibrationMenu:
                 self.display_error("'{}' is not valid option.".format(option))
 
             self.start_workflow()
+        else:
+            self.quit()
 
     def display_menu(self):
         print "\n{}{}Available Options{}{}".format(Color.BOLD, Color.UNDERLINE, Color.END, Color.END)
@@ -78,8 +80,6 @@ class ImuCalibrationMenu:
         return checksum
 
     def calibrate_hsi(self):
-        self.serialPort.connect(self.port, self.baud, 1000)
-
         rospy.loginfo("\nHard/Soft iron calibration before reset :")
         self.get_hsi()
         self.send_command("VNWRG,44,2,0," + self.convergeRate)  # reset calibration
@@ -99,9 +99,9 @@ class ImuCalibrationMenu:
         self.hsi_done = True  # stop thread reading HSI values
 
         self.send_command("VNWRG,44,0,3," + self.convergeRate)  # stop calibration
+
         rospy.loginfo("\nHard/Soft iron calibration after calibration:")
         self.get_hsi()
-        self.serialPort.close()
 
     def get_hsi(self):
         response = self.send_command("VNRRG,47")  # read HSI values
@@ -159,16 +159,14 @@ class ImuCalibrationMenu:
             else:
                 break
 
-        self.serialPort.connect(self.port, self.baud, 1000)
         self.send_command("VNWRG,57,{},{},{}".format(offset_x, offset_y, offset_z))
-        self.serialPort.close()
 
         self.display_gps_antenna_a_offset()
 
     def display_gps_antenna_a_offset(self):
-        self.serialPort.connect(self.port, self.baud, 1000)
+        self.serial_port.connect(self.port, self.baud, 1000)
         response = self.send_command("VNRRG,57")
-        self.serialPort.close()
+        self.serial_port.close()
 
         parsed = self.parse_command_response(response)
         offset = [float(parsed[i]) for i in range(0, 3)]
@@ -208,18 +206,13 @@ class ImuCalibrationMenu:
         offset = [baseline_x, baseline_y, baseline_z]
         distance_between_antennas = numpy.linalg.norm(offset)
 
-        print "Distance between antennas: {0:.2f}".format(distance_between_antennas)
-
-        self.serialPort.connect(self.port, self.baud, 1000)
         self.send_command("VNWRG,93,{},{},{},{},{},{}".format(baseline_x, baseline_y, baseline_z, uncertainty_x, uncertainty_y, uncertainty_z))
-        self.serialPort.close()
 
+        print "Distance between antennas: {0:.2f}".format(distance_between_antennas)
         self.display_gps_compass_baseline()
 
     def display_gps_compass_baseline(self):
-        self.serialPort.connect(self.port, self.baud, 1000)
         response = self.send_command("VNRRG,93")
-        self.serialPort.close()
 
         parsed = self.parse_command_response(response)
         offset = [float(parsed[i]) for i in range(0, 3)]
@@ -230,28 +223,28 @@ class ImuCalibrationMenu:
         print "Uncertainty : {}".format(uncertainty)
 
     def write_settings(self):
-        self.serialPort.connect(self.port, self.baud, 1000)
         self.send_command("VNWNV")
-        self.serialPort.close()
 
         print "\n{}Settings Written to Flash Memory{}".format(Color.BOLD, Color.END)
 
     def restore_factory_settings(self):
-        self.serialPort.connect(self.port, self.baud, 1000)
         self.send_command("VNRFS")
-        self.serialPort.close()
 
         print "\n{}Settings Restored to Factory Default{}".format(Color.BOLD, Color.END)
 
+    def quit(self):
+        print "\n{}{}Quitting...{}{}".format(Color.BOLD, Color.RED, Color.END, Color.END)
+        self.serial_port.close()
+
     def send_command(self, command):
         checksum = self.calculate_checksum(command)
-        self.serialPort.write("$" + command + "*" + (hex(checksum)[2:]).upper())
-        self.serialPort.flush()
+        self.serial_port.write("$" + command + "*" + (hex(checksum)[2:]).upper())
+        self.serial_port.flush()
 
         response = False
-        bytes = self.serialPort.read(48)
+        bytes = self.serial_port.read(48)
         while not response:
-            bytes += self.serialPort.read(48)
+            bytes += self.serial_port.read(48)
             response = self.look_for_command(command, bytes)
 
         return response
