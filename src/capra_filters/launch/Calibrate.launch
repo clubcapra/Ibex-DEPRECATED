@@ -1,0 +1,10 @@
+<launch>
+  <node pkg="rqt_image_view" name="rqt_image_view" type="rqt_image_view" />
+
+  <node pkg="ros_vision" name="webcam_node" type="webcam_node.py">
+    <remap from="/capra_camera/image" to="/image_raw" />
+  </node>
+
+  <node pkg="capra_filters" name="perspective_calibration" type="perspective_calibration.py" output="screen" />
+
+</launch>
