@@ -23,15 +23,15 @@
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="capra6_state_publisher" />
 
     <!-- convert gps coords -->
-    <!--<node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" respawn="true">
+    <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" respawn="true">
         <param name="magnetic_declination_radians" value="0"/>
         <param name="roll_offset" value="0"/>
         <param name="pitch_offset" value="0"/>
         <param name="yaw_offset" value="0"/>
         <param name="zero_altitude" value="false"/>
         <remap from="/odometry/filtered" to="/odom" />
-    </node>-->
-    <!--<include file="$(find capra_gps)/launch/latlong_goal.launch" />-->
+    </node>
+    <include file="$(find capra_gps)/launch/latlong_goal.launch" />
 
         <!--scan filters -->
     <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter">

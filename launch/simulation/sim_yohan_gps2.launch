@@ -1,7 +1,7 @@
 <launch>
     <!-- GAZEBO -->
     <include file="$(find capra_gazebo)/launch/Gazebo.launch">
-        <arg name="gui" value="false" />
+        <arg name="gui" value="true" />
          <arg name="initial_position" default="-x 0 -y 0 -rpy 1.6" />
     </include>
 
@@ -30,11 +30,11 @@
 
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find capra_gazebo)/../../rviz_cfg/mapping.rviz"/>
 
-    <!-- Localization-->
+    <!-- Localization
     <group>
-        <!--<remap from="/latlong_goal_node/goal_xy" to="/move_base_simple/goal" />-->
+        <remap from="/latlong_goal_node/goal_xy" to="/move_base_simple/goal" />
         <include file="$(find capra_gps)/launch/latlong_goal.launch" />
-    </group>
+    </group>-->
 
 
 

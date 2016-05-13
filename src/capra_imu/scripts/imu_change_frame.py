@@ -22,12 +22,13 @@ def imu_cb(msg):
     msg_imu.header.frame_id = "base_footprint"
     msg_imu.header.stamp = msg.header.stamp
 
+    # Invert Z
     initial = [msg.orientation.x, msg.orientation.y, -msg.orientation.z, msg.orientation.w]
 
    # mag_declination = 0.6 #test..
     mag_declination = 0.25 #mtl
     #mag_declination = 0.2 # rochester
-    rotation_z = quaternion_about_axis(math.pi/2.0-mag_declination , [0, 0, 1])
+    rotation_z = quaternion_about_axis(0, [0, 0, 1])
     q_rotated_90 = quaternion_multiply(initial, rotation_z)
 
     msg_imu.orientation = Quaternion(q_rotated_90[0], q_rotated_90[1], q_rotated_90[2], q_rotated_90[3])
@@ -43,10 +44,10 @@ def imu_cb(msg):
     pub_imu.publish(msg_imu)
 
     # publish (0,0,0,1)
-    zero = Imu()
-    zero.header.frame_id = "odom"
-    zero.orientation = Quaternion(0, 0, 0, 1)
-    pub_imu_zero.publish(zero)
+    # zero = Imu()
+    # zero.header.frame_id = "odom"
+    # zero.orientation = Quaternion(0, 0, 0, 1)
+    # pub_imu_zero.publish(zero)
 
 
 #def odom_cb(msg):

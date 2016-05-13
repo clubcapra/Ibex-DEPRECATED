@@ -12,9 +12,11 @@
 
     <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" respawn="true">
         <param name="magnetic_declination_radians" value="0"/>
+        <param name="delay" value="2"/>
         <param name="roll_offset" value="0"/>
         <param name="pitch_offset" value="0"/>
-        <param name="yaw_offset" value="-1.22"/>
+        <!--<param name="yaw_offset" value="-1.22"/>-->
+        <param name="yaw_offset" value="-1.5707"/>
         <param name="zero_altitude" value="true"/>
         <param name="broadcast_utm_transform" value="false" />
         <param name="use_odometry_yaw" value="false" />

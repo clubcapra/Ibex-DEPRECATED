@@ -38,9 +38,8 @@
   <!-- GPS -->
   <group if="$(arg gps)">
     <include file="$(find capra_gps)/launch/Gps.launch" />
-    <include file="$(find capra_gps)/launch/latlong_goal.launch" >
-        <arg name="yaw_offset" value="-1.22" />
-    </include>
+    <!--<include file="$(find capra_gps)/launch/latlong_goal.launch" >
+    </include>-->
   </group>
 
   <!-- Camera -->

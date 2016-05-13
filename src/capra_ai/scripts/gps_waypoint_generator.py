@@ -53,7 +53,7 @@ class GpsWaypointGenerator():
             self.file.write("<onLastGoalReached>")
             self.file.write("</onLastGoalReached>")
             for waypoint in self.waypoints:
-                self.file.write('<goal x="{:.14f}" y="{:.14f}" type="gps" priority="{}">'.format(waypoint['x'], waypoint['y']. waypoint['priority']))
+                self.file.write('<goal x="{:.14f}" y="{:.14f}" type="gps" priority="{}"></goal>'.format(waypoint['x'], waypoint['y'], waypoint['priority']))
             self.file.write("</run>")
         else:
             self.file.write(json.dumps(self.waypoints))

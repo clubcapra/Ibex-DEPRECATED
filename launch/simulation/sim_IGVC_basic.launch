@@ -22,7 +22,7 @@
 
     <include file="$(find capra_2dnav)/launch/octomap.launch" >
         <arg name="map_file" value="$(env IBEX_HOME)/maps/igvc_basic.bt" />
-        <arg name="max_range" value="5" />
+        <!--<arg name="max_range" value="5" />-->
         <arg name="latch" value="false" />
     </include>
 
@@ -33,7 +33,7 @@
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(env IBEX_HOME)/rviz_cfg/mapping.rviz"/>
 
     <!-- GOAL LOADER -->
-    <include file="$(find capra_ai)/launch/GoalManager.launch" >
+   <include file="$(find capra_ai)/launch/GoalManager.launch" >
         <arg name="file" value="$(env IBEX_HOME)/waypoints/IGVCBasicCourse.json" />
     </include>
 

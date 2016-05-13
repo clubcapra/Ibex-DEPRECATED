@@ -1,0 +1,21 @@
+<launch>
+    <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="navsat">
+        <param name="port" value="/dev/ttyUSB1002" />
+        <param name="baud" value="9600" />
+    </node>
+
+    <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" respawn="true">
+        <param name="magnetic_declination_radian" value="0" />
+        <param name="yaw_offset" value="0"/>
+
+        <remap from="/imu/data" to="/imu/data" />
+        <param name="yaw_offset" value="-1.5707963"/>
+        <remap from="/gps/fix" to="fix" />
+        <remap from="/odometry/filtered" to="/odom" />
+        <param name="zero_altitude" value="true"/>
+        <param name="use_odometry_yaw" value="false" />
+
+
+    </node>
+
+</launch>
