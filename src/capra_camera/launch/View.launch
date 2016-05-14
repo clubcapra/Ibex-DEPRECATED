@@ -5,5 +5,4 @@
     <param name="autosize" value="true" />
     <param name="approximate_sync" value="true" />
   </node>
-
 </launch>
