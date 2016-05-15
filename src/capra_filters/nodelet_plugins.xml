@@ -41,4 +41,11 @@
       Converts a image into gray scale pointcloud
     </description>
   </class>
+
+  <class name="capra_filters/threshold" type="capra_filters::Threshold" base_class_type="nodelet::Nodelet">
+    <description>
+      HSV threshold filter
+    </description>
+  </class>
+
 </library>
