@@ -15,10 +15,8 @@
   <param name="/right_camera/camera/camera_nodelet/auto_white_balance" value="$(arg auto_white_balance)"/>
   <param name="/left_camera/camera/camera_nodelet/auto_white_balance" value="$(arg auto_white_balance)"/>
 
-
   <param name="/right_camera/camera/camera_nodelet/video_mode" value="$(arg video_mode)"/>
   <param name="/left_camera/camera/camera_nodelet/video_mode" value="$(arg video_mode)"/>
-
 
   <include ns="left_camera" file="$(find pointgrey_camera_driver)/launch/camera.launch">
     <arg name="camera_serial" value="15360549" />

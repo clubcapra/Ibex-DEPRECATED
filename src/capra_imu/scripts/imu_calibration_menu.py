@@ -166,7 +166,6 @@ class ImuCalibrationMenu:
     def display_gps_antenna_a_offset(self):
         self.serial_port.connect(self.port, self.baud, 1000)
         response = self.send_command("VNRRG,57")
-        self.serial_port.close()
 
         parsed = self.parse_command_response(response)
         offset = [float(parsed[i]) for i in range(0, 3)]
@@ -228,9 +227,11 @@ class ImuCalibrationMenu:
         print "\n{}Settings Written to Flash Memory{}".format(Color.BOLD, Color.END)
 
     def restore_factory_settings(self):
-        self.send_command("VNRFS")
+        yes_no = raw_input('The offset x is greater than 0. Are you sure you wish to continue? (Y/N) ')
 
-        print "\n{}Settings Restored to Factory Default{}".format(Color.BOLD, Color.END)
+        if yes_no.lower() == 'y':
+            self.send_command("VNRFS")
+            print "\n{}Settings Restored to Factory Default{}".format(Color.BOLD, Color.END)
 
     def quit(self):
         print "\n{}{}Quitting...{}{}".format(Color.BOLD, Color.RED, Color.END, Color.END)
@@ -264,7 +265,6 @@ class SerialCom:
         pass
 
     def connect(self, port, baudrate, readTimeout):
-
         try:
             self.port = serial.Serial(
                 port,

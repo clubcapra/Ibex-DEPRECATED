@@ -1,28 +1,19 @@
 <launch>
+  <arg name="filterchain" default="$(find seagoatvision_ros)/filterchain/default.filterchain"/>
+  <arg name="gui" default="True" />
+  <arg name="calibration_file" default="" />
 
-    <arg name="filterchain" default="$(find seagoatvision_ros)/filterchain/default.filterchain"/>
-    <arg name="gui" default="True" />
-    <arg name="calibration_file" default="" />
+  <node pkg="seagoatvision_ros" type="seagoat_node.py" name="seagoat_node" output="screen">
+    <param name="timeout" value="1.0" />
+    <param name="image_input" value="/image_raw" />
+    <param name="image_output" value="~image_filtered" />
+    <param name="gui" value="$(arg gui)" />
+    <param name="filterchain" value="$(arg filterchain)" />
+    <param name="calibration_file" value="$(arg calibration_file)" />
+  </node>
 
-    <node pkg="seagoatvision_ros" type="seagoat_node.py" name="seagoat_node" output="screen">
-        <param name="timeout" value="1.0" />
-        <param name="image_input" value="/image_raw" />
-        <param name="image_output" value="~image_filtered" />
-        <param name="gui" value="$(arg gui)" />
-        <param name="filterchain" value="$(arg filterchain)" />
-        <param name="calibration_file" value="$(arg calibration_file)" />
-    </node>
-
-    <node pkg="seagoatvision_ros" type="republish_node.py" name="republish_node" >
-        <param name="in" value="/seagoat_node/image_filtered" />
-        <param name="out" value="/seagoat_node/" />
-    </node>
-    <!--
-    <node pkg="seagoatvision_ros" type="image_rotate_node" name="image_rotate_node" >
-           <remap from="/image_raw" to="/seagoat_node/image_filtered" />
-    </node>-->
-    <node pkg="seagoatvision_ros" type="image_to_pointclound.py" name="image_to_pointclound" >
-           <param name="in" value="/seagoat_node/image_filtered" />
-            <param name="out" value="/cloud_vision" />
-    </node>
+  <node pkg="seagoatvision_ros" type="image_to_pointclound.py" name="image_to_pointclound" >
+    <param name="in" value="/seagoat_node/image_filtered" />
+    <param name="out" value="/cloud_vision" />
+  </node>
 </launch>

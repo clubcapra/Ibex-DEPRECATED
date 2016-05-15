@@ -1,0 +1,24 @@
+<launch>
+  <arg name="filterchain" default="$(find seagoatvision_ros)/filterchain/default.filterchain"/>
+  <arg name="gui" default="True" />
+  <arg name="calibration_left" default="" />
+  <arg name="calibration_right" default="" />
+
+  <group ns="left_seagoat">
+    <remap from="/image_raw" to="/left_camera/camera/image_rect_color" />
+
+    <include file="$(find seagoatvision_ros)/launch/Seagoat.launch">
+      <arg name="filterchain" value="$(arg filterchain)" />
+      <arg name="calibration_file" value="$(arg calibration_left)" />
+    </include>
+  </group>
+
+  <group ns="right_seagoat">
+    <remap from="/image_raw" to="/right_camera/camera/image_rect_color" />
+
+    <include file="$(find seagoatvision_ros)/launch/Seagoat.launch">
+      <arg name="filterchain" value="$(arg filterchain)" />
+      <arg name="calibration_file" value="$(arg calibration_right)" />
+    </include>
+  </group>
+</launch>
