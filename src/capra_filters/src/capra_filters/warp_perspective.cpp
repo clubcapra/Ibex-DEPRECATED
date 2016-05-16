@@ -39,7 +39,7 @@ namespace capra_filters {
         NODELET_ERROR_STREAM("cv_bridge exception: " << e.what());
       }
 
-      cv::warpPerspective(cv_ptr->image, cv_ptr->image, matrix_, cv::Size(200, 200));
+      cv::warpPerspective(cv_ptr->image, cv_ptr->image, matrix_, cv::Size(width_, height_));
 
       pub_.publish(cv_ptr->toImageMsg());
     }
