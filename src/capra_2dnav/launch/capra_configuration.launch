@@ -44,8 +44,8 @@
 
   <!-- Camera -->
   <group if="$(arg camera)" >
-    <!-- <include file="$(find capra_camera)/launch/Camera.launch" /> -->
     <include file="$(find capra_camera)/launch/PointGrey.launch" />
+    <include file="$(find capra_camera)/launch/Stereovision.launch" />
   </group>
 
   <!-- Control panel -->
