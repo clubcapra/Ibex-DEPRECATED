@@ -48,4 +48,10 @@
     </description>
   </class>
 
+  <class name="capra_filters/warp_perspective" type="capra_filters::WarpPerspective" base_class_type="nodelet::Nodelet">
+    <description>
+      Warp perspective filter using a 3x3 transform matrix
+    </description>
+  </class>
+
 </library>
