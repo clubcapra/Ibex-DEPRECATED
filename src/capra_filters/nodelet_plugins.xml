@@ -17,7 +17,6 @@
     </description>
   </class>
 
-
   <class name="capra_filters/section_filter" type="capra_filters::SectionFilter" base_class_type="nodelet::Nodelet">
     <description>
       Section filter to detect white lines on grass
@@ -33,12 +32,6 @@
   <class name="capra_filters/bgr2rgb" type="capra_filters::Bgr2Rgb" base_class_type="nodelet::Nodelet">
     <description>
       Converts colors from RGB to BGR
-    </description>
-  </class>
-
-  <class name="capra_filters/image_to_pointcloud" type="capra_filters::ImageToPointcloud" base_class_type="nodelet::Nodelet">
-    <description>
-      Converts a image into gray scale pointcloud
     </description>
   </class>
 

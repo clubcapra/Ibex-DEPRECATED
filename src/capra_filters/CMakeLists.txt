@@ -22,7 +22,6 @@ generate_dynamic_reconfigure_options(
   src/${PROJECT_NAME}/perspective_calibration.cfg
   src/${PROJECT_NAME}/resize.cfg
   src/${PROJECT_NAME}/bgr2rgb.cfg
-  src/${PROJECT_NAME}/image_to_pointcloud.cfg
   src/${PROJECT_NAME}/threshold.cfg
   src/${PROJECT_NAME}/warp_perspective.cfg
 )
@@ -65,7 +64,6 @@ add_library(capra_filters
   src/${PROJECT_NAME}/perspective_calibration.cpp
   src/${PROJECT_NAME}/resize.cpp
   src/${PROJECT_NAME}/bgr2rgb.cpp
-  src/${PROJECT_NAME}/image_to_pointcloud.cpp
   src/${PROJECT_NAME}/threshold.cpp
   src/${PROJECT_NAME}/warp_perspective.cpp
 )
