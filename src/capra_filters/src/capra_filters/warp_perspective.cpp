@@ -7,10 +7,10 @@
 
 namespace capra_filters {
 
-  class Threshold : public capra_filters::Filter<capra_filters::warp_perspectiveConfig> {
+  class WarpPerspective : public capra_filters::Filter<capra_filters::warp_perspectiveConfig> {
 
   public:
-    Threshold() : matrix_(cv::Mat::eye(3, 3, CV_64F)) {}
+    WarpPerspective() : matrix_(cv::Mat::eye(3, 3, CV_64F)) {}
 
     virtual void configure(capra_filters::warp_perspectiveConfig& config, uint32_t level) {
       matrix_ = (cv::Mat_<double>(3, 3) << config.a, config.b, config.c, config.d, config.e, config.f, config.g, config.h, config.i);
@@ -20,7 +20,7 @@ namespace capra_filters {
       if(config.input != input_) {
         input_ = config.input;
         sub_.shutdown();
-        sub_ = it_->subscribe(input_, 1, &Threshold::handleInput, this);
+        sub_ = it_->subscribe(input_, 1, &WarpPerspective::handleInput, this);
       }
 
       if(config.output != output_) {
@@ -58,5 +58,5 @@ namespace capra_filters {
     std::string input_, output_;
   };
 
-  PLUGINLIB_EXPORT_CLASS(capra_filters::Threshold, nodelet::Nodelet);
+  PLUGINLIB_EXPORT_CLASS(capra_filters::WarpPerspective, nodelet::Nodelet);
 }

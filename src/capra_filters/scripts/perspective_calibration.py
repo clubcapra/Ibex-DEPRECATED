@@ -33,7 +33,8 @@ class PerspectiveCalibration():
         self.bridge = CvBridge()
         self.width = rospy.get_param('~width', 8)
         self.height = rospy.get_param('~height', 5)
-        self.samples = rospy.get_param('~samples', 10)
+        self.samples = rospy.get_param('~samples', 100)
+        self.debug = rospy.get_param('~debug', False)
         self.input = rospy.get_param('~input', '')
         self.output = rospy.get_param('~output', '')
         self.index = 0
@@ -44,11 +45,15 @@ class PerspectiveCalibration():
 
         offset_y = 1 * 20
 
-        for i in range(5):
-            for j in range(8):
+        for i in range(self.height)[::-1]:
+            for j in range(self.width):
                 self.target_points.append([[100 - i * 20 * 0.1 + 2 * 20 * 0.1, 200 - offset_y - j * 20 * 0.1]])
 
         rospy.Subscriber('/image_raw', Image, self.handle_image)
+
+        if self.debug:
+            self.checkboard_pub = rospy.Publisher('/image_checkerboard', Image, queue_size=10)
+            self.warped_pub = rospy.Publisher('/image_warped', Image, queue_size=10)
 
         while self.calibrating:
             if rospy.is_shutdown():
@@ -70,8 +75,17 @@ class PerspectiveCalibration():
                 target_points = np.array(self.target_points, dtype=np.float32)
                 h, _ = cv2.findHomography(rect, np.array(target_points))
 
-                self.matrix += h
-                self.index += 1
+                if self.debug:
+                    cv2.drawChessboardCorners(cv_image, self.chessboard_size, rect, found)
+                    self.checkboard_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, "bgr8"))
+
+                    warped = cv2.warpPerspective(cv_image, h, (200, 200))
+
+                    self.warped_pub.publish(self.bridge.cv2_to_imgmsg(warped, "bgr8"))
+
+                else:
+                    self.matrix += h
+                    self.index += 1
         else:
             self.calibrating = False
 

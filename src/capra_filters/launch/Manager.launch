@@ -1,7 +1,7 @@
 <launch>
   <arg name="nodelet_manager_name" default="capra_filters_nodelet_manager" />
   <arg name="gui" default="false" />
-
+  
   <node ns="capra_filters" pkg="capra_filters" name="$(arg nodelet_manager_name)_manager" type="capra_filters_manager.py">
     <param name="nodelet_manager_name" value="$(arg nodelet_manager_name)" />
   </node>

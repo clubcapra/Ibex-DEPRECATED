@@ -1,0 +1,13 @@
+<launch>
+  <arg name="manager_name" default="left_manager" />
+  <arg name="gui" default="False" />
+
+  <include file="$(find capra_filters)/launch/Manager.launch">
+    <arg name="nodelet_manager_name" value="$(arg manager_name)" />
+    <arg name="gui" value="$(arg gui)" />
+  </include>
+
+  <include file="$(find capra_filters)/filterchain/LeftFilters.launch">
+    <arg name="nodelet_manager_name" value="$(arg manager_name)" />
+  </include>
+</launch>

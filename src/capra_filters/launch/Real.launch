@@ -1,15 +1,38 @@
 <launch>
+  <arg name="input_topic" />
+  <arg name="manager_name" value="capra_filters_nodelet_manager" />
 
-  <arg name="gui" default="true" />
-  <arg name="manager_name" default="capra_filters_nodelet_manager" />
+  <include file="$(find capra_filters)/launch/Manager.launch">
+    <arg name="gui" value="true" />
+    <arg name="nodelet_manager_name" value="$(arg manager_name)" />
+  </include>
 
-  <group if="$(arg gui)">
-    <node pkg="rqt_gui" name="capra_filters_ui" type="rqt_gui" />
-  </group>
+  <node pkg="nodelet" name="section_filter" type="nodelet" args="load capra_filters/section_filter $(arg manager_name)" output="screen">
+    <param name="grass_min" value="146" />
+    <param name="grass_max" value="255" />
+    <param name="light_min" value="155" />
+    <param name="min_area" value="566" />
+    <param name="type" value="capra_filters/section_filter" />
+    <param name="input" value="$(arg input_topic)" />
+    <param name="output" value="/capra_filters/left/section_filter" />
+  </node>
 
-  <node pkg="nodelet" name="$(arg manager_name)" type="nodelet" args="manager" output="screen" />
-  
-  
+  <node pkg="nodelet" ns="capra_filters" name="perspective_calibration" type="nodelet" args="load capra_filters/warp_perspective /$(arg manager_name)">
+    <param name="a" value="-0.03764400686840772" />
+    <param name="b" value="1.8719166931049205" />
+    <param name="c" value="74.92588547702026" />
+    <param name="d" value="0.8521785292744388" />
+    <param name="e" value="2.9252389624148445" />
+    <param name="f" value="-76.48041439784491" />
+    <param name="g" value="-0.0012370143228814718" />
+    <param name="h" value="0.018836452072726936" />
+    <param name="i" value="1.0" />
+    <param name="input" value="/capra_filters/left/section_filter" />
+    <param name="output" value="/capra_filters/left/perspective_calibration" />
+    <param name="type" value="capra_filters/warp_perspective" />
+  </node>
 
-
+  <node pkg="capra_filters" name="image_to_pointcloud" type="image_to_pointcloud.py" output="screen">
+    <param name="in" value="/capra_filters/left/perspective_calibration" />
+  </node>
 </launch>
