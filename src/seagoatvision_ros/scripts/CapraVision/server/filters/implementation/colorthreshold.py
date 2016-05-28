@@ -3,7 +3,7 @@
 #    Copyright (C) 2012  Club Capra - capra.etsmtl.ca
 #
 #    This file is part of CapraVision.
-#    
+#
 #    CapraVision is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
@@ -38,30 +38,30 @@ class ColorThreshold:
         #self._garray = None
         #self._rarray = None
         #self.configure()
-    
+
     def configure(self):
         pass
     #    self._barray = np.array(
-    #                    [self.get_binary_value(self.bluemin.get_current_value(), self.bluemax.get_current_value(), x) 
+    #                    [self.get_binary_value(self.bluemin.get_current_value(), self.bluemax.get_current_value(), x)
     #                        for x in range(0, 256)], dtype=np.float32)
     #    self._garray = np.array(
-    #                    [self.get_binary_value(self.greenmin.get_current_value(), self.greenmax.get_current_value(), x) 
+    #                    [self.get_binary_value(self.greenmin.get_current_value(), self.greenmax.get_current_value(), x)
     #                        for x in range(0, 256)], dtype=np.float32)
     #    self._rarray = np.array(
     #                    [self.get_binary_value(self.redmin.get_current_value(), self.redmax.get_current_value(), x) 
     #                        for x in range(0, 256)], dtype=np.float32)
-        
+
     def execute(self, image):
         #image[:,:, 0] = image[:,:, 1] = image[:,:, 2] = (
-        #                                    255 * self._barray[image[:,:, 0]] * 
-        #                                    self._garray[image[:,:, 1]] * 
+        #                                    255 * self._barray[image[:,:, 0]] *
+        #                                    self._garray[image[:,:, 1]] *
         #                                    self._rarray[image[:,:, 2]])
 
         lower = np.zeros((1,3), dtype=np.uint8)
         upper = np.zeros((1,3), dtype=np.uint8)
         lower[0] = (self.c1min.get_current_value(), self.c2min.get_current_value(), self.c3min.get_current_value())
         upper[0] = (self.c1max.get_current_value(), self.c2max.get_current_value(), self.c3max.get_current_value())
-        
+
         result = cv2.inRange(image, lower, upper)
         return cv2.cvtColor(result, cv.CV_GRAY2BGR)
 

@@ -1,0 +1,23 @@
+<launch>
+  <include file="$(find capra_2dnav)/launch/capra_configuration.launch" >
+    <arg name="lidar" default="0" />
+    <arg name="imu" default="0" />
+    <arg name="motors" default="1" />
+    <arg name="gps" default="0" />
+    <arg name="camera" default="1" />
+  </include>
+
+  <include file="$(find capra_filters)/launch/Manager.launch">
+    <arg name="gui" value="true" />
+  </include>
+
+  <include file="/tmp/filters.launch">
+    <arg name="nodelet_manager_name" default="/capra_filters_nodelet_manager" />
+  </include>
+
+  <node pkg="seagoatvision_ros" name="image_to_pointcloud" type="image_to_pointclound.py">
+    <param name="in" value="/capra_filters/threshold" />
+    <param name="clear_space" value="false" />
+  </node>
+
+</launch>

@@ -64,7 +64,7 @@ def handle_image(req):
 
     # add image
     img = bridge.imgmsg_to_cv2(req, desired_encoding="passthrough")
-    img = cv2.cvtColor(img, cv.CV_BGR2GRAY)
+    # img = cv2.cvtColor(img, cv.CV_BGR2GRAY)
     img = cv2.resize(img,(w,h))
 
     points = np.column_stack((points_xyz, np.flipud(np.ravel(img))))

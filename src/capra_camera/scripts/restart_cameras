@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+rosrun nodelet nodelet unload /left_camera/camera/camera_nodelet /left_camera/camera/camera_nodelet_manage
+rosrun nodelet nodelet unload /right_camera/camera/camera_nodelet /right_camera/camera/camera_nodelet_manager
