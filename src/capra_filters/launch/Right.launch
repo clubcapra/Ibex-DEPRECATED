@@ -1,7 +1,7 @@
 <launch>
   <arg name="manager_name" default="right_manager" />
   <arg name="gui" default="False" />
-  
+
   <include file="$(find capra_filters)/launch/Manager.launch">
     <arg name="nodelet_manager_name" value="$(arg manager_name)" />
     <arg name="gui" value="$(arg gui)" />
@@ -10,4 +10,9 @@
   <include file="$(find capra_filters)/filterchain/RightFilters.launch">
     <arg name="nodelet_manager_name" value="$(arg manager_name)" />
   </include>
+
+  <node pkg="capra_filters" name="right_image_to_pointcloud" type="image_to_pointcloud.py">
+    <param name="in" value="/capra_filters/right/perspective_calibration" />
+    <param name="out" value="/cloud_in" />
+  </node>
 </launch>
