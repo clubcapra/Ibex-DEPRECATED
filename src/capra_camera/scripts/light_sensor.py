@@ -14,8 +14,11 @@ class LightSensor:
         publisher = rospy.Publisher("/light_sensor", Float32, queue_size=10)
 
         while not done:
-            value = float(serial_port.readline())
-            publisher.publish(Float32(value))
+            try:
+                value = float(serial_port.readline())
+                publisher.publish(Float32(value))
+            except:
+                pass
 
 
 if __name__ == "__main__":
