@@ -93,7 +93,6 @@ class ImageToPointcloud:
 
         rospy.init_node('image_to_pointcloud', log_level=rospy.DEBUG)
 
-
         topic_in = rospy.get_param('~in', "/image_in")
         topic_out = rospy.get_param('~out', "/cloud")
 
@@ -136,7 +135,6 @@ class ImageToPointcloud:
                     rospy.logerr("Error looking up tf")
 
             rate.sleep()
-
 
         rospy.spin()
 

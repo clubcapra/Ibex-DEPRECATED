@@ -37,12 +37,11 @@ namespace capra_filters {
 
       // ensure callback is only invoked after the filter is initialized
       srv_->setCallback(f);
-    } // woot woot je fais du code Yolo sawgg (htag)un gars de mec code mieux que becojo
+    }
 
     void configure_callback(Config &config, uint32_t level) {
       configure(config, level);
     }
-
 
     boost::shared_ptr<dynamic_reconfigure::Server<Config> > srv_;
   };

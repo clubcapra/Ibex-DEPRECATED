@@ -1,8 +1,0 @@
-prefix=/usr/local
-
-Name: capra_jaus
-Description: Description of capra_jaus
-Version: 0.0.0
-Cflags: 
-Libs: -L/usr/local/lib 
-Requires: 
