@@ -47,4 +47,9 @@
     </description>
   </class>
 
+  <class name="capra_filters/flag_detector" type="capra_filters::FlagDetector" base_class_type="nodelet::Nodelet">
+    <description>
+      Detects red and blue flags
+    </description>
+  </class>
 </library>

@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(capra_filters)
 
+set(CMAKE_CXX_FLAGS, "-std=c++14 ${CMAKE_CXX_FLAGS}")
+add_definitions(-std=c++11)
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -24,6 +27,7 @@ generate_dynamic_reconfigure_options(
   src/${PROJECT_NAME}/bgr2rgb.cfg
   src/${PROJECT_NAME}/threshold.cfg
   src/${PROJECT_NAME}/warp_perspective.cfg
+  src/${PROJECT_NAME}/flag_detector.cfg
 )
 
 add_service_files(
@@ -67,6 +71,7 @@ add_library(capra_filters
   src/${PROJECT_NAME}/bgr2rgb.cpp
   src/${PROJECT_NAME}/threshold.cpp
   src/${PROJECT_NAME}/warp_perspective.cpp
+  src/${PROJECT_NAME}/flag_detector.cpp
 )
 target_link_libraries(capra_filters ${catkin_LIBRARIES})
 
