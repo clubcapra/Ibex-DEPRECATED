@@ -60,13 +60,20 @@ def handle_save_filterchain(req):
     return SaveFilterchainResponse()
 
 
+def handle_launch_filter(req):
+    subprocess.Popen(['rosrun', 'nodelet', 'nodelet', 'load', req.type, manager_name, '_type:=' + req.type, '__name:=' + req.name])
+
+    return LaunchFilterResponse()
+
+
 if __name__ == '__main__':
     rospy.init_node('capra_filters_manager')
 
-    manager_name = rospy.get_param('~nodelet_manager_name', 'capra_filters_nodelet_manager')
+    manager_name = rospy.resolve_name(rospy.get_param('~nodelet_manager_name', 'nodelet_manager'))
 
-    list_filters_srv = rospy.ServiceProxy('/' + manager_name + '/list', NodeletList)
+    list_filters_srv = rospy.ServiceProxy(manager_name + '/list', NodeletList)
 
-    rospy.Service('/capra_filters_manager/save_filterchain', SaveFilterchain, handle_save_filterchain)
+    rospy.Service('~save_filterchain', SaveFilterchain, handle_save_filterchain)
+    rospy.Service('~launch_filter', LaunchFilter, handle_launch_filter)
 
     rospy.spin()

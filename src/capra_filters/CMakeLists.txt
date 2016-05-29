@@ -29,6 +29,7 @@ generate_dynamic_reconfigure_options(
 add_service_files(
   FILES
   SaveFilterchain.srv
+  LaunchFilter.srv
 )
 
 generate_messages(
