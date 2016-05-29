@@ -1,11 +1,53 @@
 * capra_filters
 ** Manager
-*** Register filter
-
 
 ** Filters
-*** capra_filters/resize
+*** =capra_filters/resize=
 Resize an image to the given size
+**** IO
+| Name   | Type  |
+|--------+-------|
+| input  | Image |
+| output | Image |
+**** Parameters
+| Name   | Type | Description                |
+|--------+------+----------------------------|
+| width  | int  | Width of the output image  |
+| height | int  | Height of the output image |
+
+*** =capra_filters/blur_filter=
+Simple kernel blur filter
+**** IO
+| Name   | Type  |
+|--------+-------|
+| input  | Image |
+| output | Image |
+**** Parameters
+| Name  | Type | Description            |
+|-------+------+------------------------|
+| ksize | int  | The size of the kernel |
+
+*** =capra_filters/threshold=
+HSV threshold filter
+**** IO
+| Name   | Type  |
+|--------+-------|
+| input  | Image |
+| output | Image |
+**** Parameters
+| Name  | Type | Description   |
+|-------+------+---------------|
+| c1min | int  | Channel 1 min |
+| c2min | int  | Channel 1 max |
+| c3min | int  | Channel 2 min |
+| c1max | int  | Channel 2 max |
+| c2max | int  | Channel 3 min |
+| c3max | int  | Channel 3 max |
+
+
+** Tools
+*** Perspective Calibration
+
 
 ** Adding a filter
 - Create filter_name.{cfg,cpp}
