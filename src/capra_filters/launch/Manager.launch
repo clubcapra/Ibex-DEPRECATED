@@ -1,12 +1,11 @@
 <launch>
-  <arg name="nodelet_manager_name" default="capra_filters_nodelet_manager" />
   <arg name="gui" default="false" />
-  
-  <node ns="capra_filters" pkg="capra_filters" name="$(arg nodelet_manager_name)_manager" type="capra_filters_manager.py">
-    <param name="nodelet_manager_name" value="$(arg nodelet_manager_name)" />
+
+  <node pkg="capra_filters" name="manager" type="capra_filters_manager.py" output="screen">
+    <param name="nodelet_manager_name" value="nodelet_manager" />
   </node>
 
-  <node pkg="nodelet" name="$(arg nodelet_manager_name)" type="nodelet" args="manager" output="screen" />
+  <node pkg="nodelet" name="nodelet_manager" type="nodelet" args="manager" output="screen" />
 
   <group if="$(arg gui)">
     <node pkg="rqt_gui" name="capra_filters_rqt" type="rqt_gui" />

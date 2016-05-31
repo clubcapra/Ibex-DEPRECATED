@@ -16,12 +16,16 @@ cd
 
 #ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAW", RUN+="/home/mathieu/Ibex/src/rosjava/capra_sensors_manager/SensorsServer/run.sh"
 
-ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAW", SYMLINK+="ttyUSB1000" # Panneau 
-ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAV", SYMLINK+="ttyUSB1001" # Imu
-ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAT", SYMLINK+="ttyUSB1002" # GPS
-ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAS", SYMLINK+="ttyUSB1003" # Defect
-ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAQ", SYMLINK+="ttyUSB1004" # Moteurs
-ATTRS{idProduct}=="6001", ATTRS{serial}=="FTXWKTSJ", SYMLINK+="ttyUSB2000" #old IMU
+# ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAW", SYMLINK+="ttyUSB1000" # Panneau 
+# ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAV", SYMLINK+="ttyUSB1001" # Imu
+# ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAT", SYMLINK+="ttyUSB1002" # GPS
+# ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAS", SYMLINK+="ttyUSB1003" # Defect
+# ATTRS{idProduct}=="6001", ATTRS{serial}=="A703MGAQ", SYMLINK+="ttyUSB1004" # Moteurs
+# ATTRS{idProduct}=="6001", ATTRS{serial}=="FTXWKTSJ", SYMLINK+="ttyUSB2000" #old IMU
+
+ATTRS{serial}=="A603SXH4", SYMLINK+="ttyUSB1000" # Panneau 1
+ATTRS{serial}=="A603SXH5", SYMLINK+="ttyUSB1004" # Moteurs 2
+ATTRS{serial}=="A603SXH1", SYMLINK+="ttyUSB1002" # GPS 3
 ATTRS{idProduct}=="2303", SYMLINK+="ttyUSB2000" #IMU
 
 GOTO="persistent_serial_end"

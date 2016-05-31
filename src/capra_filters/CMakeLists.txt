@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(capra_filters)
 
-set(CMAKE_CXX_FLAGS, "-std=c++14 ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS, "-std=c++11 ${CMAKE_CXX_FLAGS}")
 add_definitions(-std=c++11)
 
 ## Find catkin macros and libraries

@@ -33,6 +33,7 @@ class PerspectiveCalibration():
         self.bridge = CvBridge()
         self.width = rospy.get_param('~width', 8)
         self.height = rospy.get_param('~height', 5)
+        self.square_size = rospy.get_param('~square_size', 0.1)
         self.samples = rospy.get_param('~samples', 100)
         self.debug = rospy.get_param('~debug', False)
         self.input = rospy.get_param('~input', '')
@@ -47,7 +48,7 @@ class PerspectiveCalibration():
 
         for i in range(self.height)[::-1]:
             for j in range(self.width):
-                self.target_points.append([[100 - i * 20 * 0.1 + 2 * 20 * 0.1, 200 - offset_y - j * 20 * 0.1]])
+                self.target_points.append([[100 - i * 20 * self.square_size + 2 * 20 * self.square_size, 200 - offset_y - j * 20 * self.square_size]])
 
         rospy.Subscriber('/image_raw', Image, self.handle_image)
 
