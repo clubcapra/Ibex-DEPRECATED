@@ -1,0 +1,19 @@
+<run>
+    <onStart>
+        <generateCircle radius="2.0" start_deg="45" end_deg="315" step_deg="0.6667" duration="120"></generateCircle>
+    </onStart>
+
+    <onLastGoalReached>
+
+    </onLastGoalReached>
+<!--<goal x="-83.19552539999999" y="42.67856452333334" type="gps" priority="100"></goal>-->
+    <goal x="-83.19549825833333" y="42.67820946833334" type="gps" priority="100">
+
+    </goal>
+    <goal x="-83.1954101921" y="42.6785192010" type="gps" priority="100">
+        <clearOctomap center_x="0" center_y="0" width="2" height="2">
+        </clearOctomap>
+    </goal>
+    <goal x="-83.1953990408" y="42.6782470225" type="gps" priority="100">
+    </goal>
+</run>
