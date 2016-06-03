@@ -15,6 +15,8 @@ from capra_ai.srv import AddGoal
 from capra_ai.msg import GoalWithPriority
 import dynamic_reconfigure.client
 from nav_msgs.msg import Odometry
+import rospkg
+
 import tf
 import math
 
@@ -22,7 +24,7 @@ try:
     import pygame
     pygame.init()
     rospack = rospkg.RosPack()
-    pygame.mixer.music.load(rospack.get_path(PACKAGE_NAME) + "capra_yeah.wav")
+    pygame.mixer.music.load(rospack.get_path("capra_ai") + "/capra_yeah.wav")
     pygame_loaded = True
 except ImportError, e:
     pygame_loaded = False
@@ -195,8 +197,7 @@ class StateAi(object):
 
     def play_song(self):
         if pygame_loaded:
-            try:
-                pygame.mixer.music.play()
+            pygame.mixer.music.play()
 
 if __name__ == "__main__":
     try:
