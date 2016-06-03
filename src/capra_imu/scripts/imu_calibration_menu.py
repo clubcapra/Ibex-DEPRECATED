@@ -227,11 +227,18 @@ class ImuCalibrationMenu:
         print "\n{}Settings Written to Flash Memory{}".format(Color.BOLD, Color.END)
 
     def restore_factory_settings(self):
-        yes_no = raw_input('The offset x is greater than 0. Are you sure you wish to continue? (Y/N) ')
+        yes_no = raw_input('Do you really wish to restore factory settings? (Y/N) ')
 
         if yes_no.lower() == 'y':
             self.send_command("VNRFS")
             print "\n{}Settings Restored to Factory Default{}".format(Color.BOLD, Color.END)
+
+    def reset(self):
+        yes_no = raw_input('Do you really wish to reset the IMU? (Y/N) ')
+
+        if yes_no.lower() == 'y':
+            self.send_command("VNRST")
+            print "n{}IMU Reset{}".format(Color.BOLD, Color.END)
 
     def quit(self):
         print "\n{}{}Quitting...{}{}".format(Color.BOLD, Color.RED, Color.END, Color.END)
