@@ -1,18 +1,12 @@
 <launch>
-  <arg name="manager_name" default="left_manager" />
-  <arg name="gui" default="False" />
+  <arg name="capra_filters_ns" default="left_filters" />
+  <arg name="gui" default="True" />
 
-  <include file="$(find capra_filters)/launch/Manager.launch">
-    <arg name="nodelet_manager_name" value="$(arg manager_name)" />
+  <include file="$(find capra_filters)/launch/Manager.launch" ns="$(arg capra_filters_ns)">
     <arg name="gui" value="$(arg gui)" />
   </include>
 
-  <include file="$(find capra_filters)/filterchain/LeftFilters.launch">
-    <arg name="nodelet_manager_name" value="$(arg manager_name)" />
+  <include file="$(find capra_filters)/filterchain/LeftFilters.launch" ns="$(arg capra_filters_ns)">
+    <arg name="capra_filters_ns" value="$(arg capra_filters_ns)" />
   </include>
-
-  <node pkg="capra_filters" name="left_image_to_pointcloud" type="image_to_pointcloud.py">
-    <param name="in" value="/capra_filters/left/perspective_calibration" />
-    <param name="out" value="/cloud_in" />
-  </node>
 </launch>

@@ -1,9 +1,9 @@
 <launch>
-  <arg name="nodelet_manager_name" />
-  <node pkg="nodelet" ns="capra_filters" name="section_filter" type="nodelet" args="load capra_filters/section_filter /$(arg nodelet_manager_name)">
+  <arg name="capra_filters_ns" default="capra_filters" />
+
+  <node pkg="nodelet" name="section_filter" type="nodelet" args="load capra_filters/section_filter /$(arg capra_filters_ns)/nodelet_manager">
     <param name="sections" value="7" />
     <param name="grass_max" value="255" />
-    <param name="output" value="/capra_filters/left/section_filter" />
     <param name="min_area" value="566" />
     <param name="kernel_erode_width" value="1" />
     <param name="grass_min" value="146" />
@@ -12,20 +12,25 @@
     <param name="kernel_erode_height" value="1" />
     <param name="kernel_dilate_height" value="1" />
     <param name="input" value="/stereo/left/image_rect_color" />
-    <param name="type" value="capra_filters/section_filter" />
+    <param name="output" value="section_filter" />
+    <param name="type" value="section_filter" />
   </node>
-  <node pkg="nodelet" ns="capra_filters" name="perspective_calibration" type="nodelet" args="load capra_filters/warp_perspective /$(arg nodelet_manager_name)">
-    <param name="a" value="-0.7918605576149864" />
-    <param name="b" value="-2.9269073505621845" />
-    <param name="c" value="383.58015098080466" />
-    <param name="d" value="0.2067388471640051" />
-    <param name="e" value="-6.379218378459346" />
-    <param name="f" value="578.3377426992603" />
-    <param name="g" value="0.0011982767668224253" />
-    <param name="h" value="-0.030017164662481405" />
+  <node pkg="nodelet" name="perspective_calibration" type="nodelet" args="load capra_filters/warp_perspective /$(arg capra_filters_ns)/nodelet_manager">
+    <param name="a" value="0.3152873754135377" />
+    <param name="b" value="1.1344602387515932" />
+    <param name="c" value="-27.226295115078994" />
+    <param name="d" value="-0.177296366931478" />
+    <param name="e" value="2.5578551319274005" />
+    <param name="f" value="19.310534546686974" />
+    <param name="g" value="-0.000911173800826118" />
+    <param name="h" value="0.01172456388608766" />
     <param name="i" value="1.0" />
-    <param name="input" value="/capra_filters/left/section_filter" />
-    <param name="output" value="/capra_filters/left/perspective_calibration" />
+    <param name="input" value="section_filter" />
+    <param name="output" value="perspective_calibration" />
     <param name="type" value="capra_filters/warp_perspective" />
+  </node>
+  <node pkg="capra_filters" name="image_to_pointcloud" type="image_to_pointcloud.py">
+    <param name="in" value="perspective_calibration" />
+    <param name="out" value="/cloud_in" />
   </node>
 </launch>

@@ -48,11 +48,10 @@
     <include file="$(find capra_2dnav)/launch/kalman.launch" />
 
     <!-- VISION -->
-    <!--
-    <include file="$(find capra_filters)/launch/Left.launch"></include>
+    <include file="$(find capra_filters)/launch/Left.launch" />
     <include file="$(find capra_filters)/launch/Right.launch">
       <arg name="gui" value="false" />
-    </include> -->
+    </include>
 
     <group if="$(arg record)" >
         <node pkg="rosbag" type="record" name="rosbag_record" output="screen" args="/odom /odometry/filtered /odometry/gps /imu/data /image_raw /scan /rosout /gps/fix /odometry/gps_cov /goal_manager/future" />

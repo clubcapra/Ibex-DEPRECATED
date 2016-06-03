@@ -43,8 +43,9 @@ class PerspectiveCalibration():
         self.calibrating = True
         self.target_points = []
         self.matrix = np.ndarray((3, 3))
+        self.attemps = 0
 
-        offset_y = 1 * 20
+        offset_y = 0.7 * 20
 
         for i in range(self.height)[::-1]:
             for j in range(self.width):
@@ -71,12 +72,13 @@ class PerspectiveCalibration():
         if self.index < self.samples:
             found, rect = cv2.findChessboardCorners(cv_image, self.chessboard_size)
 
-            if found and self.index < self.samples:
-
+            if found:
+                self.attemps = 0
                 target_points = np.array(self.target_points, dtype=np.float32)
                 h, _ = cv2.findHomography(rect, np.array(target_points))
 
                 if self.debug:
+
                     cv2.drawChessboardCorners(cv_image, self.chessboard_size, rect, found)
                     self.checkboard_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, "bgr8"))
 
@@ -87,8 +89,13 @@ class PerspectiveCalibration():
                 else:
                     self.matrix += h
                     self.index += 1
+            else:
+                self.attemps += 1
         else:
             self.calibrating = False
+
+        if self.attemps > 10:
+            rospy.logwarn("No checkerboard found with 10 samples, the calibration is likely to fail.")
 
 
 if __name__ == '__main__':

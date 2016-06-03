@@ -7,7 +7,7 @@ import dynamic_reconfigure.client
 import subprocess
 import yaml
 
-
+namespace = None
 manager_name = None
 list_filter_srv = None
 filterchain_file = None
@@ -15,10 +15,10 @@ filerchain = {}
 
 
 def compile_launchfile(filterchain, ns='capra_filters'):
-    output = '<launch>\n  <arg name="nodelet_manager_name" />\n'
+    output = '<launch>\n  <arg name="capra_filters_ns" default="%s" />\n' % namespace
 
     for filter_params in filterchain:
-        output += '  <node pkg="nodelet" ns="%s" name="%s" type="nodelet" args="load %s /$(arg nodelet_manager_name)">\n' % (ns, filter_params['name'], filter_params['type'])
+        output += '  <node pkg="nodelet" ns="%s" name="%s" type="nodelet" args="load %s /$(arg capra_filters_ns)/nodelet_manager">\n' % (ns, filter_params['name'], filter_params['type'])
 
         for key, value in filter_params.items():
             if key != 'name' and key != 'ns':
@@ -71,8 +71,7 @@ if __name__ == '__main__':
 
     manager_name = rospy.resolve_name(rospy.get_param('~nodelet_manager_name', 'nodelet_manager'))
     list_filters_srv = rospy.ServiceProxy(manager_name + '/list', NodeletList)
-
-    print manager_name
+    namespace = '/' + manager_name.split('/')[1] # yolo
 
     rospy.Service('~save_filterchain', SaveFilterchain, handle_save_filterchain)
     rospy.Service('~launch_filter', LaunchFilter, handle_launch_filter)

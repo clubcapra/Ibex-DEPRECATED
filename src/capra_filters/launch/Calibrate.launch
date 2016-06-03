@@ -1,10 +1,16 @@
 <launch>
+  <arg name="debug" default="false" />
+
+  <include file="$(find capra_camera)/launch/PointGrey.launch"></include>
+  <include file="$(find capra_camera)/launch/Stereovision.launch"></include>
+
   <node pkg="capra_filters" name="perspective_calibration_left" type="perspective_calibration.py" output="screen">
     <remap from="/image_raw" to="/stereo/left/image_rect" />
     <remap from="/image_warped" to="/image_warped_left" />
     <remap from="/image_checkerboard" to="/image_checkerboard_left" />
     <param name="input" value="/capra_filters/left/section_filter" />
     <param name="output" value="/capra_filters/left/perspective_calibration" />
+    <param name="debug" value="$(arg debug)" />
   </node>
 
   <node pkg="capra_filters" name="perspective_calibration_right" type="perspective_calibration.py" output="screen">
@@ -13,5 +19,6 @@
     <remap from="/image_warped" to="/image_warped_right" />
     <param name="input" value="/capra_filters/right/section_filter" />
     <param name="output" value="/capra_filters/right/perspective_calibration" />
+    <param name="debug" value="$(arg debug)" />
   </node>
 </launch>
