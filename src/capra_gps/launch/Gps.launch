@@ -17,7 +17,7 @@
         <param name="pitch_offset" value="0"/>
         <!--<param name="yaw_offset" value="0.78"/>-->
 
-        <param name="yaw_offset" value="-1.5707963"/>
+        <!--<param name="yaw_offset" value="-1.5707963"/>-->
         <param name="zero_altitude" value="true"/>
         <param name="broadcast_utm_transform" value="false" />
         <param name="use_odometry_yaw" value="false" />

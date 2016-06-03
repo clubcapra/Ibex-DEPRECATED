@@ -1,6 +1,6 @@
 <run>
     <onStart>
-        <generateCircle radius="2.0" start_deg="45" end_deg="315" step_deg="0.6667" duration="120"></generateCircle>
+        <generateCircle radius="1.5" start_deg="45" end_deg="315" step_deg="0.6667" duration="120"></generateCircle>
     </onStart>
 
     <onLastGoalReached>
