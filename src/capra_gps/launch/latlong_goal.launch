@@ -27,9 +27,9 @@ http://wiki.ros.org/robot_localization/Tutorials/GPS%20Integration
         <param name="roll_offset" value="0"/>
         <param name="pitch_offset" value="0"/>
         <!--<param name="yaw_offset" value="$(arg yaw_offset)" />-->
-       <!-- <param name="yaw_offset" value="-1.5707963"/> -->
+        <param name="yaw_offset" value="-1.5707963"/>
         <param name="zero_altitude" value="true"/>
-        <param name="delay" value="0"/>
+        <param name="delay" value="4"/>
 
         <param name="broadcast_utm_transform" value="false" />
 

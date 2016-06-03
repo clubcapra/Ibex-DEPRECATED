@@ -28,7 +28,7 @@ class GpsPointRecorder():
             return
 
         try:
-            self.fpoints.write("{};{};100s\n".format(data.longitude, data.latitude))
+            self.fpoints.write("{};{};100\n".format(data.longitude, data.latitude))
             self.fpoints.flush()
             self.last_saved = rospy.get_time()
         except IOError:

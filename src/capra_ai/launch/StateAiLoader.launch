@@ -2,7 +2,7 @@
     <arg name="state_file" default="empty.xml" />
     <arg name="loop" default="false"/>
     <node name="state_ai_loader" pkg="capra_ai" type="state_ai_loader.py" output="screen">
-        <param name="state_file" value="$(find capra_ai)/runs/$(arg state_file)" />
+        <param name="state_file" value="$(env IBEX_HOME)/runs/$(arg state_file)" />
     </node>
     <node name="goal_manager" pkg="capra_ai" type="goal_manager.py" output="screen">
         <param name="loop" value="$(arg loop)" />

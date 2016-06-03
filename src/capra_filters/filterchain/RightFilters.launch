@@ -3,12 +3,12 @@
 
   <node pkg="nodelet" name="section_filter" type="nodelet" args="load capra_filters/section_filter /$(arg capra_filters_ns)/nodelet_manager">
     <param name="sections" value="7" />
-    <param name="grass_max" value="255" />
-    <param name="min_area" value="566" />
+    <param name="grass_max" value="222" />
+    <param name="min_area" value="1000" />
     <param name="kernel_erode_width" value="1" />
-    <param name="grass_min" value="146" />
-    <param name="light_min" value="155" />
-    <param name="kernel_dilate_width" value="23" />
+    <param name="grass_min" value="153" />
+    <param name="light_min" value="176" />
+    <param name="kernel_dilate_width" value="1" />
     <param name="kernel_erode_height" value="1" />
     <param name="kernel_dilate_height" value="1" />
     <param name="input" value="/stereo/right/image_rect_color" />
