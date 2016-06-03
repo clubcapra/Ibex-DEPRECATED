@@ -1,0 +1,40 @@
+<launch>
+  <arg name="capra_filters_ns" default="capra_filters" />
+  <node pkg="ros_vision" name="webcam" type="webcam_node.py" />
+
+  <include file="$(find capra_filters)/launch/Manager.launch" ns="$(arg capra_filters_ns)">
+    <arg name="gui" value="true" />
+  </include>
+
+  <node pkg="capra_filters" name="beurer" type="beurer.py" output="screen"/>
+
+  <node pkg="nodelet" ns="capra_filters" name="flag_detector" type="nodelet" args="load capra_filters/flag_detector /$(arg capra_filters_ns)/nodelet_manager">
+    <param name="input" value="/threshold_red" />
+    <param name="type" value="capra_filters/flag_detector" />
+    <param name="output" value="/flag_detector" />
+  </node>
+
+  <node pkg="nodelet" ns="capra_filters" name="threshold_green" type="nodelet" args="load capra_filters/threshold /$(arg capra_filters_ns)/nodelet_manager">
+    <param name="c2max" value="255" />
+    <param name="output" value="/threshold_green" />
+    <param name="type" value="capra_filters/threshold" />
+    <param name="input" value="/capra_camera/image" />
+    <param name="c3min" value="53" />
+    <param name="c1max" value="102" />
+    <param name="c1min" value="68" />
+    <param name="c2min" value="128" />
+    <param name="c3max" value="235" />
+  </node>
+  <node pkg="nodelet" ns="capra_filters" name="threshold" type="nodelet" args="load capra_filters/threshold /$(arg capra_filters_ns)/nodelet_manager">
+    <param name="c2max" value="255" />
+    <param name="output" value="/threshold_red" />
+    <param name="type" value="capra_filters/threshold" />
+    <param name="input" value="/capra_camera/image" />
+    <param name="c3min" value="45" />
+    <param name="c1max" value="255" />
+    <param name="c1min" value="125" />
+    <param name="c2min" value="149" />
+    <param name="c3max" value="255" />
+  </node>
+
+</launch>
