@@ -18,6 +18,16 @@ from nav_msgs.msg import Odometry
 import tf
 import math
 
+try:
+    import pygame
+    pygame.init()
+    rospack = rospkg.RosPack()
+    pygame.mixer.music.load(rospack.get_path(PACKAGE_NAME) + "capra_yeah.wav")
+    pygame_loaded = True
+except ImportError, e:
+    pygame_loaded = False
+    if e.message != 'No module named pygame':
+        raise
 
 class StateAi(object):
 
@@ -182,6 +192,11 @@ class StateAi(object):
         params = { 'gdist_scale' : dist}
         config = client.update_configuration(params)
         rospy.loginfo("gdist_scale set to %s", str(dist))
+
+    def play_song(self):
+        if pygame_loaded:
+            try:
+                pygame.mixer.music.play()
 
 if __name__ == "__main__":
     try:
