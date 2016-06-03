@@ -24,12 +24,11 @@ try:
     import pygame
     pygame.init()
     rospack = rospkg.RosPack()
-    pygame.mixer.music.load(rospack.get_path("capra_ai") + "/capra_yeah.wav")
+    pygame.mixer.music.load(rospack.get_path("capra_ai") + "/scripts/capra_yeah.wav")
     pygame_loaded = True
-except ImportError, e:
+except:
     pygame_loaded = False
-    if e.message != 'No module named pygame':
-        raise
+
 
 class StateAi(object):
 
