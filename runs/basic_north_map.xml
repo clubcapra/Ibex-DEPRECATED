@@ -1,0 +1,62 @@
+<run>
+	<onStart>
+<generateCircle radius="1.5" start_deg="45" end_deg="315" step_deg="0.6667" duration="120"/>
+    </onStart>
+
+	<onLastGoalReached>
+	</onLastGoalReached>
+	<goal x="-83.195500135" y="42.6788698333" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1955001683" y="42.6788698617" priority="100" type="gps">
+	</goal>
+	<goal x="-83.19550014" y="42.6788846933" priority="100" type="gps">
+	</goal>
+	<goal x="-83.19549951" y="42.6788986617" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1954976083" y="42.6789128917" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1954981717" y="42.6789270867" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1954957183" y="42.6789412567" priority="100" type="gps">
+	</goal>
+	<goal x="-83.19549499" y="42.6789552067" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1954977517" y="42.6789696517" priority="100" type="gps">
+	</goal>
+	<goal x="-83.195497135" y="42.6789835283" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1954947683" y="42.6790014383" priority="100" type="gps">
+	</goal>
+	<goal x="-83.19548394776128" y="42.679011193125966" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1954632967" y="42.6790147017" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1954445133" y="42.6790180467" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1954252017" y="42.679015555" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1954112567" y="42.6790061467" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1953944933" y="42.6790016717" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1953814533" y="42.67899328" priority="100" type="gps">
+	</goal>
+	<goal x="-83.19537047" y="42.6789821483" priority="100" type="gps">
+	</goal>
+	<goal x="-83.195355345" y="42.6789734483" priority="100" type="gps">
+	</goal>
+	<goal x="-83.195349745" y="42.67896314" priority="100" type="gps">
+	</goal>
+	<goal x="-83.195332235" y="42.6789581283" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1953137733" y="42.6789558017" priority="100" type="gps">
+	</goal>
+	<goal x="-83.19529558" y="42.67895442" priority="100" type="gps">
+	</goal>
+	<goal x="-83.19529558" y="42.67895442" priority="100" type="gps">
+        <clearOctomap center_x="0" center_y="0" width="2" height="2"></clearOctomap>
+
+	</goal>
+    <goal x="0" y="2" type="odom" priority="100"></goal>
+
+</run>

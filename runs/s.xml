@@ -1,0 +1,88 @@
+<run>
+	<onStart>
+	</onStart>
+	<onLastGoalReached>
+	</onLastGoalReached>
+	<goal x="-83.1956269883" y="42.6787648033" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956269467" y="42.6787647683" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956276033" y="42.6787656" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956275483" y="42.6787654783" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956275817" y="42.6787654583" priority="100" type="gps">
+	</goal>
+	<goal x="-83.195627635" y="42.678765485" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956275567" y="42.6787654867" priority="100" type="gps">
+	</goal>
+	<goal x="-83.19562745" y="42.6787655083" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956272883" y="42.6787655917" priority="100" type="gps">
+	</goal>
+	<goal x="-83.195627285" y="42.6787656067" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956272367" y="42.678762435" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956266067" y="42.67875174" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956266" y="42.678749645" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956266917" y="42.678749675" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956265367" y="42.6787499183" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956260333" y="42.6787492183" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956262467" y="42.6787486117" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956248717" y="42.6787439233" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956223517" y="42.6787322633" priority="100" type="gps">
+	</goal>
+	<goal x="-83.195618455" y="42.678717155" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956183733" y="42.6787137333" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956178967" y="42.6787143617" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956175083" y="42.6787132667" priority="100" type="gps">
+	</goal>
+	<goal x="-83.195620705" y="42.6787227533" priority="100" type="gps">
+	</goal>
+	<goal x="-83.195622475" y="42.6787322133" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956239283" y="42.67874127" priority="100" type="gps">
+	</goal>
+	<goal x="-83.195625075" y="42.6787489517" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956259317" y="42.678756075" priority="100" type="gps">
+	</goal>
+	<goal x="-83.195626195" y="42.6787603367" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956259483" y="42.678762775" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956260817" y="42.678762115" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956261817" y="42.6787623417" priority="100" type="gps">
+	</goal>
+	<goal x="-83.195626295" y="42.67876366" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956262633" y="42.678763885" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956263317" y="42.678763945" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956263267" y="42.6787639633" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956262633" y="42.6787640383" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956262267" y="42.67876421" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956261867" y="42.678764175" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956261183" y="42.678764225" priority="100" type="gps">
+	</goal>
+	<goal x="-83.1956261183" y="42.678764225" priority="100" type="gps">
+	</goal>
+</run>
