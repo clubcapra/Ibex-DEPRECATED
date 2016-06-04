@@ -46,7 +46,7 @@ class LatlongGoalTransformer:
         pub_convert = rospy.Publisher("~convert_latlong", NavSatFix, queue_size=100)
 
         sub_convert = rospy.Subscriber("/gps/fix", NavSatFix, handle_fix)
-        rospy.sleep(6)
+        rospy.sleep(10)
         sub_convert.unregister()
         rospy.sleep(0.5)
         rospy.loginfo("Initial coordinates sent, now starting AddLatlongGoal Service")

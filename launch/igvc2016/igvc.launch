@@ -2,7 +2,7 @@
     <arg name="file" default="empty.xml" />
     <arg name="autonomous" default="1" />
     <arg name="remote" default="0" />
-    <arg name="record" default="0" />
+    <arg name="record" default="1" />
 
     <include file="$(find capra_2dnav)/launch/capra_configuration.launch" >
       <arg name="lidar" default="1" />
@@ -56,7 +56,7 @@
     </include>
 
     <group if="$(arg record)" >
-        <node pkg="rosbag" type="record" name="rosbag_record" output="screen" args="/odom /odometry/filtered /odometry/gps /imu/data /image_raw /scan /rosout /gps/fix /odometry/gps_cov /goal_manager/future" />
+        <node pkg="rosbag" type="record" name="rosbag_record" output="screen" args="" />
     </group>
 
     <!--RVIZ  -->

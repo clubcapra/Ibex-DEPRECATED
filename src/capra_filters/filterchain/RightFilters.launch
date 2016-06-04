@@ -1,30 +1,53 @@
 <launch>
   <arg name="capra_filters_ns" default="capra_filters" />
 
+  <node pkg="nodelet" name="hide_robot" type="nodelet" args="load capra_filters/rectangle /$(arg capra_filters_ns)/nodelet_manager">
+    <param name="output" value="no_robot" />
+    <param name="height" value="112" />
+    <param name="width" value="154" />
+    <param name="input" value="/stereo/right/image_rect_color" />
+    <param name="y" value="409" />
+    <param name="x" value="200" />
+    <param name="type" value="capra_filters/rectangle" />
+  </node>
+
   <node pkg="nodelet" name="section_filter" type="nodelet" args="load capra_filters/section_filter /$(arg capra_filters_ns)/nodelet_manager">
     <param name="sections" value="7" />
-    <param name="grass_max" value="222" />
+    <param name="grass_max" value="224" />
     <param name="min_area" value="1000" />
-    <param name="kernel_erode_width" value="1" />
-    <param name="grass_min" value="153" />
-    <param name="light_min" value="176" />
+    <param name="kernel_erode_width" value="2" />
+    <param name="grass_min" value="163" />
+    <param name="light_min" value="206" />
     <param name="kernel_dilate_width" value="1" />
-    <param name="kernel_erode_height" value="1" />
-    <param name="kernel_dilate_height" value="1" />
-    <param name="input" value="/stereo/right/image_rect_color" />
+    <param name="kernel_erode_height" value="2" />
+    <param name="kernel_dilate_height" value="2" />
+
+    <param name="input" value="no_robot" />
     <param name="output" value="section_filter" />
     <param name="type" value="capra_filters/section_filter" />
   </node>
+
+  <node pkg="nodelet" name="hide_noise" type="nodelet" args="load capra_filters/rectangle /$(arg capra_filters_ns)/nodelet_manager">
+    <param name="output" value="section_filter_filtered" />
+    <param name="height" value="10" />
+    <param name="width" value="700" />
+    <param name="input" value="section_filter" />
+    <param name="y" value="511" />
+    <param name="x" value="0" />
+    <param name="type" value="capra_filters/rectangle" />
+  </node>
+
   <node pkg="nodelet" name="perspective_calibration" type="nodelet" args="load capra_filters/warp_perspective /$(arg capra_filters_ns)/nodelet_manager">
-    <param name="a" value="3.2367825830138806" />
-    <param name="b" value="9.83222631612376" />
-    <param name="c" value="-759.5312109222847" />
-    <param name="d" value="0.54344135965034" />
-    <param name="e" value="20.879420986590514" />
-    <param name="f" value="-1044.0275972747504" />
-    <param name="g" value="0.0024946979466325568" />
-    <param name="h" value="0.09742243726151242" />
+    <param name="a" value="0.23143324045408786" />
+    <param name="b" value="0.6182913403356997" />
+    <param name="c" value="36.187893828887475" />
+    <param name="d" value="0.00509877043395734" />
+    <param name="e" value="1.3974102126670322" />
+    <param name="f" value="94.29883212635531" />
+    <param name="g" value="-6.85985734226611e-05" />
+    <param name="h" value="0.0062087066705885045" />
     <param name="i" value="1.0" />
+
     <param name="input" value="section_filter" />
     <param name="output" value="perspective_calibration" />
     <param name="type" value="capra_filters/warp_perspective" />

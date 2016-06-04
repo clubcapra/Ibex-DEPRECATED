@@ -1,8 +1,8 @@
 TrajectoryPlannerROS:
-  max_vel_x: 0.75
+  max_vel_x: 0.8
 
 
-  min_vel_x: 0.2
+  min_vel_x: 0.3
   #The rotational velocity allowed for the base in radians/sec
   max_vel_theta: 1.5
   min_vel_theta: -1.5
@@ -35,7 +35,7 @@ TrajectoryPlannerROS:
 
   prune_plan: true
 
-  xy_goal_tolerance: 1.0
+  xy_goal_tolerance: 0.5
   yaw_goal_tolerance: 3.14
 
   holonomic_robot: false

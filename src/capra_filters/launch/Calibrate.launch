@@ -1,5 +1,5 @@
 <launch>
-  <arg name="debug" default="true" />
+  <arg name="debug" default="false" />
 
   <include file="$(find capra_camera)/launch/PointGrey.launch"></include>
   <include file="$(find capra_camera)/launch/Stereovision.launch"></include>

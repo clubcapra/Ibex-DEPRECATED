@@ -39,7 +39,7 @@ class StateAi(object):
         self.reset_octomap_service = rospy.ServiceProxy('/octomap_server/reset', Empty)
         is_sim = rospy.get_param("~is_simulation", False)
         self.is_ready = True
-        rospy.wait_for_service('/obstacle_generator', 5)
+        rospy.wait_for_service('/obstacle_generator')
         rospy.wait_for_service('/goal_manager/add_goal', 5)
         rospy.wait_for_service('/move_base/make_plan', 5)
         if not is_sim:

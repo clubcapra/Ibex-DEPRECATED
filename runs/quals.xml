@@ -10,10 +10,10 @@
     <goal x="-83.19549825833333" y="42.67820946833334" type="gps" priority="100">
 
     </goal>
-    <goal x="-83.1954101921" y="42.6785192010" type="gps" priority="100">
-        <clearOctomap center_x="0" center_y="0" width="2" height="2">
-        </clearOctomap>
-    </goal>
+
     <goal x="-83.1953990408" y="42.6782470225" type="gps" priority="100">
+    </goal>
+    <goal x="-83.1954101921" y="42.6785192010" type="gps" priority="100">
+
     </goal>
 </run>
