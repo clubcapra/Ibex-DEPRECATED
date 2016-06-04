@@ -11,6 +11,14 @@ add_definitions(-std=c++11)
 find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
+  cmake_modules
+  roscpp
+  tf
+  costmap_2d
+  nav_core
+  pluginlib
+  base_local_planner
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -83,9 +91,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES capra_camera
-#  CATKIN_DEPENDS rospy sensor_msgs
+  INCLUDE_DIRS include
+  LIBRARIES capra_2dnav
+  CATKIN_DEPENDS rospy pluginlib
 #  DEPENDS system_lib
 )
 

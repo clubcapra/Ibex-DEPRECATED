@@ -1,0 +1,7 @@
+<library path="lib/libcapra_2dnav">
+  <class name="capra_2dnav/ClearOctomap" type="capra_2dnav::ClearOctomap" base_class_type="nav_core::RecoveryBehavior">
+    <description>
+      Clear the fout of Octomap
+    </description>
+  </class>
+</library>

@@ -14,5 +14,8 @@
     <param name="controller_frequency" value="15.0" />
     <param name="base_local_planner" value="$(arg base_local_planner)" />
     <remap from="/odom" to="$(arg odom_topic)" />
+    <rosparam param="recovery_behaviors">
+      [{name: conservative_reset, type: clear_costmap_recovery/ClearCostmapRecovery}, {name: clear_octomap, type: capra_2dnav/ClearOctomap}, {name: rotate_recovery, type: rotate_recovery/RotateRecovery}, {name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}, {name: clear_octomap_pls, type: capra_2dnav/ClearOctomap}]
+    </rosparam>
   </node>
 </launch>
