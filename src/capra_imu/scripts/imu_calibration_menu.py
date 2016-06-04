@@ -51,6 +51,8 @@ class ImuCalibrationMenu:
                 self.write_settings()
             elif option == "7":
                 self.restore_factory_settings()
+            elif option == "8":
+                self.reset()
             else:
                 self.display_error("'{}' is not valid option.".format(option))
 
@@ -67,6 +69,7 @@ class ImuCalibrationMenu:
         print "5) {}Display{} GPS Compass Baseline".format(Color.BOLD, Color.END)
         print "6) {}Save{} Settings to Flash Memory".format(Color.BOLD, Color.END)
         print "7) {}Restore{} Settings to Factory Default".format(Color.BOLD, Color.END)
+        print "8) {}Reset{}".format(Color.BOLD, Color.END)
         print "Q) {}Quit{}".format(Color.BOLD, Color.END)
 
     def display_error(self, error_message):
