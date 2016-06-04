@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(capra_2dnav)
 
+set(CMAKE_CXX_FLAGS, "-std=c++11 ${CMAKE_CXX_FLAGS}")
+add_definitions(-std=c++11)
+
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -97,9 +101,9 @@ include_directories(
 )
 
 ## Declare a cpp library
-# add_library(capra_camera
-#   src/${PROJECT_NAME}/capra_camera.cpp
-# )
+add_library(capra_2dnav
+  src/clear_octomap.cpp
+)
 
 ## Declare a cpp executable
 # add_executable(capra_camera_node src/capra_camera_node.cpp)
@@ -116,6 +120,8 @@ include_directories(
 #############
 ## Install ##
 #############
+
+
 
 # all install targets should use catkin DESTINATION variables
 # See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
