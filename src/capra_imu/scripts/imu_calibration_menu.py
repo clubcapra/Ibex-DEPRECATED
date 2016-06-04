@@ -241,7 +241,7 @@ class ImuCalibrationMenu:
 
         if yes_no.lower() == 'y':
             self.send_command("VNRST")
-            print "n{}IMU Reset{}".format(Color.BOLD, Color.END)
+            print "\n{}IMU Reset{}".format(Color.BOLD, Color.END)
 
     def quit(self):
         print "\n{}{}Quitting...{}{}".format(Color.BOLD, Color.RED, Color.END, Color.END)
