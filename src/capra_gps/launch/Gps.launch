@@ -15,9 +15,9 @@
         <param name="delay" value="0"/>
         <param name="roll_offset" value="0"/>
         <param name="pitch_offset" value="0"/>
-        <param name="yaw_offset" value="3.92"/>
-        <!--<param name="yaw_offset" value="4.36"/>-->
-       <!-- <param name="yaw_offset" value="1.5707963"/> -->
+        <param name="yaw_offset" value="3.9270"/>
+        <!--<param name="yaw_offset" value="0.78"/>-->
+        <!--<param name="yaw_offset" value="1.5707963"/>-->
         <param name="zero_altitude" value="true"/>
         <param name="broadcast_utm_transform" value="false" />
         <param name="use_odometry_yaw" value="true" />

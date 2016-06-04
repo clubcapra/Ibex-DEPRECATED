@@ -11,6 +11,8 @@
     <rosparam file="$(find capra_2dnav)/config/$(arg context)/base_local_planner_params.yaml" command="load" />
     <rosparam file="$(find capra_2dnav)/config/$(arg context)/base_global_planner_params.yaml" command="load" />
     <param name="planner_frequency" value="2.0" />
+      <!--<param name="recovery_behavior_enabled" value="true" />
+      <param name="clearing_rotation_allowed" value="false" />-->
     <param name="controller_frequency" value="15.0" />
     <param name="base_local_planner" value="$(arg base_local_planner)" />
     <remap from="/odom" to="$(arg odom_topic)" />
