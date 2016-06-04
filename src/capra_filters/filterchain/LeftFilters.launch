@@ -11,6 +11,9 @@
     <param name="type" value="capra_filters/rectangle" />
   </node>
 
+  <node pkg="capra_filters" name="obstacle_filter" type="obstacle_filter.py">
+    
+  </node>
 
   <node pkg="nodelet" name="section_filter" type="nodelet" args="load capra_filters/section_filter /$(arg capra_filters_ns)/nodelet_manager">
     <param name="sections" value="7" />
