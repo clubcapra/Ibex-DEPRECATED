@@ -1,5 +1,7 @@
+#!/usr/bin/env python
+
 import rospy
-from sensor_msgs.msg import LaserScan
+from sensor_msgs.msg import LaserScan, Image
 import numpy as np
 from math import sin, cos, isnan, pi
 import cv2
@@ -8,8 +10,10 @@ import sensor_msgs.point_cloud2 as pc2
 from cv_bridge import CvBridge
 
 
-class LaserObstacleFilter:
+class ObstacleFilter:
     def __init__(self):
+        rospy.init_node('obstacle_filter')
+
         self.bottomy = 133
         self.realy = 258
         self.resolution = 20
@@ -22,6 +26,8 @@ class LaserObstacleFilter:
 
         rospy.Subscriber('/scan', LaserScan, self.handle_cloud)
         rospy.Subscriber('/image_raw', Image, self.execute)
+
+        rospy.spin()
 
     def execute(self, msg):
         image = self.bridge.imgmsg_to_cv(msg)
@@ -114,3 +120,6 @@ class LaserObstacleFilter:
 
     def meters_to_pixels(self, x, y):
         return np.array([int(self.trans[0] - y * self.res[0]), int(self.trans[1] - x * self.res[1])])
+
+if __name__ == '__main__':
+    ObstacleFilter()
