@@ -10,8 +10,6 @@ pub_convert = None
 sub_convert = None
 
 p = []
-
-
 def handle_xy_goal(req):
     new_pos = PoseStamped()
     new_pos.header = req.header
@@ -33,47 +31,34 @@ def handle_add_latlong_goal(req):
     answer = p[start_size]
     return answer
 
-
 # Subscribe to gps fix and forward to the converter at the beginning
 def handle_fix(req):
     global pub_convert
-    global sub_convert
-    global data_received
-
-    if not data_received:
-        pub_convert.publish(req)
-        data_received = True
-
-        sub_convert.unregister()
-        rospy.loginfo("Initial coordinates sent, now starting AddLatlongGoal Service")
-
-        start_latlong_service()
-
-
-def start_latlong_service():
-    service = rospy.Service("~AddLatlongGoal", AddLatlongGoal, handle_add_latlong_goal)
-    rospy.Subscriber("~convert_xy", Odometry, handle_xy_goal)
-
-    global pub_goal
-    pub_goal = rospy.Publisher("~goal_xy", PoseStamped, queue_size=10)
-
+    pub_convert.publish(req)
 
 class LatlongGoalTransformer:
+
     def __init__(self):
         rospy.init_node('latlong_goal_node')
-
-        global data_received
-        data_received = False
 
         # send first (real) coordinates to converter.
         global pub_convert
         pub_convert = rospy.Publisher("~convert_latlong", NavSatFix, queue_size=100)
 
-        global sub_convert
         sub_convert = rospy.Subscriber("/gps/fix", NavSatFix, handle_fix)
+        rospy.sleep(10)
+        sub_convert.unregister()
+        rospy.sleep(0.5)
+        rospy.loginfo("Initial coordinates sent, now starting AddLatlongGoal Service")
+
+        #stop listening to real gps and listen to topic to receive converted goals
+        service = rospy.Service("~AddLatlongGoal", AddLatlongGoal, handle_add_latlong_goal)
+        rospy.Subscriber("~convert_xy", Odometry, handle_xy_goal)
+
+        global pub_goal
+        pub_goal = rospy.Publisher("~goal_xy", PoseStamped, queue_size=10)
 
         rospy.spin()
-
 
 if __name__ == "__main__":
     try:
