@@ -1,6 +1,5 @@
 # Migration to Kinetic Kame
 
-
 ## Package supported
 * All ros packages
 * ros_planning
@@ -12,7 +11,6 @@
 
 ## Unknown support
 * Vectornav
-
 
 ## Custom Made Package
 * Animatics Smart Motor
@@ -34,7 +32,6 @@
 * juav_recovery
 * microstrain imu
 
-
 ## Migration Guide
 
 ### Kinetic Migration
@@ -46,5 +43,11 @@ http://wiki.ros.org/kinetic/Migration
 http://wiki.ros.org/jade/Migration
 
 ## Testing notes
+
+Migration must be done in 2 step
+
+first step ubuntu 14.04 LTS with Jade
+
+second step ubuntu 16.04 LTS with Kinetic
 
 Todo testing with an ubuntu 16.04 LTS
