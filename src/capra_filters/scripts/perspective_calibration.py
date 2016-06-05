@@ -77,6 +77,8 @@ class PerspectiveCalibration():
                 target_points = np.array(self.target_points, dtype=np.float32)
                 h, _ = cv2.findHomography(rect, np.array(target_points))
 
+                print self.index
+
                 if self.debug:
 
                     cv2.drawChessboardCorners(cv_image, self.chessboard_size, rect, found)
@@ -94,7 +96,7 @@ class PerspectiveCalibration():
         else:
             self.calibrating = False
 
-        if self.attemps > 10:
+        if self.attemps > 100:
             rospy.logwarn("No checkerboard found with 10 samples, the calibration is likely to fail.")
 
 

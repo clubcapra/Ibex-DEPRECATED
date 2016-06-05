@@ -59,7 +59,7 @@
     </include>
 
     <group if="$(arg record)" >
-        <node pkg="rosbag" type="record" name="rosbag_record" output="screen" args="/odom /odometry/filtered /odometry/gps /imu/data /image_raw /scan /rosout /gps/fix /odometry/gps_cov /goal_manager/future" />
+        <node pkg="rosbag" type="record" name="rosbag_record" output="screen" args="/odom /odometry/filtered /odometry/gps /imu/data /image_raw /scan /rosout /gps/fix /odometry/gps_cov /goal_manager/future /move_base/global_costmap/costmap /move_base/local_costmap/costmap" />
     </group>
 
     <!--RVIZ  -->

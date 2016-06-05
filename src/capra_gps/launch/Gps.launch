@@ -16,7 +16,10 @@
         <param name="roll_offset" value="0"/>
         <param name="pitch_offset" value="0"/>
         <param name="yaw_offset" value="3.9270"/>
-        <!--<param name="yaw_offset" value="0.78"/>-->
+        <!--<param name="yaw_offset" value="0.7854"/>-->
+        <!--<param name="yaw_offset" value="2.3563"/>-->
+        <!--<param name="yaw_offset" value="5.4978"/>-->
+
         <!--<param name="yaw_offset" value="1.5707963"/>-->
         <param name="zero_altitude" value="true"/>
         <param name="broadcast_utm_transform" value="false" />

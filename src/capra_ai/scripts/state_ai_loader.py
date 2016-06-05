@@ -65,7 +65,7 @@ class StateAiLoader(StateAi):
 
     def on_goal_changed(self, goal_msg):
         self.current_goal_index += 1
-        for action in self.root.findall('./goal[@priority="%s"]/*' % goal_msg.priority):
+        for action in self.root.findall('./goal[{}]/*'.format(self.current_goal_index)):
             self._invoke_action(action.tag, action.attrib)
 
     def on_last_goal_reached(self, msg):
