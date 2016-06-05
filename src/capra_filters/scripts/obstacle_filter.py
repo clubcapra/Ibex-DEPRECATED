@@ -9,7 +9,7 @@ from sensor_msgs.msg import PointCloud2
 import sensor_msgs.point_cloud2 as pc2
 from cv_bridge import CvBridge
 from dynamic_reconfigure.server import Server
-from capra_filters.cfg import obstacle_filterConfig
+from capra_filters.cfg import ObstacleFilterConfig
 
 
 class ObstacleFilter:
@@ -23,10 +23,11 @@ class ObstacleFilter:
         self.size = (0, 0)
         self.res = (0, 0)
         self.trans = [0, 0]
+        self.x = 0
         self.bridge = CvBridge()
         self.pub = rospy.Publisher('/image_out', Image, queue_size=10)
 
-        srv = Server(obstacle_filterConfig, self.configure)
+        srv = Server(ObstacleFilterConfig, self.configure)
 
         rospy.Subscriber('/scan', LaserScan, self.handle_cloud)
         rospy.Subscriber('/image_raw', Image, self.execute)
@@ -36,13 +37,15 @@ class ObstacleFilter:
     def configure(self, config, level):
         self.bottomy = config.bottomy
         self.realy = config.realy
+        self.x = config.x
+        self.dn_d = config.dn_d
 
         return config
 
     def execute(self, msg):
         image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
         height, width = image.shape[:2]
-        self.trans[0] = width / 2
+        self.trans[0] = width / 2 + self.x
         self.trans[1] = int(self.bottomy)
         self.res = width / 5.0, height / 5.0
 
@@ -96,7 +99,7 @@ class ObstacleFilter:
             obstacle_height = 1
             ang = 0.17
 
-            dn_d = 0.08
+            dn_d = self.dn_d
             dn_1 = sin(angles[a] + 2 * pi) * dn_d
             dn_2 = sin(angles[a] + 2 * pi) * dn_d
 
@@ -108,7 +111,6 @@ class ObstacleFilter:
 
             p1_m = self.meters_to_pixels(*p1)
             p2_m = self.meters_to_pixels(*p2)
-
 
             cv2.rectangle(image, (self.trans[0], self.trans[1]), (self.trans[0] + 10, self.trans[1] + 10), (0, 0, 255))
             cv2.rectangle(image, (int(trans_real[0]), int(trans_real[1])), (int(trans_real[0] + 10), int(trans_real[1] + 10)), (0, 255, 255))

@@ -4,11 +4,35 @@
 
 <onLastGoalReached>
 </onLastGoalReached>
-<goal x="-83.1948775925" y="42.6789635984" type="gps" priority="100"></goal>
-<goal x="-83.1950000001" y="42.6788888888" type="gps" priority="100"></goal>
-<goal x="-83.1948655409" y="42.6787920556" type="gps" priority="100">
-    <clearOctomap center_x="0" center_y="0" width="2" height="2"></clearOctomap>
-</goal>
-        <goal x="0" y="0" type="odom" priority="100"></goal>
 
+<!-- Waypoint 2 -->
+<goal x="-83.1948775925" y="42.6789635984" type="gps" priority="100">
+        <clearOctomap center_x="0" center_y="0" width="2" height="2"></clearOctomap>
+</goal>
+    <goal x="-83.1948775925" y="42.6789635984" type="gps" priority="100"></goal>
+    <goal x="-83.1948775925" y="42.6789635984" type="gps" priority="100"></goal>
+<!-- Waypoint 2 fetch -->
+    <goal x="-83.19486111111111" y="42.678777777777775" type="gps" priority="100">
+	<generateBar length="8" distance="1.5" duration="240"/>
+</goal>
+
+
+<!-- No-man's land -->
+<goal x="-83.1950000001" y="42.6788888888" type="gps" priority="100"></goal>
+<goal x="-83.1950000001" y="42.6788888888" type="gps" priority="100"></goal>
+<goal x="-83.1950000001" y="42.6788888888" type="gps" priority="100"></goal>
+
+
+<!-- Waypoint 1 -->
+<goal x="-83.1948655409" y="42.6787920556" type="gps" priority="100"></goal>
+    <goal x="-83.1948655409" y="42.6787920556" type="gps" priority="100"></goal>
+<goal x="-83.1948655409" y="42.6787920556" type="gps" priority="100"></goal>
+<!-- Waypoint 1 fetch -->
+    <goal x="-83.19488972425461" y="42.67895663738887" type="gps" priority="100">
+	<generateBar length="8" distance="1.5" duration="240"/>
+</goal>
+
+
+
+    <goal x="0" y="0" type="odom" priority="100"></goal>
 </run>

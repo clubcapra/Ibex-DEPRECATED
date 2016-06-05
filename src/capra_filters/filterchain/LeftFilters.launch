@@ -11,11 +11,6 @@
     <param name="type" value="capra_filters/rectangle" />
   </node>
 
-  <node pkg="capra_filters" name="obstacle_filter" type="obstacle_filter.py">
-    <remap from="/image_raw" to="no_robot" />
-    <remap from="/image_out" to="no_cones" />
-  </node>
-
   <node pkg="nodelet" name="section_filter" type="nodelet" args="load capra_filters/section_filter /$(arg capra_filters_ns)/nodelet_manager">
     <param name="sections" value="7" />
     <param name="grass_max" value="224" />
@@ -27,7 +22,7 @@
     <param name="kernel_erode_height" value="2" />
     <param name="kernel_dilate_height" value="2" />
 
-    <param name="input" value="no_cones" />
+    <param name="input" value="no_robot" />
     <param name="output" value="section_filter" />
     <param name="type" value="section_filter" />
   </node>

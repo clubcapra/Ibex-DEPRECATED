@@ -29,8 +29,8 @@ def imu_cb(msg):
     mag_declination = 0.25 #mtl
     #mag_declination = 0.2 # rochester
     #rotation=0
-    #rotation=math.pi/2.0
-    rotation = math.pi
+    rotation=-math.pi/2.0
+    #rotation = math.pi
     rotation_z = quaternion_about_axis(rotation-magic_number, [0, 0, 1])
 
     q_rotated_90 = quaternion_multiply(initial, rotation_z)

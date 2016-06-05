@@ -5,58 +5,72 @@
 
 	<onLastGoalReached>
 	</onLastGoalReached>
-	<goal x="-83.195500135" y="42.6788698333" priority="100" type="gps">
+		<goal x="-83.195509995" y="42.6788766367" priority="100" type="gps">
 	</goal>
-	<goal x="-83.1955001683" y="42.6788698617" priority="100" type="gps">
+	<goal x="-83.195508275" y="42.6789608867" priority="100" type="gps">
 	</goal>
-	<goal x="-83.19550014" y="42.6788846933" priority="100" type="gps">
+	<goal x="-83.1955122783" y="42.6789870333" priority="100" type="gps">
 	</goal>
-	<goal x="-83.19549951" y="42.6788986617" priority="100" type="gps">
+	<goal x="-83.1955067433" y="42.6790013967" priority="100" type="gps">
 	</goal>
-	<goal x="-83.1954976083" y="42.6789128917" priority="100" type="gps">
+	<goal x="-83.19548994" y="42.679007865" priority="100" type="gps">
 	</goal>
-	<goal x="-83.1954981717" y="42.6789270867" priority="100" type="gps">
+	<goal x="-83.195472155" y="42.6790142767" priority="100" type="gps">
 	</goal>
-	<goal x="-83.1954957183" y="42.6789412567" priority="100" type="gps">
+	<goal x="-83.19545338" y="42.67901579" priority="100" type="gps">
 	</goal>
-	<goal x="-83.19549499" y="42.6789552067" priority="100" type="gps">
+	<goal x="-83.1954344583" y="42.6790130533" priority="100" type="gps">
 	</goal>
-	<goal x="-83.1954977517" y="42.6789696517" priority="100" type="gps">
+	<goal x="-83.1953847267" y="42.6789875883" priority="100" type="gps">
 	</goal>
-	<goal x="-83.195497135" y="42.6789835283" priority="100" type="gps">
+	<goal x="-83.1953768317" y="42.67897055" priority="100" type="gps">
 	</goal>
-	<goal x="-83.1954947683" y="42.6790014383" priority="100" type="gps">
+	<goal x="-83.1953631667" y="42.67896001" priority="100" type="gps">
 	</goal>
-	<goal x="-83.19548394776128" y="42.679011193125966" priority="100" type="gps">
+	<goal x="-83.195344685" y="42.6789546317" priority="100" type="gps">
 	</goal>
-	<goal x="-83.1954632967" y="42.6790147017" priority="100" type="gps">
+	<goal x="-83.1953264183" y="42.6789524683" priority="100" type="gps">
 	</goal>
-	<goal x="-83.1954445133" y="42.6790180467" priority="100" type="gps">
+	<goal x="-83.1953067883" y="42.6789505033" priority="100" type="gps">
 	</goal>
-	<goal x="-83.1954252017" y="42.679015555" priority="100" type="gps">
+	<goal x="-83.1952882283" y="42.67895129" priority="100" type="gps">
 	</goal>
-	<goal x="-83.1954112567" y="42.6790061467" priority="100" type="gps">
+	<goal x="-83.19526021" y="42.6789689067" priority="100" type="gps">
 	</goal>
-	<goal x="-83.1953944933" y="42.6790016717" priority="100" type="gps">
+	<goal x="-83.1952383033" y="42.6789899017" priority="100" type="gps">
 	</goal>
-	<goal x="-83.1953814533" y="42.67899328" priority="100" type="gps">
+	<goal x="-83.1952383033" y="42.6789899017" priority="100" type="gps">
 	</goal>
-	<goal x="-83.19537047" y="42.6789821483" priority="100" type="gps">
-	</goal>
-	<goal x="-83.195355345" y="42.6789734483" priority="100" type="gps">
-	</goal>
-	<goal x="-83.195349745" y="42.67896314" priority="100" type="gps">
-	</goal>
-	<goal x="-83.195332235" y="42.6789581283" priority="100" type="gps">
-	</goal>
-	<goal x="-83.1953137733" y="42.6789558017" priority="100" type="gps">
-	</goal>
-	<goal x="-83.19529558" y="42.67895442" priority="100" type="gps">
-	</goal>
-	<goal x="-83.19529558" y="42.67895442" priority="100" type="gps">
-        <clearOctomap center_x="0" center_y="0" width="2" height="2"></clearOctomap>
 
-	</goal>
-    <goal x="0" y="2" type="odom" priority="100"></goal>
+<!-- Waypoint 2 -->
+<goal x="-83.1948775925" y="42.6789635984" type="gps" priority="100">
+        <clearOctomap center_x="0" center_y="0" width="2" height="2"></clearOctomap>
+</goal>
+    <goal x="-83.1948775925" y="42.6789635984" type="gps" priority="100"></goal>
+    <goal x="-83.1948775925" y="42.6789635984" type="gps" priority="100"></goal>
+<!-- Waypoint 2 fetch -->
+    <goal x="-83.19486111111111" y="42.678777777777775" type="gps" priority="100">
+	<generateBar length="8" distance="1.5" duration="240"/>
+</goal>
+
+
+<!-- No-man's land -->
+<goal x="-83.1950000001" y="42.6788888888" type="gps" priority="100"></goal>
+<goal x="-83.1950000001" y="42.6788888888" type="gps" priority="100"></goal>
+<goal x="-83.1950000001" y="42.6788888888" type="gps" priority="100"></goal>
+
+
+<!-- Waypoint 1 -->
+<goal x="-83.1948655409" y="42.6787920556" type="gps" priority="100"></goal>
+    <goal x="-83.1948655409" y="42.6787920556" type="gps" priority="100"></goal>
+<goal x="-83.1948655409" y="42.6787920556" type="gps" priority="100"></goal>
+<!-- Waypoint 1 fetch -->
+    <goal x="-83.19488972425461" y="42.67895663738887" type="gps" priority="100">
+	<generateBar length="8" distance="1.5" duration="240"/>
+</goal>
+
+
+
+    <goal x="0" y="0" type="odom" priority="100"></goal>
 
 </run>
