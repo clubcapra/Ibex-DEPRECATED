@@ -1,0 +1,39 @@
+<launch>
+  <arg name="file" />
+
+  <node pkg="rosbag" type="play" name="rosbag" args="-r 4  $(arg file)" >
+    <remap from="/odom" to="/odom/null" />
+  </node>
+
+  <arg name="robot_description" value="$(find capra_2dnav)/models/capra6/capra6.urdf" />
+  <node pkg="tf" type="static_transform_publisher" name="footprint_broadcaster" args="0 0 0 0 0 0 base_footprint base_link 50" />
+  <rosparam command="load" param="robot_description" file="$(arg robot_description)" />
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="capra6_state_publisher" />
+
+  <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
+    <remap from="cloud" to="cloud_in" />
+  </node>
+
+  <include file="$(find capra_2dnav)/launch/octomap.launch" >
+    <arg name="map_file" value="$(env IBEX_HOME)/maps/igvc_basic.bt" />
+  </include>
+
+  <!-- Positionning -->
+  <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
+  <include file="$(find capra_2dnav)/launch/kalman.launch" />
+
+  <!-- Vision -->
+  <include file="$(find capra_filters)/launch/Left.launch" />
+  <include file="$(find capra_filters)/launch/Right.launch">
+    <arg name="gui" value="false" />
+  </include>
+
+  <!-- move_base -->
+  <include file="$(find capra_2dnav)/launch/move_base.launch">
+    <arg name="context" value="indoors" />
+    <arg name="odom_topic" value="/odom" />
+  </include>
+
+  <!--RVIZ  -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(env IBEX_HOME)/rviz_cfg/mapping.rviz"/>
+</launch>

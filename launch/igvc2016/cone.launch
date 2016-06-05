@@ -1,0 +1,12 @@
+<launch>
+
+  <node pkg="rosbag" type="play" name="rosbag" args="-l -r 4  $(env HOME)/.ros/cone-de-criss.bag">
+    <remap from="/odom" to="/odom/null" />
+  </node>
+
+  <include file="$(find capra_filters)/launch/Left.launch" />
+  <include file="$(find capra_filters)/launch/Right.launch">
+    <arg name="gui" value="false" />
+  </include>
+
+</launch>
