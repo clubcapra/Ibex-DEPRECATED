@@ -9,13 +9,14 @@
 #include <std_srvs/Empty.h>
 
 
-
 namespace capra_2dnav {
   class ClearOctomap : public nav_core::RecoveryBehavior {
   public:
     ClearOctomap() {}
 
-    void initialize(std::string name, tf::TransformListener* tf, costmap_2d::Costmap2DROS* global_costmap, costmap_2d::Costmap2DROS* local_costmap) {}
+    void initialize(std::string name, tf::TransformListener* tf, costmap_2d::Costmap2DROS* global_costmap, costmap_2d::Costmap2DROS* local_costmap) {
+      tf_ = tf;
+    }
 
     void runBehavior() {
       ros::NodeHandle n;
@@ -29,7 +30,8 @@ namespace capra_2dnav {
       }
     }
 
-
+  private:
+    tf::TransformListener* tf_;
   };
 
   PLUGINLIB_EXPORT_CLASS(capra_2dnav::ClearOctomap, nav_core::RecoveryBehavior)

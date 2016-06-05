@@ -1,8 +1,5 @@
 <launch>
-  <node pkg="ros_vision" name="webcam" type="webcam_node.py" />
-
   <group>
-    <remap to="/capra_camera/image" from="/stereo/left/image_rect_color" />
     <include file="$(find capra_filters)/launch/Left.launch">
       <arg name="gui" value="True" />
     </include>

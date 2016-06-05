@@ -28,6 +28,7 @@ generate_dynamic_reconfigure_options(
   src/${PROJECT_NAME}/threshold.cfg
   src/${PROJECT_NAME}/warp_perspective.cfg
   src/${PROJECT_NAME}/flag_detector.cfg
+  scripts/obstacle_filter.cfg
 )
 
 add_service_files(

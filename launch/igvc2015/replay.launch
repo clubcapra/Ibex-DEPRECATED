@@ -1,52 +1,52 @@
 <launch>
 
-    <!--<arg name="file" value="$(env IBEX_HOME)/bags/2015-06-06-17-20-10.bag" /> -->
-    <arg name="file" value="$(env IBEX_HOME)/bag2/north.bag" />
+  <!--<arg name="file" value="$(env IBEX_HOME)/bags/2015-06-06-17-20-10.bag" /> -->
+  <arg name="file" value="$(env IBEX_HOME)/bag2/north.bag" />
 
-    <node pkg="rosbag" type="play" name="rosbag" args="-r 4  $(arg file)" >
-        <remap from="/odom" to="/odom/null" />
-    </node>
+  <node pkg="rosbag" type="play" name="rosbag" args="-r 4  $(arg file)" >
+    <remap from="/odom" to="/odom/null" />
+  </node>
 
   <arg name="robot_description" value="$(find capra_2dnav)/models/capra6/capra6.urdf" />
   <node pkg="tf" type="static_transform_publisher" name="footprint_broadcaster" args="0 0 0 0 0 0 base_footprint base_link 50" />
   <rosparam command="load" param="robot_description" file="$(arg robot_description)" />
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="capra6_state_publisher" />
 
-    <!-- MAPPING -->
-    <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
-        <remap from="cloud" to="cloud_in" />
-    </node>
+  <!-- MAPPING -->
+  <node pkg="scan_to_cloud_converter" name="scan_to_cloud_converter_node" type="scan_to_cloud_converter_node" >
+    <remap from="cloud" to="cloud_in" />
+  </node>
 
-    <include file="$(find capra_2dnav)/launch/octomap.launch" >
-        <arg name="map_file" value="$(env IBEX_HOME)/maps/igvc_basic.bt" />
-    </include>
+  <include file="$(find capra_2dnav)/launch/octomap.launch" >
+    <arg name="map_file" value="$(env IBEX_HOME)/maps/igvc_basic.bt" />
+  </include>
 
-    <!-- Positionning -->
-    <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
-    <include file="$(find capra_2dnav)/launch/kalman.launch" />
+  <!-- Positionning -->
+  <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 odom map 50" />
+  <include file="$(find capra_2dnav)/launch/kalman.launch" />
 
-        <!-- VISION -->
-    <include file="$(find seagoatvision_ros)/launch/Seagoat.launch" >
-      <!-- <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/lignes-oranges.filterchain" /> -->
-        <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/indoors.filterchain" />
-        <arg name="gui" value="True" />
-        <arg name="calibration_file" default="$(find seagoatvision_ros)/filterchain/calibrate-real.filterchain" />
-    </include>
+  <!-- VISION -->
+  <include file="$(find seagoatvision_ros)/launch/Seagoat.launch" >
+    <!-- <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/lignes-oranges.filterchain" /> -->
+    <arg name="filterchain" value="$(find seagoatvision_ros)/filterchain/indoors.filterchain" />
+    <arg name="gui" value="True" />
+    <arg name="calibration_file" default="$(find seagoatvision_ros)/filterchain/calibrate-real.filterchain" />
+  </include>
 
-    <include file="$(find capra_2dnav)/launch/move_base.launch">
+  <include file="$(find capra_2dnav)/launch/move_base.launch">
     <arg name="context" value="indoors" />
     <arg name="odom_topic" value="/odom" />
-        </include>
+  </include>
 
 
-    <!--RVIZ  -->
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(env IBEX_HOME)/rviz_cfg/mapping.rviz"/>
+  <!--RVIZ  -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(env IBEX_HOME)/rviz_cfg/mapping.rviz"/>
 
-    <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter">
-        <rosparam command="load" file="$(find capra_lidar)/config/laser_threshold_5m.yaml" />
-        <remap from="/scan" to="/scan" />
-        <remap from="/scan_filtered" to="/scan_5m" />
-    </node>
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter">
+    <rosparam command="load" file="$(find capra_lidar)/config/laser_threshold_5m.yaml" />
+    <remap from="/scan" to="/scan" />
+    <remap from="/scan_filtered" to="/scan_5m" />
+  </node>
 
 
 </launch>

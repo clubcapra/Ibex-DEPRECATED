@@ -8,11 +8,13 @@ import cv2
 from sensor_msgs.msg import PointCloud2
 import sensor_msgs.point_cloud2 as pc2
 from cv_bridge import CvBridge
+from dynamic_reconfigure.server import Server
+from capra_filters.cfg import obstacle_filterConfig
 
 
 class ObstacleFilter:
     def __init__(self):
-        rospy.init_node('obstacle_filter')
+        rospy.init_node('obstacle_filter', log_level=rospy.DEBUG)
 
         self.bottomy = 133
         self.realy = 258
@@ -24,16 +26,24 @@ class ObstacleFilter:
         self.bridge = CvBridge()
         self.pub = rospy.Publisher('/image_out', Image, queue_size=10)
 
+        srv = Server(obstacle_filterConfig, self.configure)
+
         rospy.Subscriber('/scan', LaserScan, self.handle_cloud)
         rospy.Subscriber('/image_raw', Image, self.execute)
 
         rospy.spin()
 
+    def configure(self, config, level):
+        self.bottomy = config.bottomy
+        self.realy = config.realy
+
+        return config
+
     def execute(self, msg):
-        image = self.bridge.imgmsg_to_cv(msg)
+        image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
         height, width = image.shape[:2]
         self.trans[0] = width / 2
-        self.trans[1] = int(self.bottomy.get_current_value())
+        self.trans[1] = int(self.bottomy)
         self.res = width / 5.0, height / 5.0
 
         if self.scan is None:
@@ -43,7 +53,22 @@ class ObstacleFilter:
 
         current = []
         obstacles = []
-        trans_real = np.array([self.trans[0], self.realy.get_current_value()])
+        trans_real = np.array([self.trans[0], self.realy])
+
+        for i in range(len(angles)):
+            angle = angles[i]
+            r = self.scan.ranges[i]
+
+            if isnan(r) or r > 5:
+                if len(current) > 0:
+                    obstacles.append(current)
+                    current = []
+            else:
+                    angles = np.arange(self.scan.angle_min, self.scan.angle_max, self.scan.angle_increment)
+
+        current = []
+        obstacles = []
+        trans_real = np.array([self.trans[0], self.realy])
 
         for i in range(len(angles)):
             angle = angles[i]
@@ -88,7 +113,6 @@ class ObstacleFilter:
             cv2.rectangle(image, (self.trans[0], self.trans[1]), (self.trans[0] + 10, self.trans[1] + 10), (0, 0, 255))
             cv2.rectangle(image, (int(trans_real[0]), int(trans_real[1])), (int(trans_real[0] + 10), int(trans_real[1] + 10)), (0, 255, 255))
 
-
             d1 = p1_m - trans_real
             d2 = p2_m - trans_real
 
@@ -113,13 +137,16 @@ class ObstacleFilter:
 
                 cv2.rectangle(image, (px, py), (px + 5, py + 5), (0, 255, 0))
 
-        self.pub.publish(image)
+        out = self.bridge.cv2_to_imgmsg(image, "bgr8")
+        out.header = msg.header
+        self.pub.publish(out)
 
     def handle_cloud(self, msg):
         self.scan = msg
 
     def meters_to_pixels(self, x, y):
         return np.array([int(self.trans[0] - y * self.res[0]), int(self.trans[1] - x * self.res[1])])
+
 
 if __name__ == '__main__':
     ObstacleFilter()
