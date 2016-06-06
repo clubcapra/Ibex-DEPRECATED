@@ -35,8 +35,8 @@ TrajectoryPlannerROS:
 
   prune_plan: true
 
-  xy_goal_tolerance: 0.5
-  yaw_goal_tolerance: 3.14
+  xy_goal_tolerance: 1.0
+  yaw_goal_tolerance: 3.1416
 
   holonomic_robot: false
 
