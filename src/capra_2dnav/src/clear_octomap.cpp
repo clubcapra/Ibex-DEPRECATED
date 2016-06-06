@@ -20,7 +20,7 @@ namespace capra_2dnav {
 
     void runBehavior() {
       ros::NodeHandle n;
-      auto client = n.serviceClient<std_srvs::Empty>("/octomap_server/reset");
+      auto client = n.serviceClient<std_srvs::Empty>("/capra_2dnav/clear_octomap");
       auto srv = std_srvs::Empty();
 
       if(client.call(srv)) {

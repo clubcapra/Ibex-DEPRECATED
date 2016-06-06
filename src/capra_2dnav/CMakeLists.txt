@@ -19,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
   pluginlib
   base_local_planner
   message_generation
+  octomap_msgs
 )
 
 ## System dependencies are found with CMake's conventions

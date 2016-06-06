@@ -51,6 +51,8 @@
     <build_depend>nav_core</build_depend>
     <build_depend>base_local_planner</build_depend>
     <build_depend>pluginlib</build_depend>
+    <build_depend>std_srvs</build_depend>
+    <build_depend>octomap_msgs</build_depend>
 
     <run_depend>pluginlib</run_depend>
     <run_depend>roscpp</run_depend>
@@ -59,6 +61,8 @@
     <run_depend>nav_core</run_depend>
     <run_depend>rospy</run_depend>
     <run_depend>sensor_msgs</run_depend>
+    <run_depend>std_srvs</run_depend>
+    <run_depend>octomap_msgs</run_depend>
 
     <!-- The export tag contains other, unspecified, tags -->
     <export>
