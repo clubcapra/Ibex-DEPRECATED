@@ -7,25 +7,33 @@
 
 <!-- Waypoint 2 -->
 <goal x="-83.1948775925" y="42.6789635984" type="gps" priority="101">
-        <clearOctomap center_x="0" center_y="0" width="2" height="2"></clearOctomap>
 
 </goal>
-<!-- Waypoint 2 fetch -->
-    <goal x="-83.19486111111111" y="42.678777777777775" type="gps" priority="102">
+<goal x="-83.1948775925" y="42.6789635984" type="gps" priority="101">
+
 </goal>
+
 
 
 <!-- No-man's land -->
 <goal x="-83.1950000001" y="42.6788888888" type="gps" priority="103"></goal>
 
+<goal x="-83.1950000001" y="42.6788888888" type="gps" priority="103"></goal>
 
 <!-- Waypoint 1 -->
-<goal x="-83.1948655409" y="42.6787920556" type="gps" priority="104"></goal>
-<!-- Waypoint 1 fetch -->
-    <goal x="-83.19488972425461" y="42.67895663738887" type="gps" priority="105">
+<goal x="-83.1948655409" y="42.6787920556" type="gps" priority="104">
+            <clearOctomap center_x="0" center_y="0" width="2" height="2"></clearOctomap>
+</goal>
+
+<goal x="-83.1948655409" y="42.6787920556" type="gps" priority="104">
+</goal>
+
+    <goal x="-83.194833" y="42.6787877" type="gps" priority="104">
 </goal>
 
 
-
     <goal x="0" y="0" type="odom" priority="100"></goal>
+
+    <goal x="-83.195508275" y="42.6789608867" priority="100" type="gps">
+	</goal>
 </run>
