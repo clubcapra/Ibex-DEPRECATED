@@ -1,7 +1,130 @@
 * capra_filters
-** Manager
+
+*NOTE*: Most of this package will be moved out to its own independant package. Only Capra specific files such as custom filters and launch files will stay.
+
+** Concepts
+
+*** Filter
+A filter is a nodelet that processes data. In order to be used with =capra_filters=, it must:
+- Have a `type` parameter that specifies the nodelet type
+- Make proper use of dynamic reconfiguration
+- IO parameters have to be string to store topic names
+
+*** Filter Chain
+A filter chain is an aggregate of filters. Each filter chain has its own manager (both the =capra_filters= manager and the nodelet manager).
+
+*** Manager
+The =capra_filters= manager is in charge of providing a common interface to manage the filters along with providing services to start, stop and save the current state of the filter chain.
+
 
 ** Filters
+=capra_filters= comes with a some built-in filters (mainly vision processing filters).
+
+*** Making a custom filter
+**** Define the parameters
+#+begin_src python
+#!/usr/bin/env python
+
+PACKAGE = "mypackage"
+
+from dynamic_reconfigure.parameter_generator_catkin import *
+
+gen = ParameterGenerator()
+
+gen.add("input", str_t, 0, "Input topic", "")
+gen.add("output", str_t, 0, "Output topic", "")
+
+exit(gen.generate(PACKAGE, "mypackage", "myfilter"))
+#+end_src
+
+**** Create the nodelet
+#+begin_src c++
+#include <capra_filters/filter.h>
+
+#include <mypackage/myfilterConfig.h>
+#include <cv_bridge/cv_bridge.h>
+#include <image_transport/image_transport.h>
+#include <opencv2/imgproc/imgproc.hpp>
+
+namespace mypackage {
+
+  class Myfilter : public capra_filters::Filter<mypackage::myfilteraConfig> {
+
+  public:
+    Myfilter() {
+    }
+
+    virtual void configure(mypackage::myfilterConfig& config, uint32_t level) {
+      if(config.input != input_) {
+        input_ = config.input;
+        sub_.shutdown();
+        sub_ = it_->subscribe(input_, 1, &Myfilter::handleInput, this);
+      }
+
+      if(config.output != output_) {
+        output_ = config.output;
+        pub_.shutdown();
+        pub_ = it_->advertise(output_, 1);
+      }
+    }
+
+    virtual void handleInput(const sensor_msgs::ImageConstPtr &msg) {
+      cv_bridge::CvImageConstPtr in;
+      cv_bridge::CvImage out;
+
+      try {
+        in = cv_bridge::toCvShare(msg);
+      } catch(cv_bridge::Exception &e) {
+        NODELET_ERROR_STREAM("cv_bridge exception: " << e.what());
+      }
+
+      out.header = in->header;
+      out.encoding = in->encoding;
+
+      // Process the image here
+
+      pub_.publish(out.toImageMsg());
+    }
+
+  private:
+    virtual void initialize() {
+      it_ = boost::make_shared<image_transport::ImageTransport>(nh);
+    }
+
+    boost::shared_ptr<image_transport::ImageTransport> it_;
+
+    image_transport::Publisher pub_;
+    image_transport::Subscriber sub_;
+
+    std::string input_, output_;
+  };
+
+  PLUGINLIB_EXPORT_CLASS(mypackage::Myfilter, nodelet::Nodelet);
+}
+#+end_src
+
+
+*** =capra_filtesr/section_filter=
+Filter that isolates white lines on green grass based on B. Paquet 2012.
+
+**** IO
+| Name   | Type  |
+|--------+-------|
+| input  | Image |
+| output | Image |
+**** Parameters
+| Name                 | Type | Description                      |
+|----------------------+------+----------------------------------|
+| grass_min            | int  | Lower threshold on green channel |
+| grass_max            | int  | Upper threshold on green channel |
+| light_min            | int  | Luminosity threshold minimum     |
+| kernel_erode_width   | int  | Erode pre-processing width       |
+| kernel_erode_height  | int  | Erode pre-processing height      |
+| kernel_dilate_width  | int  | Dilation post-processing width   |
+| kernel_dilate_height | int  | Dilation post-processing height  |
+| sections             | int  | Number of sections               |
+| min_area             | int  | Minimum area of detected lines   |
+
 *** =capra_filters/resize=
 Resize an image to the given size
 **** IO
@@ -44,14 +167,51 @@ HSV threshold filter
 | c2max | int  | Channel 3 min |
 | c3max | int  | Channel 3 max |
 
+*** =capra_filters/warp_perspective=
+Applies a transformation matrix to the image.
 
-** Tools
-*** Perspective Calibration
+*Note*: The parameters are placed in the matrix in this pattern:
 
+| a | b | c |
+| d | e | f |
+| g | h | i |
 
-** Adding a filter
-- Create filter_name.{cfg,cpp}
-- Add the files to the CMakeLists.txt
-- Make the config file executable (chmod +x filter_name.cfg)
-- Add the nodelet to nodelet_plugings.xml
-- catkin_make
+**** IO
+| Name   | Type  |
+|--------+-------|
+| input  | Image |
+| output | Image |
+**** Parameters
+| Name | Type   | Description |
+|------+--------+-------------|
+| a    | double |             |
+| b    | double |             |
+| c    | double |             |
+| d    | double |             |
+| e    | double |             |
+| f    | double |             |
+| g    | double |             |
+| h    | double |             |
+| i    | double |             |
+
+*** =capra_filters/perspective_calibration=
+Streches an image to fit the four given points. The image can then be translated and zoomed.
+**** IO
+| Name   | Type  |
+|--------+-------|
+| input  | Image |
+| output | Image |
+**** Parameters
+| Name           | Type | Description |
+|----------------+------+-------------|
+| top_left_x     | int  |             |
+| top_left_y     | int  |             |
+| top_right_x    | int  |             |
+| top_right_y    | int  |             |
+| bottom_left_x  | int  |             |
+| bottom_left_y  | int  |             |
+| bottom_right_x | int  |             |
+| bottom_right_y | int  |             |
+| translation_x  | int  |             |
+| translation_y  | int  |             |
+| zoom           | int  |             |
