@@ -1,0 +1,19 @@
+<launch>
+    <arg name="front_port" default="/dev/ttyACM0" />
+    <arg name="front_baud" default="115200" />
+    <node pkg="roboteq_motor" name="roboteq_motor" type="roboteq_motor_node.py" output="screen" clear_params="true">
+
+    </node>
+    <node pkg="roboteq_driver" type="driver_node" name="roboteq_driver_front" output="screen">
+        <param name="port" value="$(arg front_port)" />
+        <param name="value" value="$(arg front_baud)" />
+        <rosparam param="channels">[ "left", "right" ]</rosparam>
+        <remap from="/status" to="roboteq_driver/front/status" />
+        <remap from="/left/cmd" to="roboteq_driver/front/left/cmd" />
+        <remap from="/right/cmd" to="roboteq_driver/front/right/cmd" />
+        <remap from="/left/feedback" to="roboteq_driver/front/left/feedback" />
+        <remap from="/right/feedback" to="roboteq_driver/front/right/feedback" />
+
+    </node>
+	
+</launch>
